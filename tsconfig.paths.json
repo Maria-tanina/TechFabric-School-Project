@@ -23,8 +23,11 @@
       "@store/*": [
         "store/*"
       ],
-      "@theme/*": [
-        "theme/*"
+      "@styles/*": [
+        "styles/*"
+      ],
+      "@customTypes/*": [
+        "customTypes/*"
       ],
       "@utils/*": [
         "utils/*"
