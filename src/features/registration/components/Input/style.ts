@@ -79,4 +79,10 @@ export const StyledTextField = styled(TextField)(({theme: {colors}}) =>`
   .MuiFormHelperText-root.Mui-error {
       color: ${colors.error};
    }
+   
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover, 
+  input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 40rem #ffff inset;
+  }
 `);
