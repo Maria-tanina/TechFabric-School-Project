@@ -28,7 +28,7 @@ interface IThemeTypes {
         formPadding: string;
         headerPadding: string;
         footerPadding: string;
-        inputPudding: string;
+        inputPadding: string;
     };
 }
 

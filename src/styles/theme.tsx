@@ -1,4 +1,4 @@
-import IThemeTypes from "types/themeTypes";
+import IThemeTypes from "@customTypes/themeTypes";
 
 const theme: IThemeTypes = {
     colors: {
@@ -30,7 +30,7 @@ const theme: IThemeTypes = {
         formPadding: '52px 140px',
         headerPadding: '28px 0',
         footerPadding: '52px 0 28px',
-        inputPudding: '10px 16px',
+        inputPadding: '10px 16px',
     }
 };
 
