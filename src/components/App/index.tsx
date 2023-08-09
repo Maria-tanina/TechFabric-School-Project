@@ -1,9 +1,13 @@
-import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
-import SignUp from "@pages/SignUp";
+import Layout from "@components/Layout";
+
 const App = () => {
-    return(
-      <div></div>
-    )
+  return(
+    <div>
+      <Layout>
+
+      </Layout>
+    </div>
+  )
 }
 
 export default App;
