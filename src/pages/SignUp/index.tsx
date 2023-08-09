@@ -12,7 +12,6 @@ import {
 import {GhostButton} from "@components/Buttons";
 import RegistrationForm from "@features/registration/components/RegistrationForm";
 import {Link} from "react-router-dom";
-import Layout from "@components/Layout";
 import Logo from "@components/Logo";
 
 
