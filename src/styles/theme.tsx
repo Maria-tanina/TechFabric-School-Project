@@ -27,11 +27,15 @@ const theme: IThemeTypes = {
         date: '16px',
     },
     paddings: {
+        mainPadding: '60px 140px 100px',
         formPadding: '52px 140px',
-        headerPadding: '28px 0',
-        footerPadding: '52px 0 28px',
+        headerPadding: '28px 140px',
+        footerPadding: '52px 140px 28px',
         inputPadding: '10px 16px',
-    }
+    },
+    media: {
+        tablet: '@media(min-width: 900px)',
+    },
 };
 
 export default theme;
