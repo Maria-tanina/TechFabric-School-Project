@@ -1,7 +1,9 @@
 import styled from "styled-components";
 
-export const StyledSection = styled.section`
-  padding: 72px 0;
+export const SignupWrapper = styled.div`
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 12px 0;
 `;
 
 export const StyledCard = styled.div(({theme: {colors, paddings}}) =>`
@@ -12,7 +14,6 @@ export const StyledCard = styled.div(({theme: {colors, paddings}}) =>`
   max-width: 1080px;
   margin: 0 auto;
 `);
-
 
 export const StyledCardContainer = styled.div`
   max-width: 800px;
@@ -58,24 +59,24 @@ export const StyledDecoration = styled.div(({theme: {colors, fontSizes}}) =>`
   text-align: center;
   position: relative;
   margin-bottom: 24px;
-    &::after {
-  position: absolute;
-  content: "";
-  width: 44%;
-  height: 1px;
-  background-color: ${colors.black};
-  bottom: 50%;
-  transform: translateY(100%);
-  left: 0;
+  &::after {
+    position: absolute;
+    content: "";
+    width: 44%;
+    height: 1px;
+    background-color: ${colors.black};
+    bottom: 50%;
+    transform: translateY(100%);
+    left: 0;
   }
   &::before {
-  position: absolute;
-  content: "";
-  width: 44%;
-  height: 1px;
-  background-color: ${colors.black};
-  bottom: 50%;
-  transform: translateY(100%);
-  right: 0;
+    position: absolute;
+    content: "";
+    width: 44%;
+    height: 1px;
+    background-color: ${colors.black};
+    bottom: 50%;
+    transform: translateY(100%);
+    right: 0;
   }
 `);

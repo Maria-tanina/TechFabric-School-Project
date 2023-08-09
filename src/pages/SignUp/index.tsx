@@ -1,4 +1,5 @@
 import {
+  SignupWrapper,
   StyledCard,
   StyledCardContainer,
   StyledDecoration,
@@ -6,43 +7,47 @@ import {
   StyledInfo,
   StyledLogo,
   StyledLogoSpan,
-  StyledSection,
   StyledTitle
 } from "@pages/SignUp/style";
 import {GhostButton} from "@components/Buttons";
 import RegistrationForm from "@features/registration/components/RegistrationForm";
 import {Link} from "react-router-dom";
+import Layout from "@components/Layout";
+import Logo from "@components/Logo";
 
 
 const SignUp = () => {
   return(
-    <StyledSection>
-      <StyledCard>
-        <StyledCardContainer>
-          <StyledInfo>
-            <StyledTitle>
-              Welcome to the <StyledLogo>power<StyledLogoSpan>up</StyledLogoSpan></StyledLogo>!
-            </StyledTitle>
+      <section>
+        <SignupWrapper>
+          <StyledCard>
+            <StyledCardContainer>
+              <StyledInfo>
+                <Logo/>
+                <StyledTitle>
+                  Welcome to the <StyledLogo>power<StyledLogoSpan>up</StyledLogoSpan></StyledLogo>!
+                </StyledTitle>
 
-            <StyledDescription>
-              We are the largest society of sport enthusiasts. Here you are sure to find like-minded people! To create an account, choose to register via social network or e-mail.
-            </StyledDescription>
-          </StyledInfo>
+                <StyledDescription>
+                  We are the largest society of sport enthusiasts. Here you are sure to find like-minded people! To create an account, choose to register via social network or e-mail.
+                </StyledDescription>
+              </StyledInfo>
 
-          <RegistrationForm/>
+              <RegistrationForm/>
 
-          <StyledDecoration>
-            or
-          </StyledDecoration>
+              <StyledDecoration>
+                or
+              </StyledDecoration>
 
-          <GhostButton>
-            <Link to="/login">
-              Log in
-            </Link>
-          </GhostButton>
-        </StyledCardContainer>
-      </StyledCard>
-    </StyledSection>
+              <GhostButton>
+                <Link to="/login">
+                  Log in
+                </Link>
+              </GhostButton>
+            </StyledCardContainer>
+          </StyledCard>
+        </SignupWrapper>
+      </section>
   )
 }
 
