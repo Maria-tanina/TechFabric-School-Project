@@ -9,7 +9,7 @@ import {
   StyledLogoSpan,
   StyledTitle
 } from "@pages/SignUp/style";
-import {GhostButton} from "@components/Buttons";
+import {GhostButton} from "@components/GhostButton";
 import RegistrationForm from "@features/registration/components/RegistrationForm";
 import {Link} from "react-router-dom";
 import Logo from "@components/Logo";

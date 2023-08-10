@@ -13,7 +13,7 @@ module.exports = {
       "@styles": path.resolve(__dirname, "src/styles"),
       "@utils": path.resolve(__dirname, "src/utils"),
       "@customTypes": path.resolve(__dirname, "src/types"),
-      "@icons": path.resolve(__dirname, "src/icons")
+      "@icons": path.resolve(__dirname, "src/icons"),
     },
   },
 };

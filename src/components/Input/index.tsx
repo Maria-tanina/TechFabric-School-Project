@@ -1,5 +1,5 @@
 import {InputAdornment} from "@mui/material";
-import {StyledTextField} from "@features/registration/components/Input/style";
+import {StyledTextField} from "@components/Input/style";
 import {FC} from "react";
 import {IInputProps} from "@features/registration/types";
 import {WithController} from "@features/registration/components/WithController";
