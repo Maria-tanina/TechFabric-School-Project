@@ -3,12 +3,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from "yup";
 import {IRegistrationFormValues} from "@features/registration/types";
 import {StyledForm} from "@features/registration/components/RegistrationForm/style";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import {DarkButton} from "@components/Buttons";
 import {InputWithController} from "@features/registration/components/Input";
-import VpnKeyOutlinedIcon from '@mui/icons-material/VpnKeyOutlined';
 import {useEffect} from "react";
+import {UserIcon} from "@icons/UserIcon";
+import {EmailIcon} from "@icons/EmailIcon";
+import {KeyIcon} from "@icons/KeyIcon";
 
 
 const validationSchema = Yup.object().shape({
@@ -30,7 +31,6 @@ const validationSchema = Yup.object().shape({
     .required('Password confirmation is required')
     .oneOf([Yup.ref('password')], 'Something wrong...')
 })
-
 
 const RegistrationForm = () => {
   const {control, handleSubmit, formState, reset} = useForm<IRegistrationFormValues>({
@@ -62,7 +62,7 @@ const RegistrationForm = () => {
         name="name"
         inputType="text"
         label="Enter your name..."
-        icon={<AccountCircleOutlinedIcon/>}
+        icon={<UserIcon/>}
       />
 
       <InputWithController
@@ -70,7 +70,7 @@ const RegistrationForm = () => {
         name="surname"
         inputType="text"
         label="Enter your surname..."
-        icon={<AccountCircleOutlinedIcon/>}
+        icon={<UserIcon/>}
       />
 
       <InputWithController
@@ -78,7 +78,8 @@ const RegistrationForm = () => {
         name="email"
         inputType="email"
         label="Enter the e-mail..."
-        icon={<MailOutlineIcon />}
+        autocomplete="new-email"
+        icon={<EmailIcon/>}
       />
 
       <InputWithController
@@ -86,7 +87,8 @@ const RegistrationForm = () => {
         name="password"
         inputType="password"
         label="Enter the password..."
-        icon={<VpnKeyOutlinedIcon />}
+        autocomplete="password"
+        icon={<KeyIcon/>}
       />
 
       <InputWithController
@@ -94,7 +96,8 @@ const RegistrationForm = () => {
         name="repeatPassword"
         inputType="password"
         label="Enter the password again..."
-        icon={<VpnKeyOutlinedIcon />}
+        autocomplete="new-password"
+        icon={<KeyIcon/>}
       />
 
       <DarkButton disabled={!formState.isValid}>

@@ -10,9 +10,11 @@ const Input: FC<IInputProps> = ({
   onChange,
   error,
   errorMessage,
+  autocomplete,
   label,
   icon
 }) => {
+
   return(
     <StyledTextField
       type={inputType}
@@ -22,6 +24,7 @@ const Input: FC<IInputProps> = ({
       fullWidth
       helperText={errorMessage}
       error={error}
+      autoComplete={autocomplete || ''}
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">

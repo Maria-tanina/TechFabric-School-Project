@@ -13,11 +13,12 @@ export const StyledCard = styled.div(({theme: {colors, paddings}}) =>`
   background: ${colors.white};
   max-width: 1080px;
   margin: 0 auto;
+  @media(max-width: 970px) {
+    padding: 52px;
+  }
 `);
 
 export const StyledCardContainer = styled.div`
-  max-width: 800px;
-  margin: 0 auto;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -39,12 +40,16 @@ export const StyledLogo = styled.span(({theme: {colors, fontSizes}}) =>`
 
 export const StyledLogoSpan = styled.span(({theme: {colors}}) =>`
   color: ${colors.main};
-`)
+`);
 
 export const StyledTitle = styled.h2(({theme: {fontSizes}}) =>`
   font-size: ${fontSizes.mainHeader};
   font-weight: 700;
   line-height: 78px;
+  @media(max-width: 970px) {
+    font-size: 45px;
+    line-height: 70px;
+  }
 `);
 
 export const StyledDescription = styled.p(({theme: {fontSizes}}) =>`

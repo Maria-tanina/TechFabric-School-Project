@@ -1,13 +1,8 @@
 import styled from "styled-components";
-import {TextField} from "@mui/material";
+import {TextField, TextFieldProps} from "@mui/material";
 
-export const StyledTextField = styled(TextField)(({theme: {colors}}) =>`
+export const StyledTextField = styled(TextField)<TextFieldProps>(({theme: {colors}, value}) =>`
   color: ${colors.black};
-  .MuiSvgIcon-root {
-    color: ${colors.gray};
-    width: 24px;
-    height: 24px;
-  }
   
   .MuiInputBase-input {
     padding: 10px 16px 10px 0;
@@ -35,54 +30,60 @@ export const StyledTextField = styled(TextField)(({theme: {colors}}) =>`
     border-radius: 8px;
   }
   
-  & label.Mui-focused {
-    color: ${colors.main};
-  }
-  
   & .MuiOutlinedInput-root {
     &.Mui-focused fieldset {
       border-color: color: ${colors.black};
-    }
+  }
     
-    &.Mui-focused{
-      .MuiSvgIcon-root {
-        color: ${colors.black};
-      }
-      .MuiInputBase-input::placeholder {
-        color: transparent;
-      }
-      .MuiOutlinedInput-notchedOutline {
-        border-color: ${colors.main};
-      }
-      &.Mui-error fieldset{
-      border-color: ${colors.error};
-      }
+  &.Mui-focused{
+    svg path {
+       fill: ${colors.black};
     }
-    
+    .MuiInputBase-input::placeholder {
+      color: transparent;
+    }
+    .MuiOutlinedInput-notchedOutline {
+      border-color: ${colors.main};
+    }
     &.Mui-error fieldset{
+    border-color: ${colors.error};
+    }
+  }
+    
+  &.Mui-error {
+    svg path  {
+      fill: ${colors.black};
+    } 
+    fieldset {
       border-color: ${colors.error};
     }
+  }
     
-    &:hover {
-      .MuiOutlinedInput-notchedOutline {
-        border-color: ${colors.gray};
-      }
-      &.Mui-focused fieldset {
-        border-color: ${colors.main};
-      }
-      &.Mui-error fieldset {
+  &:hover {
+    .MuiOutlinedInput-notchedOutline {
+      border-color: ${colors.gray};
+    }
+    &.Mui-focused fieldset {
+      border-color: ${colors.main};
+    }
+    &.Mui-error fieldset {
       border-color: ${colors.error};
-      }
-    }   
+    }  
   }
   
   .MuiFormHelperText-root.Mui-error {
-      color: ${colors.error};
+    color: ${colors.error};
    }
    
   input:-webkit-autofill,
   input:-webkit-autofill:hover, 
   input:-webkit-autofill:focus {
     -webkit-box-shadow: 0 0 0px 40rem #ffff inset;
+  }
+  
+  svg  {
+    path {
+      fill:  ${value ? colors.black : colors.gray}
+    } 
   }
 `);
