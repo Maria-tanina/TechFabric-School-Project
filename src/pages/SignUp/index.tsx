@@ -13,6 +13,7 @@ import {GhostButton} from "@components/Buttons";
 import RegistrationForm from "@features/registration/components/RegistrationForm";
 import {Link} from "react-router-dom";
 import Logo from "@components/Logo";
+import {LOGIN_PATH} from "@constants/paths";
 
 
 const SignUp = () => {
@@ -39,7 +40,7 @@ const SignUp = () => {
               </StyledDecoration>
 
               <GhostButton>
-                <Link to="/login">
+                <Link to={LOGIN_PATH}>
                   Log In
                 </Link>
               </GhostButton>
