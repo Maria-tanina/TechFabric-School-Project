@@ -1,11 +1,21 @@
 import React from "react";
-import {HeaderWrapper} from "@components/Header/style";
+import {HeaderLeftSide, HeaderRightSide, HeaderWrapper} from "@components/Header/style";
 import Logo from "@components/Logo";
+import SearchInput from "@components/SearchInput";
+import LogInButton from "@components/LogInButton";
+
 
 const Header = () => {
     return (
         <HeaderWrapper>
-            <Logo/>
+            <HeaderLeftSide>
+                <Logo/>
+                <SearchInput/>
+            </HeaderLeftSide>
+            <HeaderRightSide>
+                <LogInButton/>
+                <LogInButton/>
+            </HeaderRightSide>
         </HeaderWrapper>
 
 

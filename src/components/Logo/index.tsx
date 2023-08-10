@@ -1,14 +1,14 @@
 import {LogoStyle} from "@components/Logo/style";
 
+interface ILogoProps {
+    isFooter?: boolean;
+}
 
-const Logo = () => {
+const Logo = ({isFooter = false}: ILogoProps) => {
     return (
-        <>
-             <LogoStyle to="/" >
-                POWER<span>UP</span>
-             </LogoStyle>
-        </>
-
+        <LogoStyle isFooter={isFooter} to="/">
+            POWER<span>UP</span>
+        </LogoStyle>
     );
 };
 
