@@ -30,6 +30,7 @@ interface IThemeTypes {
         headerPadding: string;
         footerPadding: string;
         inputPadding: string;
+        buttonPadding: string;
     };
     media: {
         tablet: string;

@@ -40,7 +40,7 @@ const SignUp = () => {
 
               <GhostButton>
                 <Link to="/login">
-                  Log in
+                  Log In
                 </Link>
               </GhostButton>
             </StyledCardContainer>

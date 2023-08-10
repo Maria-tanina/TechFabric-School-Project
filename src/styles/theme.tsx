@@ -32,6 +32,7 @@ const theme: IThemeTypes = {
     headerPadding: '28px 140px',
     footerPadding: '52px 140px 28px',
     inputPadding: '10px 16px',
+    buttonPadding: '10px 16px',
   },
   media: {
     tablet: '@media(min-width: 900px)',
