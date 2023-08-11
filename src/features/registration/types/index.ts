@@ -1,4 +1,6 @@
 import {ChangeEvent, ReactNode} from "react";
+import {Control} from "react-hook-form";
+
 export interface IRegistrationFormValues {
   name: string;
   surname: string;
@@ -15,4 +17,12 @@ export interface IInputProps {
   errorMessage?: string;
   label?: string;
   icon?: ReactNode;
+  autocomplete?: string;
 }
+
+export interface IWithControllerProps {
+  control: Control<IRegistrationFormValues, any>;
+  name: keyof IRegistrationFormValues;
+}
+
+export type TInternalProps = "errorMessage" | "value" | "onChange" | "error";

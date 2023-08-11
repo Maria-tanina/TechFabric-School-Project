@@ -1,4 +1,5 @@
 import {LogoStyle} from "@components/Logo/style";
+import {HOME_PATH} from "@constants/paths";
 
 interface ILogoProps {
     isFooter?: boolean;
@@ -6,7 +7,7 @@ interface ILogoProps {
 
 const Logo = ({isFooter = false}: ILogoProps) => {
     return (
-        <LogoStyle $isFooter={isFooter} to="/">
+        <LogoStyle $isFooter={isFooter} to={HOME_PATH}>
             POWER<span>UP</span>
         </LogoStyle>
     );
