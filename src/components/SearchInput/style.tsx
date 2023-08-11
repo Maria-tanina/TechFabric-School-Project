@@ -2,7 +2,10 @@ import styled from "styled-components";
 import {TextField} from "@mui/material";
 
 export const SearchInputStyle = styled(TextField)`
-  .MuiInputBase-root {
+  &.MuiTextField-root{
     width: 420px;
+  }
+  .MuiInputBase-root {
+    width: 100%;
   }
 `

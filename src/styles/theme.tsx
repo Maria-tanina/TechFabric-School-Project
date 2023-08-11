@@ -28,14 +28,18 @@ const theme: IThemeTypes = {
     },
     paddings: {
         mainPadding: '60px 140px 100px',
+        tabletMainPadding: '60px 30px 100px',
         formPadding: '52px 140px',
         headerPadding: '28px 140px',
+        tabletHeaderPadding: '28px 30px',
         footerPadding: '52px 140px 28px',
+        tabletFooterPadding: '52px 30px 28px',
         inputPadding: '10px 16px',
         buttonPadding: '10px 16px',
     },
     media: {
         tablet: '@media(min-width: 900px)',
+        desktop: '@media(min-width: 1280px)',
     },
 };
 

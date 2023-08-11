@@ -16,7 +16,7 @@ const Footer = () => {
     return (
         <FooterWrapper>
             <FooterMainBlockWrapper>
-                <Logo isFooter={true}/>
+                <Logo isFooter/>
                 <div>
                     <FooterHeading>
                         Sectors
@@ -26,16 +26,16 @@ const Footer = () => {
                             <Link to="/">Home Page</Link>
                         </FooterMenuButton>
                         <FooterMenuButton>
-                            <Link to="/">Tags</Link>
+                            <Link to="/tags">Tags</Link>
                         </FooterMenuButton>
                         <FooterMenuButton>
-                            <Link to="/">Favorites</Link>
+                            <Link to="/favorites">Favorites</Link>
                         </FooterMenuButton>
                         <FooterMenuButton>
-                            <Link to="/">Contact with Us</Link>
+                            <Link to="/contact-us">Contact with Us</Link>
                         </FooterMenuButton>
                         <FooterMenuButton>
-                            <Link to="/">Rules</Link>
+                            <Link to="/rules">Rules</Link>
                         </FooterMenuButton>
                     </ul>
                 </div>
@@ -62,13 +62,13 @@ const Footer = () => {
                 </CopyrightText>
                 <TermsButtonsList>
                     <TermsButton>
-                        <Link to="/">Contact Us</Link>
+                        <Link to="/contact-us">Contact Us</Link>
                     </TermsButton>
                     <TermsButton>
-                        <Link to="/">Privacy Policy</Link>
+                        <Link to="/privacy-policy">Privacy Policy</Link>
                     </TermsButton>
                     <TermsButton>
-                        <Link to="/">Terms of Use</Link>
+                        <Link to="/terms-of-use">Terms of Use</Link>
                     </TermsButton>
                 </TermsButtonsList>
 

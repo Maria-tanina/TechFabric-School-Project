@@ -3,7 +3,8 @@ import theme from "@styles/theme";
 import {Link} from "react-router-dom";
 
 
-export const LogoStyle =styled(Link)<{isFooter: boolean}>`
+
+export const LogoStyle =styled(Link)<{ isFooter: boolean }>`
   font-size: ${theme.fontSizes.logo};
   text-transform: uppercase;
   font-style: italic;

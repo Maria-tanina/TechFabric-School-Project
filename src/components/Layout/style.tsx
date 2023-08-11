@@ -8,7 +8,10 @@ export const LayoutWrapper = styled.div`
   height: auto;
 `
 export const MainContent = styled.main`
-  padding: ${theme.paddings.mainPadding};
+  padding: ${theme.paddings.tabletMainPadding};
   flex: 1 0 auto;
   background: ${theme.colors.lightGray};
+  ${({theme: {media: {desktop}}}) => desktop} {
+    padding: ${theme.paddings.mainPadding};
+  }
 `
