@@ -11,6 +11,15 @@ import {Link} from "react-router-dom";
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
+import {
+    CONTACT_US_PATH,
+    FAVORITES_PATH,
+    HOME_PATH,
+    PRIVACY_POLICY_PATH,
+    RULES_PATH,
+    TAGS_PATH,
+    TERMS_OF_USE_PATH
+} from "@constants/paths";
 
 const Footer = () => {
     return (
@@ -23,19 +32,19 @@ const Footer = () => {
                     </FooterHeading>
                     <ul>
                         <FooterMenuButton>
-                            <Link to="/">Home Page</Link>
+                            <Link to={HOME_PATH}>Home Page</Link>
                         </FooterMenuButton>
                         <FooterMenuButton>
-                            <Link to="/tags">Tags</Link>
+                            <Link to={TAGS_PATH}>Tags</Link>
                         </FooterMenuButton>
                         <FooterMenuButton>
-                            <Link to="/favorites">Favorites</Link>
+                            <Link to={FAVORITES_PATH}>Favorites</Link>
                         </FooterMenuButton>
                         <FooterMenuButton>
-                            <Link to="/contact-us">Contact with Us</Link>
+                            <Link to={CONTACT_US_PATH}>Contact with Us</Link>
                         </FooterMenuButton>
                         <FooterMenuButton>
-                            <Link to="/rules">Rules</Link>
+                            <Link to={RULES_PATH}>Rules</Link>
                         </FooterMenuButton>
                     </ul>
                 </div>
@@ -62,17 +71,15 @@ const Footer = () => {
                 </CopyrightText>
                 <TermsButtonsList>
                     <TermsButton>
-                        <Link to="/contact-us">Contact Us</Link>
+                        <Link to={CONTACT_US_PATH}>Contact Us</Link>
                     </TermsButton>
                     <TermsButton>
-                        <Link to="/privacy-policy">Privacy Policy</Link>
+                        <Link to={PRIVACY_POLICY_PATH}>Privacy Policy</Link>
                     </TermsButton>
                     <TermsButton>
-                        <Link to="/terms-of-use">Terms of Use</Link>
+                        <Link to={TERMS_OF_USE_PATH}>Terms of Use</Link>
                     </TermsButton>
                 </TermsButtonsList>
-
-
             </AdditionalInfoWrapper>
         </FooterWrapper>
     );

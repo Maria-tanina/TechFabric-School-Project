@@ -3,6 +3,8 @@ import {HeaderLeftSide, HeaderRightSide, HeaderWrapper} from "@components/Header
 import Logo from "@components/Logo";
 import SearchInput from "@components/SearchInput";
 import LogInButton from "@components/LogInButton";
+import HeaderSignUpButton from "@components/HeaderSignUpButton";
+
 
 
 const Header = () => {
@@ -14,7 +16,9 @@ const Header = () => {
             </HeaderLeftSide>
             <HeaderRightSide>
                 <LogInButton/>
-                <LogInButton/>
+                <HeaderSignUpButton/>
+                {/*<CreatePostButton/>*/}
+                {/*<ProfileInfo/>*/}
             </HeaderRightSide>
         </HeaderWrapper>
 

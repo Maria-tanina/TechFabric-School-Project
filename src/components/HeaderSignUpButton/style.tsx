@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import {GhostButton} from "@components/GhostButton";
+import {OutlinedButton} from "@components/OutlinedButton";
 
 
-export const LogInButtonStyle = styled(GhostButton)`
+export const ButtonStyle = styled(OutlinedButton)`
   &.MuiButton-root{
     width: 100px;
     ${({theme: {media: {desktop}}}) => desktop} {
@@ -10,5 +10,3 @@ export const LogInButtonStyle = styled(GhostButton)`
     }
   }
 `
-
-

@@ -15,7 +15,12 @@ export const HeaderWrapper = styled.header`
 `
 export const HeaderLeftSide = styled.div`
   display: flex;
-  gap: 60px;
+  align-items: center;
+  gap: 30px;
+  ${({theme: {media: {desktop}}}) => desktop} {
+    gap: 60px;
+  }
+  
 `
 export const HeaderRightSide = styled.div`
   display: flex;
