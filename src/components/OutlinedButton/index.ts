@@ -2,12 +2,12 @@ import styled from "styled-components";
 import {Button} from "@mui/material";
 
 
-export const OutlinedButton = styled(Button)<{width?: string}>(({theme: {colors}, width}) =>`
+export const OutlinedButton = styled(Button)<{$width?: string}>(({theme: {colors}, $width}) =>`
   &.MuiButton-root{
     border: 2px solid ${colors.main};
     color: ${colors.main};
     background-color: transparent;
-    width: ${width || "100%"};
+    width: ${$width || "100%"};
     
     a {
       line-height: 24px;

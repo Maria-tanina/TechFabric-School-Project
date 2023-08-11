@@ -18,28 +18,28 @@ const SignUp = () => {
   return(
       <section>
         <AuthCard>
-              <StyledInfo>
-                <Logo/>
-                <StyledTitle>
-                  Welcome to the <StyledLogo>power<StyledLogoSpan>up</StyledLogoSpan></StyledLogo>!
-                </StyledTitle>
+          <StyledInfo>
+            <Logo/>
+            <StyledTitle>
+              Welcome to the <StyledLogo>power<StyledLogoSpan>up</StyledLogoSpan></StyledLogo>!
+            </StyledTitle>
 
-                <StyledDescription>
-                  We are the largest society of sport enthusiasts. Here you are sure to find like-minded people! To create an account, choose to register via social network or e-mail.
-                </StyledDescription>
-              </StyledInfo>
+            <StyledDescription>
+              We are the largest society of sport enthusiasts. Here you are sure to find like-minded people! To create an account, choose to register via social network or e-mail.
+            </StyledDescription>
+          </StyledInfo>
 
-              <RegistrationForm/>
+          <RegistrationForm/>
 
-              <StyledDecoration>
-                or
-              </StyledDecoration>
+          <StyledDecoration>
+            or
+          </StyledDecoration>
 
-              <GhostButton>
-                <Link to={LOGIN_PATH}>
-                  Log In
-                </Link>
-              </GhostButton>
+          <GhostButton>
+            <Link to={LOGIN_PATH}>
+              Log In
+            </Link>
+          </GhostButton>
         </AuthCard>
       </section>
   )

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
-export const AuthWrapper = styled.div<{maxWidth?: string}>(({maxWidth}) =>`
-  max-width: ${maxWidth || "1080px"};
+export const AuthWrapper = styled.div<{$width?: string}>(({$width}) =>`
+  max-width: ${$width || "1080px"};
   margin: 0 auto;
   padding: 12px 0;
 `);
