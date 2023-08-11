@@ -1,18 +1,21 @@
-import styled from "styled-components";
+import styled, {css} from "styled-components";
 import theme from "@styles/theme";
 import {Link} from "react-router-dom";
 
 
-export const LogoStyle =styled(Link)`
+
+export const LogoStyle =styled(Link)<{ $isFooter: boolean }>`
   font-size: ${theme.fontSizes.logo};
-  color: ${theme.colors.black};
   text-transform: uppercase;
   font-style: italic;
   font-weight: bold;
-}
+  line-height: 36px;
 
-& span {
-  color: ${theme.colors.main};
-
-  
+  ${(props) =>
+          css`
+            color: ${props.$isFooter ? theme.colors.white : theme.colors.black};
+          `
+  }
+  & span {
+    color: ${theme.colors.main};
 `

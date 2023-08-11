@@ -15,7 +15,7 @@ interface IThemeTypes {
         signUpButton: string;
     };
     fontSizes: {
-        logo: string,
+        logo: string;
         mainHeader: string;
         secondaryHeader: string;
         cardHeader: string;
@@ -26,9 +26,12 @@ interface IThemeTypes {
     };
     paddings: {
         mainPadding: string;
+        tabletMainPadding: string;
         formPadding: string;
         headerPadding: string;
+        tabletHeaderPadding: string;
         footerPadding: string;
+        tabletFooterPadding: string;
         inputPadding: string;
         buttonPadding: string;
     };
