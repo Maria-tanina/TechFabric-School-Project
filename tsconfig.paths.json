@@ -27,11 +27,14 @@
         "styles/*"
       ],
       "@customTypes/*": [
-        "customTypes/*"
+        "types/*"
       ],
       "@utils/*": [
         "utils/*"
-      ]
+      ],
+      "@icons/*": [
+        "icons/*"
+      ],
     }
   }
 }

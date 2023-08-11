@@ -25,10 +25,16 @@ interface IThemeTypes {
         date: string;
     };
     paddings: {
+        mainPadding: string;
         formPadding: string;
         headerPadding: string;
         footerPadding: string;
         inputPadding: string;
+        buttonPadding: string;
+    };
+    media: {
+        tablet: string;
+        desktop: string;
     };
 }
 
