@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 
 
 
-export const LogoStyle =styled(Link)<{ isFooter: boolean }>`
+export const LogoStyle =styled(Link)<{ $isFooter: boolean }>`
   font-size: ${theme.fontSizes.logo};
   text-transform: uppercase;
   font-style: italic;
@@ -13,7 +13,7 @@ export const LogoStyle =styled(Link)<{ isFooter: boolean }>`
 
   ${(props) =>
           css`
-            color: ${props.isFooter ? theme.colors.white : theme.colors.black};
+            color: ${props.$isFooter ? theme.colors.white : theme.colors.black};
           `
   }
   & span {

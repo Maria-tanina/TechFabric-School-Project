@@ -6,7 +6,7 @@ interface ILogoProps {
 
 const Logo = ({isFooter = false}: ILogoProps) => {
     return (
-        <LogoStyle isFooter={isFooter} to="/">
+        <LogoStyle $isFooter={isFooter} to="/">
             POWER<span>UP</span>
         </LogoStyle>
     );
