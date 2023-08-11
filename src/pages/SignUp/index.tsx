@@ -1,7 +1,4 @@
 import {
-  SignupWrapper,
-  StyledCard,
-  StyledCardContainer,
   StyledDecoration,
   StyledDescription,
   StyledInfo,
@@ -14,14 +11,13 @@ import RegistrationForm from "@features/registration/components/RegistrationForm
 import {Link} from "react-router-dom";
 import Logo from "@components/Logo";
 import {LOGIN_PATH} from "@constants/paths";
+import {AuthCard} from "@components/AuthCard";
 
 
 const SignUp = () => {
   return(
       <section>
-        <SignupWrapper>
-          <StyledCard>
-            <StyledCardContainer>
+        <AuthCard>
               <StyledInfo>
                 <Logo/>
                 <StyledTitle>
@@ -44,9 +40,7 @@ const SignUp = () => {
                   Log In
                 </Link>
               </GhostButton>
-            </StyledCardContainer>
-          </StyledCard>
-        </SignupWrapper>
+        </AuthCard>
       </section>
   )
 }
