@@ -34,6 +34,7 @@ interface IThemeTypes {
     };
     media: {
         tablet: string;
+        desktop: string;
     };
 }
 

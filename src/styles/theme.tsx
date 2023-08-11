@@ -36,6 +36,7 @@ const theme: IThemeTypes = {
   },
   media: {
     tablet: '@media(min-width: 900px)',
+    desktop: '@media(min-width: 1100px)'
   },
 };
 
