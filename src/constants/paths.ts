@@ -11,3 +11,4 @@ export const TERMS_OF_USE_PATH = '/terms-of-use';
 export const FACEBOOK_PATH = '/';
 export const INSTAGRAM_PATH = '/';
 export const TWITTER_PATH = '/';
+export const FORGOT_PASSWORD_PATH = '/forgot-password';
