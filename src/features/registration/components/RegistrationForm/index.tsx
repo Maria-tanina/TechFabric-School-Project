@@ -1,7 +1,7 @@
 import {useForm} from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import {IRegistrationFormValues} from "@features/registration/types";
-import {StyledForm} from "@features/registration/components/RegistrationForm/style";
+import {StyledRegistrationForm} from "@features/registration/components/RegistrationForm/style";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import {InputWithController} from "@components/Input";
 import {useEffect} from "react";
@@ -36,7 +36,7 @@ const RegistrationForm = () => {
   }
 
   return(
-    <StyledForm onSubmit={handleSubmit(onSubmit)}>
+    <StyledRegistrationForm onSubmit={handleSubmit(onSubmit)}>
       <InputWithController
         control={control}
         name="name"
@@ -88,7 +88,7 @@ const RegistrationForm = () => {
       >
         Sign up with Email
       </SignUpButton>
-    </StyledForm>
+    </StyledRegistrationForm>
   )
 }
 

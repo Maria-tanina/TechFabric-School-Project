@@ -40,10 +40,10 @@ export const Login = () => {
 
         <SignUpButton
           fullWidth
-          startIcon={<MailOutlineIcon />}
           type="button"
         >
-          <Link to={SIGNUP_PATH}>
+          <Link to={SIGNUP_PATH} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+            <MailOutlineIcon style={{ marginRight: '8px' }} />
             Sign up with Email
           </Link>
         </SignUpButton>

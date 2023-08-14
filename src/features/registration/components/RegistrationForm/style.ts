@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const StyledForm = styled.form`
+export const StyledRegistrationForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: 28px;

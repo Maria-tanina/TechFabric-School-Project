@@ -45,6 +45,7 @@ export const StyledDecoration = styled.div(({theme: {colors, fontSizes}}) =>`
   justify-content: space-between;
   gap: 40px;
 `);
+
 export const StyledLine = styled.span(({theme: {colors}}) =>`
   flex-grow: 1;
   height: 1px;
