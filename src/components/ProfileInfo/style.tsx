@@ -1,35 +1,33 @@
 import styled from "styled-components";
-import theme from "@styles/theme";
-
 
 export const ProfileInfoWrapper = styled.div`
   display: flex;
   gap: 12px;
 `
-export const ProfileInfoAvatar = styled.div`
+export const ProfileInfoAvatar = styled.div(({theme: {colors}}) =>`
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: ${theme.colors.main};
+  background: ${colors.main};
   display: flex;
   justify-content: center;
   align-items: center;
-`
-export const AvatarFirstNameLetter = styled.div`
-  color: ${theme.colors.white};
+`);
+export const AvatarFirstNameLetter = styled.div(({theme: {colors}}) =>`
+  color: ${colors.white};
   font-size: 18px;
   font-weight: 700;
   line-height: 24px;
-`
-export const UserName = styled.div`
-  color: ${theme.colors.black};
+`);
+export const UserName = styled.div(({theme: {colors}}) =>`
+  color: ${colors.black};
   font-size: 16px;
   font-weight: 700;
   line-height: 24px;
-`
-export const UserRole = styled.div`
-  color: ${theme.colors.gray};
+`);
+export const UserRole = styled.div(({theme: {colors}}) =>`
+  color: ${colors.gray};
   font-size: 14px;
   font-weight: 500;
   line-height: 24px;
-`
+`);

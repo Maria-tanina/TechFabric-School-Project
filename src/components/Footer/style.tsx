@@ -1,14 +1,13 @@
 import styled from "styled-components";
-import theme from "@styles/theme";
 
-export const FooterWrapper = styled.footer`
-  background: ${theme.colors.graphite};
-  padding: ${theme.paddings.tabletFooterPadding};
+export const FooterWrapper = styled.footer(({theme: {colors, paddings, media}}) => `
+  background: ${colors.graphite};
+  padding: ${paddings.tabletFooterPadding};
   box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.10);
-  ${({theme: {media: {desktop}}}) => desktop} {
-    padding: ${theme.paddings.footerPadding};
+  ${media.desktop}{
+    padding: ${paddings.footerPadding};
   }
-`
+`);
 export const FooterMainBlockWrapper = styled.div`
   max-width: 1264px;
   display: flex;
@@ -20,19 +19,19 @@ export const AdditionalInfoWrapper = styled.div`
   align-items: center;
   margin-top: 48px;
 `
-export const FooterHeading = styled.h2`
-  font-size: ${theme.fontSizes.secondaryHeader};
-  color: ${theme.colors.white};
+export const FooterHeading = styled.h2(({theme: {colors, fontSizes}}) => `
+  font-size: ${fontSizes.secondaryHeader};
+  color: ${colors.white};
   font-weight: 700;
   line-height: 36px;
   margin-bottom: 12px;
-`
-export const FooterMenuButton = styled.li`
+`);
+export const FooterMenuButton = styled.li(({theme: {colors}}) => `
   margin-bottom: 8px;
 
   a {
     font-size: 20px;
-    color: ${theme.colors.white};
+    color: ${colors.white};
     font-weight: 600;
     display: block;
     line-height: 36px;
@@ -41,21 +40,21 @@ export const FooterMenuButton = styled.li`
 
   &:hover {
     a {
-      color: ${theme.colors.main};
+      color: ${colors.main};
     }
   }
-`
+`);
 export const SocialMediaList = styled.ul`
   display: flex;
   gap: 24px;
 `
-export const SocialMediaListItem = styled.li`
+export const SocialMediaListItem = styled.li(({theme: {colors}}) => `
   a {
-    color: ${theme.colors.white};
+    color: ${colors.white};
     transition: .4s ease-in-out;
 
     &:hover {
-      color: ${theme.colors.main};
+      color: ${colors.main};
     }
 
     svg {
@@ -69,24 +68,25 @@ export const SocialMediaListItem = styled.li`
     }
   }
 
-`
-export const CopyrightText = styled.p`
-  color: ${theme.colors.copyrightGray};
+`);
+export const CopyrightText = styled.p(({theme: {colors}}) => `
+  color: ${colors.copyrightGray};
   font-size: 18px;
   font-weight: 400;
   line-height: 32px;
-`
+`);
+
 export const TermsButtonsList = styled.ul`
   display: flex;
   gap: 68px;
 `
-export const TermsButton = styled.li`
+export const TermsButton = styled.li(({theme: {colors}}) => `
   a{
-    color: ${theme.colors.copyrightGray};
+    color: ${colors.copyrightGray};
     font-size: 18px;
     font-weight: 400;
     line-height: 32px;
   }
-`
+`);
 
 
