@@ -2,7 +2,7 @@ import {
   StyledDescription,
   StyledInfo,
   StyledTitle
-} from "@pages/SignUp/style";
+} from "@pages/SuccessConfirmation/style";
 import Logo from "@components/Logo";
 import {AuthCard} from "@components/AuthCard";
 import {OutlinedButton} from "@components/OutlinedButton";

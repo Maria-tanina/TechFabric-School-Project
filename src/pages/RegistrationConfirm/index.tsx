@@ -1,11 +1,7 @@
-import {
-  StyledDescription,
-  StyledInfo,
-  StyledTitle
-} from "@pages/SignUp/style";
 import Logo from "@components/Logo";
 import {AuthCard} from "@components/AuthCard";
 import {OutlinedButton} from "@components/OutlinedButton";
+import {StyledDescription, StyledInfo, StyledTitle} from "@pages/RegistrationConfirm/style";
 
 const RegistrationConfirm = () => {
   return(
