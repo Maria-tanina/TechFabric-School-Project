@@ -39,7 +39,7 @@ export const StyledDecoration = styled.div(({theme: {colors, fontSizes}}) =>`
   width: 100%;
   text-align: center;
   position: relative;
-  margin-bottom: 24px;
+  margin-bottom: 36px;
   display: flex;
   align-items: center;
   justify-content: space-between;

@@ -13,3 +13,4 @@ export const SUCCESS_CONFIRMATION_PATH = '/success-confirmation';
 export const FACEBOOK_PATH = '/';
 export const INSTAGRAM_PATH = '/';
 export const TWITTER_PATH = '/';
+export const FORGOT_PASSWORD_PATH = '/forgot-password';

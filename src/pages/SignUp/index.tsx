@@ -1,7 +1,7 @@
 import {
   StyledDecoration,
   StyledDescription,
-  StyledInfo,
+  StyledInfo, StyledLine,
   StyledLogo,
   StyledLogoSpan,
   StyledTitle
@@ -32,7 +32,9 @@ const SignUp = () => {
           <RegistrationForm/>
 
           <StyledDecoration>
-            or
+            <StyledLine/>
+            <span>or</span>
+            <StyledLine/>
           </StyledDecoration>
 
           <GhostButton>

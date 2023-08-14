@@ -34,7 +34,7 @@ const GlobalStyles = createGlobalStyle`
     cursor: pointer;
     border-radius: 8px;
     box-shadow: none;
-    line-height: normal;
+    line-height: 24px;
     transition: all 0.3s;
     &:hover {
       box-shadow: none;
@@ -50,6 +50,7 @@ const GlobalStyles = createGlobalStyle`
   
   .MuiButtonBase-root.MuiButton-root:disabled {
     background-color: ${(props) => props.theme.colors.gray};
+    border-color: ${(props) => props.theme.colors.gray};
     color: ${(props) => props.theme.colors.white};
     opacity: 0.9;
     pointer-events: none;

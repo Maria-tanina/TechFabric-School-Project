@@ -1,7 +1,7 @@
 import * as Yup from "yup";
 import {NAME_REGEX, PASSWORD_REGEX} from "@constants/regexp";
 
-const validationSchema = Yup.object().shape({
+const registrationValidationSchema = Yup.object().shape({
   name: Yup.string()
     .required('Name is required')
     .matches(NAME_REGEX, "Name should start with an uppercase letter and contain only letters")
@@ -21,4 +21,4 @@ const validationSchema = Yup.object().shape({
     .oneOf([Yup.ref('password')], 'Something wrong...')
 });
 
-export default validationSchema;
+export default registrationValidationSchema;

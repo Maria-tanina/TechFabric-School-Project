@@ -1,15 +1,15 @@
 import {useForm} from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import {IRegistrationFormValues} from "@features/registration/types";
-import {StyledForm} from "@features/registration/components/RegistrationForm/style";
+import {StyledRegistrationForm} from "@features/registration/components/RegistrationForm/style";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import {InputWithController} from "@components/Input";
 import {useEffect} from "react";
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import VpnKeyOutlinedIcon from '@mui/icons-material/VpnKeyOutlined';
-import validationSchema from "@features/registration/validationSchema";
 import {SignUpButton} from "@components/SignUpButton";
+import registrationValidationSchema from "@features/registration/registrationValidationSchema";
 
 
 const RegistrationForm = () => {
@@ -22,7 +22,7 @@ const RegistrationForm = () => {
       repeatPassword: ""
     },
     mode: "all",
-    resolver: yupResolver(validationSchema),
+    resolver: yupResolver(registrationValidationSchema),
   })
 
   useEffect(() => {
@@ -36,7 +36,7 @@ const RegistrationForm = () => {
   }
 
   return(
-    <StyledForm onSubmit={handleSubmit(onSubmit)}>
+    <StyledRegistrationForm onSubmit={handleSubmit(onSubmit)}>
       <InputWithController
         control={control}
         name="name"
@@ -88,7 +88,7 @@ const RegistrationForm = () => {
       >
         Sign up with Email
       </SignUpButton>
-    </StyledForm>
+    </StyledRegistrationForm>
   )
 }
 
