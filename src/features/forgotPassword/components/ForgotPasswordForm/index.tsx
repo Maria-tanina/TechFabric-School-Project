@@ -8,7 +8,6 @@ import {InputWithController} from "@components/Input";
 import {OutlinedButton} from "@components/OutlinedButton";
 import {IForgotPasswordFormValues} from "@features/forgotPassword/types";
 
-
 export const ForgotPasswordForm = () => {
   const {control, handleSubmit, formState, reset} = useForm<IForgotPasswordFormValues>({
     defaultValues: {

@@ -18,7 +18,6 @@ export const ForgotPassword = () => {
         </StyledInfo>
 
         <ForgotPasswordForm/>
-
       </AuthCard>
     </section>
   )

@@ -11,7 +11,6 @@ import VpnKeyOutlinedIcon from '@mui/icons-material/VpnKeyOutlined';
 import {SignUpButton} from "@components/SignUpButton";
 import registrationValidationSchema from "@features/registration/registrationValidationSchema";
 
-
 const RegistrationForm = () => {
   const {control, handleSubmit, formState, reset} = useForm<IRegistrationFormValues>({
     defaultValues: {

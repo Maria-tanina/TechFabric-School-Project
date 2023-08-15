@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {Link} from "react-router-dom";
 
 export const StyledInfo = styled.div(() =>`
   display: flex;
@@ -23,7 +24,7 @@ export const StyledDescription = styled.p(({theme: {fontSizes}}) =>`
   line-height: 24px;
 `);
 
-export const StyledDecoration = styled.div(({theme: {colors, fontSizes}}) =>`
+export const StyledDecoration = styled.div(({theme: {fontSizes}}) =>`
   font-size: ${fontSizes.tag};
   line-height: 24px;
   width: 100%;
@@ -41,3 +42,10 @@ export const StyledLine = styled.span(({theme: {colors}}) =>`
   height: 1px;
   background-color: ${colors.black};
 `);
+
+export const StyledLink = styled(Link)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+`;

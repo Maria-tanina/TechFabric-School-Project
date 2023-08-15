@@ -8,8 +8,6 @@ import passwordRecoveryValidationSchema from "@features/passwordRecovery/passwor
 import {IPasswordRecoveryFormValues} from "@features/passwordRecovery/types";
 import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
 
-
-
 export const PasswordRecoveryForm = () => {
   const {control, handleSubmit, formState, reset} = useForm<IPasswordRecoveryFormValues>({
     defaultValues: {

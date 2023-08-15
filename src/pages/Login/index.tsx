@@ -5,10 +5,9 @@ import {
   StyledInfo,
   StyledLogo,
   StyledLogoSpan,
-  StyledLine,
+  StyledLine, StyledLink,
 } from "@pages/Login/style";
 import Logo from "@components/Logo";
-import {Link} from "react-router-dom";
 import {SIGNUP_PATH} from "@constants/paths";
 import {LoginForm} from "@features/login/components/LoginForm";
 import {SignUpButton} from "@components/SignUpButton";
@@ -41,10 +40,10 @@ export const Login = () => {
           fullWidth
           type="button"
         >
-          <Link to={SIGNUP_PATH} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
-            <MailOutlineIcon style={{ marginRight: '8px' }} />
+          <StyledLink to={SIGNUP_PATH} >
+            <MailOutlineIcon sx={{ mr: '8px' }} />
             Sign up with Email
-          </Link>
+          </StyledLink>
         </SignUpButton>
       </AuthCard>
     </section>

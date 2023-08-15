@@ -13,7 +13,6 @@ import {LOGIN_PATH} from "@constants/paths";
 import {AuthCard} from "@components/AuthCard";
 import {MainHeader} from "@components/MainHeader";
 
-
 const SignUp = () => {
   return(
       <section>
