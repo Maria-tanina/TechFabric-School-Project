@@ -1,27 +1,24 @@
 import styled from "styled-components";
-import theme from "@styles/theme";
 
-
-export const HeaderWrapper = styled.header`
-  background: ${theme.colors.white};
-  padding: ${theme.paddings.tabletHeaderPadding};
+export const HeaderWrapper = styled.header(({theme: {colors, paddings, media}}) => `
+  background: ${colors.white};
+  padding: ${paddings.tabletHeaderPadding};
   box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.10);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  ${({theme: {media: {desktop}}}) => desktop} {
-    padding: ${theme.paddings.headerPadding};
+  ${media.desktop} {
+    padding: ${paddings.headerPadding};
   }
-`
-export const HeaderLeftSide = styled.div`
+`);
+export const HeaderLeftSide = styled.div(({theme: {media}}) => `
   display: flex;
   align-items: center;
   gap: 30px;
-  ${({theme: {media: {desktop}}}) => desktop} {
+  ${media.desktop} {
     gap: 60px;
   }
-  
-`
+`);
 export const HeaderRightSide = styled.div`
   display: flex;
   gap: 12px;

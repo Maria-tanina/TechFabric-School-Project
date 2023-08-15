@@ -2,13 +2,13 @@ import styled from "styled-components";
 import {GhostButton} from "@components/GhostButton";
 
 
-export const LogInButtonStyle = styled(GhostButton)`
+export const LogInButtonStyle = styled(GhostButton)(({theme: {media}}) => `
   &.MuiButton-root{
     width: 100px;
-    ${({theme: {media: {desktop}}}) => desktop} {
+    ${media.desktop}{
       width: 200px;
     }
   }
-`
+`);
 
 
