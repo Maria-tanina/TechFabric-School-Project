@@ -18,16 +18,6 @@ export const StyledLogoSpan = styled.span(({theme: {colors}}) =>`
   color: ${colors.main};
 `);
 
-export const StyledTitle = styled.h2(({theme: {fontSizes, media}}) =>`
-  font-size: 45px;
-  font-weight: 700;
-  line-height: 70px;
-  ${media.desktop} {
-    font-size: ${fontSizes.mainHeader};
-    line-height: 78px;
-  }
-`);
-
 export const StyledDescription = styled.p(({theme: {fontSizes}}) =>`
   font-size: ${fontSizes.tag};
   line-height: 24px;

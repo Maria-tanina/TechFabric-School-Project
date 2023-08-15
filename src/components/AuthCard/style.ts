@@ -13,7 +13,7 @@ export const StyledCard = styled.div(({theme: {colors, paddings, media}}) =>`
   background: ${colors.white};
   max-width: 1080px;
   margin: 0 auto;
-  ${media.desktop}{
+  ${media.tablet}{
     padding: ${paddings.formPadding};
   }
 `);

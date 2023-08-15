@@ -4,7 +4,6 @@ import {
   StyledInfo, StyledLine,
   StyledLogo,
   StyledLogoSpan,
-  StyledTitle
 } from "@pages/SignUp/style";
 import {GhostButton} from "@components/GhostButton";
 import RegistrationForm from "@features/registration/components/RegistrationForm";
@@ -12,6 +11,7 @@ import {Link} from "react-router-dom";
 import Logo from "@components/Logo";
 import {LOGIN_PATH} from "@constants/paths";
 import {AuthCard} from "@components/AuthCard";
+import {MainHeader} from "@components/MainHeader";
 
 
 const SignUp = () => {
@@ -20,9 +20,9 @@ const SignUp = () => {
         <AuthCard>
           <StyledInfo>
             <Logo/>
-            <StyledTitle>
+            <MainHeader>
               Welcome to the <StyledLogo>power<StyledLogoSpan>up</StyledLogoSpan></StyledLogo>!
-            </StyledTitle>
+            </MainHeader>
 
             <StyledDescription>
               We are the largest society of sport enthusiasts. Here you are sure to find like-minded people! To create an account, choose to register via social network or e-mail.

@@ -18,4 +18,5 @@ export const GhostButton = styled(Button)<{$width?: string}>(({theme: {colors}, 
       color: ${colors.main};
     }
   }
+  
 `);

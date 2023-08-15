@@ -1,13 +1,13 @@
 import {
   StyledDescription,
-  StyledInfo,
-  StyledTitle
+  StyledInfo
 } from "@pages/SuccessConfirmation/style";
 import Logo from "@components/Logo";
 import {AuthCard} from "@components/AuthCard";
 import {OutlinedButton} from "@components/OutlinedButton";
 import {Link} from "react-router-dom";
 import {LOGIN_PATH} from "@constants/paths";
+import {MainHeader} from "@components/MainHeader";
 
 const SuccessConfirmation = () => {
   return(
@@ -15,9 +15,9 @@ const SuccessConfirmation = () => {
         <AuthCard>
           <StyledInfo>
             <Logo/>
-            <StyledTitle>
+            <MainHeader>
               Registration confirmed
-            </StyledTitle>
+            </MainHeader>
 
             <StyledDescription>
               Thank you, your registration has been successfully confirmed!
