@@ -1,12 +1,12 @@
-import {StyledForgotPasswordForm} from "@features/forgotPassword/components/ForgotPasswordForm/style";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
-import forgotPasswordValidationSchema from "@features/forgotPassword/forgotPasswordValidationSchema";
+import forgotPasswordValidationSchema from "../../forgotPasswordValidationSchema";
 import {useEffect} from "react";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import {InputWithController} from "@components/Input";
 import {OutlinedButton} from "@components/OutlinedButton";
-import {IForgotPasswordFormValues} from "@features/forgotPassword/types";
+import {IForgotPasswordFormValues} from "../../types";
+import {StyledForm} from "@components/Form";
 
 export const ForgotPasswordForm = () => {
   const {control, handleSubmit, formState, reset} = useForm<IForgotPasswordFormValues>({
@@ -28,7 +28,7 @@ export const ForgotPasswordForm = () => {
   }
 
   return(
-    <StyledForgotPasswordForm onSubmit={handleSubmit(onSubmit)}>
+    <StyledForm onSubmit={handleSubmit(onSubmit)}>
       <InputWithController
         control={control}
         name="email"
@@ -45,6 +45,6 @@ export const ForgotPasswordForm = () => {
       >
         Send me the instructions
       </OutlinedButton>
-    </StyledForgotPasswordForm>
+    </StyledForm>
   )
 }

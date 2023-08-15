@@ -1,12 +1,12 @@
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {useEffect} from "react";
-import {StyledForgotPasswordForm} from "@features/forgotPassword/components/ForgotPasswordForm/style";
 import {InputWithController} from "@components/Input";
 import {OutlinedButton} from "@components/OutlinedButton";
-import passwordRecoveryValidationSchema from "@features/passwordRecovery/passwordRecoveryValidationSchema";
-import {IPasswordRecoveryFormValues} from "@features/passwordRecovery/types";
+import passwordRecoveryValidationSchema from "../../passwordRecoveryValidationSchema";
+import {IPasswordRecoveryFormValues} from "../../types";
 import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
+import {StyledForm} from "@components/Form";
 
 export const PasswordRecoveryForm = () => {
   const {control, handleSubmit, formState, reset} = useForm<IPasswordRecoveryFormValues>({
@@ -29,7 +29,7 @@ export const PasswordRecoveryForm = () => {
   }
 
   return(
-    <StyledForgotPasswordForm onSubmit={handleSubmit(onSubmit)}>
+    <StyledForm onSubmit={handleSubmit(onSubmit)}>
       <InputWithController
         control={control}
         name="password"
@@ -55,6 +55,6 @@ export const PasswordRecoveryForm = () => {
       >
         Save this new password
       </OutlinedButton>
-    </StyledForgotPasswordForm>
+    </StyledForm>
   )
 }

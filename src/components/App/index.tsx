@@ -3,7 +3,8 @@ import {Route, Routes} from "react-router-dom";
 import SignUp from "@pages/SignUp";
 import {
   FORGOT_PASSWORD_PATH,
-  LOGIN_PATH, PASSWORD_RECOVERY_PATH,
+  LOGIN_PATH,
+  PASSWORD_RECOVERY_PATH,
   REGISTRATION_CONFIRM_PATH,
   SIGNUP_PATH,
   SUCCESS_CONFIRMATION_PATH
