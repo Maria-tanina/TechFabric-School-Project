@@ -1,10 +1,8 @@
 import styled from "styled-components";
+import {StyledForm} from "@components/Form";
 
-export const StyledLoginForm = styled.form`
-  display: flex;
-  flex-direction: column;
+export const StyledLoginForm = styled(StyledForm)`
   gap: 28px;
-  width: 100%;
   margin-bottom: 36px;
 `;
 

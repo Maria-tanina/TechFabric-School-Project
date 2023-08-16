@@ -1,7 +1,7 @@
 import {useForm} from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
-import {IRegistrationFormValues} from "@features/registration/types";
-import {StyledRegistrationForm} from "@features/registration/components/RegistrationForm/style";
+import {IRegistrationFormValues} from "../../types";
+import {StyledRegistrationForm} from "./style";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import {InputWithController} from "@components/Input";
 import {useEffect} from "react";
@@ -9,8 +9,7 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import VpnKeyOutlinedIcon from '@mui/icons-material/VpnKeyOutlined';
 import {SignUpButton} from "@components/SignUpButton";
-import registrationValidationSchema from "@features/registration/registrationValidationSchema";
-
+import registrationValidationSchema from "../../registrationValidationSchema";
 
 const RegistrationForm = () => {
   const {control, handleSubmit, formState, reset} = useForm<IRegistrationFormValues>({

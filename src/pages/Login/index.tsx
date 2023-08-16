@@ -5,15 +5,14 @@ import {
   StyledInfo,
   StyledLogo,
   StyledLogoSpan,
-  StyledTitle,
-  StyledLine,
+  StyledLine, StyledLink,
 } from "@pages/Login/style";
 import Logo from "@components/Logo";
-import {Link} from "react-router-dom";
 import {SIGNUP_PATH} from "@constants/paths";
 import {LoginForm} from "@features/login/components/LoginForm";
 import {SignUpButton} from "@components/SignUpButton";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
+import {MainHeader} from "@components/MainHeader";
 
 export const Login = () => {
   return(
@@ -21,9 +20,8 @@ export const Login = () => {
       <AuthCard>
         <StyledInfo>
           <Logo/>
-          <StyledTitle>
-            Welcome to the <StyledLogo>power<StyledLogoSpan>up</StyledLogoSpan></StyledLogo>!
-          </StyledTitle>
+
+          <MainHeader>Welcome to the <StyledLogo>power<StyledLogoSpan>up</StyledLogoSpan></StyledLogo>!</MainHeader>
 
           <StyledDescription>
             We are the largest society of sport enthusiasts. Here you are sure to find like-minded people! To create an account, choose to register via social network or e-mail.
@@ -42,10 +40,10 @@ export const Login = () => {
           fullWidth
           type="button"
         >
-          <Link to={SIGNUP_PATH} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
-            <MailOutlineIcon style={{ marginRight: '8px' }} />
+          <StyledLink to={SIGNUP_PATH} >
+            <MailOutlineIcon sx={{ mr: '8px' }} />
             Sign up with Email
-          </Link>
+          </StyledLink>
         </SignUpButton>
       </AuthCard>
     </section>

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {Link} from "react-router-dom";
 
 export const StyledInfo = styled.div(() =>`
   display: flex;
@@ -18,22 +19,12 @@ export const StyledLogoSpan = styled.span(({theme: {colors}}) =>`
   color: ${colors.main};
 `);
 
-export const StyledTitle = styled.h2(({theme: {fontSizes, media}}) =>`
-  font-size: 45px;
-  font-weight: 700;
-  line-height: 70px;
-  ${media.desktop} {
-    font-size: ${fontSizes.mainHeader};
-    line-height: 78px;
-  }
-`);
-
 export const StyledDescription = styled.p(({theme: {fontSizes}}) =>`
   font-size: ${fontSizes.tag};
   line-height: 24px;
 `);
 
-export const StyledDecoration = styled.div(({theme: {colors, fontSizes}}) =>`
+export const StyledDecoration = styled.div(({theme: {fontSizes}}) =>`
   font-size: ${fontSizes.tag};
   line-height: 24px;
   width: 100%;
@@ -51,3 +42,10 @@ export const StyledLine = styled.span(({theme: {colors}}) =>`
   height: 1px;
   background-color: ${colors.black};
 `);
+
+export const StyledLink = styled(Link)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+`;

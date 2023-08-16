@@ -64,6 +64,7 @@ const GlobalStyles = createGlobalStyle`
       border-radius: 8px;
       padding: ${theme.paddings.inputPadding};
       color: ${theme.colors.black};
+      height: 44px;
 
       &:hover {
         border-color: ${theme.colors.gray};
@@ -99,7 +100,7 @@ const GlobalStyles = createGlobalStyle`
     }
 
     .MuiSvgIcon-root {
-      font-size: 30px;
+      font-size: 24px;
       color: ${theme.colors.gray};
       font-weight: 200;
     }

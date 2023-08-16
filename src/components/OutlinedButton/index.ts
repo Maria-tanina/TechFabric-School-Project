@@ -8,7 +8,7 @@ export const OutlinedButton = styled(Button)<{$width?: string}>(({theme: {colors
     color: ${colors.main};
     background-color: transparent;
     width: ${$width || "100%"};
-    line-height: 20px;
+    height: 44px;
     a {
       line-height: 20px;
       width: 100%;
