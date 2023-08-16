@@ -14,6 +14,7 @@ module.exports = {
       "@utils": path.resolve(__dirname, "src/utils"),
       "@customTypes": path.resolve(__dirname, "src/types"),
       "@icons": path.resolve(__dirname, "src/icons"),
+      "@helpers": path.resolve(__dirname, "src/helpers"),
     },
   },
 };

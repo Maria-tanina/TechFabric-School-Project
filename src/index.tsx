@@ -5,6 +5,8 @@ import {ThemeProvider} from "styled-components";
 import theme from "@styles/theme";
 import GlobalStyles from "@styles/GlobalStyles";
 import {BrowserRouter} from "react-router-dom";
+import ScrollToTop from '@helpers/scrollToTop';
+
 
 
 const root = ReactDOM.createRoot(
@@ -16,6 +18,7 @@ root.render(
         <ThemeProvider theme={theme}>
             <GlobalStyles/>
             <BrowserRouter>
+                <ScrollToTop/>
                 <App/>
             </BrowserRouter>
         </ThemeProvider>
