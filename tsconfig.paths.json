@@ -35,6 +35,9 @@
       "@icons/*": [
         "icons/*"
       ],
+      "@helpers/*": [
+        "helpers/*"
+      ]
     }
   }
 }
