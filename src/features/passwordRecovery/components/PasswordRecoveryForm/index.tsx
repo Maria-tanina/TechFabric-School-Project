@@ -1,22 +1,23 @@
-import {useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
-import {useEffect} from "react";
-import {InputWithController} from "@components/Input";
-import {OutlinedButton} from "@components/OutlinedButton";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useEffect } from "react";
+import { InputWithController } from "@components/Input";
+import { OutlinedButton } from "@components/OutlinedButton";
 import passwordRecoveryValidationSchema from "../../passwordRecoveryValidationSchema";
-import {IPasswordRecoveryFormValues} from "../../types";
+import { IPasswordRecoveryFormValues } from "../../types";
 import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
-import {StyledForm} from "@components/Form";
+import { StyledForm } from "@components/Form";
 
 export const PasswordRecoveryForm = () => {
-  const {control, handleSubmit, formState, reset} = useForm<IPasswordRecoveryFormValues>({
-    defaultValues: {
-      password: "",
-      repeatPassword: ""
-    },
-    mode: "all",
-    resolver: yupResolver(passwordRecoveryValidationSchema),
-  })
+  const { control, handleSubmit, formState, reset } =
+    useForm<IPasswordRecoveryFormValues>({
+      defaultValues: {
+        password: "",
+        repeatPassword: "",
+      },
+      mode: "all",
+      resolver: yupResolver(passwordRecoveryValidationSchema),
+    });
 
   useEffect(() => {
     if (formState.isSubmitSuccessful) {
@@ -26,9 +27,9 @@ export const PasswordRecoveryForm = () => {
 
   const onSubmit = (data: IPasswordRecoveryFormValues) => {
     console.log(JSON.stringify(data));
-  }
+  };
 
-  return(
+  return (
     <StyledForm onSubmit={handleSubmit(onSubmit)}>
       <InputWithController
         control={control}
@@ -36,7 +37,7 @@ export const PasswordRecoveryForm = () => {
         inputType="password"
         label="Enter the new password..."
         autocomplete="password"
-        icon={<VpnKeyOutlinedIcon/>}
+        icon={<VpnKeyOutlinedIcon />}
       />
 
       <InputWithController
@@ -45,7 +46,7 @@ export const PasswordRecoveryForm = () => {
         inputType="password"
         label="Enter the password again..."
         autocomplete="new-password"
-        icon={<VpnKeyOutlinedIcon/>}
+        icon={<VpnKeyOutlinedIcon />}
       />
 
       <OutlinedButton
@@ -56,5 +57,5 @@ export const PasswordRecoveryForm = () => {
         Save this new password
       </OutlinedButton>
     </StyledForm>
-  )
-}
+  );
+};

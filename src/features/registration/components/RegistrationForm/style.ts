@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {StyledForm} from "@components/Form";
+import { StyledForm } from "@components/Form";
 
 export const StyledRegistrationForm = styled(StyledForm)`
   gap: 28px;

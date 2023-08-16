@@ -1,21 +1,22 @@
-import {useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import forgotPasswordValidationSchema from "../../forgotPasswordValidationSchema";
-import {useEffect} from "react";
+import { useEffect } from "react";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-import {InputWithController} from "@components/Input";
-import {OutlinedButton} from "@components/OutlinedButton";
-import {IForgotPasswordFormValues} from "../../types";
-import {StyledForm} from "@components/Form";
+import { InputWithController } from "@components/Input";
+import { OutlinedButton } from "@components/OutlinedButton";
+import { IForgotPasswordFormValues } from "../../types";
+import { StyledForm } from "@components/Form";
 
 export const ForgotPasswordForm = () => {
-  const {control, handleSubmit, formState, reset} = useForm<IForgotPasswordFormValues>({
-    defaultValues: {
-      email: ""
-    },
-    mode: "all",
-    resolver: yupResolver(forgotPasswordValidationSchema),
-  })
+  const { control, handleSubmit, formState, reset } =
+    useForm<IForgotPasswordFormValues>({
+      defaultValues: {
+        email: "",
+      },
+      mode: "all",
+      resolver: yupResolver(forgotPasswordValidationSchema),
+    });
 
   useEffect(() => {
     if (formState.isSubmitSuccessful) {
@@ -25,9 +26,9 @@ export const ForgotPasswordForm = () => {
 
   const onSubmit = (data: IForgotPasswordFormValues) => {
     console.log(JSON.stringify(data));
-  }
+  };
 
-  return(
+  return (
     <StyledForm onSubmit={handleSubmit(onSubmit)}>
       <InputWithController
         control={control}
@@ -35,7 +36,7 @@ export const ForgotPasswordForm = () => {
         inputType="email"
         label="Enter the e-mail..."
         autocomplete="new-email"
-        icon={<EmailOutlinedIcon/>}
+        icon={<EmailOutlinedIcon />}
       />
 
       <OutlinedButton
@@ -46,5 +47,5 @@ export const ForgotPasswordForm = () => {
         Send me the instructions
       </OutlinedButton>
     </StyledForm>
-  )
-}
+  );
+};

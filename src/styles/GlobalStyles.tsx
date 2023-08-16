@@ -1,7 +1,7 @@
-import { createGlobalStyle } from 'styled-components';
-import theme from './theme';
+import { createGlobalStyle } from "styled-components";
 
-const GlobalStyles = createGlobalStyle`
+const GlobalStyles = createGlobalStyle(
+  ({ theme: {fonts, colors, fontSizes, paddings} }) => `
   * {
     margin: 0;
     padding: 0;
@@ -11,8 +11,8 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    font-family: ${(props) => props.theme.fonts.main};
-    color: ${(props) => props.theme.colors.black};
+    font-family: ${fonts.main};
+    color: ${colors.black};
   }
 
   ul, ol {
@@ -26,22 +26,25 @@ const GlobalStyles = createGlobalStyle`
  
   .MuiButtonBase-root.MuiButton-root {
     text-transform: none;
-    font-family: ${(props) => props.theme.fonts.main};
-    font-size: ${(props) => props.theme.fontSizes.button};
+    font-family: ${fonts.main};
+    font-size: ${fontSizes.button};
     font-weight: 500;
-    padding: ${(props) => props.theme.paddings.buttonPadding};
+    padding: ${paddings.buttonPadding};
     gap: 22px;
     cursor: pointer;
     border-radius: 8px;
     box-shadow: none;
     line-height: 24px;
     transition: all 0.3s;
+    
     &:hover {
       box-shadow: none;
     }
+    
     span {
-      color: ${(props) => props.theme.colors.white};
+      color: ${colors.white};
       margin: 0;
+      
       svg {
         height: 24px;
       }
@@ -49,49 +52,48 @@ const GlobalStyles = createGlobalStyle`
   }
   
   .MuiButtonBase-root.MuiButton-root:disabled {
-    background-color: ${(props) => props.theme.colors.gray};
-    border-color: ${(props) => props.theme.colors.gray};
-    color: ${(props) => props.theme.colors.white};
+    background-color: ${colors.gray};
+    border-color: ${colors.gray};
+    color: ${colors.white};
     opacity: 0.9;
     pointer-events: none;
   }
 
   .MuiFormControl-root {
     .MuiInputBase-root {
-      font-family: ${theme.fonts.main};
+      font-family: ${fonts.main};
       font-weight: 500;
-      border: 2px solid ${theme.colors.strokeGray};
+      border: 2px solid ${colors.strokeGray};
       border-radius: 8px;
-      padding: ${theme.paddings.inputPadding};
-      color: ${theme.colors.black};
+      padding: ${paddings.inputPadding};
+      color: ${colors.black};
       height: 44px;
 
       &:hover {
-        border-color: ${theme.colors.gray};
+        border-color: ${colors.gray};
       }
 
       &.Mui-focused {
-        border-color: ${theme.colors.main};
+        border-color: ${colors.main};
 
         & .MuiSvgIcon-root {
-          color: ${theme.colors.graphite};
+          color: ${colors.graphite};
         }
       }
-
-
+      
       &.Mui-error {
-        border-color: ${theme.colors.error};
+        border-color: ${colors.error};
       }
 
       &:hover {
         &.Mui-error {
-          border-color: ${theme.colors.error};
+          border-color: ${colors.error};
         }
       }
     }
 
     .MuiFormHelperText-root.Mui-error {
-      color: ${theme.colors.error};
+      color: ${colors.error};
     }
 
     .MuiOutlinedInput-notchedOutline {
@@ -101,7 +103,7 @@ const GlobalStyles = createGlobalStyle`
 
     .MuiSvgIcon-root {
       font-size: 24px;
-      color: ${theme.colors.gray};
+      color: ${colors.gray};
       font-weight: 200;
     }
 
@@ -109,13 +111,12 @@ const GlobalStyles = createGlobalStyle`
       padding: 0;
 
       &::placeholder {
-        color: ${theme.colors.gray};
+        color: ${colors.gray};
         opacity: 1;
       }
     }
   }
-
-
-`;
+`
+);
 
 export default GlobalStyles;

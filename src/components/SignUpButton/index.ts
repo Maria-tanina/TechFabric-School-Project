@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import {Button} from "@mui/material";
+import { Button } from "@mui/material";
 
-
-export const SignUpButton = styled(Button)(({theme: {colors}}) =>`
+export const SignUpButton = styled(Button)(
+  ({ theme: { colors } }) => `
   &.MuiButton-root {
     color: ${colors.white};
     background-color: ${colors.graphite};
@@ -11,4 +11,5 @@ export const SignUpButton = styled(Button)(({theme: {colors}}) =>`
       background-color: ${colors.black};
     }
   }
-`);
+`
+);

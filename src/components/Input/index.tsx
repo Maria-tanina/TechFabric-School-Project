@@ -1,8 +1,8 @@
-import {InputAdornment} from "@mui/material";
-import {StyledTextField} from "@components/Input/style";
-import {FC} from "react";
-import {IInputProps} from "@features/registration/types";
-import {WithController} from "@features/WithController";
+import { InputAdornment } from "@mui/material";
+import { StyledTextField } from "@components/Input/style";
+import { FC } from "react";
+import { IInputProps } from "@features/registration/types";
+import { WithController } from "@features/WithController";
 
 const Input: FC<IInputProps> = ({
   inputType,
@@ -12,10 +12,9 @@ const Input: FC<IInputProps> = ({
   errorMessage,
   autocomplete,
   label,
-  icon
+  icon,
 }) => {
-
-  return(
+  return (
     <StyledTextField
       type={inputType}
       placeholder={label}
@@ -24,16 +23,14 @@ const Input: FC<IInputProps> = ({
       fullWidth
       helperText={errorMessage}
       error={error}
-      autoComplete={autocomplete || ''}
+      autoComplete={autocomplete || ""}
       InputProps={{
         startAdornment: (
-          <InputAdornment position="start">
-            {icon}
-          </InputAdornment>
+          <InputAdornment position="start">{icon}</InputAdornment>
         ),
       }}
     />
-  )
-}
+  );
+};
 
 export const InputWithController = WithController<IInputProps>(Input);

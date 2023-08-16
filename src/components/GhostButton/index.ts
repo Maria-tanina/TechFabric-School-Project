@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import {Button} from "@mui/material";
+import { Button } from "@mui/material";
 
-
-export const GhostButton = styled(Button)<{$width?: string}>(({theme: {colors}, $width}) =>`
+export const GhostButton = styled(Button)<{ $width?: string }>(
+  ({ theme: { colors }, $width }) => `
   &.MuiButton-root{
     color: ${colors.graphite};
     background-color: transparent;
@@ -18,5 +18,5 @@ export const GhostButton = styled(Button)<{$width?: string}>(({theme: {colors}, 
       color: ${colors.main};
     }
   }
-  
-`);
+`
+);

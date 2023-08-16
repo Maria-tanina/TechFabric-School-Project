@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import {Button} from "@mui/material";
+import { Button } from "@mui/material";
 
-
-export const OutlinedButton = styled(Button)<{$width?: string}>(({theme: {colors}, $width}) =>`
+export const OutlinedButton = styled(Button)<{ $width?: string }>(
+  ({ theme: { colors }, $width }) => `
   &.MuiButton-root{
     border: 2px solid ${colors.main};
     color: ${colors.main};
@@ -19,4 +19,5 @@ export const OutlinedButton = styled(Button)<{$width?: string}>(({theme: {colors
       color: ${colors.white}
     }
   }
-`);
+`
+);
