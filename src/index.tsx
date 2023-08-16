@@ -7,8 +7,6 @@ import GlobalStyles from "@styles/GlobalStyles";
 import {BrowserRouter} from "react-router-dom";
 import ScrollToTop from '@helpers/scrollToTop';
 
-
-
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 );

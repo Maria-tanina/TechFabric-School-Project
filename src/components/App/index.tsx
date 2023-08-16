@@ -14,6 +14,7 @@ import SuccessConfirmation from "@pages/SuccessConfirmation";
 import { Login } from "@pages/Login";
 import { ForgotPassword } from "@pages/ForgotPassword";
 import { PasswordRecovery } from "@pages/PasswordRecovery";
+import NotFound from "@pages/NotFound";
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
           />
           <Route path={FORGOT_PASSWORD_PATH} element={<ForgotPassword />} />
           <Route path={PASSWORD_RECOVERY_PATH} element={<PasswordRecovery />} />
+          <Route path="*" element={<NotFound/>} />
         </Routes>
       </Layout>
     </div>
