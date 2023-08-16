@@ -14,26 +14,33 @@ import SuccessConfirmation from "@pages/SuccessConfirmation";
 import { Login } from "@pages/Login";
 import { ForgotPassword } from "@pages/ForgotPassword";
 import { PasswordRecovery } from "@pages/PasswordRecovery";
+import {Provider} from "react-redux";
+import store from "../../store";
 
 const App = () => {
   return (
     <div>
-      <Layout>
-        <Routes>
-          <Route path={LOGIN_PATH} element={<Login />} />
-          <Route path={SIGNUP_PATH} element={<SignUp />} />
-          <Route
-            path={REGISTRATION_CONFIRM_PATH}
-            element={<RegistrationConfirm />}
-          />
-          <Route
-            path={SUCCESS_CONFIRMATION_PATH}
-            element={<SuccessConfirmation />}
-          />
-          <Route path={FORGOT_PASSWORD_PATH} element={<ForgotPassword />} />
-          <Route path={PASSWORD_RECOVERY_PATH} element={<PasswordRecovery />} />
-        </Routes>
-      </Layout>
+      <Provider store={store}>
+        <Layout>
+          <Routes>
+            <Route path={LOGIN_PATH} element={<Login />} />
+            <Route path={SIGNUP_PATH} element={<SignUp />} />
+            <Route
+              path={REGISTRATION_CONFIRM_PATH}
+              element={<RegistrationConfirm />}
+            />
+            <Route
+              path={SUCCESS_CONFIRMATION_PATH}
+              element={<SuccessConfirmation />}
+            />
+            <Route path={FORGOT_PASSWORD_PATH} element={<ForgotPassword />} />
+            <Route
+              path={PASSWORD_RECOVERY_PATH}
+              element={<PasswordRecovery />}
+            />
+          </Routes>
+        </Layout>
+      </Provider>
     </div>
   );
 };
