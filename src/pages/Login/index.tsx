@@ -40,7 +40,7 @@ export const Login = () => {
           fullWidth
           type="button"
         >
-          <StyledLink to={SIGNUP_PATH} reloadDocument>
+          <StyledLink to={SIGNUP_PATH} >
             <MailOutlineIcon sx={{ mr: '8px' }} />
             Sign up with Email
           </StyledLink>
