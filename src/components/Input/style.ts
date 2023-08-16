@@ -1,7 +1,8 @@
 import styled from "styled-components";
-import {TextField, TextFieldProps} from "@mui/material";
+import { TextField, TextFieldProps } from "@mui/material";
 
-export const StyledTextField = styled(TextField)<TextFieldProps>(({theme: {colors, fonts}, value}) =>`
+export const StyledTextField = styled(TextField)<TextFieldProps>(
+  ({ theme: { colors, fonts }, value }) => `
   color: ${colors.black};
   
   .MuiInputBase-input {
@@ -87,4 +88,5 @@ export const StyledTextField = styled(TextField)<TextFieldProps>(({theme: {color
       fill:  ${value ? colors.black : colors.gray}
     } 
   }
-`);
+`
+);

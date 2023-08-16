@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
-
-export const LogoStyle =styled(Link)<{ $isFooter: boolean }>(({theme: {colors, fontSizes}, $isFooter}) =>`
+export const LogoStyle = styled(Link)<{ $isFooter: boolean }>(
+  ({ theme: { colors, fontSizes }, $isFooter }) => `
   font-size: ${fontSizes.logo};
   text-transform: uppercase;
   font-style: italic;
@@ -12,4 +12,5 @@ export const LogoStyle =styled(Link)<{ $isFooter: boolean }>(({theme: {colors, f
 
   & span {
     color: ${colors.main};
-`);
+`
+);

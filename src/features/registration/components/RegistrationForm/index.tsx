@@ -1,47 +1,48 @@
-import {useForm} from "react-hook-form";
-import { yupResolver } from '@hookform/resolvers/yup';
-import {IRegistrationFormValues} from "../../types";
-import {StyledRegistrationForm} from "./style";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { IRegistrationFormValues } from "../../types";
+import { StyledRegistrationForm } from "./style";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import {InputWithController} from "@components/Input";
-import {useEffect} from "react";
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
-import VpnKeyOutlinedIcon from '@mui/icons-material/VpnKeyOutlined';
-import {SignUpButton} from "@components/SignUpButton";
+import { InputWithController } from "@components/Input";
+import { useEffect } from "react";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
+import { SignUpButton } from "@components/SignUpButton";
 import registrationValidationSchema from "../../registrationValidationSchema";
 
 const RegistrationForm = () => {
-  const {control, handleSubmit, formState, reset} = useForm<IRegistrationFormValues>({
-    defaultValues: {
-      name: "",
-      surname: "",
-      email: "",
-      password: "",
-      repeatPassword: ""
-    },
-    mode: "all",
-    resolver: yupResolver(registrationValidationSchema),
-  })
+  const { control, handleSubmit, formState, reset } =
+    useForm<IRegistrationFormValues>({
+      defaultValues: {
+        name: "",
+        surname: "",
+        email: "",
+        password: "",
+        repeatPassword: "",
+      },
+      mode: "all",
+      resolver: yupResolver(registrationValidationSchema),
+    });
 
   useEffect(() => {
     if (formState.isSubmitSuccessful) {
       reset();
     }
-  }, [formState.isSubmitSuccessful, reset])
+  }, [formState.isSubmitSuccessful, reset]);
 
   const onSubmit = (data: IRegistrationFormValues) => {
     console.log(JSON.stringify(data));
-  }
+  };
 
-  return(
+  return (
     <StyledRegistrationForm onSubmit={handleSubmit(onSubmit)}>
       <InputWithController
         control={control}
         name="name"
         inputType="text"
         label="Enter your name..."
-        icon={<AccountCircleOutlinedIcon/>}
+        icon={<AccountCircleOutlinedIcon />}
       />
 
       <InputWithController
@@ -49,7 +50,7 @@ const RegistrationForm = () => {
         name="surname"
         inputType="text"
         label="Enter your surname..."
-        icon={<AccountCircleOutlinedIcon/>}
+        icon={<AccountCircleOutlinedIcon />}
       />
 
       <InputWithController
@@ -58,7 +59,7 @@ const RegistrationForm = () => {
         inputType="email"
         label="Enter the e-mail..."
         autocomplete="new-email"
-        icon={<EmailOutlinedIcon/>}
+        icon={<EmailOutlinedIcon />}
       />
 
       <InputWithController
@@ -67,7 +68,7 @@ const RegistrationForm = () => {
         inputType="password"
         label="Enter the password..."
         autocomplete="password"
-        icon={<VpnKeyOutlinedIcon/>}
+        icon={<VpnKeyOutlinedIcon />}
       />
 
       <InputWithController
@@ -76,7 +77,7 @@ const RegistrationForm = () => {
         inputType="password"
         label="Enter the password again..."
         autocomplete="new-password"
-        icon={<VpnKeyOutlinedIcon/>}
+        icon={<VpnKeyOutlinedIcon />}
       />
 
       <SignUpButton
@@ -88,7 +89,7 @@ const RegistrationForm = () => {
         Sign up with Email
       </SignUpButton>
     </StyledRegistrationForm>
-  )
-}
+  );
+};
 
 export default RegistrationForm;
