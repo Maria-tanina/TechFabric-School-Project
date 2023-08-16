@@ -14,13 +14,10 @@ import SuccessConfirmation from "@pages/SuccessConfirmation";
 import { Login } from "@pages/Login";
 import { ForgotPassword } from "@pages/ForgotPassword";
 import { PasswordRecovery } from "@pages/PasswordRecovery";
-import {Provider} from "react-redux";
-import store from "../../store";
 
 const App = () => {
   return (
     <div>
-      <Provider store={store}>
         <Layout>
           <Routes>
             <Route path={LOGIN_PATH} element={<Login />} />
@@ -40,7 +37,6 @@ const App = () => {
             />
           </Routes>
         </Layout>
-      </Provider>
     </div>
   );
 };
