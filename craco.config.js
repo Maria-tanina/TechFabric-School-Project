@@ -17,4 +17,7 @@ module.exports = {
       "@helpers": path.resolve(__dirname, "src/helpers"),
     },
   },
+  devServer: {
+    port: 3001,
+  },
 };
