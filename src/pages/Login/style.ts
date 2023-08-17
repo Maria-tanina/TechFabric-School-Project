@@ -59,5 +59,4 @@ export const StyledLink = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
 `;

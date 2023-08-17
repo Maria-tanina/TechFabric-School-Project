@@ -29,7 +29,13 @@ const GlobalStyles = createGlobalStyle(
     font-family: ${fonts.main};
     font-size: ${fontSizes.button};
     font-weight: 500;
-    padding: ${paddings.buttonPadding};
+    height: 44px;
+    
+    a {
+      padding: 10px 5px;
+      width: 100%;
+    }
+   
     gap: 22px;
     cursor: pointer;
     border-radius: 8px;
@@ -41,13 +47,12 @@ const GlobalStyles = createGlobalStyle(
       box-shadow: none;
     }
     
+    svg {
+      font-size: 24px;
+    }
+    
     span {
-      color: ${colors.white};
       margin: 0;
-      
-      svg {
-        height: 24px;
-      }
     }
   }
   
