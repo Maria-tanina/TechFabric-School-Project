@@ -37,7 +37,7 @@ const theme: IThemeTypes = {
     tabletHeaderPadding: "28px 30px",
     footerPadding: "52px 140px 28px",
     tabletFooterPadding: "52px 30px 28px",
-    inputPadding: "10px 16px",
+    inputPadding: "10px 12px",
     buttonPadding: "10px 16px",
   },
 

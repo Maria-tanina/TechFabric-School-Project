@@ -1,12 +1,24 @@
 import Article from "./copmonents/Article";
-import { HomePageWrapper } from "@pages/Home/style";
+import {
+  ArticlesWithMenu,
+  ArticlesWrapper,
+  HomePageWrapper,
+} from "@pages/Home/style";
+import TabsMenu from "@pages/Home/copmonents/TabsMenu";
 
 const HomePage = () => {
-  return(
+  return (
     <HomePageWrapper>
-      <Article/>
+      <ArticlesWithMenu>
+        <TabsMenu />
+        <ArticlesWrapper>
+          <Article />
+          <Article />
+          <Article />
+        </ArticlesWrapper>
+      </ArticlesWithMenu>
     </HomePageWrapper>
-  )
-}
+  );
+};
 
 export default HomePage;

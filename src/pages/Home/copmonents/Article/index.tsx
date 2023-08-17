@@ -1,20 +1,20 @@
 import CardMedia from "@mui/material/CardMedia";
-import Card from "@mui/material/Card";
 import {
+  StyledArticleCard,
   StyledAvatar,
   StyledCardContent,
   StyledCardHeader,
-  StyledCardTitle, StyledIconButton,
+  StyledCardTitle,
+  StyledIconButton,
   StyledTags,
   StyledTagsWrapper,
 } from "./style";
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 export const Article = () => {
-
-  return(
-    <Card sx={{ maxWidth: 940 }}>
+  return (
+    <StyledArticleCard sx={{ maxWidth: 940, borderRadius: "8px" }}>
       <CardMedia
         component="img"
         height="300"
@@ -24,17 +24,14 @@ export const Article = () => {
 
       <StyledCardContent>
         <StyledCardHeader
-          avatar={
-            <StyledAvatar aria-label="sport">
-              H
-            </StyledAvatar>
-          }
+          avatar={<StyledAvatar aria-label="sport">H</StyledAvatar>}
           title="User avatar"
           subheader="September 14, 2023"
         />
 
         <StyledCardTitle>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sed sapien tempor, mollis est tempus, tincidunt enim.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+          sed sapien tempor, mollis est tempus, tincidunt enim.
         </StyledCardTitle>
 
         <StyledTagsWrapper>
@@ -50,15 +47,13 @@ export const Article = () => {
             <StyledIconButton aria-label="like" disableRipple>
               <FavoriteBorderIcon className="favorite-border-icon" />
 
-              <FavoriteIcon className="favorite-icon"/>
+              <FavoriteIcon className="favorite-icon" />
             </StyledIconButton>
           </StyledTags>
-
         </StyledTagsWrapper>
       </StyledCardContent>
-
-    </Card>
-  )
-}
+    </StyledArticleCard>
+  );
+};
 
 export default Article;
