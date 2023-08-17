@@ -8,11 +8,6 @@ export const OutlinedButton = styled(Button)<{ $width?: string }>(
     color: ${colors.main};
     background-color: transparent;
     width: ${$width || "100%"};
-    height: 44px;
-    a {
-      line-height: 20px;
-      width: 100%;
-    }
     
     &:hover {
       background-color: ${colors.main};

@@ -7,7 +7,7 @@ import GlobalStyles from "@styles/GlobalStyles";
 import { BrowserRouter } from "react-router-dom";
 import ScrollToTop from "@helpers/scrollToTop";
 import store from "./store";
-import {Provider} from "react-redux";
+import { Provider } from "react-redux";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
