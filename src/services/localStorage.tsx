@@ -6,7 +6,7 @@ interface LocalStorageService {
   clear: () => void;
 }
 
-export const localStorageServices = (): LocalStorageService => {
+export const LSService = (): LocalStorageService => {
   const set: LocalStorageService["set"] = (key, value) => {
     localStorage.setItem(key, JSON.stringify(value));
   };
