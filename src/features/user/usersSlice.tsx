@@ -1,25 +1,20 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IUsersSliceInitialState } from "@features/user/types";
 
-const initialState = {
-    data: [],
-    loading: false,
+const initialState: IUsersSliceInitialState = {
+  isLogin: false,
 };
 
 const usersSlice = createSlice({
-    name: 'users',
-    initialState,
-    reducers: {
-        setUsers: (state, action) => {
-            state.data = action.payload;
-        },
-        setLoading: (state, action) => {
-            state.loading = action.payload;
-        },
+  name: "users",
+  initialState,
+  reducers: {
+    setIsLogin: (state, action: PayloadAction<boolean>) => {
+      state.isLogin = action.payload;
     },
+  },
 });
 
-export const {
-    setUsers,
-    setLoading
-} = usersSlice.actions;
+export const { setIsLogin } = usersSlice.actions;
+
 export default usersSlice.reducer;

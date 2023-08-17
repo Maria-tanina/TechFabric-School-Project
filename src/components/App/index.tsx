@@ -15,6 +15,7 @@ import { Login } from "@pages/Login";
 import { ForgotPassword } from "@pages/ForgotPassword";
 import { PasswordRecovery } from "@pages/PasswordRecovery";
 import NotFound from "@pages/NotFound";
+import RequireAuth from "@components/RequireAuth";
 
 const App = () => {
   return (
@@ -22,18 +23,27 @@ const App = () => {
       <Layout>
         <Routes>
           <Route path={LOGIN_PATH} element={<Login />} />
+
           <Route path={SIGNUP_PATH} element={<SignUp />} />
+
           <Route
             path={REGISTRATION_CONFIRM_PATH}
             element={<RegistrationConfirm />}
           />
+
           <Route
             path={SUCCESS_CONFIRMATION_PATH}
             element={<SuccessConfirmation />}
           />
+
           <Route path={FORGOT_PASSWORD_PATH} element={<ForgotPassword />} />
+
           <Route path={PASSWORD_RECOVERY_PATH} element={<PasswordRecovery />} />
-          <Route path="*" element={<NotFound/>} />
+
+          <Route path="*" element={<NotFound />} />
+
+          {/*protected routes*/}
+          <Route element={<RequireAuth redirectTo={LOGIN_PATH} />}></Route>
         </Routes>
       </Layout>
     </div>

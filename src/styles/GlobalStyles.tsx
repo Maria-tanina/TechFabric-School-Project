@@ -1,7 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle(
-  ({ theme: {fonts, colors, fontSizes, paddings} }) => `
+  ({ theme: { fonts, colors, fontSizes, paddings } }) => `
   * {
     margin: 0;
     padding: 0;
