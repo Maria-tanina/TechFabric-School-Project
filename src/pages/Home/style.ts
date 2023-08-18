@@ -8,12 +8,6 @@ export const HomePageWrapper = styled.div`
   gap: 40px;
 `;
 
-export const ArticlesWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-`;
-
 export const ArticlesWithMenu = styled.div`
   max-width: 940px;
 `;

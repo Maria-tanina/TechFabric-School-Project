@@ -2,10 +2,10 @@ import { FormControl, IconButton, MenuItem } from "@mui/material";
 import EastIcon from '@mui/icons-material/East';
 import SouthIcon from '@mui/icons-material/South';
 import { useState } from "react";
-import { StyledSelect } from "@components/Select/style";
+import { StyledSelect } from "../Select/style";
 
 const CustomSelect = () => {
-  const [open, setOpen] = useState(false); // Добавляем состояние для управления открытием/закрытием
+  const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
     setOpen(true);

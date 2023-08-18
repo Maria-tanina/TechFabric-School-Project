@@ -11,35 +11,37 @@ import {
 } from "./style";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import { FC } from "react";
+import { IArticleProps } from "./types";
 
-export const Article = () => {
+export const Article: FC<IArticleProps> = ({
+  article
+}) => {
+  const {title, image, user, date, tags} = article;
+
   return (
-    <StyledArticleCard sx={{ maxWidth: 940, borderRadius: "8px" }}>
+    <StyledArticleCard>
       <CardMedia
         component="img"
         height="300"
-        image="https://www.rankone.com/content/Images/hero-bg.jpg"
+        image={image}
         alt="Sport news"
       />
 
       <StyledCardContent>
         <StyledCardHeader
-          avatar={<StyledAvatar aria-label="sport">H</StyledAvatar>}
+          avatar={<StyledAvatar aria-label="sport">{user.name}</StyledAvatar>}
           title="User avatar"
-          subheader="September 14, 2023"
+          subheader={date}
         />
 
         <StyledCardTitle>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-          sed sapien tempor, mollis est tempus, tincidunt enim.
+          {title}
         </StyledCardTitle>
 
         <StyledTagsWrapper>
           <StyledTags>
-            <span>#car</span>
-            <span>#blue</span>
-            <span>#technique</span>
-            <span>#mechanic</span>
+            {tags.map(tag => <span>{tag}</span>)}
           </StyledTags>
           <StyledTags>
             <span>Add to favorites</span>
