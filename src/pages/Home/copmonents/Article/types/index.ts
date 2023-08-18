@@ -7,7 +7,8 @@ export interface IArticle {
   title: string;
   image: string;
   user: {
-    name: string;
+    firstname: string;
+    lastname: string;
   };
   date: string;
   tags: string[];

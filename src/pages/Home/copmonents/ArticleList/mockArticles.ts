@@ -6,7 +6,8 @@ export const mockArticles: IArticle[] = [
     title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sed sapien tempor, mollis est tempus, tincidunt enim.",
     image: "https://www.rankone.com/content/Images/hero-bg.jpg",
     user: {
-      name: "H",
+      firstname: "Harold",
+      lastname: "Painless"
     },
     date: "September 14, 2023",
     tags: ["#car", "#blue", "#technique", "#mechanic"]
@@ -16,7 +17,8 @@ export const mockArticles: IArticle[] = [
     title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sed sapien tempor, mollis est tempus, tincidunt enim.",
     image: "https://www.rankone.com/content/Images/hero-bg.jpg",
     user: {
-      name: "T",
+      firstname: "Harold",
+      lastname: "Painless"
     },
     date: "October 14, 2023",
     tags: ["#car", "#mechanic"]
@@ -26,7 +28,8 @@ export const mockArticles: IArticle[] = [
     title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sed sapien tempor, mollis est tempus, tincidunt enim.",
     image: "https://www.rankone.com/content/Images/hero-bg.jpg",
     user: {
-      name: "S",
+      firstname: "Harold",
+      lastname: "Painless"
     },
     date: "December 7, 2023",
     tags: [ "#technique", "#mechanic", "football"]

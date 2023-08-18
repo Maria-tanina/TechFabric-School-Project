@@ -13,6 +13,8 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { FC } from "react";
 import { IArticleProps } from "./types";
+import { Link } from "react-router-dom";
+import { HOME_PATH } from "@constants/paths";
 
 export const Article: FC<IArticleProps> = ({
   article
@@ -20,41 +22,61 @@ export const Article: FC<IArticleProps> = ({
   const {title, image, user, date, tags} = article;
 
   return (
-    <StyledArticleCard>
-      <CardMedia
-        component="img"
-        height="300"
-        image={image}
-        alt="Sport news"
-      />
+    <article>
+      <StyledArticleCard>
+        <Link to={HOME_PATH}>
+          <CardMedia
+            component="img"
+            height="300"
+            image={image}
+            alt="Sport news"
+          />
+        </Link>
 
-      <StyledCardContent>
-        <StyledCardHeader
-          avatar={<StyledAvatar aria-label="sport">{user.name}</StyledAvatar>}
-          title="User avatar"
-          subheader={date}
-        />
+        <StyledCardContent>
+          <StyledCardHeader
+            avatar={
+              <StyledAvatar>
+                <Link to={HOME_PATH}>
+                  {user.firstname.slice(0, 1)}
+                </Link>
+              </StyledAvatar>
+            }
+            title={
+              <Link to={HOME_PATH}>
+                {user.firstname + " " + user.lastname}
+              </Link>
+            }
+            subheader={date}
+          />
 
-        <StyledCardTitle>
-          {title}
-        </StyledCardTitle>
+          <StyledCardTitle>
+            <Link to={HOME_PATH}>
+              {title}
+            </Link>
+          </StyledCardTitle>
 
-        <StyledTagsWrapper>
-          <StyledTags>
-            {tags.map(tag => <span>{tag}</span>)}
-          </StyledTags>
-          <StyledTags>
-            <span>Add to favorites</span>
+          <StyledTagsWrapper>
+            <StyledTags>
+              {tags.map((tag, i) =>
+                <Link to={HOME_PATH} key={i}>
+                  {tag}
+                </Link>
+              )}
+            </StyledTags>
+            <StyledTags>
+              <span>Add to favorites</span>
 
-            <StyledIconButton aria-label="like" disableRipple>
-              <FavoriteBorderIcon className="favorite-border-icon" />
+              <StyledIconButton aria-label="like" disableRipple>
+                <FavoriteBorderIcon className="favorite-border-icon" />
 
-              <FavoriteIcon className="favorite-icon" />
-            </StyledIconButton>
-          </StyledTags>
-        </StyledTagsWrapper>
-      </StyledCardContent>
-    </StyledArticleCard>
+                <FavoriteIcon className="favorite-icon" />
+              </StyledIconButton>
+            </StyledTags>
+          </StyledTagsWrapper>
+        </StyledCardContent>
+      </StyledArticleCard>
+    </article>
   );
 };
 

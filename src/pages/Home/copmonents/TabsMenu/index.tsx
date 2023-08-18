@@ -1,7 +1,8 @@
 import { GhostButton } from "@components/GhostButton";
 import { NavLink } from "react-router-dom";
-import { HOME_PATH } from "@constants/paths";
-import CustomSelect from "@components/Select";
+import CustomSelect from "../CustomSelect";
+import { filterTabs } from "./filterMenuConfig";
+import { FilterTabsWrapper } from "./style";
 
 const TabsMenu = () => {
   return (
@@ -13,46 +14,20 @@ const TabsMenu = () => {
         alignItems: "center",
       }}
     >
-      <div style={{ display: "flex", gap: "12px" }}>
-        <GhostButton $width="140px">
+      <FilterTabsWrapper>
+        {filterTabs.map(filter => <GhostButton $width="140px">
           <NavLink
-            to={HOME_PATH}
+            to={filter.link}
             style={({ isActive }) => {
               return {
                 fontWeight: isActive ? 800 : 500,
               };
             }}
           >
-            Last Articles
+            {filter.value}
           </NavLink>
-        </GhostButton>
-
-        <GhostButton $width="140px">
-          <NavLink
-            to="/path"
-            style={({ isActive }) => {
-              return {
-                fontWeight: isActive ? 800 : 500,
-              };
-            }}
-          >
-            Top Rated
-          </NavLink>
-        </GhostButton>
-
-        <GhostButton $width="140px">
-          <NavLink
-            to="/path"
-            style={({ isActive }) => {
-              return {
-                fontWeight: isActive ? 800 : 500,
-              };
-            }}
-          >
-            All Posts
-          </NavLink>
-        </GhostButton>
-      </div>
+        </GhostButton>)}
+      </FilterTabsWrapper>
 
       <CustomSelect />
     </div>

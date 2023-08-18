@@ -2,10 +2,10 @@ import { FormControl, IconButton, MenuItem } from "@mui/material";
 import EastIcon from '@mui/icons-material/East';
 import SouthIcon from '@mui/icons-material/South';
 import { useState } from "react";
-import { StyledSelect } from "../Select/style";
+import { StyledLabel, StyledSelect } from "./style";
 
 const CustomSelect = () => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   const handleOpen = () => {
     setOpen(true);
@@ -17,8 +17,9 @@ const CustomSelect = () => {
 
   return (
     <FormControl>
+      <StyledLabel>Sort by theme</StyledLabel>
       <StyledSelect
-        disableUnderline
+        labelId="select-label"
         open={open}
         onOpen={handleOpen}
         onClose={handleClose}
@@ -30,9 +31,8 @@ const CustomSelect = () => {
           </IconButton>
         )}
       >
-
-        <MenuItem value={2}>Option 1</MenuItem>
-        <MenuItem value={3}>Option 2</MenuItem>
+        <MenuItem value="Theme 1">Theme 1</MenuItem>
+        <MenuItem value="Theme 2">Theme 2</MenuItem>
       </StyledSelect>
     </FormControl>
   );

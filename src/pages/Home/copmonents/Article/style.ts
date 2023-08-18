@@ -63,6 +63,14 @@ export const StyledAvatar = styled(Avatar)(
     width: 44px;
     height: 44px;
     background-color: ${colors.main};
+    
+    a {
+      flex-grow: 1;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 `
 );
