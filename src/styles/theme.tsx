@@ -6,6 +6,7 @@ const theme: IThemeTypes = {
     black: "#060606",
     white: "#FFFFFF",
     error: "#EA0000",
+    lightOrange: "#FFF3EB",
     graphite: "#242424",
     lightGray: "#F5F5F5",
     gray: "#676767",

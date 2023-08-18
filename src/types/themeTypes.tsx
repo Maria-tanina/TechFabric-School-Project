@@ -4,6 +4,7 @@ interface IThemeTypes {
     black: string;
     white: string;
     error: string;
+    lightOrange: string;
     graphite: string;
     lightGray: string;
     gray: string;
