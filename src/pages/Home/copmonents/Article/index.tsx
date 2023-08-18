@@ -15,6 +15,7 @@ import { FC } from "react";
 import { IArticleProps } from "./types";
 import { Link } from "react-router-dom";
 import { HOME_PATH } from "@constants/paths";
+import { nanoid } from "@reduxjs/toolkit";
 
 export const Article: FC<IArticleProps> = ({
   article
@@ -58,8 +59,8 @@ export const Article: FC<IArticleProps> = ({
 
           <StyledTagsWrapper>
             <StyledTags>
-              {tags.map((tag, i) =>
-                <Link to={HOME_PATH} key={i}>
+              {tags.map(tag =>
+                <Link to={HOME_PATH} key={nanoid()}>
                   {tag}
                 </Link>
               )}

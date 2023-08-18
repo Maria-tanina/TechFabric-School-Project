@@ -4,6 +4,7 @@ import { StyledTopAuthorAvatar, StyledTopAuthorName } from "./style";
 import { StyledSidebarHeader } from "../SidebarHeader";
 import { Link } from "react-router-dom";
 import { HOME_PATH } from "@constants/paths";
+import { nanoid } from "@reduxjs/toolkit";
 
 export const TopAuthors = () => {
   return(
@@ -12,9 +13,9 @@ export const TopAuthors = () => {
         Top <span>Authors</span>
       </StyledSidebarHeader>
 
-      {mockAuthors.map((author, i) =>
+      {mockAuthors.map(author =>
         <StyledTopAuthorName
-          key={i}
+          key={nanoid()}
           avatar={
             <StyledTopAuthorAvatar aria-label="sport">
               <Link to={HOME_PATH}>

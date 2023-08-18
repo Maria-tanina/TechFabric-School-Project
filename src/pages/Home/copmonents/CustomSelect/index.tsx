@@ -1,10 +1,13 @@
 import { FormControl, IconButton, MenuItem } from "@mui/material";
 import EastIcon from '@mui/icons-material/East';
 import SouthIcon from '@mui/icons-material/South';
-import { useState } from "react";
+import { FC, useState } from "react";
 import { StyledLabel, StyledSelect } from "./style";
+import { nanoid } from "@reduxjs/toolkit";
 
-const CustomSelect = () => {
+const CustomSelect: FC<{options: string[]}> = ({
+  options
+}) => {
   const [open, setOpen] = useState<boolean>(false);
 
   const handleOpen = () => {
@@ -31,8 +34,12 @@ const CustomSelect = () => {
           </IconButton>
         )}
       >
-        <MenuItem value="Theme 1">Theme 1</MenuItem>
-        <MenuItem value="Theme 2">Theme 2</MenuItem>
+
+        {options.map((option) => (
+          <MenuItem key={nanoid()} value={option}>
+            {option}
+          </MenuItem>
+        ))}
       </StyledSelect>
     </FormControl>
   );
