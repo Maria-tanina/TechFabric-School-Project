@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import {Link} from "react-router-dom";
-import {MenuItem} from "@mui/material";
+import { NavLink } from "react-router-dom";
+import { MenuItem } from "@mui/material";
 
 export const NavigateWrap = styled.nav`
   display: flex;
@@ -17,7 +17,7 @@ export const MenuList = styled.ul`
 `;
 
 export const MenuItemStyle = styled(MenuItem)(
-    ({theme: {colors}}) => `
+  ({ theme: { colors } }) => `
   &.MuiMenuItem-root {
     padding: 0;
     &:hover{
@@ -33,8 +33,8 @@ export const MenuItemStyle = styled(MenuItem)(
 `
 );
 
-export const MenuLink = styled(Link)(
-    ({theme: {colors, fontSizes}}) => `
+export const MenuLink = styled(NavLink)(
+  ({ theme: { colors, fontSizes } }) => `
   display: flex;
   color: ${colors.graphite};
   font-size: ${fontSizes.button};
@@ -54,7 +54,7 @@ export const MenuWrap = styled.div`
 `;
 
 export const MenuHeading = styled.h2(
-    ({theme: {colors, fontSizes}}) => `
+  ({ theme: { colors, fontSizes } }) => `
   color: ${colors.black};
   font-size: ${fontSizes.secondaryHeader};
   line-height: 36px;
