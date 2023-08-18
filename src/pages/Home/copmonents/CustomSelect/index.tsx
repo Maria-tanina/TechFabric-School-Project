@@ -1,6 +1,5 @@
 import { FormControl, IconButton, MenuItem } from "@mui/material";
 import EastIcon from '@mui/icons-material/East';
-import SouthIcon from '@mui/icons-material/South';
 import { FC, useState } from "react";
 import { StyledLabel, StyledSelect } from "./style";
 import { nanoid } from "@reduxjs/toolkit";
@@ -30,7 +29,7 @@ const CustomSelect: FC<{options: string[]}> = ({
           <IconButton
             onClick={handleOpen}
           >
-            {open ? <SouthIcon/> : <EastIcon />}
+            <EastIcon />
           </IconButton>
         )}
       >

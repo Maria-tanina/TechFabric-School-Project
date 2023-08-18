@@ -1,9 +1,7 @@
 import CardMedia from "@mui/material/CardMedia";
 import {
   StyledArticleCard,
-  StyledAvatar,
   StyledCardContent,
-  StyledCardHeader,
   StyledCardTitle,
   StyledIconButton,
   StyledTags,
@@ -16,6 +14,7 @@ import { IArticleProps } from "./types";
 import { Link } from "react-router-dom";
 import { HOME_PATH } from "@constants/paths";
 import { nanoid } from "@reduxjs/toolkit";
+import ProfileInfo from "@components/ProfileInfo";
 
 export const Article: FC<IArticleProps> = ({
   article
@@ -35,20 +34,9 @@ export const Article: FC<IArticleProps> = ({
         </Link>
 
         <StyledCardContent>
-          <StyledCardHeader
-            avatar={
-              <StyledAvatar>
-                <Link to={HOME_PATH}>
-                  {user.firstname.slice(0, 1)}
-                </Link>
-              </StyledAvatar>
-            }
-            title={
-              <Link to={HOME_PATH}>
-                {user.firstname + " " + user.lastname}
-              </Link>
-            }
-            subheader={date}
+          <ProfileInfo
+            userName={user.firstName + " " + user.lastName}
+            subtitle={date}
           />
 
           <StyledCardTitle>

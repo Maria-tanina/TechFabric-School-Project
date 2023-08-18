@@ -10,6 +10,7 @@ export const StyledSelect = styled(Select)<SelectProps>(
     
     svg {
       fill: ${open ? colors.black : colors.gray};
+      transform: ${ open ? "rotate(90deg)" : ""} !important;
     }
     
     &:hover {
@@ -20,6 +21,7 @@ export const StyledSelect = styled(Select)<SelectProps>(
         fill: ${colors.main};
       }
     }
+   
     
    .MuiButtonBase-root {
      &:hover {

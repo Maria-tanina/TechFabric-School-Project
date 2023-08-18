@@ -1,8 +1,6 @@
 import styled from "styled-components";
 import Typography from "@mui/material/Typography";
 import CardContent from "@mui/material/CardContent";
-import CardHeader from "@mui/material/CardHeader";
-import Avatar from "@mui/material/Avatar";
 import { IconButton } from "@mui/material";
 import Card from "@mui/material/Card";
 
@@ -20,7 +18,7 @@ export const StyledCardTitle = styled(Typography)(
     font-size: ${fontSizes.cardHeader};
     font-weight: 700;
     line-height: 48px;
-    margin-bottom: 12px;
+    margin: 20px 0 12px;
     transition: all 0.4s ease-in-out;
     &:hover {
       color: ${colors.main};
@@ -37,40 +35,6 @@ export const StyledCardContent = styled(CardContent)(
     border-right: 2px solid ${colors.strokeGray};
     border-bottom: 2px solid ${colors.strokeGray};
     border-left: 2px solid ${colors.strokeGray};
-  }
-`
-);
-
-export const StyledCardHeader = styled(CardHeader)`
-  &.MuiCardHeader-root {
-    padding: 0;
-    margin-bottom: 20px;
-
-    .MuiTypography-root {
-      line-height: 24px;
-      font-size: 16px;
-    }
-
-    .MuiCardHeader-title {
-      font-weight: 700;
-    }
-  }
-`;
-
-export const StyledAvatar = styled(Avatar)(
-  ({ theme: { colors } }) => `
-  &.MuiAvatar-root {
-    width: 44px;
-    height: 44px;
-    background-color: ${colors.main};
-    
-    a {
-      flex-grow: 1;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
   }
 `
 );
