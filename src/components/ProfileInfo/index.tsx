@@ -4,17 +4,22 @@ import {
   ProfileInfoWrapper,
   UserName,
   UserRole,
-} from "@components/ProfileInfo/style";
+} from "./style";
+import { FC } from "react";
+import { IProfileInfo } from "./types";
 
-export const ProfileInfo = () => {
+export const ProfileInfo: FC<IProfileInfo> = ({
+  userName,
+  subtitle
+}) => {
   return (
     <ProfileInfoWrapper>
       <ProfileInfoAvatar>
-        <AvatarFirstNameLetter>H</AvatarFirstNameLetter>
+        <AvatarFirstNameLetter>{userName.slice(0, 1)}</AvatarFirstNameLetter>
       </ProfileInfoAvatar>
       <div>
-        <UserName>Harold Painless</UserName>
-        <UserRole>Admin</UserRole>
+        <UserName>{userName}</UserName>
+        <UserRole>{subtitle}</UserRole>
       </div>
     </ProfileInfoWrapper>
   );

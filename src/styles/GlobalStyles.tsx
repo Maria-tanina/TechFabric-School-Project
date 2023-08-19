@@ -73,6 +73,7 @@ const GlobalStyles = createGlobalStyle(
       padding: ${paddings.inputPadding};
       color: ${colors.black};
       height: 44px;
+      transition: all 0.3s;
 
       &:hover {
         border-color: ${colors.gray};

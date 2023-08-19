@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import SignUp from "@pages/SignUp";
 import {
   FORGOT_PASSWORD_PATH,
+  HOME_PATH,
   LOGIN_PATH,
   PASSWORD_RECOVERY_PATH,
   REGISTRATION_CONFIRM_PATH,
@@ -15,13 +16,16 @@ import { Login } from "@pages/Login";
 import { ForgotPassword } from "@pages/ForgotPassword";
 import { PasswordRecovery } from "@pages/PasswordRecovery";
 import NotFound from "@pages/NotFound";
-import RequireAuth from "@components/RequireAuth";
+import RequireAuth from "../RequireAuth";
+import HomePage from "@pages/Home";
 
 const App = () => {
   return (
     <div>
       <Layout>
         <Routes>
+          <Route path={HOME_PATH} element={<HomePage />} />
+
           <Route path={LOGIN_PATH} element={<Login />} />
 
           <Route path={SIGNUP_PATH} element={<SignUp />} />
