@@ -31,3 +31,5 @@ export const TWITTER_PATH = "/";
 export const FORGOT_PASSWORD_PATH = "/forgot-password";
 
 export const PASSWORD_RECOVERY_PATH = "/recovery-password";
+
+export const ADMIN_USER_LIST_PATH = "/user-list";
