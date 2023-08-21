@@ -35,7 +35,7 @@ export const authApi = createApi({
         body,
         credentials: "include"
       }),
-      invalidatesTags: ['UNAUTHORIZED']
+      invalidatesTags:(result) => result ? ['UNAUTHORIZED'] : []
     }),
     getUsersInfo: build.query<IUserInfo, void>({
       query: () => "/api/users/info",
