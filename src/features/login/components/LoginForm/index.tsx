@@ -26,7 +26,6 @@ export const LoginForm = () => {
 
   const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
 
-
   const { set } = LSService();
 
   const dispatch = useAppDispatch();
@@ -113,7 +112,7 @@ export const LoginForm = () => {
       </StyledLoginForm>
 
       <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
         open={isSnackbarOpen}
         onClose={handleCloseSnackbar}
         autoHideDuration={4000}
