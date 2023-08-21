@@ -25,6 +25,7 @@ const CustomSelect: FC<{options: string[]}> = ({
         open={open}
         onOpen={handleOpen}
         onClose={handleClose}
+        defaultValue=""
         IconComponent={() => (
           <IconButton
             onClick={handleOpen}
