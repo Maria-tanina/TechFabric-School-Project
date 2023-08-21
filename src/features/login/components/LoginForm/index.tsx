@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import { InputWithController } from "@components/Input";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
@@ -15,14 +15,17 @@ import { LSService } from "@services/localStorage";
 import { useAppDispatch } from "../../../../store";
 import { setIsLogin } from "@features/user/usersSlice";
 import { isErrorWithMessage, isFetchBaseQueryError } from "@helpers/errorHandlers";
-import { Alert, CircularProgress } from "@mui/material";
+import { Alert, CircularProgress, Snackbar } from "@mui/material";
 
 export const LoginForm = () => {
-  const [errorMessage, setErrorMessage] = useState<string>("");
-
-  const [login, {isLoading: isLoginLoading, isError: isLoginError}] = useLoginMutation();
+  const [login, {isLoading: isLoginLoading}] = useLoginMutation();
 
   const {data} = useGetUsersInfoQuery();
+
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
+  const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
+
 
   const { set } = LSService();
 
@@ -47,8 +50,17 @@ export const LoginForm = () => {
     }
   }, [formState.isSubmitSuccessful, reset]);
 
+  const handleCloseSnackbar = (event?: SyntheticEvent | Event, reason?: string) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setIsSnackbarOpen(false);
+  };
+
   const onSubmit = async (loginData: ILoginData) => {
     try {
+      setIsSnackbarOpen(false);
       const {accessToken, refreshToken} = await login(loginData).unwrap();
       set("token", accessToken);
       set("refreshToken", refreshToken);
@@ -56,6 +68,7 @@ export const LoginForm = () => {
       dispatch(setIsLogin(true));
       navigate(HOME_PATH);
     } catch(err) {
+      setIsSnackbarOpen(true);
       if (isFetchBaseQueryError(err)) {
         const errMsg =  JSON.stringify(err.data);
         setErrorMessage(errMsg);
@@ -67,41 +80,48 @@ export const LoginForm = () => {
 
   return (
     <>
-    <StyledLoginForm onSubmit={handleSubmit(onSubmit)}>
-      <InputWithController
-        control={control}
-        name="email"
-        inputType="email"
-        label="Enter the e-mail..."
-        autocomplete="new-email"
-        icon={<EmailOutlinedIcon />}
-      />
+      <StyledLoginForm onSubmit={handleSubmit(onSubmit)}>
+        <InputWithController
+          control={control}
+          name="email"
+          inputType="email"
+          label="Enter the e-mail..."
+          autocomplete="new-email"
+          icon={<EmailOutlinedIcon />}
+        />
 
-      <InputWithController
-        control={control}
-        name="password"
-        inputType="password"
-        label="Enter the password..."
-        autocomplete="password"
-        icon={<VpnKeyOutlinedIcon />}
-      />
+        <InputWithController
+          control={control}
+          name="password"
+          inputType="password"
+          label="Enter the password..."
+          autocomplete="password"
+          icon={<VpnKeyOutlinedIcon />}
+        />
 
-      <StyledUnderlineText>
-        <Link to={FORGOT_PASSWORD_PATH}>Forgot Your Password?</Link>
-      </StyledUnderlineText>
+        <StyledUnderlineText>
+          <Link to={FORGOT_PASSWORD_PATH}>Forgot Your Password?</Link>
+        </StyledUnderlineText>
 
-      <OutlinedButton
-        type="submit"
-        variant="contained"
-        disabled={!formState.isValid || isLoginLoading}
+        <OutlinedButton
+          type="submit"
+          variant="contained"
+          disabled={!formState.isValid || isLoginLoading}
+        >
+          {isLoginLoading ? <CircularProgress size="30px" /> : "Log In"}
+        </OutlinedButton>
+      </StyledLoginForm>
+
+      <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        open={isSnackbarOpen}
+        onClose={handleCloseSnackbar}
+        autoHideDuration={4000}
       >
-        {isLoginLoading ? <CircularProgress size="30px" /> : "Log In"}
-      </OutlinedButton>
-    </StyledLoginForm>
-
-      {isLoginError ?<Alert severity="error" sx={{ width: '100%', position: "absolute", top: 0, right: 0 }}>
-        {errorMessage}
-      </Alert> : null}
+        <Alert severity="error" onClose={handleCloseSnackbar}>
+          {errorMessage || "Some error occurred..."}
+        </Alert>
+      </Snackbar>
     </>
   );
 };
