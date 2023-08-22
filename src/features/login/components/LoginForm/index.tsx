@@ -92,7 +92,10 @@ export const LoginForm = () => {
           variant="contained"
           disabled={!formState.isValid || isLoginLoading}
         >
-          {isLoginLoading ? <CircularProgress size="30px" /> : "Log In"}
+          {isLoginLoading ?
+            <CircularProgress size={20} color="inherit" />
+            : "Log In"
+          }
         </OutlinedButton>
       </StyledLoginForm>
 

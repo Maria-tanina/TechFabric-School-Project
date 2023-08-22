@@ -5,7 +5,7 @@ import { LSService } from "@services/localStorage";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 const serverUrl = process.env.REACT_APP_API_URL;
-const { set } = LSService();
+const { set, get } = LSService();
 
 interface IGetTokenResponse {
   accessToken: string;
@@ -16,6 +16,13 @@ export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
     baseUrl: serverUrl,
+    prepareHeaders: (headers) => {
+      const token = get('token');
+      if (token) {
+        headers.set('Authorization', `Bearer ${token}`);
+      }
+      return headers;
+    },
   }),
   tagTypes: ['UNAUTHORIZED'],
   endpoints: (build) => ({
@@ -36,7 +43,7 @@ export const authApi = createApi({
 
         const {accessToken, refreshToken} = loginData;
 
-        set("token", accessToken);
+        set("accessToken", accessToken);
 
         set("refreshToken", refreshToken);
 
@@ -54,7 +61,7 @@ export const authApi = createApi({
           return { data: userInfoResponse.data as IUserInfo }
         }
       },
-      invalidatesTags: ["UNAUTHORIZED"],
+      invalidatesTags:(result) => result ? ['UNAUTHORIZED'] : []
     }),
 
     getUsersInfo: build.query<IUserInfo, void>({
