@@ -28,8 +28,9 @@ export const authApi = createApi({
           credentials: "include",
         });
 
-        if (loginResponse.error)
-          return { error: loginResponse.error as FetchBaseQueryError }
+        if (loginResponse.error) {
+          return { error: loginResponse.error.data as FetchBaseQueryError }
+        }
 
         const loginData = loginResponse.data as IGetTokenResponse;
 
@@ -47,9 +48,11 @@ export const authApi = createApi({
           },
         });
 
-        return userInfoResponse.data
-          ? { data: userInfoResponse.data as IUserInfo }
-          : { error: userInfoResponse.error as FetchBaseQueryError }
+        if (userInfoResponse.error) {
+          return {error: userInfoResponse.error.data as FetchBaseQueryError }
+        } else {
+          return { data: userInfoResponse.data as IUserInfo }
+        }
       },
       invalidatesTags: ["UNAUTHORIZED"],
     }),
