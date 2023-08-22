@@ -11,18 +11,17 @@ interface IGetTokenResponse {
   refreshToken: string;
 }
 
+const { set } = LSService();
+
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
     baseUrl: serverUrl,
     prepareHeaders: (headers) => {
-
       const token = get('token');
-
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
       }
-
       return headers;
     },
   }),
@@ -35,8 +34,18 @@ export const authApi = createApi({
         body,
         credentials: "include"
       }),
-      invalidatesTags:(result) => result ? ['UNAUTHORIZED'] : []
+      onQueryStarted: async (args, { queryFulfilled }) => {
+        try {
+          const { data } = await queryFulfilled;
+          set("token", data.accessToken);
+          set("refreshToken", data.refreshToken);
+        } catch (err) {
+
+        }
+      },
+      invalidatesTags: ['UNAUTHORIZED']
     }),
+
     getUsersInfo: build.query<IUserInfo, void>({
       query: () => "/api/users/info",
       providesTags: ["UNAUTHORIZED"]

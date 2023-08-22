@@ -11,7 +11,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { FORGOT_PASSWORD_PATH, HOME_PATH } from "@constants/paths";
 import { useGetUsersInfoQuery, useLoginMutation } from "@services/authApi";
 import { ILoginData } from "@customTypes/authTypes";
-import { LSService } from "@services/localStorage";
 import { useAppDispatch } from "../../../../store";
 import { setIsLogin } from "@features/user/usersSlice";
 import { isErrorWithMessage, isFetchBaseQueryError } from "@helpers/errorHandlers";
@@ -20,13 +19,11 @@ import { Alert, CircularProgress, Snackbar } from "@mui/material";
 export const LoginForm = () => {
   const [login, {isLoading: isLoginLoading}] = useLoginMutation();
 
-  const {data} = useGetUsersInfoQuery();
+  const {data: userInfo} = useGetUsersInfoQuery();
 
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
-
-  const { set } = LSService();
 
   const dispatch = useAppDispatch();
 
@@ -60,10 +57,8 @@ export const LoginForm = () => {
   const onSubmit = async (loginData: ILoginData) => {
     try {
       setIsSnackbarOpen(false);
-      const {accessToken, refreshToken} = await login(loginData).unwrap();
-      set("token", accessToken);
-      set("refreshToken", refreshToken);
-      console.log(data);
+      await login(loginData);
+      console.log(userInfo);
       dispatch(setIsLogin(true));
       navigate(HOME_PATH);
     } catch(err) {
