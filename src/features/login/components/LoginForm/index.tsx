@@ -9,19 +9,15 @@ import { StyledLoginForm, StyledUnderlineText } from "./style";
 import { OutlinedButton } from "@components/OutlinedButton";
 import { Link, useNavigate } from "react-router-dom";
 import { FORGOT_PASSWORD_PATH, HOME_PATH } from "@constants/paths";
-import { useGetUsersInfoQuery, useLoginMutation } from "@services/authApi";
+import { useLoginMutation } from "@services/authApi";
 import { ILoginData } from "@customTypes/authTypes";
 import { useAppDispatch } from "../../../../store";
-import { setIsLogin } from "@features/user/usersSlice";
-import { isErrorWithMessage, isFetchBaseQueryError } from "@helpers/errorHandlers";
+import { setIsLogin, setUserInfo } from "@features/user/usersSlice";
+import { getErrorMessage } from "@helpers/errorHandlers";
 import { Alert, CircularProgress, Snackbar } from "@mui/material";
 
 export const LoginForm = () => {
-  const [login, {isLoading: isLoginLoading}] = useLoginMutation();
-
-  const {data: userInfo} = useGetUsersInfoQuery();
-
-  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [login, {isLoading: isLoginLoading, error}] = useLoginMutation();
 
   const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
 
@@ -57,18 +53,12 @@ export const LoginForm = () => {
   const onSubmit = async (loginData: ILoginData) => {
     try {
       setIsSnackbarOpen(false);
-      await login(loginData);
-      console.log(userInfo);
+      const userInfo = await login(loginData).unwrap();
+      dispatch(setUserInfo(userInfo));
       dispatch(setIsLogin(true));
       navigate(HOME_PATH);
     } catch(err) {
       setIsSnackbarOpen(true);
-      if (isFetchBaseQueryError(err)) {
-        const errMsg =  JSON.stringify(err.data);
-        setErrorMessage(errMsg);
-      } else if (isErrorWithMessage(err)) {
-        setErrorMessage(err.message);
-      }
     }
   };
 
@@ -113,7 +103,7 @@ export const LoginForm = () => {
         autoHideDuration={4000}
       >
         <Alert severity="error" onClose={handleCloseSnackbar}>
-          {errorMessage || "Some error occurred..."}
+          {getErrorMessage(error) || "Some error occurred..."}
         </Alert>
       </Snackbar>
     </>

@@ -1,4 +1,4 @@
-import { FetchBaseQueryError } from '@reduxjs/toolkit/query'
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 
 export function isFetchBaseQueryError(
   error: unknown
@@ -15,4 +15,12 @@ export function isErrorWithMessage(
     'message' in error &&
     typeof (error as any).message === 'string'
   )
+}
+
+export function getErrorMessage(error: unknown) {
+  if (isFetchBaseQueryError(error)) {
+    return   JSON.stringify(error.data);
+  } else if (isErrorWithMessage(error)) {
+    return error.message;
+  }
 }
