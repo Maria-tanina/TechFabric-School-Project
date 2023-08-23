@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
-export const StyledTag = styled.div(({ theme: { fontSizes } }) =>`
+export const StyledTag = styled.div(
+  ({ theme: { fontSizes } }) => `
   font-size: ${fontSizes.sidebarTag};
   font-weight: 600;
   line-height: 30px;
@@ -9,4 +10,5 @@ export const StyledTag = styled.div(({ theme: { fontSizes } }) =>`
   &:not(:last-child) {
     margin-bottom: 12px;
   }
-`);
+`
+);

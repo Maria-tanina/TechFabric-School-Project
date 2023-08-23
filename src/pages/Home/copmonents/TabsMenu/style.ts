@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
 export const FilterTabsWrapper = styled.div`
-  display: flex; 
+  display: flex;
   gap: 12px;
 `;
