@@ -1,10 +1,10 @@
-import { FormControl, IconButton, MenuItem } from "@mui/material";
+import { IconButton, MenuItem } from "@mui/material";
 import EastIcon from "@mui/icons-material/East";
 import { FC, useState } from "react";
-import { StyledLabel, StyledSelect } from "./style";
+import { StyledFormControl, StyledLabel, StyledOutlinedSelect } from "./style";
 import { nanoid } from "@reduxjs/toolkit";
 
-const CustomSelect: FC<{ options: string[]; label: string }> = ({
+const OutlinedSelect: FC<{ options: string[]; label: string }> = ({
   options,
   label,
 }) => {
@@ -19,9 +19,9 @@ const CustomSelect: FC<{ options: string[]; label: string }> = ({
   };
 
   return (
-    <FormControl>
+    <StyledFormControl>
       <StyledLabel id="select-label">{label}</StyledLabel>
-      <StyledSelect
+      <StyledOutlinedSelect
         labelId="select-label"
         open={open}
         onOpen={handleOpen}
@@ -33,14 +33,17 @@ const CustomSelect: FC<{ options: string[]; label: string }> = ({
           </IconButton>
         )}
       >
+        <MenuItem key={nanoid()} value="">
+          All
+        </MenuItem>
         {options.map((option) => (
           <MenuItem key={nanoid()} value={option}>
             {option}
           </MenuItem>
         ))}
-      </StyledSelect>
-    </FormControl>
+      </StyledOutlinedSelect>
+    </StyledFormControl>
   );
 };
 
-export default CustomSelect;
+export default OutlinedSelect;

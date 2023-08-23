@@ -1,0 +1,88 @@
+import { IUserInfo } from "@customTypes/authTypes";
+
+export const mockUsersList: IUserInfo[] = [
+  {
+    id: "13223d5g454",
+    firstName: "Johnny",
+    lastName: "Depp",
+    email: "depp@gmail.com",
+    userRole: "User",
+  },
+  {
+    id: "8322d3d33f",
+    firstName: "Brad",
+    lastName: "Pitt",
+    email: "bradpitt@gmail.com",
+    userRole: "User",
+  },
+  {
+    id: "13223d5g454",
+    firstName: "Johnny",
+    lastName: "Depp",
+    email: "depp@gmail.com",
+    userRole: "User",
+  },
+  {
+    id: "8322d3d33f",
+    firstName: "Brad",
+    lastName: "Pitt",
+    email: "bradpitt@gmail.com",
+    userRole: "User",
+  },
+  {
+    id: "13223d5g454",
+    firstName: "Johnny",
+    lastName: "Depp",
+    email: "depp@gmail.com",
+    userRole: "User",
+  },
+  {
+    id: "8322d3d33f",
+    firstName: "Brad",
+    lastName: "Pitt",
+    email: "bradpitt@gmail.com",
+    userRole: "User",
+  },
+  {
+    id: "13223d5g454",
+    firstName: "Johnny",
+    lastName: "Depp",
+    email: "depp@gmail.com",
+    userRole: "User",
+  },
+  {
+    id: "8322d3d33f",
+    firstName: "Brad",
+    lastName: "Pitt",
+    email: "bradpitt@gmail.com",
+    userRole: "User",
+  },
+  {
+    id: "8322d3d33f",
+    firstName: "Brad",
+    lastName: "Pitt",
+    email: "bradpitt@gmail.com",
+    userRole: "User",
+  },
+  {
+    id: "8322d3d33f",
+    firstName: "Brad",
+    lastName: "Pitt",
+    email: "bradpitt@gmail.com",
+    userRole: "User",
+  },
+  {
+    id: "8322d3d33f",
+    firstName: "Brad",
+    lastName: "Pitt",
+    email: "bradpitt@gmail.com",
+    userRole: "User",
+  },
+  {
+    id: "8322d3d33f",
+    firstName: "Brad",
+    lastName: "Pitt",
+    email: "bradpitt@gmail.com",
+    userRole: "User",
+  },
+];

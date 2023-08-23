@@ -96,6 +96,12 @@ const GlobalStyles = createGlobalStyle(
           border-color: ${colors.error};
         }
       }
+      
+     input:-webkit-autofill,
+     input:-webkit-autofill:hover, 
+     input:-webkit-autofill:focus {
+      -webkit-box-shadow: 0 0 0px 40rem #ffff inset;
+     }
     }
 
     .MuiFormHelperText-root.Mui-error {
@@ -120,6 +126,30 @@ const GlobalStyles = createGlobalStyle(
         color: ${colors.gray};
         opacity: 1;
       }
+    }
+  }
+  
+  .MuiPaper-root.MuiPaper-elevation {
+    box-shadow: none;
+    border-radius: 8px;
+    border: 2px solid ${colors.strokeGray};
+  }
+  
+  .MuiTable-root {
+    .MuiTableCell-root {
+      font-family: ${fonts.main};
+      font-size: 16px;
+      line-height: 23px;
+    }
+    
+    .MuiTableBody-root .MuiTableCell-root {
+      font-weight: 400;
+      color: ${colors.black};
+    }
+    
+    .MuiTableHead-root .MuiTableCell-root {
+      font-weight: 700;
+      color: ${colors.gray};
     }
   }
 `

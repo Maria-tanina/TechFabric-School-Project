@@ -34,7 +34,7 @@ const TabsMenu = () => {
         ))}
       </FilterTabsWrapper>
 
-      <CustomSelect options={options} />
+      <CustomSelect options={options} label="Sort by theme" />
     </div>
   );
 };

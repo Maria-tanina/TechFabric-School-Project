@@ -1,12 +1,11 @@
 import styled from "styled-components";
-import { InputLabel, Select, SelectProps } from "@mui/material";
+import { FormControl, InputLabel, Select, SelectProps } from "@mui/material";
 
-export const StyledSelect = styled(Select)<SelectProps>(
+export const StyledOutlinedSelect = styled(Select)<SelectProps>(
   ({ theme: { colors }, open }) => `
   &.MuiInputBase-root.MuiInputBase-formControl {
-    width: 180px;
     color: ${open ? colors.black : colors.gray};
-    border: 2px solid ${open ? colors.main : "transparent "};
+    border: 2px solid ${open ? colors.main : colors.strokeGray};
     
     svg {
       fill: ${open ? colors.black : colors.gray};
@@ -14,15 +13,12 @@ export const StyledSelect = styled(Select)<SelectProps>(
     }
     
     &:hover {
-      background-color: rgba(254, 222, 36, 0.1);
-      color: ${colors.main};
-      border: 2px solid ${colors.main};
+      border: 2px solid ${colors.gray};
       svg {
-        fill: ${colors.main};
+        fill: ${colors.gray};
       }
     }
    
-    
    .MuiButtonBase-root {
      &:hover {
         background-color: transparent;
@@ -40,3 +36,8 @@ export const StyledLabel = styled(InputLabel)(
   }
 `
 );
+
+export const StyledFormControl = styled(FormControl)`
+  max-width: 40%;
+  width: 100%;
+`;
