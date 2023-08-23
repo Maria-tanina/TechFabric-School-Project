@@ -7,16 +7,16 @@ import { HOME_PATH } from "@constants/paths";
 import { nanoid } from "@reduxjs/toolkit";
 
 export const TopTags = () => {
-  return(
+  return (
     <StyledSidebarCard>
-      <StyledSidebarHeader>Top <span>Tags</span></StyledSidebarHeader>
-      {mockTags.map(tag =>
-          <StyledTag key={nanoid()}>
-            <Link to={HOME_PATH}>
-              {tag}
-            </Link>
-          </StyledTag>
-       )}
+      <StyledSidebarHeader>
+        Top <span>Tags</span>
+      </StyledSidebarHeader>
+      {mockTags.map((tag) => (
+        <StyledTag key={nanoid()}>
+          <Link to={HOME_PATH}>{tag}</Link>
+        </StyledTag>
+      ))}
     </StyledSidebarCard>
-  )
-}
+  );
+};

@@ -1,8 +1,4 @@
-import {
-  ArticlesWithMenu,
-  HomePageWrapper,
-  RightSidebar,
-} from "./style";
+import { ArticlesWithMenu, HomePageWrapper, RightSidebar } from "./style";
 import TabsMenu from "./copmonents/TabsMenu";
 import ArticleList from "./copmonents/ArticleList";
 import { TopTags } from "./copmonents/TopTags";
@@ -12,16 +8,16 @@ import NavigationMenu from "@components/NavigationMenu";
 const HomePage = () => {
   return (
     <HomePageWrapper>
-      <NavigationMenu/>
+      <NavigationMenu />
 
       <ArticlesWithMenu>
         <TabsMenu />
-        <ArticleList/>
+        <ArticleList />
       </ArticlesWithMenu>
 
       <RightSidebar>
-        <TopTags/>
-        <TopAuthors/>
+        <TopTags />
+        <TopAuthors />
       </RightSidebar>
     </HomePageWrapper>
   );

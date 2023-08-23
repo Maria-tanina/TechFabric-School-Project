@@ -3,11 +3,13 @@ import { mockArticles } from "./mockArticles";
 import { ArticlesWrapper } from "./style";
 
 export const ArticleList = () => {
-  return(
+  return (
     <ArticlesWrapper>
-      {mockArticles.map(article => <Article key={article.id} article={article}/>)}
+      {mockArticles.map((article) => (
+        <Article key={article.id} article={article} />
+      ))}
     </ArticlesWrapper>
-  )
-}
+  );
+};
 
 export default ArticleList;

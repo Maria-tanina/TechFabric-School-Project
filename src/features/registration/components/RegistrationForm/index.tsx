@@ -1,22 +1,28 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { IRegistrationFormValues } from "../../types";
-import { StyledRegistrationForm } from "./style";
+import { AlertStyle, StyledRegistrationForm } from "./style";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import { InputWithController } from "@components/Input";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
 import { SignUpButton } from "@components/SignUpButton";
 import registrationValidationSchema from "../../registrationValidationSchema";
+import { useSignupMutation } from "@services/authApi";
+import { CircularProgress, Snackbar } from "@mui/material";
+import { getErrorMessage } from "@helpers/errorHandlers";
+import { REGISTRATION_CONFIRM_PATH } from "@constants/paths";
+import { useNavigate } from "react-router-dom";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 const RegistrationForm = () => {
   const { control, handleSubmit, formState, reset } =
     useForm<IRegistrationFormValues>({
       defaultValues: {
-        name: "",
-        surname: "",
+        firstName: "",
+        lastName: "",
         email: "",
         password: "",
         repeatPassword: "",
@@ -25,21 +31,36 @@ const RegistrationForm = () => {
       resolver: yupResolver(registrationValidationSchema),
     });
 
+  const [signup, { isLoading, isError, isSuccess, error }] =
+    useSignupMutation();
+
+  const navigate = useNavigate();
+
+  const [isAlert, setIsAlert] = useState(true);
+
+
   useEffect(() => {
     if (formState.isSubmitSuccessful) {
       reset();
     }
   }, [formState.isSubmitSuccessful, reset]);
 
-  const onSubmit = (data: IRegistrationFormValues) => {
-    console.log(JSON.stringify(data));
+  useEffect(() => {
+    isSuccess && navigate(REGISTRATION_CONFIRM_PATH);
+  }, [isSuccess]);
+
+  const onSubmit = async (data: IRegistrationFormValues) => {
+    await signup(data);
+    setIsAlert(true);
   };
+
+  const errorMessage = isError ? getErrorMessage((error as FetchBaseQueryError).data) : '';
 
   return (
     <StyledRegistrationForm onSubmit={handleSubmit(onSubmit)}>
       <InputWithController
         control={control}
-        name="name"
+        name="firstName"
         inputType="text"
         label="Enter your name..."
         icon={<AccountCircleOutlinedIcon />}
@@ -47,7 +68,7 @@ const RegistrationForm = () => {
 
       <InputWithController
         control={control}
-        name="surname"
+        name="lastName"
         inputType="text"
         label="Enter your surname..."
         icon={<AccountCircleOutlinedIcon />}
@@ -86,8 +107,19 @@ const RegistrationForm = () => {
         startIcon={<MailOutlineIcon />}
         disabled={!formState.isValid}
       >
-        Sign up with Email
+        {isLoading ? (
+          <CircularProgress size={20} color="inherit" />
+        ) : (
+          "Sign up with Email"
+        )}
       </SignUpButton>
+      {isError && (
+        <Snackbar open={isAlert}>
+          <AlertStyle onClose={() => setIsAlert(false)} severity="error">
+            {errorMessage}
+          </AlertStyle>
+        </Snackbar>
+      )}
     </StyledRegistrationForm>
   );
 };
