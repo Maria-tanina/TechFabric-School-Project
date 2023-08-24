@@ -28,14 +28,14 @@ export const authApi = createApi({
         body: JSON.stringify(email),
       }),
     }),
-    verified: build.mutation<void,string | null>({
+    verified: build.mutation<void, string | null>({
       query: (token) => ({
         url: `/api/users/confirmation?verificationToken=${token}`,
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: '',
+        body: "",
       }),
     }),
   }),
@@ -44,5 +44,5 @@ export const authApi = createApi({
 export const {
   useSignupMutation,
   useResendEmailMutation,
-  useVerifiedMutation
+  useVerifiedMutation,
 } = authApi;
