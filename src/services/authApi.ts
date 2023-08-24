@@ -18,7 +18,31 @@ export const authApi = createApi({
         body: userData,
       }),
     }),
+    resendEmail: build.mutation<void, string>({
+      query: (email) => ({
+        url: "/api/users/registration-confirm",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(email),
+      }),
+    }),
+    verified: build.mutation<void,string | null>({
+      query: (token) => ({
+        url: `/api/users/confirmation?verificationToken=${token}`,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: '',
+      }),
+    }),
   }),
 });
 
-export const { useSignupMutation } = authApi;
+export const {
+  useSignupMutation,
+  useResendEmailMutation,
+  useVerifiedMutation
+} = authApi;

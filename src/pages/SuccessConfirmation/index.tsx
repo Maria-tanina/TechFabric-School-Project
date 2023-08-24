@@ -10,17 +10,23 @@ import { LOGIN_PATH } from "@constants/paths";
 import { MainHeader } from "@components/MainHeader";
 import { useEffect } from "react";
 import { LSService } from "@services/localStorage";
+import { useVerifiedMutation } from "@services/authApi";
 
 const SuccessConfirmation = () => {
+  const [mutateToken] = useVerifiedMutation();
+
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const token = queryParams.get("token");
   const storage = LSService();
 
   useEffect(() => {
-    storage.set("registrationToken", token);
-    console.log(queryParams);
+    storage.set("verificationToken", token);
   }, [token]);
+
+  useEffect(() => {
+    mutateToken(token);
+  }, []);
 
   return (
     <section>

@@ -16,6 +16,7 @@ import { getErrorMessage } from "@helpers/errorHandlers";
 import { REGISTRATION_CONFIRM_PATH } from "@constants/paths";
 import { useNavigate } from "react-router-dom";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import {LSService} from "@services/localStorage";
 
 const RegistrationForm = () => {
   const { control, handleSubmit, formState, reset } =
@@ -38,6 +39,7 @@ const RegistrationForm = () => {
 
   const [isAlert, setIsAlert] = useState(true);
 
+  const storage = LSService()
 
   useEffect(() => {
     if (formState.isSubmitSuccessful) {
@@ -51,6 +53,7 @@ const RegistrationForm = () => {
 
   const onSubmit = async (data: IRegistrationFormValues) => {
     await signup(data);
+    storage.set("email", data.email)
     setIsAlert(true);
   };
 
