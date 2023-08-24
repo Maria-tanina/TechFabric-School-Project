@@ -12,4 +12,5 @@ export const StyledUserListPaper = styled(Paper)`
   display: flex;
   flex-direction: column;
   gap: 34px;
+  min-height: 450px;
 `;

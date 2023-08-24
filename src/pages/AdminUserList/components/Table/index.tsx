@@ -3,19 +3,20 @@ import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { useAppSelector } from "../../../../store";
+import { useAppDispatch, useAppSelector } from "../../../../store";
 import { Column, Row } from "./types";
-import { ChangeEvent, useState } from "react";
-import { filteredUsersSelector } from "@features/user/usersSelecrots";
-import FindInPageOutlinedIcon from "@mui/icons-material/FindInPageOutlined";
+import { ChangeEvent } from "react";
+import { filterUsers } from "@features/user/usersFiltration";
 import {
-  StyledMessage,
   StyledTableBody,
   StyledTableContainer,
   StyledTablePaper,
-  StyledTypography,
 } from "./style";
 import { nanoid } from "@reduxjs/toolkit";
+import { Spinner } from "@components/Spinner";
+import { useGetUsersQuery } from "@services/authApi";
+import { TableFetchError, TableSearchError } from "../TableNotification/index";
+import { setPaginationPage, setRowsPerPage } from "@features/admin/adminSlice";
 
 const columns: readonly Column[] = [
   { id: "nickname", label: "Nickname", minWidth: 150 },
@@ -28,11 +29,19 @@ const columns: readonly Column[] = [
 ];
 
 const UsersTable = () => {
-  const [page, setPage] = useState(0);
+  const page = useAppSelector((state) => state.admin.paginationPage);
 
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const rowsPerPage = useAppSelector((state) => state.admin.rowsPerPage);
 
-  const filteredUsers = useAppSelector(filteredUsersSelector);
+  const dispatch = useAppDispatch();
+
+  const filterQuery = useAppSelector((state) => state.users.filterQuery);
+
+  const selectedRole = useAppSelector((state) => state.users.selectedRole);
+
+  const { data: users, isError, isLoading } = useGetUsersQuery();
+
+  const filteredUsers = filterUsers(filterQuery, selectedRole, users);
 
   const rows: Row[] = filteredUsers.map((user) => {
     return {
@@ -43,13 +52,21 @@ const UsersTable = () => {
   });
 
   const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
+    dispatch(setPaginationPage(newPage));
   };
 
   const handleChangeRowsPerPage = (event: ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
+    dispatch(setRowsPerPage(+event.target.value));
+    dispatch(setPaginationPage(0));
   };
+
+  if (isLoading) {
+    return <Spinner size={90} />;
+  }
+
+  if (isError) {
+    return <TableFetchError message="Something went wrong..." />;
+  }
 
   return (
     <StyledTablePaper>
@@ -93,12 +110,7 @@ const UsersTable = () => {
                   );
                 })
             ) : (
-              <StyledMessage>
-                <FindInPageOutlinedIcon />
-                <StyledTypography>
-                  No results. Please change your searching criteria
-                </StyledTypography>
-              </StyledMessage>
+              <TableSearchError message="No results. Please change your searching criteria" />
             )}
           </StyledTableBody>
         </Table>

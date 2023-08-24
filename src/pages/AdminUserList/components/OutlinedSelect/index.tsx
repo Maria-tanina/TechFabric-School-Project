@@ -9,6 +9,7 @@ interface IOutlinedSelectProps {
   label: string;
   onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
   value: string;
+  disabled?: boolean;
 }
 
 const OutlinedSelect: FC<IOutlinedSelectProps> = ({
@@ -16,11 +17,12 @@ const OutlinedSelect: FC<IOutlinedSelectProps> = ({
   label,
   onChange,
   value,
+  disabled,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
 
   const handleOpen = () => {
-    setOpen(true);
+    if (!disabled) setOpen(true);
   };
 
   const handleClose = () => {
@@ -38,6 +40,7 @@ const OutlinedSelect: FC<IOutlinedSelectProps> = ({
         onClose={handleClose}
         // @ts-ignore
         onChange={onChange}
+        disabled={disabled}
         IconComponent={() => (
           <IconButton onClick={handleOpen}>
             <EastIcon />

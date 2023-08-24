@@ -7,11 +7,21 @@ import { InputAdornment } from "@mui/material";
 import StyledFilterInput from "@components/FilterInput/style";
 import { roles } from "./roles";
 import { setFilterQuery, setSelectedRole } from "@features/user/usersSlice";
-import { useAppDispatch } from "../../../../store";
+import { useAppDispatch, useAppSelector } from "../../../../store";
+import {
+  selectGetUsersIsError,
+  selectGetUsersIsLoading,
+} from "@services/authApi";
+import { setPaginationPage } from "@features/admin/adminSlice";
 
 const SearchBar = () => {
   const [tempFilterQuery, setTempFilterQuery] = useState("");
+
   const [tempSelectedRole, setTempSelectedRole] = useState("");
+
+  const isUsersLoading = useAppSelector(selectGetUsersIsLoading);
+
+  const isError = useAppSelector(selectGetUsersIsError);
 
   const dispatch = useAppDispatch();
 
@@ -26,7 +36,10 @@ const SearchBar = () => {
   const handleSearchClick = () => {
     dispatch(setFilterQuery(tempFilterQuery));
     dispatch(setSelectedRole(tempSelectedRole));
+    dispatch(setPaginationPage(0));
   };
+
+  const isFieldsDisabled = isUsersLoading || isError;
 
   return (
     <div>
@@ -43,6 +56,7 @@ const SearchBar = () => {
                   <AccountCircleOutlinedIcon />
                 </InputAdornment>
               ),
+              disabled: isFieldsDisabled,
             }}
           />
 
@@ -51,10 +65,15 @@ const SearchBar = () => {
             options={roles}
             label="Role"
             onChange={handleRoleChange}
+            disabled={isFieldsDisabled}
           />
         </SearchBarFieldsWrapper>
 
-        <OutlinedButton $width="18%" onClick={handleSearchClick}>
+        <OutlinedButton
+          $width="18%"
+          onClick={handleSearchClick}
+          disabled={isFieldsDisabled}
+        >
           Search
         </OutlinedButton>
       </SearchBarWrapper>
