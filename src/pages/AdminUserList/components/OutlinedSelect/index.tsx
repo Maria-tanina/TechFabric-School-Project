@@ -1,12 +1,21 @@
 import { IconButton, MenuItem } from "@mui/material";
 import EastIcon from "@mui/icons-material/East";
-import { FC, useState } from "react";
+import { ChangeEvent, FC, useState } from "react";
 import { StyledFormControl, StyledLabel, StyledOutlinedSelect } from "./style";
 import { nanoid } from "@reduxjs/toolkit";
 
-const OutlinedSelect: FC<{ options: string[]; label: string }> = ({
+interface IOutlinedSelectProps {
+  options: string[];
+  label: string;
+  onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
+  value: string;
+}
+
+const OutlinedSelect: FC<IOutlinedSelectProps> = ({
   options,
   label,
+  onChange,
+  value,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
 
@@ -22,11 +31,13 @@ const OutlinedSelect: FC<{ options: string[]; label: string }> = ({
     <StyledFormControl>
       <StyledLabel id="select-label">{label}</StyledLabel>
       <StyledOutlinedSelect
+        value={value}
         labelId="select-label"
         open={open}
         onOpen={handleOpen}
         onClose={handleClose}
-        defaultValue=""
+        // @ts-ignore
+        onChange={onChange}
         IconComponent={() => (
           <IconButton onClick={handleOpen}>
             <EastIcon />

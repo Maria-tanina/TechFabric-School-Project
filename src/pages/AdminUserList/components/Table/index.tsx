@@ -1,15 +1,21 @@
-import * as React from "react";
-import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { nanoid } from "@reduxjs/toolkit";
 import { useAppSelector } from "../../../../store";
 import { Column, Row } from "./types";
+import { ChangeEvent, useState } from "react";
+import { filteredUsersSelector } from "@features/user/usersSelecrots";
+import FindInPageOutlinedIcon from "@mui/icons-material/FindInPageOutlined";
+import {
+  StyledMessage,
+  StyledTableBody,
+  StyledTableContainer,
+  StyledTablePaper,
+  StyledTypography,
+} from "./style";
+import { nanoid } from "@reduxjs/toolkit";
 
 const columns: readonly Column[] = [
   { id: "nickname", label: "Nickname", minWidth: 150 },
@@ -22,12 +28,13 @@ const columns: readonly Column[] = [
 ];
 
 const UsersTable = () => {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [page, setPage] = useState(0);
 
-  const usersList = useAppSelector((state) => state.users.usersList);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const rows: Row[] = usersList.map((user) => {
+  const filteredUsers = useAppSelector(filteredUsersSelector);
+
+  const rows: Row[] = filteredUsers.map((user) => {
     return {
       nickname: `${user.firstName} ${user.lastName}`,
       email: user.email,
@@ -39,17 +46,15 @@ const UsersTable = () => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleChangeRowsPerPage = (event: ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
 
   return (
-    <Paper sx={{ width: "100%" }}>
-      <TableContainer sx={{ minHeight: "620px" }}>
-        <Table aria-label="sticky table">
+    <StyledTablePaper>
+      <StyledTableContainer>
+        <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
               {columns.map((column) => (
@@ -63,26 +68,41 @@ const UsersTable = () => {
               ))}
             </TableRow>
           </TableHead>
-          <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((user) => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={nanoid()}>
-                    {columns.map((column) => {
-                      const value = user[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
-          </TableBody>
+
+          <StyledTableBody>
+            {rows.length ? (
+              rows
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((user) => {
+                  return (
+                    <TableRow
+                      hover
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={nanoid()}
+                    >
+                      {columns.map((column) => {
+                        const value = user[column.id];
+                        return (
+                          <TableCell key={column.id} align={column.align}>
+                            {value}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  );
+                })
+            ) : (
+              <StyledMessage>
+                <FindInPageOutlinedIcon />
+                <StyledTypography>
+                  No results. Please change your searching criteria
+                </StyledTypography>
+              </StyledMessage>
+            )}
+          </StyledTableBody>
         </Table>
-      </TableContainer>
+      </StyledTableContainer>
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
@@ -92,7 +112,7 @@ const UsersTable = () => {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-    </Paper>
+    </StyledTablePaper>
   );
 };
 

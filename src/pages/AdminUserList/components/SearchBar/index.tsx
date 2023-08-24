@@ -6,12 +6,26 @@ import { OutlinedButton } from "@components/OutlinedButton";
 import { InputAdornment } from "@mui/material";
 import StyledFilterInput from "@components/FilterInput/style";
 import { roles } from "./roles";
+import { setFilterQuery, setSelectedRole } from "@features/user/usersSlice";
+import { useAppDispatch } from "../../../../store";
 
 const SearchBar = () => {
-  const [value, setValue] = useState<string>("");
+  const [tempFilterQuery, setTempFilterQuery] = useState("");
+  const [tempSelectedRole, setTempSelectedRole] = useState("");
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
+  const dispatch = useAppDispatch();
+
+  const handleQueryChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTempFilterQuery(e.target.value);
+  };
+
+  const handleRoleChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setTempSelectedRole(e.target.value);
+  };
+
+  const handleSearchClick = () => {
+    dispatch(setFilterQuery(tempFilterQuery));
+    dispatch(setSelectedRole(tempSelectedRole));
   };
 
   return (
@@ -20,8 +34,9 @@ const SearchBar = () => {
       <SearchBarWrapper>
         <SearchBarFieldsWrapper>
           <StyledFilterInput
-            value={value}
-            onChange={handleChange}
+            value={tempFilterQuery}
+            onChange={handleQueryChange}
+            placeholder="Enter the nickname or email..."
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -31,10 +46,17 @@ const SearchBar = () => {
             }}
           />
 
-          <OutlinedSelect options={roles} label="Role" />
+          <OutlinedSelect
+            value={tempSelectedRole}
+            options={roles}
+            label="Role"
+            onChange={handleRoleChange}
+          />
         </SearchBarFieldsWrapper>
 
-        <OutlinedButton $width="18%">Search</OutlinedButton>
+        <OutlinedButton $width="18%" onClick={handleSearchClick}>
+          Search
+        </OutlinedButton>
       </SearchBarWrapper>
     </div>
   );

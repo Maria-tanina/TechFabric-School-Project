@@ -6,6 +6,8 @@ import { mockUsersList } from "@features/user/mockUsersList";
 const initialState: IUsersSliceInitialState = {
   isLogin: false,
   usersList: mockUsersList,
+  filterQuery: "",
+  selectedRole: "",
 };
 
 const usersSlice = createSlice({
@@ -18,9 +20,16 @@ const usersSlice = createSlice({
     setUsersList: (state, action: PayloadAction<IUserInfo[]>) => {
       state.usersList = action.payload;
     },
+    setFilterQuery: (state, action: PayloadAction<string>) => {
+      state.filterQuery = action.payload;
+    },
+    setSelectedRole: (state, action: PayloadAction<string>) => {
+      state.selectedRole = action.payload;
+    },
   },
 });
 
-export const { setIsLogin, setUsersList } = usersSlice.actions;
+export const { setIsLogin, setUsersList, setFilterQuery, setSelectedRole } =
+  usersSlice.actions;
 
 export default usersSlice.reducer;
