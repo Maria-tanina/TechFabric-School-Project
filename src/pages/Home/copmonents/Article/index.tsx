@@ -16,10 +16,8 @@ import { HOME_PATH } from "@constants/paths";
 import { nanoid } from "@reduxjs/toolkit";
 import ProfileInfo from "@components/ProfileInfo";
 
-export const Article: FC<IArticleProps> = ({
-  article
-}) => {
-  const {title, image, user, date, tags} = article;
+export const Article: FC<IArticleProps> = ({ article }) => {
+  const { title, image, user, date, tags } = article;
 
   return (
     <article>
@@ -40,18 +38,16 @@ export const Article: FC<IArticleProps> = ({
           />
 
           <StyledCardTitle>
-            <Link to={HOME_PATH}>
-              {title}
-            </Link>
+            <Link to={HOME_PATH}>{title}</Link>
           </StyledCardTitle>
 
           <StyledTagsWrapper>
             <StyledTags>
-              {tags.map(tag =>
+              {tags.map((tag) => (
                 <Link to={HOME_PATH} key={nanoid()}>
                   {tag}
                 </Link>
-              )}
+              ))}
             </StyledTags>
             <StyledTags>
               <span>Add to favorites</span>

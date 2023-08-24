@@ -2,7 +2,8 @@ import styled from "styled-components";
 import CardHeader from "@mui/material/CardHeader";
 import Avatar from "@mui/material/Avatar";
 
-export const StyledTopAuthorName = styled(CardHeader)(({theme: {colors}}) =>`
+export const StyledTopAuthorName = styled(CardHeader)(
+  ({ theme: { colors } }) => `
   &.MuiCardHeader-root {
     padding: 0;
     
@@ -17,7 +18,8 @@ export const StyledTopAuthorName = styled(CardHeader)(({theme: {colors}}) =>`
       color: ${colors.black}
     }
   }
-`);
+`
+);
 
 export const StyledTopAuthorAvatar = styled(Avatar)(
   ({ theme: { colors } }) => `
