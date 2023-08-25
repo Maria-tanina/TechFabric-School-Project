@@ -105,7 +105,11 @@ const UsersTable = () => {
                       {columns.map((column) => {
                         const value = user[column.id];
                         return (
-                          <TableCell key={column.id} align={column.align} height="56px">
+                          <TableCell
+                            key={column.id}
+                            align={column.align}
+                            height="56px"
+                          >
                             {column.id === "role" ? (
                               <TableSelect
                                 options={roles}

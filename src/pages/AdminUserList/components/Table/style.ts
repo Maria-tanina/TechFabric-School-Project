@@ -14,7 +14,7 @@ export const StyledTableContainer = styled(TableContainer)`
 
 export const StyledTableBody = styled(TableBody)`
   position: relative;
-  
+
   .MuiTableCell-root {
     padding: 6px 16px;
   }
