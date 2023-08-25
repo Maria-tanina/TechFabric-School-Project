@@ -5,7 +5,7 @@ import OutlinedSelect from "../../../../components/OutlinedSelect";
 import { OutlinedButton } from "@components/OutlinedButton";
 import { InputAdornment } from "@mui/material";
 import StyledFilterInput from "@components/FilterInput/style";
-import { roles } from "./roles";
+import { roles } from "@constants/roles";
 import { setFilterQuery, setSelectedRole } from "@features/user/usersSlice";
 import { useAppDispatch, useAppSelector } from "../../../../store";
 import {

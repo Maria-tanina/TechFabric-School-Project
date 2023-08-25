@@ -17,7 +17,7 @@ import { Spinner } from "@components/Spinner";
 import { useGetUsersQuery } from "@services/authApi";
 import { TableFetchError, TableSearchError } from "../TableNotification/index";
 import { setPaginationPage, setRowsPerPage } from "@features/admin/adminSlice";
-import { roles } from "../SearchBar/roles";
+import { roles } from "@constants/roles";
 import TableSelect from "@components/TableSelect";
 
 const columns: readonly Column[] = [
@@ -105,7 +105,7 @@ const UsersTable = () => {
                       {columns.map((column) => {
                         const value = user[column.id];
                         return (
-                          <TableCell key={column.id} align={column.align}>
+                          <TableCell key={column.id} align={column.align} height="56px">
                             {column.id === "role" ? (
                               <TableSelect
                                 options={roles}
