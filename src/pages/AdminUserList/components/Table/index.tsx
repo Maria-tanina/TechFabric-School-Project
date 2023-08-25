@@ -56,7 +56,7 @@ const UsersTable = () => {
   };
 
   const handleChangeRowsPerPage = (event: ChangeEvent<HTMLInputElement>) => {
-    dispatch(setRowsPerPage(+event.target.value));
+    dispatch(setRowsPerPage(parseInt(event.target.value, 10)));
     dispatch(setPaginationPage(0));
   };
 

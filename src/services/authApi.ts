@@ -32,11 +32,6 @@ export const { useGetUsersQuery } = authApi;
 
 export const selectGetUsersResult = authApi.endpoints?.getUsers.select();
 
-export const selectGetUsersError = createSelector(
-  selectGetUsersResult,
-  (queryResult) => queryResult.error
-);
-
 export const selectGetUsersIsError = createSelector(
   selectGetUsersResult,
   (queryResult) => queryResult.isError

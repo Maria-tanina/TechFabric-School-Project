@@ -2,6 +2,7 @@ import Layout from "@components/Layout";
 import { Route, Routes } from "react-router-dom";
 import SignUp from "@pages/SignUp";
 import {
+  ADMIN_USER_LIST_PATH,
   FORGOT_PASSWORD_PATH,
   HOME_PATH,
   LOGIN_PATH,
@@ -19,6 +20,7 @@ import NotFound from "@pages/NotFound";
 import RequireAuth from "../RequireAuth";
 import HomePage from "@pages/Home";
 import { NotificationProvider } from "@hooks/useNotification";
+import AdminUserList from "@pages/AdminUserList";
 
 const App = () => {
   return (
@@ -50,6 +52,8 @@ const App = () => {
             />
 
             <Route path="*" element={<NotFound />} />
+
+            <Route path={ADMIN_USER_LIST_PATH} element={<AdminUserList/>}/>
 
             {/*protected routes*/}
             <Route element={<RequireAuth redirectTo={LOGIN_PATH} />}></Route>

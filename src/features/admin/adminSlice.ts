@@ -14,7 +14,7 @@ const adminSlice = createSlice({
       state.paginationPage = action.payload;
     },
     setRowsPerPage: (state, action: PayloadAction<number>) => {
-      state.paginationPage = action.payload;
+      state.rowsPerPage = action.payload;
     },
   },
 });
