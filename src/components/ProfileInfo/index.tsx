@@ -8,10 +8,7 @@ import {
 import { FC } from "react";
 import { IProfileInfo } from "./types";
 
-export const ProfileInfo: FC<IProfileInfo> = ({
-  userName,
-  subtitle
-}) => {
+export const ProfileInfo: FC<IProfileInfo> = ({ userName, subtitle }) => {
   return (
     <ProfileInfoWrapper>
       <ProfileInfoAvatar>

@@ -4,7 +4,7 @@ export const HomePageWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 40px;
+  gap: 20px;
 `;
 
 export const ArticlesWithMenu = styled.div`
@@ -12,10 +12,12 @@ export const ArticlesWithMenu = styled.div`
 `;
 
 export const RightSidebar = styled.div`
+  position: sticky;
+  top: 15px;
   max-width: 380px;
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 32px;
-  flex-shrink: 1;
+  flex-shrink: 2;
 `;

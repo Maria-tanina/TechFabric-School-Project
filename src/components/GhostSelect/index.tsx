@@ -1,12 +1,15 @@
 import { FormControl, IconButton, MenuItem } from "@mui/material";
-import EastIcon from '@mui/icons-material/East';
+import EastIcon from "@mui/icons-material/East";
 import { FC, useState } from "react";
-import { StyledLabel, StyledSelect } from "./style";
+import { StyledGhostSelect } from "./style";
 import { nanoid } from "@reduxjs/toolkit";
+import { StyledLabel } from "@components/Select";
 
-const CustomSelect: FC<{options: string[]}> = ({
-  options
-}) => {
+interface ISelectProps {
+  options: string[];
+}
+
+const GhostSelect: FC<ISelectProps> = ({ options }) => {
   const [open, setOpen] = useState<boolean>(false);
 
   const handleOpen = () => {
@@ -20,29 +23,29 @@ const CustomSelect: FC<{options: string[]}> = ({
   return (
     <FormControl>
       <StyledLabel>Sort by theme</StyledLabel>
-      <StyledSelect
+      <StyledGhostSelect
         labelId="select-label"
         open={open}
         onOpen={handleOpen}
         onClose={handleClose}
         defaultValue=""
         IconComponent={() => (
-          <IconButton
-            onClick={handleOpen}
-          >
+          <IconButton onClick={handleOpen}>
             <EastIcon />
           </IconButton>
         )}
       >
-
+        <MenuItem key={nanoid()} value="">
+          All
+        </MenuItem>
         {options.map((option) => (
           <MenuItem key={nanoid()} value={option}>
             {option}
           </MenuItem>
         ))}
-      </StyledSelect>
+      </StyledGhostSelect>
     </FormControl>
   );
 };
 
-export default CustomSelect;
+export default GhostSelect;
