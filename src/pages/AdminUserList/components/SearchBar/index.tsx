@@ -1,7 +1,7 @@
 import { MenuHeading, SearchBarFieldsWrapper, SearchBarWrapper } from "./style";
 import { ChangeEvent, useState } from "react";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import OutlinedSelect from "../OutlinedSelect";
+import OutlinedSelect from "../../../../components/OutlinedSelect";
 import { OutlinedButton } from "@components/OutlinedButton";
 import { InputAdornment } from "@mui/material";
 import StyledFilterInput from "@components/FilterInput/style";

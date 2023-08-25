@@ -1,29 +1,21 @@
 import styled from "styled-components";
-import { FormControl, InputLabel, Select, SelectProps } from "@mui/material";
+import { FormControl, InputLabel } from "@mui/material";
+import { CustomSelect } from "@components/Select";
 
-export const StyledOutlinedSelect = styled(Select)<SelectProps>(
+export const StyledOutlinedSelect = styled(CustomSelect)(
   ({ theme: { colors }, open }) => `
   &.MuiInputBase-root.MuiInputBase-formControl {
     color: ${open ? colors.black : colors.gray};
     border: 2px solid ${open ? colors.main : colors.strokeGray};
     
-    svg {
-      fill: ${open ? colors.black : colors.gray};
-      transform: ${open ? "rotate(90deg)" : ""};
-    }
-    
-    &:hover {
-      border: 2px solid ${colors.gray};
-      svg {
-        fill: ${colors.gray};
-      }
-    }
-   
-   .MuiButtonBase-root {
      &:hover {
-        background-color: transparent;
+      background-color: rgba(254, 222, 36, 0.1);
+      color: ${colors.main};
+      border: 2px solid transparent;
+      svg {
+        fill: ${colors.main};
       }
-   }
+    }
   }
 `
 );
