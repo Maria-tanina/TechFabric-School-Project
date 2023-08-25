@@ -9,8 +9,8 @@ export const GhostButton = styled(Button)<{ $width?: string }>(
     width: ${$width || "100%"};
     
     &:hover {
-      background-color: rgba(254, 222, 36, 0.1);
-      color: ${colors.main};
+      background-color: ${colors.main};
+      color: ${colors.white};
     }
   }
 `
