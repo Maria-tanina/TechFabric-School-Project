@@ -9,21 +9,30 @@ import { MainHeader } from "@components/MainHeader";
 import { useResendEmailMutation } from "@services/authApi";
 import { LSService } from "@services/localStorage";
 import { useEffect, useState } from "react";
+import { useNotification } from "@hooks/useNotification";
+import { getErrorMessage } from "@helpers/errorHandlers";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 const RegistrationConfirm = () => {
+  const [email, { isSuccess, isError, error }] = useResendEmailMutation();
   const storage = LSService();
-
   const emailString = storage.get("email") as string;
-
-  const [email] = useResendEmailMutation();
-
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const { showNotification } = useNotification();
+  const errorMessage =
+    getErrorMessage((error as FetchBaseQueryError)?.data) ||
+    "Some error occurred...";
 
   useEffect(() => {
     setTimeout(() => {
       setIsButtonDisabled(false);
     }, 30000);
   }, [isButtonDisabled]);
+
+  useEffect(() => {
+    isError && showNotification(errorMessage, "error");
+    isSuccess && showNotification("Message sent to you mail", "success");
+  }, [isSuccess, isError]);
 
   const onSubmit = () => {
     email(emailString);

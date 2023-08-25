@@ -11,14 +11,21 @@ import { MainHeader } from "@components/MainHeader";
 import { useEffect } from "react";
 import { LSService } from "@services/localStorage";
 import { useVerifiedMutation } from "@services/authApi";
+import { useNotification } from "@hooks/useNotification";
+import { getErrorMessage } from "@helpers/errorHandlers";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 const SuccessConfirmation = () => {
-  const [mutateToken] = useVerifiedMutation();
+  const [mutateToken, { isError, isSuccess, error }] = useVerifiedMutation();
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const token = queryParams.get("token");
   const storage = LSService();
+  const { showNotification } = useNotification();
+  const errorMessage =
+    getErrorMessage((error as FetchBaseQueryError)?.data) ||
+    "Some error occurred...";
 
   useEffect(() => {
     storage.set("verificationToken", token);
@@ -27,6 +34,11 @@ const SuccessConfirmation = () => {
   useEffect(() => {
     mutateToken(token);
   }, []);
+
+  useEffect(() => {
+    isSuccess && showNotification("Registration successful!", "success");
+    isError && showNotification(errorMessage, "error");
+  }, [isSuccess, isError]);
 
   return (
     <section>

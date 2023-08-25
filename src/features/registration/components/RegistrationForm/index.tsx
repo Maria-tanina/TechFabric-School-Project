@@ -1,22 +1,23 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { IRegistrationFormValues } from "../../types";
-import { AlertStyle, StyledRegistrationForm } from "./style";
+import { StyledRegistrationForm } from "./style";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import { InputWithController } from "@components/Input";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
 import { SignUpButton } from "@components/SignUpButton";
 import registrationValidationSchema from "../../registrationValidationSchema";
 import { useSignupMutation } from "@services/authApi";
-import { CircularProgress, Snackbar } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 import { getErrorMessage } from "@helpers/errorHandlers";
 import { REGISTRATION_CONFIRM_PATH } from "@constants/paths";
 import { useNavigate } from "react-router-dom";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { LSService } from "@services/localStorage";
+import { useNotification } from "@hooks/useNotification";
 
 const RegistrationForm = () => {
   const { control, handleSubmit, formState, reset } =
@@ -36,10 +37,11 @@ const RegistrationForm = () => {
     useSignupMutation();
 
   const navigate = useNavigate();
-
-  const [isAlert, setIsAlert] = useState(true);
-
   const storage = LSService();
+  const { showNotification } = useNotification();
+  const errorMessage =
+    getErrorMessage((error as FetchBaseQueryError)?.data) ||
+    "Some error occurred...";
 
   useEffect(() => {
     if (formState.isSubmitSuccessful) {
@@ -48,18 +50,14 @@ const RegistrationForm = () => {
   }, [formState.isSubmitSuccessful, reset]);
 
   useEffect(() => {
+    isError && showNotification(errorMessage, "error");
     isSuccess && navigate(REGISTRATION_CONFIRM_PATH);
-  }, [isSuccess]);
+  }, [isSuccess, isError]);
 
   const onSubmit = async (data: IRegistrationFormValues) => {
     await signup(data);
     storage.set("email", data.email);
-    setIsAlert(true);
   };
-
-  const errorMessage = isError
-    ? getErrorMessage((error as FetchBaseQueryError).data)
-    : "";
 
   return (
     <StyledRegistrationForm onSubmit={handleSubmit(onSubmit)}>
@@ -118,13 +116,6 @@ const RegistrationForm = () => {
           "Sign up with Email"
         )}
       </SignUpButton>
-      {isError && (
-        <Snackbar open={isAlert}>
-          <AlertStyle onClose={() => setIsAlert(false)} severity="error">
-            {errorMessage}
-          </AlertStyle>
-        </Snackbar>
-      )}
     </StyledRegistrationForm>
   );
 };
