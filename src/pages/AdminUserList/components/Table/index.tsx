@@ -51,6 +51,8 @@ const UsersTable = () => {
     };
   });
 
+  const isPaginationFieldsDisabled = rows.length === 0;
+
   const handleChangePage = (event: unknown, newPage: number) => {
     dispatch(setPaginationPage(newPage));
   };
@@ -123,6 +125,9 @@ const UsersTable = () => {
         page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
+        SelectProps={{
+          disabled: isPaginationFieldsDisabled
+        }}
       />
     </StyledTablePaper>
   );
