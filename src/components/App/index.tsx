@@ -18,7 +18,7 @@ import { PasswordRecovery } from "@pages/PasswordRecovery";
 import NotFound from "@pages/NotFound";
 import RequireAuth from "../RequireAuth";
 import HomePage from "@pages/Home";
-import {NotificationProvider} from "@hooks/useNotification";
+import { NotificationProvider } from "@hooks/useNotification";
 
 const App = () => {
   return (
