@@ -10,5 +10,5 @@ export interface IUserInfo {
   firstName: string;
   lastName: string;
   email: string;
-  userRole: Role
+  userRole: Role;
 }

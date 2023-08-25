@@ -8,7 +8,7 @@ const store = configureStore({
   reducer: {
     [usersApi.reducerPath]: usersApi.reducer,
     users: usersSlice,
-    [authApi.reducerPath]: authApi.reducer
+    [authApi.reducerPath]: authApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(usersApi.middleware, authApi.middleware),

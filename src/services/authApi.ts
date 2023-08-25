@@ -17,18 +17,18 @@ export const authApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: serverUrl,
     prepareHeaders: (headers) => {
-      const token = get('accessToken');
+      const token = get("accessToken");
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`);
+        headers.set("Authorization", `Bearer ${token}`);
       }
       return headers;
     },
   }),
-  tagTypes: ['UNAUTHORIZED'],
+  tagTypes: ["UNAUTHORIZED"],
   endpoints: (build) => ({
     login: build.mutation<IUserInfo, ILoginData>({
       queryFn: async (body, { getState }, extraOptions, fetchWithBQ) => {
-        const loginResponse = await fetchWithBQ( {
+        const loginResponse = await fetchWithBQ({
           url: "/api/token",
           method: "POST",
           body,
@@ -36,12 +36,12 @@ export const authApi = createApi({
         });
 
         if (loginResponse.error) {
-          return { error: loginResponse.error.data as FetchBaseQueryError }
+          return { error: loginResponse.error.data as FetchBaseQueryError };
         }
 
         const loginData = loginResponse.data as IGetTokenResponse;
 
-        const {accessToken, refreshToken} = loginData;
+        const { accessToken, refreshToken } = loginData;
 
         set("accessToken", accessToken);
 
@@ -56,19 +56,19 @@ export const authApi = createApi({
         });
 
         if (userInfoResponse.error) {
-          return {error: userInfoResponse.error.data as FetchBaseQueryError }
+          return { error: userInfoResponse.error.data as FetchBaseQueryError };
         } else {
-          return { data: userInfoResponse.data as IUserInfo }
+          return { data: userInfoResponse.data as IUserInfo };
         }
       },
-      invalidatesTags:(result) => result ? ['UNAUTHORIZED'] : []
+      invalidatesTags: (result) => (result ? ["UNAUTHORIZED"] : []),
     }),
 
     getUsersInfo: build.query<IUserInfo, void>({
       query: () => "/api/users/info",
-      providesTags: ["UNAUTHORIZED"]
+      providesTags: ["UNAUTHORIZED"],
     }),
   }),
-})
+});
 
-export const {useLoginMutation} = authApi;
+export const { useLoginMutation } = authApi;
