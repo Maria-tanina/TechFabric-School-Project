@@ -4,14 +4,14 @@ import { HOME_PATH } from "@constants/paths";
 export const filterTabs: TabsMenuItem[] = [
   {
     value: "Last Articles",
-    link: HOME_PATH
+    link: HOME_PATH,
   },
   {
     value: "Top Rated",
-    link: HOME_PATH
+    link: HOME_PATH,
   },
   {
     value: "All Posts",
-    link: HOME_PATH
+    link: HOME_PATH,
   },
-]
+];

@@ -5,5 +5,5 @@ export const mockTags: string[] = [
   "#mechanic",
   "#chevrolet",
   "#cars",
-  "#auto"
-]
+  "#auto",
+];

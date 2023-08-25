@@ -1,5 +1,5 @@
 export interface IArticleProps {
-  article: IArticle
+  article: IArticle;
 }
 
 export interface IArticle {
