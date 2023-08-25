@@ -8,8 +8,10 @@ import { OutlinedButton } from "@components/OutlinedButton";
 import { IForgotPasswordFormValues } from "../../types";
 import { StyledForm } from "@components/Form";
 import { useForgotPasswordMutation } from "@services/authApi";
-import { CircularProgress, Snackbar } from "@mui/material";
-import { AlertStyle } from "@features/forgotPassword/components/ForgotPasswordForm/style";
+import { CircularProgress } from "@mui/material";
+import { useNotification } from "@hooks/useNotification";
+import { getErrorMessage } from "@helpers/errorHandlers";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 export const ForgotPasswordForm = () => {
   const { control, handleSubmit, formState } =
@@ -23,23 +25,25 @@ export const ForgotPasswordForm = () => {
 
   const [email, { isLoading, isError, isSuccess, error }] =
     useForgotPasswordMutation();
-
-  const [isAlert, setIsAlert] = useState(true);
-
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const { showNotification } = useNotification();
+  const errorMessage =
+    getErrorMessage((error as FetchBaseQueryError)?.data) ||
+    "Some error occurred...";
 
   useEffect(() => {
-    if (formState.isSubmitSuccessful) {
+    if (isSuccess || isError) {
       setIsButtonDisabled(true);
       setTimeout(() => {
         setIsButtonDisabled(false);
       }, 30000);
     }
-  }, [formState.isSubmitSuccessful]);
+    isError && showNotification(errorMessage, "error");
+    isSuccess && showNotification("Check your email", "success");
+  }, [isSuccess, isError]);
 
   const onSubmit = async (data: IForgotPasswordFormValues) => {
     email(data);
-    setIsAlert(true);
   };
 
   return (
@@ -64,15 +68,6 @@ export const ForgotPasswordForm = () => {
           "Send me the instructions"
         )}
       </OutlinedButton>
-      {isError ||
-        (isSuccess && (
-          <Snackbar open={isAlert}>
-            <AlertStyle onClose={() => setIsAlert(false)} severity="error">
-              {isError && error}
-              {isSuccess && "OK"}
-            </AlertStyle>
-          </Snackbar>
-        ))}
     </StyledForm>
   );
 };

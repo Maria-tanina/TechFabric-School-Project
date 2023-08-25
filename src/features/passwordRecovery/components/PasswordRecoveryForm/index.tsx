@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { InputWithController } from "@components/Input";
 import { OutlinedButton } from "@components/OutlinedButton";
 import passwordRecoveryValidationSchema from "../../passwordRecoveryValidationSchema";
@@ -10,8 +10,10 @@ import { StyledForm } from "@components/Form";
 import { useRecoveryPasswordMutation } from "@services/authApi";
 import { useLocation } from "react-router-dom";
 import { LSService } from "@services/localStorage";
-import { CircularProgress, Snackbar } from "@mui/material";
-import { AlertStyle } from "@features/forgotPassword/components/ForgotPasswordForm/style";
+import { CircularProgress } from "@mui/material";
+import { useNotification } from "@hooks/useNotification";
+import { getErrorMessage } from "@helpers/errorHandlers";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 export const PasswordRecoveryForm = () => {
   const { control, handleSubmit, formState, reset } =
@@ -25,17 +27,17 @@ export const PasswordRecoveryForm = () => {
     });
 
   const location = useLocation();
-
   const queryParams = new URLSearchParams(location.search);
-
   const token = queryParams.get("token");
-
   const storage = LSService();
+  const { showNotification } = useNotification();
 
   const [passwords, { isLoading, isError, isSuccess, error }] =
     useRecoveryPasswordMutation();
 
-  const [isAlert, setIsAlert] = useState(true);
+  const errorMessage =
+    getErrorMessage((error as FetchBaseQueryError)?.data) ||
+    "Some error occurred...";
 
   useEffect(() => {
     storage.set("token", token);
@@ -47,9 +49,14 @@ export const PasswordRecoveryForm = () => {
     }
   }, [formState.isSubmitSuccessful, reset]);
 
+  useEffect(() => {
+    isError && showNotification(errorMessage, "error");
+    isSuccess &&
+      showNotification("Password was successfully changed", "success");
+  }, [isSuccess, isError]);
+
   const onSubmit = async (data: IPasswordRecoveryFormValues) => {
     await passwords({ passwords: data, token });
-    setIsAlert(true);
   };
 
   return (
@@ -83,15 +90,6 @@ export const PasswordRecoveryForm = () => {
           "Save this new password"
         )}
       </OutlinedButton>
-      {isError ||
-        (isSuccess && (
-          <Snackbar open={isAlert}>
-            <AlertStyle onClose={() => setIsAlert(false)} severity="error">
-              {isError && error}
-              {isSuccess && "OK"}
-            </AlertStyle>
-          </Snackbar>
-        ))}
     </StyledForm>
   );
 };
