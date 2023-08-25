@@ -13,13 +13,17 @@ export const StyledArticleCard = styled(Card)`
 `;
 
 export const StyledCardTitle = styled(Typography)(
-  ({ theme: { fontSizes, colors } }) => `
+  ({ theme: { fontSizes, colors, media } }) => `
   &.MuiTypography-root {
-    font-size: ${fontSizes.cardHeader};
+    font-size: 30px;
     font-weight: 700;
-    line-height: 48px;
+    line-height: 30px;
     margin: 20px 0 12px;
     transition: all 0.4s ease-in-out;
+    ${media.desktop}{
+        font-size: ${fontSizes.cardHeader};
+        line-height: 48px;
+    }
     &:hover {
       color: ${colors.main};
     }
