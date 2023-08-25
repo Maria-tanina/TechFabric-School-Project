@@ -2,7 +2,6 @@ import Layout from "@components/Layout";
 import { Route, Routes } from "react-router-dom";
 import SignUp from "@pages/SignUp";
 import {
-  ADMIN_USER_LIST_PATH,
   FORGOT_PASSWORD_PATH,
   HOME_PATH,
   LOGIN_PATH,
@@ -19,40 +18,43 @@ import { PasswordRecovery } from "@pages/PasswordRecovery";
 import NotFound from "@pages/NotFound";
 import RequireAuth from "../RequireAuth";
 import HomePage from "@pages/Home";
-import AdminUserList from "@pages/AdminUserList";
+import { NotificationProvider } from "@hooks/useNotification";
 
 const App = () => {
   return (
     <div>
       <Layout>
-        <Routes>
-          <Route path={HOME_PATH} element={<HomePage />} />
+        <NotificationProvider>
+          <Routes>
+            <Route path={HOME_PATH} element={<HomePage />} />
 
-          <Route path={LOGIN_PATH} element={<Login />} />
+            <Route path={LOGIN_PATH} element={<Login />} />
 
-          <Route path={SIGNUP_PATH} element={<SignUp />} />
+            <Route path={SIGNUP_PATH} element={<SignUp />} />
 
-          <Route
-            path={REGISTRATION_CONFIRM_PATH}
-            element={<RegistrationConfirm />}
-          />
+            <Route
+              path={REGISTRATION_CONFIRM_PATH}
+              element={<RegistrationConfirm />}
+            />
 
-          <Route
-            path={SUCCESS_CONFIRMATION_PATH}
-            element={<SuccessConfirmation />}
-          />
+            <Route
+              path={SUCCESS_CONFIRMATION_PATH}
+              element={<SuccessConfirmation />}
+            />
 
-          <Route path={FORGOT_PASSWORD_PATH} element={<ForgotPassword />} />
+            <Route path={FORGOT_PASSWORD_PATH} element={<ForgotPassword />} />
 
-          <Route path={PASSWORD_RECOVERY_PATH} element={<PasswordRecovery />} />
+            <Route
+              path={PASSWORD_RECOVERY_PATH}
+              element={<PasswordRecovery />}
+            />
 
-          <Route path="*" element={<NotFound />} />
+            <Route path="*" element={<NotFound />} />
 
-          <Route path={ADMIN_USER_LIST_PATH} element={<AdminUserList />} />
-
-          {/*protected routes*/}
-          <Route element={<RequireAuth redirectTo={LOGIN_PATH} />}></Route>
-        </Routes>
+            {/*protected routes*/}
+            <Route element={<RequireAuth redirectTo={LOGIN_PATH} />}></Route>
+          </Routes>
+        </NotificationProvider>
       </Layout>
     </div>
   );
