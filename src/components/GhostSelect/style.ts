@@ -11,9 +11,11 @@ export const StyledGhostSelect = styled(CustomSelect)<SelectProps>(
 `
 );
 
-export const StyledLabel = styled(InputLabel)(({theme: {colors}}) =>`
+export const StyledLabel = styled(InputLabel)(
+  ({ theme: { colors } }) => `
   &.MuiFormLabel-root.MuiInputLabel-root {
     color: ${colors.gray};
     top: -4px;
   }
-`)
+`
+);

@@ -18,21 +18,23 @@ const TabsMenu = () => {
       }}
     >
       <FilterTabsWrapper>
-        {filterTabs.map(filter=> <GhostButton $width="140px" key={nanoid()}>
-          <NavLink
-            to={filter.link}
-            style={({ isActive }) => {
-              return {
-                fontWeight: isActive ? 800 : 500,
-              };
-            }}
-          >
-            {filter.value}
-          </NavLink>
-        </GhostButton>)}
+        {filterTabs.map((filter) => (
+          <GhostButton $width="140px" key={nanoid()}>
+            <NavLink
+              to={filter.link}
+              style={({ isActive }) => {
+                return {
+                  fontWeight: isActive ? 800 : 500,
+                };
+              }}
+            >
+              {filter.value}
+            </NavLink>
+          </GhostButton>
+        ))}
       </FilterTabsWrapper>
 
-      <GhostSelect options={options}/>
+      <GhostSelect options={options} />
     </div>
   );
 };

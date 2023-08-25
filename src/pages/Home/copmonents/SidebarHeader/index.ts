@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
-export const StyledSidebarHeader = styled.h5(({theme: {colors}}) =>`
+export const StyledSidebarHeader = styled.h5(
+  ({ theme: { colors } }) => `
   font-size: 24px;
   font-weight: 700;
   line-height: 36px;
@@ -8,4 +9,5 @@ export const StyledSidebarHeader = styled.h5(({theme: {colors}}) =>`
   span {
     color: ${colors.main}
   }
-`);
+`
+);
