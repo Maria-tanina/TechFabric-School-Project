@@ -10,7 +10,7 @@ export const StyledSelect = styled(Select)<SelectProps>(
     
     svg {
       fill: ${open ? colors.black : colors.gray};
-      transform: ${ open ? "rotate(90deg)" : ""} !important;
+      transform: ${open ? "rotate(90deg)" : ""} !important;
     }
     
     &:hover {
@@ -32,9 +32,17 @@ export const StyledSelect = styled(Select)<SelectProps>(
 `
 );
 
-export const StyledLabel = styled(InputLabel)(({theme: {colors}}) =>`
+export const StyledLabel = styled(InputLabel)(
+  ({ theme: { colors, media } }) => `
   &.MuiFormLabel-root.MuiInputLabel-root {
     color: ${colors.gray};
     top: -4px;
+    font-size: 13px;
+    margin-top: 2px;
+    ${media.desktop} {
+        font-size: 15px;
+        margin-top: 0;
+    }
   }
-`)
+`
+);
