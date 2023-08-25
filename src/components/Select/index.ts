@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Select } from "@mui/material";
+import { InputLabel, Select } from "@mui/material";
 
 export const CustomSelect = styled(Select)(
   ({ theme: { colors }, open }) => `
@@ -11,7 +11,7 @@ export const CustomSelect = styled(Select)(
       transform: ${open ? "rotate(90deg)" : ""};
     }
     
-      &:hover {
+    &:hover {
       background-color: rgba(254, 222, 36, 0.1);
       color: ${colors.main};
       border: 2px solid ${colors.main};
@@ -25,6 +25,21 @@ export const CustomSelect = styled(Select)(
         background-color: transparent;
       }
    }
+  }
+`
+);
+
+export const StyledLabel = styled(InputLabel)(
+  ({ theme: { colors, media } }) => `
+  &.MuiFormLabel-root.MuiInputLabel-root {
+    color: ${colors.gray};
+    top: -4px;
+    font-size: 13px;
+    margin-top: 2px;
+    ${media.desktop} {
+        font-size: 15px;
+        margin-top: 0;
+    }
   }
 `
 );

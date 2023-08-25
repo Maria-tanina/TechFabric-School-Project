@@ -14,7 +14,7 @@ import {
 import { ListItemIcon } from "@mui/material";
 import { Role } from "./enums";
 
-const NavigationMenu = ({ currentRole = Role.Guest }) => {
+const NavigationMenu = ({ currentRole = Role.Admin }) => {
   return (
     <NavigateWrap>
       <MenuList>

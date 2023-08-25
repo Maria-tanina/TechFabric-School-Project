@@ -3,6 +3,8 @@ import { NavLink } from "react-router-dom";
 import { MenuItem } from "@mui/material";
 
 export const NavigateWrap = styled.nav`
+  position: sticky;
+  top: 15px;
   display: flex;
   flex-direction: column;
   align-items: start;
@@ -17,34 +19,47 @@ export const MenuList = styled.ul`
 `;
 
 export const MenuItemStyle = styled(MenuItem)(
-  ({ theme: { colors } }) => `
+  ({ theme: { colors, media } }) => `
   &.MuiMenuItem-root {
     padding: 0;
+    justify-content: center;
     &:hover{
-    background-color: ${colors.lightOrange};
+    border-radius: 5px;
+    background-color: ${colors.main};
     a,svg{
-        color:  ${colors.main};
+        color:  ${colors.white};
       }
     }
     span{
         color:  ${colors.white};
     }
+      .MuiListItemIcon-root{
+    min-width: fit-content;
+    ${media.desktop} {
+        min-width: 35px;
+    }
   }
+  }
+  
 `
 );
 
 export const MenuLink = styled(NavLink)(
-  ({ theme: { colors, fontSizes } }) => `
+  ({ theme: { colors, fontSizes, media } }) => `
   display: flex;
   color: ${colors.graphite};
-  font-size: ${fontSizes.button};
+  font-size: 0;
   line-height: 24px;
   font-weight: 500;
-  width: 100%;
+  width: auto;
   padding: 10px 12px;
   .MuiSvgIcon-root{
     color: ${colors.graphite};
     font-weight: 700;
+  }
+  ${media.desktop} {
+    font-size: ${fontSizes.button};
+    width: 100%;
   }
 `
 );
@@ -54,11 +69,17 @@ export const MenuWrap = styled.div`
 `;
 
 export const MenuHeading = styled.h2(
-  ({ theme: { colors, fontSizes } }) => `
+  ({ theme: { colors, fontSizes, media } }) => `
   color: ${colors.black};
-  font-size: ${fontSizes.secondaryHeader};
-  line-height: 36px;
+  font-size: 15px;
+  line-height: 20px;
   font-weight: 700;
   margin-bottom: 16px;
+  text-align:center;
+  ${media.desktop}{
+    font-size: ${fontSizes.secondaryHeader};
+    text-align:left;
+    line-height: 36px;
+  }
 `
 );

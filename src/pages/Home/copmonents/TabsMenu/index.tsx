@@ -19,7 +19,7 @@ const TabsMenu = () => {
     >
       <FilterTabsWrapper>
         {filterTabs.map((filter) => (
-          <GhostButton $width="140px" key={nanoid()}>
+          <GhostButton $width="110px" key={nanoid()}>
             <NavLink
               to={filter.link}
               style={({ isActive }) => {
