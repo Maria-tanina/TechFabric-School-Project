@@ -1,7 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle(
-  ({ theme: { fonts, colors, fontSizes, paddings } }) => `
+  ({ theme: { fonts, colors, fontSizes, paddings, media } }) => `
   * {
     margin: 0;
     padding: 0;
@@ -68,6 +68,7 @@ const GlobalStyles = createGlobalStyle(
     .MuiInputBase-root {
       font-family: ${fonts.main};
       font-weight: 500;
+      font-size: 15px;
       border: 2px solid ${colors.strokeGray};
       border-radius: 8px;
       padding: ${paddings.inputPadding};
@@ -138,8 +139,10 @@ const GlobalStyles = createGlobalStyle(
   .MuiTable-root {
     .MuiTableCell-root {
       font-family: ${fonts.main};
-      font-size: 16px;
-      line-height: 23px;
+      font-size: 14px;
+      ${media.desktop} {
+        font-size: 16px;
+    }
     }
     
     .MuiTableBody-root .MuiTableCell-root {

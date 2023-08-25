@@ -17,14 +17,16 @@ import { Spinner } from "@components/Spinner";
 import { useGetUsersQuery } from "@services/authApi";
 import { TableFetchError, TableSearchError } from "../TableNotification/index";
 import { setPaginationPage, setRowsPerPage } from "@features/admin/adminSlice";
+import { roles } from "../SearchBar/roles";
+import TableSelect from "@components/TableSelect";
 
 const columns: readonly Column[] = [
-  { id: "nickname", label: "Nickname", minWidth: 150 },
-  { id: "email", label: "Email", minWidth: 150 },
+  { id: "nickname", label: "Nickname", minWidth: 130 },
+  { id: "email", label: "Email", minWidth: 130 },
   {
     id: "role",
     label: "Role",
-    minWidth: 150,
+    minWidth: 260,
   },
 ];
 
@@ -104,7 +106,14 @@ const UsersTable = () => {
                         const value = user[column.id];
                         return (
                           <TableCell key={column.id} align={column.align}>
-                            {value}
+                            {column.id === "role" ? (
+                              <TableSelect
+                                options={roles}
+                                defaultValue={value}
+                              />
+                            ) : (
+                              value
+                            )}
                           </TableCell>
                         );
                       })}
@@ -126,7 +135,7 @@ const UsersTable = () => {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
         SelectProps={{
-          disabled: isPaginationFieldsDisabled
+          disabled: isPaginationFieldsDisabled,
         }}
       />
     </StyledTablePaper>

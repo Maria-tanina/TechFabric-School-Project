@@ -24,6 +24,7 @@ export const StyledLabel = styled(InputLabel)(
   ({ theme: { colors } }) => `
   &.MuiFormLabel-root.MuiInputLabel-root {
     color: ${colors.gray};
+    font-size: 15px;
     top: -4px;
   }
 `
