@@ -1,7 +1,7 @@
 import { FormControl, IconButton, MenuItem } from "@mui/material";
 import EastIcon from "@mui/icons-material/East";
 import { FC, useState } from "react";
-import { StyledLabel, StyledGhostSelect} from "./style";
+import { StyledLabel, StyledGhostSelect } from "./style";
 import { nanoid } from "@reduxjs/toolkit";
 
 interface ISelectProps {
@@ -34,6 +34,9 @@ const GhostSelect: FC<ISelectProps> = ({ options }) => {
           </IconButton>
         )}
       >
+        <MenuItem key={nanoid()} value="">
+          All
+        </MenuItem>
         {options.map((option) => (
           <MenuItem key={nanoid()} value={option}>
             {option}
