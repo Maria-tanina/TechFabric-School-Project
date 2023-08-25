@@ -4,6 +4,7 @@ import Paper from "@mui/material/Paper";
 export const AdminUserListWrapper = styled.div`
   display: flex;
   gap: 40px;
+  align-items: flex-start;
 `;
 
 export const StyledUserListPaper = styled(Paper)`
