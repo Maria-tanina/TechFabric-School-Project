@@ -19,7 +19,6 @@ import NotFound from "@pages/NotFound";
 import RequireAuth from "../RequireAuth";
 import HomePage from "@pages/Home";
 import { NotificationProvider } from "@hooks/useNotification";
-import LoggedIn from "@components/LoggedIn";
 
 const App = () => {
   return (
@@ -29,9 +28,7 @@ const App = () => {
           <Routes>
             <Route path={HOME_PATH} element={<HomePage />} />
 
-            <Route element={<LoggedIn redirectTo={HOME_PATH} />}>
-              <Route path={LOGIN_PATH} element={<Login />} />
-            </Route>
+            <Route path={LOGIN_PATH} element={<Login />} />
 
             <Route path={SIGNUP_PATH} element={<SignUp />} />
 
