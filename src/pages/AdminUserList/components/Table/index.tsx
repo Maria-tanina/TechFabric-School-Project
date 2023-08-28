@@ -1,12 +1,17 @@
+import { useAppDispatch, useAppSelector } from "../../../../store";
 import Table from "@mui/material/Table";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { useAppDispatch, useAppSelector } from "../../../../store";
-import { Column, Row } from "./types";
+import { Row } from "./types";
+import { columns } from "./columns";
 import { ChangeEvent } from "react";
-import { filterUsers } from "@features/user/usersFiltration";
+import {
+  selectPaginationPage,
+  selectRowsPerPage,
+  selectUsers,
+} from "@features/admin/adminSelectors";
 import {
   StyledTableBody,
   StyledTableContainer,
@@ -14,36 +19,22 @@ import {
 } from "./style";
 import { nanoid } from "@reduxjs/toolkit";
 import { Spinner } from "@components/Spinner";
-import { useGetUsersQuery } from "@services/authApi";
+import { useGetUsersQuery } from "@services/usersApi";
 import { TableFetchError, TableSearchError } from "../TableNotification/index";
 import { setPaginationPage, setRowsPerPage } from "@features/admin/adminSlice";
 import { roles } from "@constants/roles";
 import TableSelect from "@components/TableSelect";
 
-const columns: readonly Column[] = [
-  { id: "nickname", label: "Nickname", minWidth: 130 },
-  { id: "email", label: "Email", minWidth: 130 },
-  {
-    id: "role",
-    label: "Role",
-    minWidth: 260,
-  },
-];
-
 const UsersTable = () => {
-  const page = useAppSelector((state) => state.admin.paginationPage);
-
-  const rowsPerPage = useAppSelector((state) => state.admin.rowsPerPage);
-
   const dispatch = useAppDispatch();
 
-  const filterQuery = useAppSelector((state) => state.users.filterQuery);
+  const page = useAppSelector(selectPaginationPage);
 
-  const selectedRole = useAppSelector((state) => state.users.selectedRole);
+  const rowsPerPage = useAppSelector(selectRowsPerPage);
 
-  const { data: users, isError, isLoading } = useGetUsersQuery();
+  const { isError, isLoading } = useGetUsersQuery();
 
-  const filteredUsers = filterUsers(filterQuery, selectedRole, users);
+  const filteredUsers = useAppSelector(selectUsers);
 
   const rows: Row[] = filteredUsers.map((user) => {
     return {
@@ -54,6 +45,10 @@ const UsersTable = () => {
   });
 
   const isPaginationFieldsDisabled = rows.length === 0;
+
+  const startIndex = page * rowsPerPage;
+
+  const endIndex = page * rowsPerPage + rowsPerPage;
 
   const handleChangePage = (event: unknown, newPage: number) => {
     dispatch(setPaginationPage(newPage));
@@ -92,40 +87,30 @@ const UsersTable = () => {
 
           <StyledTableBody>
             {rows.length ? (
-              rows
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((user) => {
-                  return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      tabIndex={-1}
-                      key={nanoid()}
-                    >
-                      {columns.map((column) => {
-                        const value = user[column.id];
-                        return (
-                          <TableCell
-                            key={column.id}
-                            align={column.align}
-                            height="56px"
-                          >
-                            {column.id === "role" ? (
-                              <TableSelect
-                                options={roles}
-                                defaultValue={value}
-                              />
-                            ) : (
-                              value
-                            )}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  );
-                })
+              rows.slice(startIndex, endIndex).map((user) => {
+                return (
+                  <TableRow hover role="checkbox" tabIndex={-1} key={nanoid()}>
+                    {columns.map((column) => {
+                      const value = user[column.id];
+                      return (
+                        <TableCell
+                          key={column.id}
+                          align={column.align}
+                          height="56px"
+                        >
+                          {column.id === "role" ? (
+                            <TableSelect options={roles} defaultValue={value} />
+                          ) : (
+                            value
+                          )}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                );
+              })
             ) : (
-              <TableSearchError message="No results. Please change your searching criteria" />
+              <TableSearchError message="No results. Please change your searching criteria." />
             )}
           </StyledTableBody>
         </Table>
