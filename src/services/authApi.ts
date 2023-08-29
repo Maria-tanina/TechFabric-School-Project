@@ -69,6 +69,7 @@ export const authApi = createApi({
       query: () => "/api/users/info",
       providesTags: ["UNAUTHORIZED"],
     }),
+
     signup: build.mutation<void, IRegistrationFormValues>({
       query: (userData) => ({
         url: "/api/users/register",
@@ -76,6 +77,7 @@ export const authApi = createApi({
         body: userData,
       }),
     }),
+
     resendEmail: build.mutation<void, string>({
       query: (email) => ({
         url: "/api/users/registration-confirm",
@@ -86,6 +88,7 @@ export const authApi = createApi({
         body: JSON.stringify(email),
       }),
     }),
+
     verified: build.mutation<void, string | null>({
       query: (token) => ({
         url: `/api/users/confirmation?verificationToken=${token}`,
@@ -98,10 +101,9 @@ export const authApi = createApi({
   }),
 });
 
-
 export const {
   useSignupMutation,
   useResendEmailMutation,
   useVerifiedMutation,
-  useLoginMutation
+  useLoginMutation,
 } = authApi;
