@@ -27,12 +27,11 @@ export const selectUsers = createSelector(
       const fullName = `${user.firstName} ${user.lastName}`;
       const lowerFullName = fullName.toLowerCase();
       const lowerEmail = user.email.toLowerCase();
-      const userRole = user.userRole.toLowerCase();
+      const userRole = user.userRole;
 
       const nameMatch = lowerFullName.includes(searchQuery.toLowerCase());
       const emailMatch = lowerEmail.includes(searchQuery.toLowerCase());
-      const roleMatch =
-        selectedRole === "" || userRole === selectedRole.toLowerCase();
+      const roleMatch = selectedRole === "" || userRole === selectedRole;
 
       return (nameMatch || emailMatch) && roleMatch;
     });

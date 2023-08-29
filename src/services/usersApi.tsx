@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { IUserInfo } from "@customTypes/authTypes";
 import { createSelector } from "@reduxjs/toolkit";
 
-const serverUrl = process.env.REACT_APP_API_URL;
+const serverUrl = process.env.REACT_APP_DEV_API_URL;
 
 export const usersApi = createApi({
   reducerPath: "usersApi",

@@ -51,7 +51,7 @@ const OutlinedSelect: FC<IOutlinedSelectProps> = ({
           All
         </MenuItem>
         {options.map((option) => (
-          <MenuItem key={nanoid()} value={option}>
+          <MenuItem key={option} value={option}>
             {option}
           </MenuItem>
         ))}
