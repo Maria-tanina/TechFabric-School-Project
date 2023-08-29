@@ -1,3 +1,5 @@
+import { Role } from "@constants/roles";
+
 export interface ILoginData {
   email: string;
   password: string;
@@ -8,5 +10,5 @@ export interface IUserInfo {
   firstName: string;
   lastName: string;
   email: string;
-  userRole: string;
+  userRole: Role;
 }

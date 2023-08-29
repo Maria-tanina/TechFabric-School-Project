@@ -1,7 +1,9 @@
+import { Role } from "@constants/roles";
+
 export interface Row {
   nickname: string;
   email: string;
-  role: string;
+  role: Role;
 }
 export interface Column {
   id: keyof Row;
