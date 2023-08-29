@@ -12,6 +12,7 @@ import { CircularProgress } from "@mui/material";
 import { useNotification } from "@hooks/useNotification";
 import { getErrorMessage } from "@helpers/errorHandlers";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { BUTTON_DISABLE } from "@constants/timers";
 
 export const ForgotPasswordForm = () => {
   const { control, handleSubmit, formState } =
@@ -36,7 +37,7 @@ export const ForgotPasswordForm = () => {
       setIsButtonDisabled(true);
       setTimeout(() => {
         setIsButtonDisabled(false);
-      }, 30000);
+      }, BUTTON_DISABLE);
     }
     isError && showNotification(errorMessage, "error");
     isSuccess && showNotification("Check your email", "success");

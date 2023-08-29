@@ -104,7 +104,7 @@ export const authApi = createApi({
 
     recoveryPassword: build.mutation<
       void,
-      { passwords: IPasswordRecoveryFormValues; token: string | null }
+      { passwords: IPasswordRecoveryFormValues; token: string }
     >({
       query: (args) => ({
         url: `/api/users/recover-password?verificationToken=${args.token}`,

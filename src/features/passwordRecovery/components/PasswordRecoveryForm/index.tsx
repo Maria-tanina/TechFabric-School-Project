@@ -8,12 +8,13 @@ import { IPasswordRecoveryFormValues } from "../../types";
 import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
 import { StyledForm } from "@components/Form";
 import { useRecoveryPasswordMutation } from "@services/authApi";
-import { useLocation } from "react-router-dom";
-import { LSService } from "@services/localStorage";
+import { useNavigate } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
 import { useNotification } from "@hooks/useNotification";
 import { getErrorMessage } from "@helpers/errorHandlers";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { HOME_PATH } from "@constants/paths";
+import { useTokenFromUrlAndLocalStorage } from "@hooks/useToken";
 
 export const PasswordRecoveryForm = () => {
   const { control, handleSubmit, formState, reset } =
@@ -26,13 +27,11 @@ export const PasswordRecoveryForm = () => {
       resolver: yupResolver(passwordRecoveryValidationSchema),
     });
 
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const token = queryParams.get("token");
-  const storage = LSService();
+  const navigate = useNavigate();
+  const token = useTokenFromUrlAndLocalStorage();
   const { showNotification } = useNotification();
 
-  const [passwords, { isLoading, isError, isSuccess, error }] =
+  const [recoveryPassword, { isLoading, isError, isSuccess, error }] =
     useRecoveryPasswordMutation();
 
   const errorMessage =
@@ -40,23 +39,17 @@ export const PasswordRecoveryForm = () => {
     "Some error occurred...";
 
   useEffect(() => {
-    storage.set("token", token);
-  }, [token]);
-
-  useEffect(() => {
-    if (formState.isSubmitSuccessful) {
+    if (isSuccess) {
+      showNotification("Password was successfully changed", "success");
+      navigate(HOME_PATH);
+    } else if (isError) {
+      showNotification(errorMessage, "error");
       reset();
     }
-  }, [formState.isSubmitSuccessful, reset]);
-
-  useEffect(() => {
-    isError && showNotification(errorMessage, "error");
-    isSuccess &&
-      showNotification("Password was successfully changed", "success");
   }, [isSuccess, isError]);
 
   const onSubmit = async (data: IPasswordRecoveryFormValues) => {
-    await passwords({ passwords: data, token });
+    await recoveryPassword({ passwords: data, token });
   };
 
   return (
