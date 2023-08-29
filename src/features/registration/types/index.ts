@@ -3,8 +3,8 @@ import { Control } from "react-hook-form";
 import { InputProps } from "@mui/material";
 
 export interface IRegistrationFormValues {
-  name: string;
-  surname: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
   repeatPassword: string;

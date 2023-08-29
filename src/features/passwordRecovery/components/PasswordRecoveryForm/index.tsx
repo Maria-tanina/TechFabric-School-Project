@@ -7,6 +7,14 @@ import passwordRecoveryValidationSchema from "../../passwordRecoveryValidationSc
 import { IPasswordRecoveryFormValues } from "../../types";
 import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
 import { StyledForm } from "@components/Form";
+import { useRecoveryPasswordMutation } from "@services/authApi";
+import { useNavigate } from "react-router-dom";
+import { CircularProgress } from "@mui/material";
+import { useNotification } from "@hooks/useNotification";
+import { getErrorMessage } from "@helpers/errorHandlers";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { HOME_PATH } from "@constants/paths";
+import { useTokenFromUrlAndLocalStorage } from "@hooks/useToken";
 
 export const PasswordRecoveryForm = () => {
   const { control, handleSubmit, formState, reset } =
@@ -19,14 +27,29 @@ export const PasswordRecoveryForm = () => {
       resolver: yupResolver(passwordRecoveryValidationSchema),
     });
 
+  const navigate = useNavigate();
+  const token = useTokenFromUrlAndLocalStorage();
+  const { showNotification } = useNotification();
+
+  const [recoveryPassword, { isLoading, isError, isSuccess, error }] =
+    useRecoveryPasswordMutation();
+
+  const errorMessage =
+    getErrorMessage((error as FetchBaseQueryError)?.data) ||
+    "Some error occurred...";
+
   useEffect(() => {
-    if (formState.isSubmitSuccessful) {
+    if (isSuccess) {
+      showNotification("Password was successfully changed", "success");
+      navigate(HOME_PATH);
+    } else if (isError) {
+      showNotification(errorMessage, "error");
       reset();
     }
-  }, [formState.isSubmitSuccessful, reset]);
+  }, [isSuccess, isError]);
 
-  const onSubmit = (data: IPasswordRecoveryFormValues) => {
-    console.log(JSON.stringify(data));
+  const onSubmit = async (data: IPasswordRecoveryFormValues) => {
+    await recoveryPassword({ passwords: data, token });
   };
 
   return (
@@ -54,7 +77,11 @@ export const PasswordRecoveryForm = () => {
         variant="contained"
         disabled={!formState.isValid}
       >
-        Save this new password
+        {isLoading ? (
+          <CircularProgress size={20} color="inherit" />
+        ) : (
+          "Save this new password"
+        )}
       </OutlinedButton>
     </StyledForm>
   );

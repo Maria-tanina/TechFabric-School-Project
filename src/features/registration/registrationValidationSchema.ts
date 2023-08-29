@@ -2,14 +2,14 @@ import * as Yup from "yup";
 import { NAME_REGEX, PASSWORD_REGEX } from "@constants/regexp";
 
 const registrationValidationSchema = Yup.object().shape({
-  name: Yup.string()
+  firstName: Yup.string()
     .required("Name is required")
     .matches(
       NAME_REGEX,
       "Name should start with an uppercase letter and contain only letters"
     )
     .trim(),
-  surname: Yup.string()
+  lastName: Yup.string()
     .required("Surname is required")
     .matches(
       NAME_REGEX,
