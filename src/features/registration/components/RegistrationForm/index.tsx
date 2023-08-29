@@ -16,8 +16,9 @@ import { getErrorMessage } from "@helpers/errorHandlers";
 import { REGISTRATION_CONFIRM_PATH } from "@constants/paths";
 import { useNavigate } from "react-router-dom";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { LSService } from "@services/localStorage";
 import { useNotification } from "@hooks/useNotification";
+import { useDispatch } from "react-redux";
+import { setEmail } from "@features/user/usersSlice";
 
 const RegistrationForm = () => {
   const { control, handleSubmit, formState, reset } =
@@ -36,8 +37,8 @@ const RegistrationForm = () => {
   const [signup, { isLoading, isError, isSuccess, error }] =
     useSignupMutation();
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const storage = LSService();
   const { showNotification } = useNotification();
   const errorMessage =
     getErrorMessage((error as FetchBaseQueryError)?.data) ||
@@ -56,7 +57,7 @@ const RegistrationForm = () => {
 
   const onSubmit = async (data: IRegistrationFormValues) => {
     await signup(data);
-    storage.set("email", data.email);
+    dispatch(setEmail(data.email));
   };
 
   return (
