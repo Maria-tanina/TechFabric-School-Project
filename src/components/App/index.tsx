@@ -53,9 +53,11 @@ const App = () => {
 
             <Route path="*" element={<NotFound />} />
 
+            <Route path={ADMIN_USER_LIST_PATH} element={<AdminUserList />} />
+
             {/*protected routes*/}
             <Route element={<RequireAuth redirectTo={LOGIN_PATH} />}>
-              <Route path={ADMIN_USER_LIST_PATH} element={<AdminUserList />} />
+
             </Route>
           </Routes>
         </NotificationProvider>

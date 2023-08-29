@@ -31,7 +31,7 @@ const OutlinedSelect: FC<IOutlinedSelectProps> = ({
 
   return (
     <StyledFormControl>
-      <StyledLabel id="select-label">{label}</StyledLabel>
+      <StyledLabel id="select-label" value={value}>{label}</StyledLabel>
       <StyledOutlinedSelect
         value={value}
         labelId="select-label"

@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { FormControl, InputLabel } from "@mui/material";
+import { FormControl, InputLabel, InputLabelProps } from "@mui/material";
 import { CustomSelect } from "@components/Select";
 
 export const StyledOutlinedSelect = styled(CustomSelect)(
-  ({ theme: { colors }, open }) => `
+  ({ theme: { colors }, open}) => `
   &.MuiInputBase-root.MuiInputBase-formControl {
     color: ${open ? colors.black : colors.gray};
     border: 2px solid ${open ? colors.main : colors.strokeGray};
@@ -20,7 +20,11 @@ export const StyledOutlinedSelect = styled(CustomSelect)(
 `
 );
 
-export const StyledLabel = styled(InputLabel)(
+interface ILabelProps extends InputLabelProps {
+  value: string;
+}
+
+export const StyledLabel = styled(InputLabel)<ILabelProps>(
   ({ theme: { colors } }) => `
   &.MuiFormLabel-root.MuiInputLabel-root {
     color: ${colors.gray};
@@ -30,7 +34,12 @@ export const StyledLabel = styled(InputLabel)(
 `
 );
 
-export const StyledFormControl = styled(FormControl)`
+export const StyledFormControl = styled(FormControl)(({theme: {colors}}) => `
   max-width: 40%;
   width: 100%;
-`;
+  &:hover {
+    .MuiFormLabel-root.MuiInputLabel-root {
+      color: ${colors.main};
+    } 
+  }
+`);
