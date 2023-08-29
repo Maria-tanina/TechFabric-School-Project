@@ -1,45 +1,28 @@
 import styled from "styled-components";
-import { FormControl, InputLabel, InputLabelProps } from "@mui/material";
-import { CustomSelect } from "@components/Select";
+import {
+  CustomSelect,
+  StyledFormControl,
+  StyledLabel,
+} from "@components/Select";
 
 export const StyledOutlinedSelect = styled(CustomSelect)(
-  ({ theme: { colors }, open}) => `
+  ({ theme: { colors }, open, value }) => `
   &.MuiInputBase-root.MuiInputBase-formControl {
-    color: ${open ? colors.black : colors.gray};
-    border: 2px solid ${open ? colors.main : colors.strokeGray};
-    
-     &:hover {
-      background-color: rgba(254, 222, 36, 0.1);
-      color: ${colors.main};
-      border: 2px solid transparent;
-      svg {
-        fill: ${colors.main};
-      }
-    }
+    color: ${open || value ? colors.black : colors.gray};
+    border: 2px solid ${
+      open ? colors.main : value ? colors.black : colors.strokeGray
+    };
   }
 `
 );
 
-interface ILabelProps extends InputLabelProps {
-  value: string;
-}
-
-export const StyledLabel = styled(InputLabel)<ILabelProps>(
-  ({ theme: { colors } }) => `
+export const OutlinedLabel = styled(StyledLabel)`
   &.MuiFormLabel-root.MuiInputLabel-root {
-    color: ${colors.gray};
     font-size: 15px;
-    top: -4px;
   }
-`
-);
+`;
 
-export const StyledFormControl = styled(FormControl)(({theme: {colors}}) => `
+export const OutlinedFormControl = styled(StyledFormControl)`
   max-width: 40%;
   width: 100%;
-  &:hover {
-    .MuiFormLabel-root.MuiInputLabel-root {
-      color: ${colors.main};
-    } 
-  }
-`);
+`;

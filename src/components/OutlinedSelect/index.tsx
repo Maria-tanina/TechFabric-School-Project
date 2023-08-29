@@ -1,7 +1,11 @@
 import { IconButton, MenuItem } from "@mui/material";
 import EastIcon from "@mui/icons-material/East";
 import { ChangeEvent, FC, useState } from "react";
-import { StyledFormControl, StyledLabel, StyledOutlinedSelect } from "./style";
+import {
+  OutlinedFormControl,
+  OutlinedLabel,
+  StyledOutlinedSelect,
+} from "./style";
 import { nanoid } from "@reduxjs/toolkit";
 
 interface IOutlinedSelectProps {
@@ -30,8 +34,7 @@ const OutlinedSelect: FC<IOutlinedSelectProps> = ({
   };
 
   return (
-    <StyledFormControl>
-      <StyledLabel id="select-label" value={value}>{label}</StyledLabel>
+    <OutlinedFormControl>
       <StyledOutlinedSelect
         value={value}
         labelId="select-label"
@@ -56,7 +59,10 @@ const OutlinedSelect: FC<IOutlinedSelectProps> = ({
           </MenuItem>
         ))}
       </StyledOutlinedSelect>
-    </StyledFormControl>
+      <OutlinedLabel id="select-label" value={value}>
+        {label}
+      </OutlinedLabel>
+    </OutlinedFormControl>
   );
 };
 

@@ -56,9 +56,7 @@ const App = () => {
             <Route path={ADMIN_USER_LIST_PATH} element={<AdminUserList />} />
 
             {/*protected routes*/}
-            <Route element={<RequireAuth redirectTo={LOGIN_PATH} />}>
-
-            </Route>
+            <Route element={<RequireAuth redirectTo={LOGIN_PATH} />}></Route>
           </Routes>
         </NotificationProvider>
       </Layout>

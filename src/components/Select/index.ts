@@ -1,15 +1,24 @@
 import styled from "styled-components";
-import { InputLabel, Select } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  InputLabelProps,
+  Select,
+} from "@mui/material";
 
 export const CustomSelect = styled(Select)(
-  ({ theme: { colors }, open }) => `
+  ({ theme: { colors }, open, value }) => `
   &.MuiInputBase-root.MuiInputBase-formControl {
     color: ${open ? colors.black : colors.gray};
     
     svg {
-      fill: ${open ? colors.black : colors.gray};
+      fill: ${open || value ? colors.black : colors.gray};
       transform: ${open ? "rotate(90deg)" : ""};
     }
+    
+    &.Mui-focused + label {
+      display: none;
+     }
     
     &:hover {
       background-color: rgba(254, 222, 36, 0.1);
@@ -29,16 +38,40 @@ export const CustomSelect = styled(Select)(
 `
 );
 
-export const StyledLabel = styled(InputLabel)(
-  ({ theme: { colors, media } }) => `
+interface ILabelProps extends InputLabelProps {
+  value?: string;
+}
+
+export const StyledLabel = styled(InputLabel)<ILabelProps>(
+  ({ theme: { colors, media }, value }) => `
   &.MuiFormLabel-root.MuiInputLabel-root {
     color: ${colors.gray};
+    display: ${value ? "none" : "block"} ;
     top: -4px;
     font-size: 13px;
     margin-top: 2px;
     ${media.desktop} {
         font-size: 15px;
         margin-top: 0;
+    }
+  }
+`
+);
+
+export const StyledFormControl = styled(FormControl)(
+  ({ theme: { colors } }) => `
+  &:hover {
+    .MuiFormLabel-root.MuiInputLabel-root {
+      color: ${colors.main};
+    } 
+    
+    .MuiInputBase-root.MuiInputBase-formControl {
+       background-color: rgba(254, 222, 36, 0.1);
+      color: ${colors.main};
+      border: 2px solid transparent;
+      svg {
+        fill: ${colors.main};
+      }
     }
   }
 `
