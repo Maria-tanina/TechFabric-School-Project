@@ -2,8 +2,8 @@ import { ChangeEvent, ReactNode } from "react";
 import { Control } from "react-hook-form";
 
 export interface IRegistrationFormValues {
-  name: string;
-  surname: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
   repeatPassword: string;
