@@ -1,9 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IUsersSliceInitialState } from "@features/user/types";
+import { IUserInfo } from "@customTypes/authTypes";
 
 const initialState: IUsersSliceInitialState = {
   isLogin: false,
   email: "",
+  userInfo: null,
 };
 
 const usersSlice = createSlice({
@@ -16,9 +18,12 @@ const usersSlice = createSlice({
     setEmail: (state, action: PayloadAction<string>) => {
       state.email = action.payload;
     },
+    setUserInfo: (state, action: PayloadAction<IUserInfo>) => {
+      state.userInfo = action.payload;
+    },
   },
 });
 
-export const { setIsLogin, setEmail } = usersSlice.actions;
+export const { setIsLogin, setEmail, setUserInfo } = usersSlice.actions;
 
 export default usersSlice.reducer;
