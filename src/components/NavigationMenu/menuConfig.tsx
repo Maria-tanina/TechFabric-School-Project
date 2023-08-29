@@ -13,47 +13,49 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
-import { Role } from "./enums";
+import { Role } from "@constants/roles";
+
+const allRoles = [Role.Guest, Role.User, Role.Author, Role.SuperAdmin];
 
 export const mainMenu: IMenuItem[] = [
   {
     value: "Home Page",
     link: HOME_PATH,
     icon: <HomeOutlinedIcon />,
-    access: Role.Guest,
+    access: allRoles,
   },
   {
     value: "Tags",
     link: TAGS_PATH,
     icon: <TagOutlinedIcon />,
-    access: Role.Guest,
+    access: allRoles,
   },
   {
     value: "Favorites",
     link: FAVORITES_PATH,
     icon: <FavoriteBorderOutlinedIcon />,
-    access: Role.User,
+    access: [Role.User, Role.Author, Role.SuperAdmin],
   },
 ];
-export const adminMenu = [
+export const adminMenu: IMenuItem[] = [
   {
     value: "Users List",
     link: ADMIN_USER_LIST_PATH,
     icon: <FormatListBulletedIcon />,
-    access: Role.Admin,
+    access: [Role.SuperAdmin],
   },
 ];
-export const otherMenu = [
+export const otherMenu: IMenuItem[] = [
   {
     value: "Contact with Us",
     link: CONTACT_US_PATH,
     icon: <EmailOutlinedIcon />,
-    access: Role.Guest,
+    access: allRoles,
   },
   {
     value: "Rules",
     link: RULES_PATH,
     icon: <ArticleOutlinedIcon />,
-    access: Role.Guest,
+    access: allRoles,
   },
 ];

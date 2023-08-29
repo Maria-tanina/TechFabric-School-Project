@@ -21,6 +21,7 @@ import RequireAuth from "../RequireAuth";
 import HomePage from "@pages/Home";
 import { NotificationProvider } from "@hooks/useNotification";
 import AdminUserList from "@pages/AdminUserList";
+import { Role } from "@constants/roles";
 
 const App = () => {
   return (
@@ -53,10 +54,17 @@ const App = () => {
 
             <Route path="*" element={<NotFound />} />
 
-            <Route path={ADMIN_USER_LIST_PATH} element={<AdminUserList />} />
-
             {/*protected routes*/}
-            <Route element={<RequireAuth redirectTo={LOGIN_PATH} />}></Route>
+            <Route
+              element={
+                <RequireAuth
+                  redirectTo={LOGIN_PATH}
+                  allowedRoles={[Role.SuperAdmin]}
+                />
+              }
+            >
+              <Route path={ADMIN_USER_LIST_PATH} element={<AdminUserList />} />
+            </Route>
           </Routes>
         </NotificationProvider>
       </Layout>

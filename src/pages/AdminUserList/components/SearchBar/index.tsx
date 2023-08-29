@@ -5,7 +5,6 @@ import OutlinedSelect from "@components/OutlinedSelect";
 import { OutlinedButton } from "@components/OutlinedButton";
 import { InputAdornment } from "@mui/material";
 import StyledFilterInput from "@components/FilterInput/style";
-import { roles } from "@constants/roles";
 import { useAppDispatch, useAppSelector } from "../../../../store";
 import {
   selectGetUsersIsError,
@@ -22,6 +21,7 @@ import {
   selectDraftQuery,
   selectDraftRole,
 } from "@features/admin/adminSelectors";
+import { allRoles } from "@constants/roles";
 
 const SearchBar = () => {
   const draftQuery = useAppSelector(selectDraftQuery);
@@ -71,7 +71,7 @@ const SearchBar = () => {
 
           <OutlinedSelect
             value={draftRole}
-            options={roles}
+            options={allRoles}
             label="Role"
             onChange={handleRoleChange}
             disabled={isFieldsDisabled}

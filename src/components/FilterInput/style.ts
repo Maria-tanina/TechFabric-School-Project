@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const StyledFilterInput = styled(TextField)`
   &.MuiFormControl-root {
-    max-width: 40%;
+    max-width: 50%;
     width: 100%;
   }
 `;

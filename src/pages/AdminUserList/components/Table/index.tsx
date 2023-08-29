@@ -22,8 +22,8 @@ import { Spinner } from "@components/Spinner";
 import { useGetUsersQuery } from "@services/usersApi";
 import { TableFetchError, TableSearchError } from "../TableNotification/index";
 import { setPaginationPage, setRowsPerPage } from "@features/admin/adminSlice";
-import { roles } from "@constants/roles";
 import TableSelect from "@components/TableSelect";
+import { allRoles } from "@constants/roles";
 
 const UsersTable = () => {
   const dispatch = useAppDispatch();
@@ -99,7 +99,10 @@ const UsersTable = () => {
                           height="56px"
                         >
                           {column.id === "role" ? (
-                            <TableSelect options={roles} defaultValue={value} />
+                            <TableSelect
+                              options={allRoles}
+                              defaultValue={value}
+                            />
                           ) : (
                             value
                           )}
