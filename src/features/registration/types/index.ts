@@ -1,5 +1,6 @@
 import { ChangeEvent, ReactNode } from "react";
 import { Control } from "react-hook-form";
+import { InputProps } from "@mui/material";
 
 export interface IRegistrationFormValues {
   firstName: string;
@@ -9,11 +10,11 @@ export interface IRegistrationFormValues {
   repeatPassword: string;
 }
 
-export interface IInputProps {
+export interface IInputProps extends InputProps {
   inputType: string;
   value: string;
-  onChange: (e: ChangeEvent) => void;
-  error: boolean;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  error?: boolean;
   errorMessage?: string;
   label?: string;
   icon?: ReactNode;

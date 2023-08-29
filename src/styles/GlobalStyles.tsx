@@ -1,7 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle(
-  ({ theme: { fonts, colors, fontSizes, paddings } }) => `
+  ({ theme: { fonts, colors, fontSizes, paddings, media } }) => `
   * {
     margin: 0;
     padding: 0;
@@ -68,6 +68,7 @@ const GlobalStyles = createGlobalStyle(
     .MuiInputBase-root {
       font-family: ${fonts.main};
       font-weight: 500;
+      font-size: 15px;
       border: 2px solid ${colors.strokeGray};
       border-radius: 8px;
       padding: ${paddings.inputPadding};
@@ -96,6 +97,12 @@ const GlobalStyles = createGlobalStyle(
           border-color: ${colors.error};
         }
       }
+      
+     input:-webkit-autofill,
+     input:-webkit-autofill:hover, 
+     input:-webkit-autofill:focus {
+      -webkit-box-shadow: 0 0 0px 40rem #ffff inset;
+     }
     }
 
     .MuiFormHelperText-root.Mui-error {
@@ -120,6 +127,32 @@ const GlobalStyles = createGlobalStyle(
         color: ${colors.gray};
         opacity: 1;
       }
+    }
+  }
+  
+  .MuiPaper-root.MuiPaper-elevation {
+    box-shadow: none;
+    border-radius: 8px;
+    border: 2px solid ${colors.strokeGray};
+  }
+  
+  .MuiTable-root {
+    .MuiTableCell-root {
+      font-family: ${fonts.main};
+      font-size: 14px;
+      ${media.desktop} {
+        font-size: 16px;
+    }
+    }
+    
+    .MuiTableBody-root .MuiTableCell-root {
+      font-weight: 400;
+      color: ${colors.black};
+    }
+    
+    .MuiTableHead-root .MuiTableCell-root {
+      font-weight: 700;
+      color: ${colors.gray};
     }
   }
 `

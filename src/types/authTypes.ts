@@ -1,4 +1,4 @@
-import { Role } from "@components/NavigationMenu/enums";
+import { Role } from "@constants/roles";
 
 export interface ILoginData {
   email: string;

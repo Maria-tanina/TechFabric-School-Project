@@ -76,12 +76,6 @@ export const StyledTextField = styled(TextField)<TextFieldProps>(
   .MuiFormHelperText-root.Mui-error {
     color: ${colors.error};
    }
-   
-  input:-webkit-autofill,
-  input:-webkit-autofill:hover, 
-  input:-webkit-autofill:focus {
-    -webkit-box-shadow: 0 0 0px 40rem #ffff inset;
-  }
   
   svg  {
     path {
