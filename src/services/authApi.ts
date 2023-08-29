@@ -4,6 +4,8 @@ import { ILoginData, IUserInfo } from "@customTypes/authTypes";
 import { LSService } from "@services/localStorage";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { IRegistrationFormValues } from "@features/registration/types";
+import { IForgotPasswordFormValues } from "@features/forgotPassword/types";
+import { IPasswordRecoveryFormValues } from "@features/passwordRecovery/types";
 
 const serverUrl = process.env.REACT_APP_DEV_API_URL;
 const { set, get } = LSService();
@@ -89,6 +91,31 @@ export const authApi = createApi({
       }),
     }),
 
+    forgotPassword: build.mutation<void, IForgotPasswordFormValues>({
+      query: (email) => ({
+        url: "/api/users/restore-password",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(email.email),
+      }),
+    }),
+
+    recoveryPassword: build.mutation<
+      void,
+      { passwords: IPasswordRecoveryFormValues; token: string }
+    >({
+      query: (args) => ({
+        url: `/api/users/recover-password?verificationToken=${args.token}`,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(args.passwords),
+      }),
+    }),
+
     verified: build.mutation<void, string | null>({
       query: (token) => ({
         url: `/api/users/confirmation?verificationToken=${token}`,
@@ -106,4 +133,6 @@ export const {
   useResendEmailMutation,
   useVerifiedMutation,
   useLoginMutation,
+  useForgotPasswordMutation,
+  useRecoveryPasswordMutation,
 } = authApi;
