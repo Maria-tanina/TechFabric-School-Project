@@ -3,6 +3,7 @@ import { fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 import { ILoginData, IUserInfo } from "@customTypes/authTypes";
 import { LSService } from "@services/localStorage";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { IRegistrationFormValues } from "@features/registration/types";
 
 const serverUrl = process.env.REACT_APP_DEV_API_URL;
 const { set, get } = LSService();
@@ -68,7 +69,39 @@ export const authApi = createApi({
       query: () => "/api/users/info",
       providesTags: ["UNAUTHORIZED"],
     }),
+    signup: build.mutation<void, IRegistrationFormValues>({
+      query: (userData) => ({
+        url: "/api/users/register",
+        method: "POST",
+        body: userData,
+      }),
+    }),
+    resendEmail: build.mutation<void, string>({
+      query: (email) => ({
+        url: "/api/users/registration-confirm",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(email),
+      }),
+    }),
+    verified: build.mutation<void, string | null>({
+      query: (token) => ({
+        url: `/api/users/confirmation?verificationToken=${token}`,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
   }),
 });
 
-export const { useLoginMutation } = authApi;
+
+export const {
+  useSignupMutation,
+  useResendEmailMutation,
+  useVerifiedMutation,
+  useLoginMutation
+} = authApi;

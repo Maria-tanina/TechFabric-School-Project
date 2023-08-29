@@ -4,6 +4,7 @@ import { IUserInfo } from "@customTypes/authTypes";
 
 const initialState: IUsersSliceInitialState = {
   isLogin: false,
+  email: "",
   userInfo: null,
 };
 
@@ -14,12 +15,15 @@ const usersSlice = createSlice({
     setIsLogin: (state, action: PayloadAction<boolean>) => {
       state.isLogin = action.payload;
     },
+    setEmail: (state, action: PayloadAction<string>) => {
+      state.email = action.payload;
+    },
     setUserInfo: (state, action: PayloadAction<IUserInfo>) => {
       state.userInfo = action.payload;
     },
   },
 });
 
-export const { setIsLogin, setUserInfo } = usersSlice.actions;
+export const { setIsLogin, setEmail, setUserInfo  } = usersSlice.actions;
 
 export default usersSlice.reducer;
