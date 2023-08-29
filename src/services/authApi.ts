@@ -4,7 +4,7 @@ import { ILoginData, IUserInfo } from "@customTypes/authTypes";
 import { LSService } from "@services/localStorage";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
-const serverUrl = process.env.REACT_APP_API_URL;
+const serverUrl = process.env.REACT_APP_DEV_API_URL;
 const { set, get } = LSService();
 
 interface IGetTokenResponse {
