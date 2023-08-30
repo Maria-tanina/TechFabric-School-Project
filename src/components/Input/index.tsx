@@ -13,6 +13,7 @@ const Input: FC<IInputProps> = ({
   autocomplete,
   label,
   icon,
+  endAdornment,
 }) => {
   return (
     <StyledTextField
@@ -28,6 +29,7 @@ const Input: FC<IInputProps> = ({
         startAdornment: (
           <InputAdornment position="start">{icon}</InputAdornment>
         ),
+        endAdornment: endAdornment,
       }}
     />
   );

@@ -19,6 +19,7 @@ export interface IInputProps extends InputProps {
   label?: string;
   icon?: ReactNode;
   autocomplete?: string;
+  endAdornment?: ReactNode;
 }
 
 export interface IWithControllerProps {

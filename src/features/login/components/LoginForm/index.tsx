@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect } from "react";
+import { useEffect, useState, MouseEvent } from "react";
 import { InputWithController } from "@components/Input";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
@@ -14,11 +14,20 @@ import { ILoginData } from "@customTypes/authTypes";
 import { useAppDispatch } from "../../../../store";
 import { setIsLogin, setUserInfo } from "@features/user/usersSlice";
 import { getErrorMessage } from "@helpers/errorHandlers";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, IconButton, InputAdornment } from "@mui/material";
 import { useNotification } from "@hooks/useNotification";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 export const LoginForm = () => {
   const [login, { isLoading: isLoginLoading }] = useLoginMutation();
+
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
 
   const { showNotification } = useNotification();
 
@@ -69,10 +78,22 @@ export const LoginForm = () => {
       <InputWithController
         control={control}
         name="password"
-        inputType="password"
+        inputType={showPassword ? "text" : "password"}
         label="Enter the password..."
         autocomplete="password"
         icon={<VpnKeyOutlinedIcon />}
+        endAdornment={
+          <InputAdornment position="end">
+            <IconButton
+              aria-label="toggle password visibility"
+              onClick={handleClickShowPassword}
+              onMouseDown={handleMouseDownPassword}
+              edge="end"
+            >
+              {showPassword ? <VisibilityOff /> : <Visibility />}
+            </IconButton>
+          </InputAdornment>
+        }
       />
 
       <StyledUnderlineText>
