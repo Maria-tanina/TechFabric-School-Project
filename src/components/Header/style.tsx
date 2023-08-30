@@ -26,5 +26,5 @@ export const HeaderLeftSide = styled.div(
 export const HeaderRightSide = styled.div`
   display: flex;
   gap: 12px;
-  align-items: flex-start;
+  align-items: center;
 `;
