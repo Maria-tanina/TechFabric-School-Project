@@ -3,9 +3,9 @@ import { fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 import { ILoginData, IUserInfo } from "@customTypes/authTypes";
 import { LSService } from "@services/localStorage";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { IRegistrationFormValues } from "@features/registration/types";
 import { IForgotPasswordFormValues } from "@features/forgotPassword/types";
 import { IPasswordRecoveryFormValues } from "@features/passwordRecovery/types";
+import { IRegistrationFormValues } from "@features/registration/components/RegistrationForm/types";
 
 const serverUrl = process.env.REACT_APP_DEV_API_URL;
 const { set, get } = LSService();

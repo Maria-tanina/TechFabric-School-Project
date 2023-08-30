@@ -1,7 +1,7 @@
 import { InputAdornment } from "@mui/material";
 import { StyledTextField } from "@components/Input/style";
 import { FC } from "react";
-import { IInputProps } from "@features/registration/types";
+import { IInputProps } from "components/Input/types";
 import { WithController } from "@features/WithController";
 
 const Input: FC<IInputProps> = ({
@@ -13,6 +13,7 @@ const Input: FC<IInputProps> = ({
   autocomplete,
   label,
   icon,
+  endAdornment,
 }) => {
   return (
     <StyledTextField
@@ -28,6 +29,7 @@ const Input: FC<IInputProps> = ({
         startAdornment: (
           <InputAdornment position="start">{icon}</InputAdornment>
         ),
+        endAdornment: endAdornment,
       }}
     />
   );
