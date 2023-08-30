@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect, useState, MouseEvent } from "react";
+import { useEffect, useState } from "react";
 import { InputWithController } from "@components/Input";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
@@ -24,10 +24,6 @@ export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-  };
 
   const { showNotification } = useNotification();
 
@@ -87,7 +83,6 @@ export const LoginForm = () => {
             <IconButton
               aria-label="toggle password visibility"
               onClick={handleClickShowPassword}
-              onMouseDown={handleMouseDownPassword}
               edge="end"
             >
               {showPassword ? <VisibilityOff /> : <Visibility />}

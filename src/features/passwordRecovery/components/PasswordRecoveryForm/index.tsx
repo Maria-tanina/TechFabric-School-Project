@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { MouseEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { InputWithController } from "@components/Input";
 import { OutlinedButton } from "@components/OutlinedButton";
 import passwordRecoveryValidationSchema from "../../passwordRecoveryValidationSchema";
@@ -31,10 +31,6 @@ export const PasswordRecoveryForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-  };
 
   const navigate = useNavigate();
   const token = useTokenFromUrlAndLocalStorage();
@@ -75,7 +71,6 @@ export const PasswordRecoveryForm = () => {
             <IconButton
               aria-label="toggle password visibility"
               onClick={handleClickShowPassword}
-              onMouseDown={handleMouseDownPassword}
               edge="end"
             >
               {showPassword ? <VisibilityOff /> : <Visibility />}
@@ -96,7 +91,6 @@ export const PasswordRecoveryForm = () => {
             <IconButton
               aria-label="toggle password visibility"
               onClick={handleClickShowPassword}
-              onMouseDown={handleMouseDownPassword}
               edge="end"
             >
               {showPassword ? <VisibilityOff /> : <Visibility />}

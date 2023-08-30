@@ -4,7 +4,7 @@ import { IRegistrationFormValues } from "./types";
 import { StyledRegistrationForm } from "./style";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import { InputWithController } from "@components/Input";
-import { MouseEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
@@ -41,10 +41,6 @@ const RegistrationForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-  };
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -108,7 +104,6 @@ const RegistrationForm = () => {
             <IconButton
               aria-label="toggle password visibility"
               onClick={handleClickShowPassword}
-              onMouseDown={handleMouseDownPassword}
               edge="end"
             >
               {showPassword ? <VisibilityOff /> : <Visibility />}
@@ -129,7 +124,6 @@ const RegistrationForm = () => {
             <IconButton
               aria-label="toggle password visibility"
               onClick={handleClickShowPassword}
-              onMouseDown={handleMouseDownPassword}
               edge="end"
             >
               {showPassword ? <VisibilityOff /> : <Visibility />}
