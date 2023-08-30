@@ -11,7 +11,7 @@ const passwordRecoveryValidationSchema = Yup.object().shape({
     .trim(),
   repeatPassword: Yup.string()
     .required("Password confirmation is required")
-    .oneOf([Yup.ref("password")], "Something wrong...")
+    .oneOf([Yup.ref("password")], "The entered passwords don't match")
     .trim(),
 });
 
