@@ -1,6 +1,6 @@
-import { IconButton, MenuItem } from "@mui/material";
+import { IconButton, MenuItem, SelectChangeEvent } from "@mui/material";
 import EastIcon from "@mui/icons-material/East";
-import { ChangeEvent, FC, useState } from "react";
+import { FC, ReactNode, useState } from "react";
 import {
   OutlinedFormControl,
   OutlinedLabel,
@@ -11,7 +11,7 @@ import { nanoid } from "@reduxjs/toolkit";
 interface IOutlinedSelectProps {
   options: string[];
   label: string;
-  onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
+  onChange: (e: SelectChangeEvent<unknown>, child: ReactNode) => void;
   value: string;
   disabled?: boolean;
 }
@@ -41,7 +41,6 @@ const OutlinedSelect: FC<IOutlinedSelectProps> = ({
         open={open}
         onOpen={handleOpen}
         onClose={handleClose}
-        // @ts-ignore
         onChange={onChange}
         disabled={disabled}
         IconComponent={() => (

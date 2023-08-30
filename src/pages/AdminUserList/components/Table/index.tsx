@@ -132,7 +132,7 @@ const UsersTable = () => {
                               onChange={(e) => {
                                 changeRole({
                                   userId: user.id,
-                                  newRole: e.target.value,
+                                  newRole: e.target.value as string,
                                 });
                               }}
                             />
