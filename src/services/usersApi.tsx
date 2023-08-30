@@ -9,25 +9,43 @@ const { get } = LSService();
 
 export const usersApi = createApi({
   reducerPath: "usersApi",
-  baseQuery: fetchBaseQuery({ baseUrl: serverUrl }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: serverUrl,
+    prepareHeaders: (headers) => {
+      const token = get("accessToken");
+      if (token) {
+        headers.set("Authorization", `Bearer ${token}`);
+      }
+      return headers;
+    },
+  }),
   tagTypes: ["Users"],
   endpoints: (build) => ({
     getUsers: build.query<IUserInfo[], void>({
       query: () => {
-        const token = get("refreshToken");
         return {
           url: "/api/users",
           method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
+        };
+      },
+      providesTags: ["Users"],
+    }),
+    changeUserRole: build.mutation<void, { userId: string; newRole: string }>({
+      query: ({ userId, newRole }) => {
+        return {
+          url: `/api/users/${userId}/role`,
+          method: "PATCH",
+          body: {
+            newUserRole: newRole,
           },
         };
       },
+      invalidatesTags: ["Users"],
     }),
   }),
 });
 
-export const { useGetUsersQuery } = usersApi;
+export const { useGetUsersQuery, useChangeUserRoleMutation } = usersApi;
 
 export const selectGetUsersResult = usersApi.endpoints?.getUsers.select();
 

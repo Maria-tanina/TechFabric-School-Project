@@ -4,6 +4,7 @@ export interface Row {
   nickname: string;
   email: string;
   role: Role;
+  id: string;
 }
 export interface Column {
   id: keyof Row;

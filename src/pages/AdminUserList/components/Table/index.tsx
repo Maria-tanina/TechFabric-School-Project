@@ -6,7 +6,7 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { Row } from "./types";
 import { columns } from "./columns";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useEffect } from "react";
 import {
   selectPaginationPage,
   selectRowsPerPage,
@@ -19,20 +19,37 @@ import {
 } from "./style";
 import { nanoid } from "@reduxjs/toolkit";
 import { Spinner } from "@components/Spinner";
-import { useGetUsersQuery } from "@services/usersApi";
+import {
+  useChangeUserRoleMutation,
+  useGetUsersQuery,
+} from "@services/usersApi";
 import { TableFetchError, TableSearchError } from "../TableNotification/index";
 import { setPaginationPage, setRowsPerPage } from "@features/admin/adminSlice";
 import TableSelect from "@components/TableSelect";
 import { allRoles } from "@constants/roles";
+import { useNotification } from "@hooks/useNotification";
+import { getErrorMessage } from "@helpers/errorHandlers";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 const UsersTable = () => {
   const dispatch = useAppDispatch();
+
+  const { showNotification } = useNotification();
 
   const page = useAppSelector(selectPaginationPage);
 
   const rowsPerPage = useAppSelector(selectRowsPerPage);
 
-  const { isError, isLoading } = useGetUsersQuery();
+  const { isError, isFetching } = useGetUsersQuery();
+
+  const [
+    changeRole,
+    {
+      isError: isChangeRoleError,
+      isSuccess: isChangeRoleSuccess,
+      error: changeRoleError,
+    },
+  ] = useChangeUserRoleMutation();
 
   const filteredUsers = useAppSelector(selectUsers);
 
@@ -41,6 +58,7 @@ const UsersTable = () => {
       nickname: `${user.firstName} ${user.lastName}`,
       email: user.email,
       role: user.userRole,
+      id: user.id,
     };
   });
 
@@ -59,7 +77,16 @@ const UsersTable = () => {
     dispatch(setPaginationPage(0));
   };
 
-  if (isLoading) {
+  useEffect(() => {
+    const errorMessage =
+      getErrorMessage((changeRoleError as FetchBaseQueryError)?.data) ||
+      "Some error occurred...";
+    isChangeRoleError && showNotification(errorMessage, "error");
+    isChangeRoleSuccess &&
+      showNotification("Role was successfully changed", "success");
+  }, [isChangeRoleSuccess, isChangeRoleError]);
+
+  if (isFetching) {
     return <Spinner size={90} />;
   }
 
@@ -102,6 +129,12 @@ const UsersTable = () => {
                             <TableSelect
                               options={allRoles}
                               defaultValue={value}
+                              onChange={(e) => {
+                                changeRole({
+                                  userId: user.id,
+                                  newRole: e.target.value,
+                                });
+                              }}
                             />
                           ) : (
                             value
