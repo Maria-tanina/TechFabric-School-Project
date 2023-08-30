@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { IRegistrationFormValues } from "../../types";
+import { IRegistrationFormValues } from "./types";
 import { StyledRegistrationForm } from "./style";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import { InputWithController } from "@components/Input";

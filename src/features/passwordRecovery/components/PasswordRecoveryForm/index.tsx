@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import { InputWithController } from "@components/Input";
 import { OutlinedButton } from "@components/OutlinedButton";
 import passwordRecoveryValidationSchema from "../../passwordRecoveryValidationSchema";
@@ -9,12 +9,13 @@ import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
 import { StyledForm } from "@components/Form";
 import { useRecoveryPasswordMutation } from "@services/authApi";
 import { useNavigate } from "react-router-dom";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, IconButton, InputAdornment } from "@mui/material";
 import { useNotification } from "@hooks/useNotification";
 import { getErrorMessage } from "@helpers/errorHandlers";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { HOME_PATH } from "@constants/paths";
 import { useTokenFromUrlAndLocalStorage } from "@hooks/useToken";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 export const PasswordRecoveryForm = () => {
   const { control, handleSubmit, formState, reset } =
@@ -26,6 +27,14 @@ export const PasswordRecoveryForm = () => {
       mode: "all",
       resolver: yupResolver(passwordRecoveryValidationSchema),
     });
+
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
 
   const navigate = useNavigate();
   const token = useTokenFromUrlAndLocalStorage();
@@ -57,19 +66,43 @@ export const PasswordRecoveryForm = () => {
       <InputWithController
         control={control}
         name="password"
-        inputType="password"
+        inputType={showPassword ? "text" : "password"}
         label="Enter the new password..."
         autocomplete="password"
         icon={<VpnKeyOutlinedIcon />}
+        endAdornment={
+          <InputAdornment position="end">
+            <IconButton
+              aria-label="toggle password visibility"
+              onClick={handleClickShowPassword}
+              onMouseDown={handleMouseDownPassword}
+              edge="end"
+            >
+              {showPassword ? <VisibilityOff /> : <Visibility />}
+            </IconButton>
+          </InputAdornment>
+        }
       />
 
       <InputWithController
         control={control}
         name="repeatPassword"
-        inputType="password"
+        inputType={showPassword ? "text" : "password"}
         label="Enter the password again..."
         autocomplete="new-password"
         icon={<VpnKeyOutlinedIcon />}
+        endAdornment={
+          <InputAdornment position="end">
+            <IconButton
+              aria-label="toggle password visibility"
+              onClick={handleClickShowPassword}
+              onMouseDown={handleMouseDownPassword}
+              edge="end"
+            >
+              {showPassword ? <VisibilityOff /> : <Visibility />}
+            </IconButton>
+          </InputAdornment>
+        }
       />
 
       <OutlinedButton
