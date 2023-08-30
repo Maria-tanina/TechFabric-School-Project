@@ -1,15 +1,22 @@
-import { FormControl, IconButton, MenuItem } from "@mui/material";
+import {
+  FormControl,
+  IconButton,
+  MenuItem,
+  SelectChangeEvent,
+} from "@mui/material";
 import EastIcon from "@mui/icons-material/East";
-import { FC, useState } from "react";
+import { FC, ReactNode, useState } from "react";
 import { nanoid } from "@reduxjs/toolkit";
 import { StyledTableSelect } from "./style";
+import { Role } from "@constants/roles";
 
 interface ISelectProps {
-  options: string[];
+  options: Role[];
   defaultValue: string;
+  onChange: (event: SelectChangeEvent<unknown>, child: ReactNode) => void;
 }
 
-const TableSelect: FC<ISelectProps> = ({ options, defaultValue }) => {
+const TableSelect: FC<ISelectProps> = ({ options, defaultValue, onChange }) => {
   const [open, setOpen] = useState<boolean>(false);
 
   const handleOpen = () => {
@@ -28,6 +35,7 @@ const TableSelect: FC<ISelectProps> = ({ options, defaultValue }) => {
         onOpen={handleOpen}
         onClose={handleClose}
         defaultValue={defaultValue}
+        onChange={onChange}
         IconComponent={() => (
           <IconButton onClick={handleOpen}>
             <EastIcon />

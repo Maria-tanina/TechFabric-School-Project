@@ -3,7 +3,7 @@ import { ChangeEvent } from "react";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import OutlinedSelect from "@components/OutlinedSelect";
 import { OutlinedButton } from "@components/OutlinedButton";
-import { InputAdornment } from "@mui/material";
+import { InputAdornment, SelectChangeEvent } from "@mui/material";
 import StyledFilterInput from "@components/FilterInput/style";
 import { useAppDispatch, useAppSelector } from "../../../../store";
 import {
@@ -38,8 +38,10 @@ const SearchBar = () => {
     dispatch(setDraftFilterQuery(e.target.value));
   };
 
-  const handleRoleChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    dispatch(setDraftFilterRole(e.target.value));
+  const handleRoleChange = (
+    e: SelectChangeEvent<unknown>
+  ) => {
+    dispatch(setDraftFilterRole(e.target.value as string));
   };
 
   const handleSearchClick = () => {
