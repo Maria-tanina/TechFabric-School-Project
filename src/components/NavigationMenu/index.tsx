@@ -1,4 +1,6 @@
+import { logOut } from "@features/user/usersSlice";
 import {
+  MenuButton,
   MenuHeading,
   MenuItemStyle,
   MenuLink,
@@ -11,14 +13,23 @@ import {
   mainMenu,
   otherMenu,
 } from "@components/NavigationMenu/menuConfig";
-import { ListItemIcon } from "@mui/material";
 import { Role } from "@constants/roles";
-import { useAppSelector } from "../../store";
+import { useAppDispatch, useAppSelector } from "../../store";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { ListItemIcon } from "@mui/material";
 
 const NavigationMenu = () => {
+  const isLogin = useAppSelector((state) => state.users.isLogin);
+
   const userInfo = useAppSelector((state) => state.users.userInfo);
 
   const currentRole = userInfo?.userRole || Role.Guest;
+
+  const dispatch = useAppDispatch();
+
+  const handleLogOutClick = () => {
+    dispatch(logOut());
+  };
 
   return (
     <NavigateWrap>
@@ -61,6 +72,16 @@ const NavigationMenu = () => {
               </MenuLink>
             </MenuItemStyle>
           ))}
+          {isLogin && (
+            <MenuItemStyle key="logout" onClick={handleLogOutClick}>
+              <MenuButton>
+                <ListItemIcon>
+                  <LogoutIcon />
+                </ListItemIcon>
+                Log out
+              </MenuButton>
+            </MenuItemStyle>
+          )}
         </MenuList>
       </MenuWrap>
     </NavigateWrap>

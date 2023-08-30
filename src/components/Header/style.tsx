@@ -8,6 +8,7 @@ export const HeaderWrapper = styled.header(
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 15px;
   ${media.desktop} {
     padding: ${paddings.headerPadding};
   }

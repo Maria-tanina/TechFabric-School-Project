@@ -64,6 +64,32 @@ export const MenuLink = styled(NavLink)(
 `
 );
 
+export const MenuButton = styled.div(
+  ({ theme: { colors, fontSizes, media } }) => `
+  display: flex;
+  color: ${colors.graphite};
+  font-size: 0;
+  line-height: 24px;
+  font-weight: 500;
+  width: auto;
+  padding: 10px 12px;
+  
+  &:hover{
+    color: ${colors.white};
+  }
+  
+  .MuiSvgIcon-root{
+    color: ${colors.graphite};
+    font-weight: 700;
+  }
+  
+  ${media.desktop} {
+    font-size: ${fontSizes.button};
+    width: 100%;
+  }
+`
+);
+
 export const MenuWrap = styled.div`
   width: 100%;
 `;
