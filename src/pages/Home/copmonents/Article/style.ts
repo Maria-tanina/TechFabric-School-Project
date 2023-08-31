@@ -47,3 +47,8 @@ export const StyledTagsWrapper = styled.div`
   align-items: center;
   gap: 12px;
 `;
+export const FavoriteWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+`;

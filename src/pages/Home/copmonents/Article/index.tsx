@@ -1,5 +1,6 @@
 import CardMedia from "@mui/material/CardMedia";
 import {
+  FavoriteWrapper,
   StyledArticleCard,
   StyledCardContent,
   StyledCardTitle,
@@ -43,9 +44,10 @@ export const Article: FC<IArticleProps> = ({ article }) => {
               <ArticleTag tag={tag} link="/" key={nanoid()} />
             ))}
           </StyledTagsWrapper>
-
-          <span>Add to favorites</span>
-          <LikeButton />
+          <FavoriteWrapper>
+            <span>Add to favorites</span>
+            <LikeButton />
+          </FavoriteWrapper>
         </StyledCardContent>
       </StyledArticleCard>
     </article>

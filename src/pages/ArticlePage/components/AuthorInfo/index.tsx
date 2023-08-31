@@ -5,10 +5,7 @@ export const AuthorInfo = () => {
   return (
     <>
       <AuthorLabel firstName="Harold" lastName="Painless" link="/" />
-      <div>
-        <ArticleDate>Date:</ArticleDate>
-        <ArticleDate>October 17, 2023</ArticleDate>
-      </div>
+      <ArticleDate>Date: October 17, 2023</ArticleDate>
     </>
   );
 };

@@ -75,3 +75,9 @@ export const MenuHeading = styled.h2(
   }
 `
 );
+export const NavWrapper = styled.nav`
+   display: flex;
+   flex-direction: column;
+   align-items: start;
+   gap: 43px;
+`;

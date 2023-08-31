@@ -1,9 +1,9 @@
 import {
-  MenuHeading,
-  MenuItemStyle,
-  MenuLink,
-  MenuList,
-  MenuWrap,
+    MenuHeading,
+    MenuItemStyle,
+    MenuLink,
+    MenuList,
+    MenuWrap, NavWrapper,
 } from "@components/NavigationMenu/style";
 import {
   adminMenu,
@@ -20,7 +20,7 @@ const NavigationMenu = () => {
   const currentRole = userInfo?.userRole || Role.Guest;
 
   return (
-    <nav>
+    <NavWrapper>
       <MenuList>
         {mainMenu.map(
           (menuItem, index) =>
@@ -62,7 +62,7 @@ const NavigationMenu = () => {
           ))}
         </MenuList>
       </MenuWrap>
-    </nav>
+    </NavWrapper>
   );
 };
 

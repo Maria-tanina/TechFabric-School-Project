@@ -6,10 +6,6 @@ export const LeftSidebarWrap = styled.div(
   width: auto;
   position: sticky;
   top: 15px;
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  gap: 43px;
   flex-shrink: 2;
   ${media.desktop} {
     width: 100%;

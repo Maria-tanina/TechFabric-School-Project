@@ -1,5 +1,5 @@
 import { mockTags } from "./mockTags";
-import { StyledTag } from "./style";
+import {StyledTag, TagsWrapper} from "./style";
 import { StyledSidebarCard } from "@components/SidebarCard";
 import { StyledSidebarHeader } from "@components/SidebarHeader";
 import { Link } from "react-router-dom";
@@ -12,13 +12,13 @@ export const TopTags = () => {
       <StyledSidebarHeader>
         Top <span>Tags</span>
       </StyledSidebarHeader>
-      <div>
+      <TagsWrapper>
         {mockTags.map((tag) => (
           <StyledTag key={nanoid()}>
             <Link to={HOME_PATH}>{tag}</Link>
           </StyledTag>
         ))}
-      </div>
+      </TagsWrapper>
     </StyledSidebarCard>
   );
 };
