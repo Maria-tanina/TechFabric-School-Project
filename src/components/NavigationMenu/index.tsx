@@ -17,11 +17,13 @@ import { Role } from "@constants/roles";
 import { useAppDispatch, useAppSelector } from "../../store";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { ListItemIcon } from "@mui/material";
+import { selectIsLogin } from "@features/user/usersSelectors";
+import { useGetUsersInfoQuery } from "@services/authApi";
 
 const NavigationMenu = () => {
-  const isLogin = useAppSelector((state) => state.users.isLogin);
+  const isLogin = useAppSelector(selectIsLogin);
 
-  const userInfo = useAppSelector((state) => state.users.userInfo);
+  const { data: userInfo } = useGetUsersInfoQuery();
 
   const currentRole = userInfo?.userRole || Role.Guest;
 

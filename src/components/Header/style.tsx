@@ -19,6 +19,7 @@ export const HeaderLeftSide = styled.div(
   display: flex;
   align-items: center;
   gap: 30px;
+  width: 52%;
   ${media.desktop} {
     gap: 60px;
   }
