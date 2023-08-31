@@ -9,9 +9,7 @@ interface ITagProps {
 export const ArticleTag = ({ tag, link }: ITagProps) => {
   return (
     <StyledTag>
-      <Link to={link} >
-        {tag}
-      </Link>
+      <Link to={link}>{tag}</Link>
     </StyledTag>
   );
 };

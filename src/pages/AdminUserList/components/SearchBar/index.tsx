@@ -38,9 +38,7 @@ const SearchBar = () => {
     dispatch(setDraftFilterQuery(e.target.value));
   };
 
-  const handleRoleChange = (
-    e: SelectChangeEvent<unknown>
-  ) => {
+  const handleRoleChange = (e: SelectChangeEvent<unknown>) => {
     dispatch(setDraftFilterRole(e.target.value as string));
   };
 

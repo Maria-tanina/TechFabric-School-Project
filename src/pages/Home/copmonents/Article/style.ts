@@ -4,9 +4,10 @@ import CardContent from "@mui/material/CardContent";
 import Card from "@mui/material/Card";
 
 export const StyledArticleCard = styled(Card)`
-  &.MuiPaper-root {
+  &.MuiPaper-root.MuiPaper-elevation {
     border-radius: 8px;
     box-shadow: none;
+    border: none;
   }
 `;
 

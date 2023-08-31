@@ -17,6 +17,6 @@ export const CommentsButtonWrapper = styled.div`
     width: 216px;
   }
 `;
-export const StyledCommentForm = styled.div`
+export const StyledCommentForm = styled.form`
   margin-bottom: 40px;
 `;

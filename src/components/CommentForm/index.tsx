@@ -12,14 +12,14 @@ interface ICommentMessage {
 }
 
 export const CommentForm = () => {
-  const { control, handleSubmit, formState, reset } = useForm<ICommentMessage>({
+  const { control, handleSubmit, reset } = useForm<ICommentMessage>({
     defaultValues: {
       message: "",
     },
   });
 
   const onSubmit = async (message: ICommentMessage) => {
-    console.log(JSON.stringify(message))
+    console.log(message);
   };
   const onReset = () => {
     reset();
