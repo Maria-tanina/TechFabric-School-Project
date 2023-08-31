@@ -4,7 +4,6 @@ import {
   MenuLink,
   MenuList,
   MenuWrap,
-  NavigateWrap,
 } from "@components/NavigationMenu/style";
 import {
   adminMenu,
@@ -16,7 +15,7 @@ import { Role } from "./enums";
 
 const NavigationMenu = ({ currentRole = Role.Admin }) => {
   return (
-    <NavigateWrap>
+    <nav>
       <MenuList>
         {mainMenu.map(
           (menuItem, index) =>
@@ -58,7 +57,7 @@ const NavigationMenu = ({ currentRole = Role.Admin }) => {
           ))}
         </MenuList>
       </MenuWrap>
-    </NavigateWrap>
+    </nav>
   );
 };
 

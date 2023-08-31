@@ -22,7 +22,7 @@ export interface IInputProps {
 
 export interface IWithControllerProps {
   control: Control<any>;
-  name: keyof IRegistrationFormValues;
+  name: string;
 }
 
 export type TInternalProps = "errorMessage" | "value" | "onChange" | "error";
