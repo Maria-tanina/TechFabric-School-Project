@@ -3,13 +3,13 @@ import { IUsersSliceInitialState } from "@features/user/types";
 import { IUserInfo } from "@customTypes/authTypes";
 import { LSService } from "@services/localStorage";
 
+const { remove, get } = LSService();
+
 const initialState: IUsersSliceInitialState = {
-  isLogin: false,
+  isLogin: !!get("refreshToken"),
   email: "",
   userInfo: null,
 };
-
-const { remove } = LSService();
 
 const usersSlice = createSlice({
   name: "users",
