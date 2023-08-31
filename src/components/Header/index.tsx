@@ -1,4 +1,3 @@
-import React from "react";
 import {
   HeaderLeftSide,
   HeaderRightSide,
@@ -8,8 +7,28 @@ import Logo from "@components/Logo";
 import SearchInput from "@components/SearchInput";
 import LogInButton from "@components/LogInButton";
 import HeaderSignUpButton from "@components/HeaderSignUpButton";
+import { useAppSelector } from "../../store";
+import CreatePostButton from "@components/CreatePostButton";
+import ProfileInfo from "@components/ProfileInfo";
+import { selectIsLogin } from "@features/user/usersSelectors";
+import { useGetUsersInfoQuery } from "@services/authApi";
+import {
+  selectUserFullName,
+  selectUserIsAdmin,
+  selectUserIsAuthor,
+} from "@services/authSelectors";
 
 const Header = () => {
+  const { data: userInfo } = useGetUsersInfoQuery();
+
+  const isLogin = useAppSelector(selectIsLogin);
+
+  const fullName = useAppSelector(selectUserFullName);
+
+  const isAuthor = useAppSelector(selectUserIsAuthor);
+
+  const isAdmin = useAppSelector(selectUserIsAdmin);
+
   return (
     <HeaderWrapper>
       <HeaderLeftSide>
@@ -17,10 +36,15 @@ const Header = () => {
         <SearchInput />
       </HeaderLeftSide>
       <HeaderRightSide>
-        <LogInButton />
-        <HeaderSignUpButton />
-        {/*<CreatePostButton/>*/}
-        {/*<ProfileInfo/>*/}
+        {isLogin && (isAuthor || isAdmin) && <CreatePostButton />}
+        {isLogin && userInfo ? (
+          <ProfileInfo userName={fullName} subtitle={userInfo.userRole} />
+        ) : (
+          <>
+            <LogInButton />
+            <HeaderSignUpButton />
+          </>
+        )}
       </HeaderRightSide>
     </HeaderWrapper>
   );

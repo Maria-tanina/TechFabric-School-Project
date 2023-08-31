@@ -1,5 +1,5 @@
 import { mockTags } from "./mockTags";
-import {StyledTag, TagsWrapper} from "./style";
+import { StyledTag, TagsWrapper } from "./style";
 import { StyledSidebarCard } from "@components/SidebarCard";
 import { StyledSidebarHeader } from "@components/SidebarHeader";
 import { Link } from "react-router-dom";

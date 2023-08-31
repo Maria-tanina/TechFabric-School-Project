@@ -30,7 +30,12 @@ export const authApi = createApi({
   tagTypes: ["UNAUTHORIZED"],
   endpoints: (build) => ({
     login: build.mutation<IUserInfo, ILoginData>({
-      queryFn: async (body, { getState }, extraOptions, fetchWithBQ) => {
+      queryFn: async (
+        body,
+        { getState, dispatch },
+        extraOptions,
+        fetchWithBQ
+      ) => {
         const loginResponse = await fetchWithBQ({
           url: "/api/token",
           method: "POST",
@@ -61,6 +66,11 @@ export const authApi = createApi({
         if (userInfoResponse.error) {
           return { error: userInfoResponse.error.data as FetchBaseQueryError };
         } else {
+          dispatch(
+            authApi.util.updateQueryData("getUsersInfo", undefined, (draft) => {
+              Object.assign(draft, userInfoResponse.data as IUserInfo);
+            })
+          );
           return { data: userInfoResponse.data as IUserInfo };
         }
       },
@@ -133,6 +143,7 @@ export const {
   useResendEmailMutation,
   useVerifiedMutation,
   useLoginMutation,
+  useGetUsersInfoQuery,
   useForgotPasswordMutation,
   useRecoveryPasswordMutation,
 } = authApi;

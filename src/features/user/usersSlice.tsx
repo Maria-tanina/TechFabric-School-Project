@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IUsersSliceInitialState } from "@features/user/types";
-import { IUserInfo } from "@customTypes/authTypes";
+import { LSService } from "@services/localStorage";
+
+const { remove, get } = LSService();
 
 const initialState: IUsersSliceInitialState = {
-  isLogin: false,
+  isLogin: !!get("refreshToken"),
   email: "",
-  userInfo: null,
 };
 
 const usersSlice = createSlice({
@@ -18,12 +19,15 @@ const usersSlice = createSlice({
     setEmail: (state, action: PayloadAction<string>) => {
       state.email = action.payload;
     },
-    setUserInfo: (state, action: PayloadAction<IUserInfo>) => {
-      state.userInfo = action.payload;
+    logOut: (state) => {
+      state.isLogin = false;
+      state.email = "";
+      remove("accessToken");
+      remove("refreshToken");
     },
   },
 });
 
-export const { setIsLogin, setEmail, setUserInfo } = usersSlice.actions;
+export const { setIsLogin, setEmail, logOut } = usersSlice.actions;
 
 export default usersSlice.reducer;

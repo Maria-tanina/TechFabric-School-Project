@@ -1,23 +1,37 @@
+import { logOut } from "@features/user/usersSlice";
 import {
-    MenuHeading,
-    MenuItemStyle,
-    MenuLink,
-    MenuList,
-    MenuWrap, NavWrapper,
+  MenuButton,
+  MenuHeading,
+  MenuItemStyle,
+  MenuLink,
+  MenuList,
+  MenuWrap,
+  NavWrapper,
 } from "@components/NavigationMenu/style";
 import {
   adminMenu,
   mainMenu,
   otherMenu,
 } from "@components/NavigationMenu/menuConfig";
-import { ListItemIcon } from "@mui/material";
 import { Role } from "@constants/roles";
-import { useAppSelector } from "../../store";
+import { useAppDispatch, useAppSelector } from "../../store";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { ListItemIcon } from "@mui/material";
+import { selectIsLogin } from "@features/user/usersSelectors";
+import { useGetUsersInfoQuery } from "@services/authApi";
 
 const NavigationMenu = () => {
-  const userInfo = useAppSelector((state) => state.users.userInfo);
+  const isLogin = useAppSelector(selectIsLogin);
 
-  const currentRole = userInfo?.userRole || Role.Guest;
+  const { data: userInfo } = useGetUsersInfoQuery();
+
+  const currentRole = isLogin ? userInfo?.userRole : Role.Guest;
+
+  const dispatch = useAppDispatch();
+
+  const handleLogOutClick = () => {
+    dispatch(logOut());
+  };
 
   return (
     <NavWrapper>
@@ -60,6 +74,16 @@ const NavigationMenu = () => {
               </MenuLink>
             </MenuItemStyle>
           ))}
+          {isLogin && (
+            <MenuItemStyle key="logout" onClick={handleLogOutClick}>
+              <MenuButton>
+                <ListItemIcon>
+                  <LogoutIcon />
+                </ListItemIcon>
+                Log out
+              </MenuButton>
+            </MenuItemStyle>
+          )}
         </MenuList>
       </MenuWrap>
     </NavWrapper>
