@@ -11,18 +11,24 @@ import HeaderSignUpButton from "@components/HeaderSignUpButton";
 import { useAppSelector } from "../../store";
 import CreatePostButton from "@components/CreatePostButton";
 import ProfileInfo from "@components/ProfileInfo";
-import { Role } from "@constants/roles";
+import {
+  selectFullName,
+  selectIsAuthor,
+  selectIsLogin,
+  selectIsSuperAdmin,
+  selectUserInfo,
+} from "@features/user/usersSelectors";
 
 const Header = () => {
-  const isLogin = useAppSelector((state) => state.users.isLogin);
+  const isLogin = useAppSelector(selectIsLogin);
 
-  const userInfo = useAppSelector((state) => state.users.userInfo);
+  const userInfo = useAppSelector(selectUserInfo);
 
-  const fullName = `${userInfo?.firstName} ${userInfo?.lastName}`;
+  const fullName = useAppSelector(selectFullName);
 
-  const isAuthor = userInfo?.userRole === Role.Author;
+  const isAuthor = useAppSelector(selectIsAuthor);
 
-  const isAdmin = userInfo?.userRole === Role.SuperAdmin;
+  const isAdmin = useAppSelector(selectIsSuperAdmin);
 
   return (
     <HeaderWrapper>
