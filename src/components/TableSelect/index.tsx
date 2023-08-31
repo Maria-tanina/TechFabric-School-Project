@@ -1,15 +1,22 @@
-import { IconButton, MenuItem } from "@mui/material";
+import {
+  FormControl,
+  IconButton,
+  MenuItem,
+  SelectChangeEvent,
+} from "@mui/material";
 import EastIcon from "@mui/icons-material/East";
-import { FC, useState } from "react";
-import { StyledGhostSelect } from "./style";
+import { FC, ReactNode, useState } from "react";
 import { nanoid } from "@reduxjs/toolkit";
-import { StyledFormControl, StyledLabel } from "@components/Select";
+import { StyledTableSelect } from "./style";
+import { Role } from "@constants/roles";
 
 interface ISelectProps {
-  options: string[];
+  options: Role[];
+  defaultValue: string;
+  onChange: (event: SelectChangeEvent<unknown>, child: ReactNode) => void;
 }
 
-const GhostSelect: FC<ISelectProps> = ({ options }) => {
+const TableSelect: FC<ISelectProps> = ({ options, defaultValue, onChange }) => {
   const [open, setOpen] = useState<boolean>(false);
 
   const handleOpen = () => {
@@ -21,31 +28,28 @@ const GhostSelect: FC<ISelectProps> = ({ options }) => {
   };
 
   return (
-    <StyledFormControl>
-      <StyledGhostSelect
+    <FormControl>
+      <StyledTableSelect
         labelId="select-label"
         open={open}
         onOpen={handleOpen}
         onClose={handleClose}
-        defaultValue=""
+        defaultValue={defaultValue}
+        onChange={onChange}
         IconComponent={() => (
           <IconButton onClick={handleOpen}>
             <EastIcon />
           </IconButton>
         )}
       >
-        <MenuItem key={nanoid()} value="">
-          All
-        </MenuItem>
         {options.map((option) => (
           <MenuItem key={nanoid()} value={option}>
             {option}
           </MenuItem>
         ))}
-      </StyledGhostSelect>
-      <StyledLabel>Sort by theme</StyledLabel>
-    </StyledFormControl>
+      </StyledTableSelect>
+    </FormControl>
   );
 };
 
-export default GhostSelect;
+export default TableSelect;

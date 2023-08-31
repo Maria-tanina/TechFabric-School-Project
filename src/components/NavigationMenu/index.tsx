@@ -11,15 +11,20 @@ import {
   otherMenu,
 } from "@components/NavigationMenu/menuConfig";
 import { ListItemIcon } from "@mui/material";
-import { Role } from "./enums";
+import { Role } from "@constants/roles";
+import { useAppSelector } from "../../store";
 
-const NavigationMenu = ({ currentRole = Role.Admin }) => {
+const NavigationMenu = () => {
+  const userInfo = useAppSelector((state) => state.users.userInfo);
+
+  const currentRole = userInfo?.userRole || Role.Guest;
+
   return (
     <nav>
       <MenuList>
         {mainMenu.map(
           (menuItem, index) =>
-            currentRole >= menuItem.access && (
+            menuItem.access.find((item) => item === currentRole) && (
               <MenuItemStyle key={index}>
                 <MenuLink to={menuItem.link}>
                   <ListItemIcon>{menuItem.icon}</ListItemIcon>
@@ -29,7 +34,7 @@ const NavigationMenu = ({ currentRole = Role.Admin }) => {
             )
         )}
       </MenuList>
-      {currentRole === Role.Admin && (
+      {currentRole === Role.SuperAdmin && (
         <MenuWrap>
           <MenuHeading>Admin Menu</MenuHeading>
           <MenuList>

@@ -1,10 +1,13 @@
 import { FC } from "react";
-import { Controller } from "react-hook-form";
+import { Control, Controller } from "react-hook-form";
 import { ComponentType } from "react";
-import {
-  IWithControllerProps,
-  TInternalProps,
-} from "@features/registration/types";
+
+export interface IWithControllerProps {
+  control: Control<any>;
+  name: string;
+}
+
+export type TInternalProps = "errorMessage" | "value" | "onChange" | "error";
 
 export function WithController<P extends object>(
   Component: ComponentType<P>
