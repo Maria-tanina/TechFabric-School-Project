@@ -1,14 +1,13 @@
 import styled from "styled-components";
 import Typography from "@mui/material/Typography";
 import CardContent from "@mui/material/CardContent";
-import { IconButton } from "@mui/material";
 import Card from "@mui/material/Card";
 
 export const StyledArticleCard = styled(Card)`
-  &.MuiPaper-root {
-    max-width: 940px;
+  &.MuiPaper-root.MuiPaper-elevation {
     border-radius: 8px;
     box-shadow: none;
+    border: none;
   }
 `;
 
@@ -46,53 +45,10 @@ export const StyledCardContent = styled(CardContent)(
 export const StyledTagsWrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-`;
-
-export const StyledTags = styled.div(
-  ({ theme: { colors } }) => `
-  display: flex;
-  align-items: center;
   gap: 12px;
-  font-size: 16px;
-  line-height: 24px;
-  color: ${colors.gray};
-`
-);
-
-export const StyledIconButton = styled(IconButton)(
-  ({ theme: { colors } }) => `
-  &.MuiButtonBase-root {
-    height: 32px;
-    width: 32px;
-    border-radius: 6px;
-    transition: all 0.4s ease-in-out;
-    
-    &:hover {
-      background: rgba(254, 222, 36, 0.1);
-    }
-    
-    &:active {
-      background-color: transparent;
-    }
-    
-    .MuiSvgIcon-root {
-      transition: fill 0.4s ease-in-out;
-      fill: ${colors.black};
-    }
-
-    .favorite-icon {
-      display: none;
-      fill: ${colors.main};
-    }
-
-    &:hover .favorite-border-icon {
-      display: none;
-    }
-
-    &:hover .favorite-icon {
-      display: block;
-    }
-  }
-`
-);
+`;
+export const FavoriteWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+`;

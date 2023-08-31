@@ -9,9 +9,10 @@ export const StyledTag = styled.div(
   ${media.desktop}{
     font-size: ${fontSizes.sidebarTag};
   }
-  
-  &:not(:last-child) {
-    margin-bottom: 12px;
-  }
 `
 );
+export const TagsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`
