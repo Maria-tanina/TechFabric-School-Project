@@ -5,6 +5,7 @@ export const AdminUserListWrapper = styled.div`
   display: flex;
   gap: 40px;
   align-items: flex-start;
+  width: 100%;
 `;
 
 export const StyledUserListPaper = styled(Paper)`
