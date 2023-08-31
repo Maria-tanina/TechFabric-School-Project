@@ -1,19 +1,24 @@
-import { ArticlesWithMenu, HomePageWrapper, RightSidebar } from "./style";
+import { HomePageWrapper } from "./style";
 import TabsMenu from "./copmonents/TabsMenu";
 import ArticleList from "./copmonents/ArticleList";
 import { TopTags } from "./copmonents/TopTags";
 import { TopAuthors } from "./copmonents/TopAuthors";
 import NavigationMenu from "@components/NavigationMenu";
+import { LeftSidebar } from "@components/LeftSidebar";
+import { RightSidebar } from "@components/RightSidebar";
+import { MainContent } from "@components/MainContent";
 
 const HomePage = () => {
   return (
     <HomePageWrapper>
-      <NavigationMenu />
+      <LeftSidebar>
+        <NavigationMenu />
+      </LeftSidebar>
 
-      <ArticlesWithMenu>
+      <MainContent>
         <TabsMenu />
         <ArticleList />
-      </ArticlesWithMenu>
+      </MainContent>
 
       <RightSidebar>
         <TopTags />

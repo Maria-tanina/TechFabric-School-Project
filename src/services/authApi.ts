@@ -5,7 +5,7 @@ import { LSService } from "@services/localStorage";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { IForgotPasswordFormValues } from "@features/forgotPassword/types";
 import { IPasswordRecoveryFormValues } from "@features/passwordRecovery/types";
-import { IRegistrationFormValues } from "@features/registration/components/RegistrationForm/types";
+import { IRegistrationFormValues } from "features/registration/components/types";
 
 const serverUrl = process.env.REACT_APP_DEV_API_URL;
 const { set, get } = LSService();

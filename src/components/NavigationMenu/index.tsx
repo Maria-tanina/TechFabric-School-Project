@@ -6,7 +6,7 @@ import {
   MenuLink,
   MenuList,
   MenuWrap,
-  NavigateWrap,
+  NavWrapper,
 } from "@components/NavigationMenu/style";
 import {
   adminMenu,
@@ -34,7 +34,7 @@ const NavigationMenu = () => {
   };
 
   return (
-    <NavigateWrap>
+    <NavWrapper>
       <MenuList>
         {mainMenu.map(
           (menuItem, index) =>
@@ -86,7 +86,7 @@ const NavigationMenu = () => {
           )}
         </MenuList>
       </MenuWrap>
-    </NavigateWrap>
+    </NavWrapper>
   );
 };
 

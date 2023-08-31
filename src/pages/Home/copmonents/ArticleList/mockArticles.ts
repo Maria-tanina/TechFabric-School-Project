@@ -1,4 +1,4 @@
-import { IArticle } from "../Article/types";
+import { IArticle } from "@customTypes/article";
 
 export const mockArticles: IArticle[] = [
   {

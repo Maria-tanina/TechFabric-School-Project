@@ -2,6 +2,7 @@ import Layout from "@components/Layout";
 import { Route, Routes } from "react-router-dom";
 import SignUp from "@pages/SignUp";
 import {
+  ARTICLE_PATH,
   ADMIN_USER_LIST_PATH,
   FORGOT_PASSWORD_PATH,
   HOME_PATH,
@@ -20,6 +21,7 @@ import NotFound from "@pages/NotFound";
 import RequireAuth from "../RequireAuth";
 import HomePage from "@pages/Home";
 import { NotificationProvider } from "@hooks/useNotification";
+import { ArticlePage } from "@pages/ArticlePage";
 import AdminUserList from "@pages/AdminUserList";
 import { Role } from "@constants/roles";
 
@@ -34,6 +36,8 @@ const App = () => {
             <Route path={LOGIN_PATH} element={<Login />} />
 
             <Route path={SIGNUP_PATH} element={<SignUp />} />
+
+            <Route path={ARTICLE_PATH} element={<ArticlePage />} />
 
             <Route
               path={REGISTRATION_CONFIRM_PATH}

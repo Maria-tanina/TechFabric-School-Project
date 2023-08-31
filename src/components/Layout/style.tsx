@@ -8,6 +8,8 @@ export const LayoutWrapper = styled.div`
 
 export const MainContent = styled.main(
   ({ theme: { colors, media, paddings } }) => `
+  display:flex;
+  justify-content:space-between;
   padding: ${paddings.tabletMainPadding};
   flex: 1 0 auto;
   background: ${colors.lightGray};
