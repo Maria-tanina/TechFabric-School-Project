@@ -1,17 +1,24 @@
-import { AuthCard } from "@components/AuthCard";
 import { MainHeader } from "@components/MainHeader";
 import { ContactUsForm } from "@pages/ContactUs/components/ContactUsForm";
 import { InfoList } from "@pages/ContactUs/components/InfoList";
+import { LeftSidebar } from "@components/LeftSidebar";
+import NavigationMenu from "@components/NavigationMenu";
+import { ContactUsWrapper } from "@pages/ContactUs/style";
+import { ContactUsCard } from "./components/ContactUsCard";
 
 const ContactUs = () => {
   return (
-    <section>
-      <AuthCard $width="800px">
+    <ContactUsWrapper>
+      <LeftSidebar>
+        <NavigationMenu />
+      </LeftSidebar>
+
+      <ContactUsCard>
         <MainHeader>Contact us</MainHeader>
         <InfoList />
         <ContactUsForm />
-      </AuthCard>
-    </section>
+      </ContactUsCard>
+    </ContactUsWrapper>
   );
 };
 
