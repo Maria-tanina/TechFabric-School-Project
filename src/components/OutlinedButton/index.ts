@@ -1,7 +1,11 @@
 import styled from "styled-components";
-import { Button } from "@mui/material";
+import { Button, ButtonProps } from "@mui/material";
 
-export const OutlinedButton = styled(Button)<{ $width?: string }>(
+interface OutlinedButtonProps extends ButtonProps {
+  $width?: string;
+}
+
+export const OutlinedButton = styled(Button)<OutlinedButtonProps>(
   ({ theme: { colors }, $width }) => `
   &.MuiButton-root{
     border: 2px solid ${colors.main};

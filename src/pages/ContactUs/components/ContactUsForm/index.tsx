@@ -35,7 +35,7 @@ export const ContactUsForm = () => {
     }
   }, [formState.isSubmitSuccessful, reset]);
 
-  const onSubmit = async (contactUsData: IContactUsFormValues) => {
+  const onSubmit = (contactUsData: IContactUsFormValues) => {
     showNotification("Our manager contact you soon", "success");
   };
 
