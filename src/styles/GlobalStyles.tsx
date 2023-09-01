@@ -56,6 +56,10 @@ const GlobalStyles = createGlobalStyle(
     }
   }
   
+  main section {
+    width: 100%
+  }
+  
   .MuiButtonBase-root.MuiButton-root:disabled {
     background-color: ${colors.gray};
     border-color: ${colors.gray};
@@ -127,6 +131,9 @@ const GlobalStyles = createGlobalStyle(
         color: ${colors.gray};
         opacity: 1;
       }
+    }
+    .MuiInputBase-root.MuiInputBase-multiline {
+      height: auto;
     }
   }
   

@@ -11,6 +11,7 @@ import {
   REGISTRATION_CONFIRM_PATH,
   SIGNUP_PATH,
   SUCCESS_CONFIRMATION_PATH,
+  CONTACT_US_PATH,
 } from "@constants/paths";
 import RegistrationConfirm from "@pages/RegistrationConfirm";
 import SuccessConfirmation from "@pages/SuccessConfirmation";
@@ -24,6 +25,7 @@ import { NotificationProvider } from "@hooks/useNotification";
 import { ArticlePage } from "@pages/ArticlePage";
 import AdminUserList from "@pages/AdminUserList";
 import { Role } from "@constants/roles";
+import ContactUs from "@pages/ContactUs";
 
 const App = () => {
   return (
@@ -55,6 +57,8 @@ const App = () => {
               path={PASSWORD_RECOVERY_PATH}
               element={<PasswordRecovery />}
             />
+
+            <Route path={CONTACT_US_PATH} element={<ContactUs />} />
 
             <Route path="*" element={<NotFound />} />
 
