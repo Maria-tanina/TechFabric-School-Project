@@ -1,20 +1,19 @@
 import CardMedia from "@mui/material/CardMedia";
 import {
+  FavoriteWrapper,
   StyledArticleCard,
   StyledCardContent,
   StyledCardTitle,
-  StyledIconButton,
-  StyledTags,
   StyledTagsWrapper,
 } from "./style";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import { FC } from "react";
-import { IArticleProps } from "./types";
 import { Link } from "react-router-dom";
-import { HOME_PATH } from "@constants/paths";
+import { ARTICLE_PATH } from "@constants/paths";
 import { nanoid } from "@reduxjs/toolkit";
 import ProfileInfo from "@components/ProfileInfo";
+import { LikeButton } from "@components/LikeButton";
+import { ArticleTag } from "@components/ArticleTag";
+import { IArticleProps } from "@customTypes/article";
 
 export const Article: FC<IArticleProps> = ({ article }) => {
   const { title, image, user, date, tags } = article;
@@ -22,7 +21,7 @@ export const Article: FC<IArticleProps> = ({ article }) => {
   return (
     <article>
       <StyledArticleCard>
-        <Link to={HOME_PATH}>
+        <Link to={ARTICLE_PATH}>
           <CardMedia
             component="img"
             height="300"
@@ -38,27 +37,17 @@ export const Article: FC<IArticleProps> = ({ article }) => {
           />
 
           <StyledCardTitle>
-            <Link to={HOME_PATH}>{title}</Link>
+            <Link to={ARTICLE_PATH}>{title}</Link>
           </StyledCardTitle>
-
           <StyledTagsWrapper>
-            <StyledTags>
-              {tags.map((tag) => (
-                <Link to={HOME_PATH} key={nanoid()}>
-                  {tag}
-                </Link>
-              ))}
-            </StyledTags>
-            <StyledTags>
-              <span>Add to favorites</span>
-
-              <StyledIconButton aria-label="like" disableRipple>
-                <FavoriteBorderIcon className="favorite-border-icon" />
-
-                <FavoriteIcon className="favorite-icon" />
-              </StyledIconButton>
-            </StyledTags>
+            {tags.map((tag) => (
+              <ArticleTag tag={tag} link="/" key={nanoid()} />
+            ))}
           </StyledTagsWrapper>
+          <FavoriteWrapper>
+            <span>Add to favorites</span>
+            <LikeButton />
+          </FavoriteWrapper>
         </StyledCardContent>
       </StyledArticleCard>
     </article>

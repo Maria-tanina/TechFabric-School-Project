@@ -2,15 +2,6 @@ import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import { MenuItem } from "@mui/material";
 
-export const NavigateWrap = styled.nav`
-  position: sticky;
-  top: 15px;
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  gap: 43px;
-  max-width: 240px;
-`;
 export const MenuList = styled.ul`
   display: flex;
   flex-direction: column;
@@ -25,6 +16,7 @@ export const MenuItemStyle = styled(MenuItem)(
     justify-content: center;
     &:hover{
     border-radius: 5px;
+    transition: .4s ease-in-out;
     background-color: ${colors.main};
     a,svg{
         color:  ${colors.white};
@@ -64,6 +56,32 @@ export const MenuLink = styled(NavLink)(
 `
 );
 
+export const MenuButton = styled.div(
+  ({ theme: { colors, fontSizes, media } }) => `
+  display: flex;
+  color: ${colors.graphite};
+  font-size: 0;
+  line-height: 24px;
+  font-weight: 500;
+  width: auto;
+  padding: 10px 12px;
+  
+  &:hover{
+    color: ${colors.white};
+  }
+  
+  .MuiSvgIcon-root{
+    color: ${colors.graphite};
+    font-weight: 700;
+  }
+  
+  ${media.desktop} {
+    font-size: ${fontSizes.button};
+    width: 100%;
+  }
+`
+);
+
 export const MenuWrap = styled.div`
   width: 100%;
 `;
@@ -83,3 +101,9 @@ export const MenuHeading = styled.h2(
   }
 `
 );
+export const NavWrapper = styled.nav`
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 43px;
+`;

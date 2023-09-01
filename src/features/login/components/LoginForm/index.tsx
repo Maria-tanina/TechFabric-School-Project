@@ -12,7 +12,7 @@ import { FORGOT_PASSWORD_PATH, HOME_PATH } from "@constants/paths";
 import { useLoginMutation } from "@services/authApi";
 import { ILoginData } from "@customTypes/authTypes";
 import { useAppDispatch } from "../../../../store";
-import { setIsLogin, setUserInfo } from "@features/user/usersSlice";
+import { setIsLogin } from "@features/user/usersSlice";
 import { getErrorMessage } from "@helpers/errorHandlers";
 import { CircularProgress, IconButton, InputAdornment } from "@mui/material";
 import { useNotification } from "@hooks/useNotification";
@@ -48,8 +48,7 @@ export const LoginForm = () => {
 
   const onSubmit = async (loginData: ILoginData) => {
     try {
-      const userInfo = await login(loginData).unwrap();
-      dispatch(setUserInfo(userInfo));
+      await login(loginData);
       dispatch(setIsLogin(true));
       navigate(HOME_PATH);
     } catch (error) {

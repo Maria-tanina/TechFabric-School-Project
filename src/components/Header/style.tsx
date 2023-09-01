@@ -8,6 +8,7 @@ export const HeaderWrapper = styled.header(
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 15px;
   ${media.desktop} {
     padding: ${paddings.headerPadding};
   }
@@ -18,6 +19,7 @@ export const HeaderLeftSide = styled.div(
   display: flex;
   align-items: center;
   gap: 30px;
+  width: 52%;
   ${media.desktop} {
     gap: 60px;
   }
@@ -26,5 +28,5 @@ export const HeaderLeftSide = styled.div(
 export const HeaderRightSide = styled.div`
   display: flex;
   gap: 12px;
-  align-items: flex-start;
+  align-items: center;
 `;
