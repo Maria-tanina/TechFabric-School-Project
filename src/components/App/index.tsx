@@ -11,6 +11,7 @@ import {
   REGISTRATION_CONFIRM_PATH,
   SIGNUP_PATH,
   SUCCESS_CONFIRMATION_PATH,
+  RULES_PATH,
 } from "@constants/paths";
 import RegistrationConfirm from "@pages/RegistrationConfirm";
 import SuccessConfirmation from "@pages/SuccessConfirmation";
@@ -24,6 +25,7 @@ import { NotificationProvider } from "@hooks/useNotification";
 import { ArticlePage } from "@pages/ArticlePage";
 import AdminUserList from "@pages/AdminUserList";
 import { Role } from "@constants/roles";
+import RulesPage from "@pages/Rules";
 
 const App = () => {
   return (
@@ -38,6 +40,8 @@ const App = () => {
             <Route path={SIGNUP_PATH} element={<SignUp />} />
 
             <Route path={ARTICLE_PATH} element={<ArticlePage />} />
+
+            <Route path={RULES_PATH} element={<RulesPage />} />
 
             <Route
               path={REGISTRATION_CONFIRM_PATH}
