@@ -1,4 +1,4 @@
-import { InputAdornment } from "@mui/material";
+import { InputAdornment, TextFieldProps } from "@mui/material";
 import { StyledTextField } from "@components/Input/style";
 import { FC } from "react";
 import { IInputProps } from "components/Input/types";
@@ -14,6 +14,7 @@ const Input: FC<IInputProps> = ({
   label,
   icon,
   endAdornment,
+  ...rest
 }) => {
   return (
     <StyledTextField
@@ -25,6 +26,7 @@ const Input: FC<IInputProps> = ({
       helperText={errorMessage}
       error={error}
       autoComplete={autocomplete || ""}
+      {...(rest as TextFieldProps)}
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">{icon}</InputAdornment>

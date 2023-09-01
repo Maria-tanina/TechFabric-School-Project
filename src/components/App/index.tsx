@@ -12,6 +12,7 @@ import {
   SIGNUP_PATH,
   SUCCESS_CONFIRMATION_PATH,
   RULES_PATH,
+  CONTACT_US_PATH,
 } from "@constants/paths";
 import RegistrationConfirm from "@pages/RegistrationConfirm";
 import SuccessConfirmation from "@pages/SuccessConfirmation";
@@ -26,6 +27,7 @@ import { ArticlePage } from "@pages/ArticlePage";
 import AdminUserList from "@pages/AdminUserList";
 import { Role } from "@constants/roles";
 import RulesPage from "@pages/Rules";
+import ContactUs from "@pages/ContactUs";
 
 const App = () => {
   return (
@@ -59,6 +61,8 @@ const App = () => {
               path={PASSWORD_RECOVERY_PATH}
               element={<PasswordRecovery />}
             />
+
+            <Route path={CONTACT_US_PATH} element={<ContactUs />} />
 
             <Route path="*" element={<NotFound />} />
 
