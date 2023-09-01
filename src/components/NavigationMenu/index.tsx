@@ -25,7 +25,7 @@ const NavigationMenu = () => {
 
   const { data: userInfo } = useGetUsersInfoQuery();
 
-  const currentRole = isLogin ? userInfo?.userRole : Role.Guest;
+  const currentRole = isLogin && userInfo ? userInfo?.userRole : Role.Guest;
 
   const dispatch = useAppDispatch();
 
