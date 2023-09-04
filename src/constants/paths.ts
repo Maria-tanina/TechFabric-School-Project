@@ -22,6 +22,8 @@ export const REGISTRATION_CONFIRM_PATH = "/registration-confirm";
 
 export const SUCCESS_CONFIRMATION_PATH = "/success-confirmation";
 
+export const SUCCESS_PUBLISHED_PATH = "/success-published";
+
 export const FACEBOOK_PATH = "/";
 
 export const INSTAGRAM_PATH = "/";
@@ -33,4 +35,5 @@ export const FORGOT_PASSWORD_PATH = "/forgot-password";
 export const PASSWORD_RECOVERY_PATH = "/recovery-password";
 
 export const ADMIN_USER_LIST_PATH = "/user-list";
+
 export const ARTICLE_PATH = "/article";

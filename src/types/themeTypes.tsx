@@ -43,6 +43,7 @@ interface IThemeTypes {
   media: {
     tablet: string;
     desktop: string;
+    desktopLarge: string;
   };
 }
 

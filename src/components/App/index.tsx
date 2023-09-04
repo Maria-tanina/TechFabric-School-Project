@@ -13,6 +13,7 @@ import {
   SUCCESS_CONFIRMATION_PATH,
   RULES_PATH,
   CONTACT_US_PATH,
+  SUCCESS_PUBLISHED_PATH,
 } from "@constants/paths";
 import RegistrationConfirm from "@pages/RegistrationConfirm";
 import SuccessConfirmation from "@pages/SuccessConfirmation";
@@ -28,6 +29,7 @@ import AdminUserList from "@pages/AdminUserList";
 import { Role } from "@constants/roles";
 import RulesPage from "@pages/Rules";
 import ContactUs from "@pages/ContactUs";
+import { PublishSuccessPage } from "@pages/PublishSuccess";
 
 const App = () => {
   return (
@@ -44,6 +46,11 @@ const App = () => {
             <Route path={ARTICLE_PATH} element={<ArticlePage />} />
 
             <Route path={RULES_PATH} element={<RulesPage />} />
+
+            <Route
+              path={SUCCESS_PUBLISHED_PATH}
+              element={<PublishSuccessPage />}
+            />
 
             <Route
               path={REGISTRATION_CONFIRM_PATH}
