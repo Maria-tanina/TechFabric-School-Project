@@ -14,6 +14,7 @@ import {
   RULES_PATH,
   CONTACT_US_PATH,
   SUCCESS_PUBLISHED_PATH,
+  CREATE_POST_PATH,
 } from "@constants/paths";
 import RegistrationConfirm from "@pages/RegistrationConfirm";
 import SuccessConfirmation from "@pages/SuccessConfirmation";
@@ -29,6 +30,7 @@ import AdminUserList from "@pages/AdminUserList";
 import { Role } from "@constants/roles";
 import RulesPage from "@pages/Rules";
 import ContactUs from "@pages/ContactUs";
+import CreatePostPage from "@pages/CreatePostPage";
 import { PublishSuccessPage } from "@pages/PublishSuccess";
 
 const App = () => {
@@ -72,6 +74,8 @@ const App = () => {
             <Route path={CONTACT_US_PATH} element={<ContactUs />} />
 
             <Route path="*" element={<NotFound />} />
+
+            <Route path={CREATE_POST_PATH} element={<CreatePostPage />} />
 
             {/*protected routes*/}
             <Route
