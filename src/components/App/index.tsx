@@ -85,8 +85,6 @@ const App = () => {
               }
             >
               <Route path={ADMIN_USER_LIST_PATH} element={<AdminUserList />} />
-
-              <Route path={CREATE_POST_PATH} element={<CreatePostPage />} />
             </Route>
 
             <Route
