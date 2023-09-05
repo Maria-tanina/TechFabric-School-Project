@@ -6,7 +6,7 @@ import {
   StyledTopEditor,
   HiddenFileInput,
 } from "./style";
-import { ChangeEvent, SyntheticEvent, useRef} from "react";
+import { ChangeEvent, SyntheticEvent, useRef } from "react";
 import { ArticleInput } from "@components/ArticleInput";
 import TagsSelect from "@components/TagsSelect";
 import { IOption } from "@components/TagsSelect/types";
@@ -23,13 +23,13 @@ import {
   setThemes,
   setTitle,
 } from "@features/article/articleSlice";
-import { themesOptions } from "./themes";
 import { tagsOptions } from "./tags";
 import { useAppDispatch, useAppSelector } from "../../../../store";
 import { StyledTagsSelect } from "@components/TagsSelect/style";
 import { useNotification } from "@hooks/useNotification";
 import { fileToBase64 } from "@helpers/fileToBase64";
-import { FilePreview } from "@pages/CreatePostPage/components/FilePreview";
+import { FilePreview } from "../FilePreview";
+import { themesOptions } from "./themes";
 
 export const TopEditor = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -52,10 +52,18 @@ export const TopEditor = () => {
 
   const handleChangeTags = (
     event: SyntheticEvent<Element, Event>,
-    newValue: IOption[]
+    newValue: (IOption | string)[]
   ) => {
     if (newValue.length <= 5) {
-      dispatch(setTags(newValue));
+      const newTags = newValue.map((tag) => {
+        if (typeof tag === "string") {
+          tag = tag[0] === "#" ? tag : `#${tag}`;
+          return { title: tag };
+        } else {
+          return tag;
+        }
+      });
+      dispatch(setTags(newTags));
     } else {
       showNotification(
         "You can choose up to 5 tags. Please delete 1 tag to add another one.",
@@ -66,9 +74,17 @@ export const TopEditor = () => {
 
   const handleChangeThemes = (
     event: SyntheticEvent<Element, Event>,
-    newValue: IOption[]
+    newValue: (IOption | string)[]
   ) => {
-    dispatch(setThemes(newValue));
+    const themes = newValue.map((tag) => {
+      if (typeof tag === "string") {
+        tag = tag[0] === "#" ? tag : `#${tag}`;
+        return { title: tag };
+      } else {
+        return tag;
+      }
+    });
+    dispatch(setThemes(themes));
   };
 
   const onSelectFiles = async (e: ChangeEvent<HTMLInputElement>) => {

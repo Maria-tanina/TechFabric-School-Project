@@ -14,27 +14,43 @@ const AutocompleteSelect: FC<IAutocompleteSelectProps> = ({
 }) => {
   const optionsWithTitle = [{ title }, ...options];
 
-  const getOptionDisabled = (option: { title: string }) => {
-    return option.title === title;
+  const getOptionDisabled = (option: { title: string } | string) => {
+    if (typeof option === "string") {
+      return false;
+    } else {
+      return option.title === title;
+    }
   };
 
-  const filterOptions = (options: IOption[], state: { inputValue: string }) => {
+  const filterOptions = (
+    options: (IOption | string)[],
+    state: { inputValue: string }
+  ) => {
     if (state.inputValue) {
-      return options.filter(
-        (option, index) =>
-          index === 0 || option.title.includes(state.inputValue)
-      );
+      return options.filter((option, index) => {
+        if (index === 0) {
+          return true;
+        }
+        if (typeof option === "string") {
+          return option.includes(state.inputValue);
+        } else {
+          return option.title.includes(state.inputValue);
+        }
+      });
     }
     return options;
   };
 
   return (
     <Autocomplete
-      {...(rest as AutocompleteProps<IOption, true, false, false>)}
+      {...(rest as AutocompleteProps<IOption | string, true, false, true>)}
       multiple
       options={optionsWithTitle}
-      getOptionLabel={(option) => option.title}
+      getOptionLabel={(option) =>
+        typeof option === "string" ? option : option.title
+      }
       filterSelectedOptions
+      freeSolo
       getOptionDisabled={getOptionDisabled}
       filterOptions={filterOptions}
       ChipProps={{
