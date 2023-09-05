@@ -75,8 +75,6 @@ const App = () => {
 
             <Route path="*" element={<NotFound />} />
 
-            <Route path={CREATE_POST_PATH} element={<CreatePostPage />} />
-
             {/*protected routes*/}
             <Route
               element={
@@ -87,6 +85,19 @@ const App = () => {
               }
             >
               <Route path={ADMIN_USER_LIST_PATH} element={<AdminUserList />} />
+
+              <Route path={CREATE_POST_PATH} element={<CreatePostPage />} />
+            </Route>
+
+            <Route
+              element={
+                <RequireAuth
+                  redirectTo={LOGIN_PATH}
+                  allowedRoles={[Role.Author, Role.SuperAdmin]}
+                />
+              }
+            >
+              <Route path={CREATE_POST_PATH} element={<CreatePostPage />} />
             </Route>
           </Routes>
         </NotificationProvider>
