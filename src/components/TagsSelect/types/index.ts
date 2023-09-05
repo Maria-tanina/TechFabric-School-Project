@@ -4,7 +4,7 @@ export interface IOption {
   title: string;
 }
 export interface IAutocompleteSelectProps
-  extends AutocompleteProps<any, any, any, any> {
+  extends AutocompleteProps<IOption, true, false, false> {
   options: IOption[];
   title: string;
 }

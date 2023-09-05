@@ -1,6 +1,5 @@
-import "react-quill/dist/quill.snow.css";
 import { ButtonsWrapper, StyledEditorWrapper, StyledReactQuill } from "./style";
-import { TopEditor } from "@pages/CreatePostPage/components/TopEditor";
+import { TopEditor } from "../TopEditor";
 import { OutlinedButton } from "@components/OutlinedButton";
 import { GhostButton } from "@components/GhostButton";
 import { Link } from "react-router-dom";
@@ -8,6 +7,7 @@ import { ARTICLE_PREVIEW_PATH } from "@constants/paths";
 import { setContent } from "@features/article/articleSlice";
 import { selectArticleContent } from "@features/article/articleSelectors";
 import { useAppDispatch, useAppSelector } from "../../../../store";
+import "react-quill/dist/quill.snow.css";
 
 const Editor = () => {
   const content = useAppSelector(selectArticleContent);
