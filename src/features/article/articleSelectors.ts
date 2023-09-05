@@ -7,3 +7,5 @@ export const selectArticleTitle = (state: RootState) => state.article.title;
 export const selectArticleTags = (state: RootState) => state.article.tags;
 
 export const selectArticleThemes = (state: RootState) => state.article.themes;
+
+export const selectArticleContent = (state: RootState) => state.article.content;

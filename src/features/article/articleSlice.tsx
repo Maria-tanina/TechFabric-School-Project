@@ -10,6 +10,7 @@ const initialState: IArticleSliceInitialState = {
   title: "",
   tags: [],
   themes: [],
+  content: "",
 };
 
 const articleSlice = createSlice({
@@ -34,10 +35,19 @@ const articleSlice = createSlice({
     setThemes: (state, action: PayloadAction<IOption[]>) => {
       state.themes = action.payload;
     },
+    setContent: (state, action: PayloadAction<string>) => {
+      state.content = action.payload;
+    },
   },
 });
 
-export const { setImage, clearImage, setTitle, setTags, setThemes } =
-  articleSlice.actions;
+export const {
+  setImage,
+  clearImage,
+  setTitle,
+  setTags,
+  setThemes,
+  setContent,
+} = articleSlice.actions;
 
 export default articleSlice.reducer;

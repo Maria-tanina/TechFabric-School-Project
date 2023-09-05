@@ -10,4 +10,5 @@ export interface IArticleSliceInitialState {
   title: string;
   tags: IOption[];
   themes: IOption[];
+  content: string;
 }

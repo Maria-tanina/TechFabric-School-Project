@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import { ButtonsWrapper, StyledEditorWrapper, StyledReactQuill } from "./style";
 import { TopEditor } from "@pages/CreatePostPage/components/TopEditor";
@@ -6,9 +5,18 @@ import { OutlinedButton } from "@components/OutlinedButton";
 import { GhostButton } from "@components/GhostButton";
 import { Link } from "react-router-dom";
 import { ARTICLE_PREVIEW_PATH } from "@constants/paths";
+import { setContent } from "@features/article/articleSlice";
+import { selectArticleContent } from "@features/article/articleSelectors";
+import { useAppDispatch, useAppSelector } from "../../../../store";
 
 const Editor = () => {
-  const [value, setValue] = useState("");
+  const content = useAppSelector(selectArticleContent);
+
+  const dispatch = useAppDispatch();
+
+  const handleEditorChange = (value: string) => {
+    dispatch(setContent(value));
+  };
 
   const modules = {
     toolbar: [
@@ -27,8 +35,8 @@ const Editor = () => {
 
       <StyledReactQuill
         theme="snow"
-        value={value}
-        onChange={setValue}
+        value={content}
+        onChange={handleEditorChange}
         modules={modules}
         placeholder="Write your article content here..."
       />
