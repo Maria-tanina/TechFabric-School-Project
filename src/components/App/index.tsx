@@ -14,6 +14,7 @@ import {
   RULES_PATH,
   CONTACT_US_PATH,
   SUCCESS_PUBLISHED_PATH,
+  MY_ARTICLES_PATH,
 } from "@constants/paths";
 import RegistrationConfirm from "@pages/RegistrationConfirm";
 import SuccessConfirmation from "@pages/SuccessConfirmation";
@@ -30,6 +31,7 @@ import { Role } from "@constants/roles";
 import RulesPage from "@pages/Rules";
 import ContactUs from "@pages/ContactUs";
 import { PublishSuccessPage } from "@pages/PublishSuccess";
+import MyArticlesPage from "@pages/MyArticlesPage";
 
 const App = () => {
   return (
@@ -70,6 +72,8 @@ const App = () => {
             />
 
             <Route path={CONTACT_US_PATH} element={<ContactUs />} />
+
+            <Route path={MY_ARTICLES_PATH} element={<MyArticlesPage />} />
 
             <Route path="*" element={<NotFound />} />
 

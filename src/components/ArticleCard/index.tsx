@@ -15,7 +15,7 @@ import { LikeButton } from "@components/LikeButton";
 import { ArticleTag } from "@components/ArticleTag";
 import { IArticleProps } from "@customTypes/article";
 
-export const Article: FC<IArticleProps> = ({ article }) => {
+export const ArticleCard: FC<IArticleProps> = ({ article }) => {
   const { title, image, user, date, tags } = article;
 
   return (
@@ -54,4 +54,4 @@ export const Article: FC<IArticleProps> = ({ article }) => {
   );
 };
 
-export default Article;
+export default ArticleCard;
