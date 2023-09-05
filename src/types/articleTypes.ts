@@ -3,13 +3,14 @@ export interface IArticleProps {
 }
 
 export interface IArticle {
-  id: number;
   title: string;
-  image: string;
-  user: {
+  description: string;
+  author: {
+    id: string;
     firstName: string;
     lastName: string;
   };
-  date: string;
-  tags: string[];
+  status: string;
+  updatedAt: string;
+  createdAt: string;
 }
