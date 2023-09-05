@@ -9,6 +9,7 @@ export const StyledTagsSelect = styled(TextField)(
     font-size: 15px;
     font-weight: 500;
     line-height: 24px;
+    height: auto;
     
     &:hover {
       background-color: transparent;
@@ -36,10 +37,6 @@ export const StyledTagsSelect = styled(TextField)(
       .MuiChip-label {
         padding-left: 8px;
       }
-    }
-    
-    ul:first-child  {
-    color: red;
     }
   }
 `

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IArticleSliceInitialState } from "./types";
+import { IArticleSliceInitialState, IImage } from "./types";
 import { IOption } from "@components/TagsSelect/types";
 
 const initialState: IArticleSliceInitialState = {
@@ -16,11 +16,14 @@ const articleSlice = createSlice({
   name: "article",
   initialState,
   reducers: {
-    setImage: (
-      state,
-      action: PayloadAction<{ fileName: string; base64String: string }>
-    ) => {
+    setImage: (state, action: PayloadAction<IImage>) => {
       state.image = action.payload;
+    },
+    clearImage: (state) => {
+      state.image = {
+        fileName: "",
+        base64String: "",
+      };
     },
     setTitle: (state, action: PayloadAction<string>) => {
       state.title = action.payload;
@@ -34,6 +37,7 @@ const articleSlice = createSlice({
   },
 });
 
-export const { setImage, setTitle, setTags, setThemes } = articleSlice.actions;
+export const { setImage, clearImage, setTitle, setTags, setThemes } =
+  articleSlice.actions;
 
 export default articleSlice.reducer;

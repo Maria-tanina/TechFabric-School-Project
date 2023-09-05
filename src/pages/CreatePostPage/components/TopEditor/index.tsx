@@ -1,12 +1,14 @@
 import { SecondButton } from "@components/SecondButton";
 import {
   FieldsWrapper,
+  FilePreviewWrapper,
   FlexWrapper,
   HiddenFileInput,
   SecondText,
+  StyledIconButton,
   StyledTopEditor,
 } from "./style";
-import { ChangeEvent, SyntheticEvent } from "react";
+import { ChangeEvent, SyntheticEvent, useMemo, useRef, useState } from "react";
 import { ArticleInput } from "@components/ArticleInput";
 import TagsSelect from "@components/TagsSelect";
 import { IOption } from "@components/TagsSelect/types";
@@ -16,6 +18,7 @@ import {
   selectArticleTitle,
 } from "@features/article/articleSelectors";
 import {
+  clearImage,
   setImage,
   setTags,
   setThemes,
@@ -26,8 +29,18 @@ import { tagsOptions } from "./tags";
 import { useAppDispatch, useAppSelector } from "../../../../store";
 import { StyledTagsSelect } from "@components/TagsSelect/style";
 import { useNotification } from "@hooks/useNotification";
+import ClearIcon from "@mui/icons-material/Clear";
 
 export const TopEditor = () => {
+  const [files, setFiles] = useState<File[]>([]);
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const urls = useMemo(
+    () => files.map((file) => URL.createObjectURL(file)),
+    [files]
+  );
+
   const title = useAppSelector(selectArticleTitle);
 
   const tags = useAppSelector(selectArticleTags);
@@ -77,33 +90,57 @@ export const TopEditor = () => {
   const onSelectFiles = async (e: ChangeEvent<HTMLInputElement>) => {
     const fileInput = e.target;
     if (fileInput.files && fileInput.files.length > 0) {
+      setFiles([...fileInput.files]);
       const file = fileInput.files[0];
-      const tempFileList: { fileName: string; base64String: string } = {
+      const fileInfo: { fileName: string; base64String: string } = {
         fileName: file.name,
         base64String:
           file.type.indexOf("image") > -1 ? await fileToBase64(file) : "",
       };
-
-      dispatch(setImage(tempFileList));
+      dispatch(setImage(fileInfo));
     }
   };
+
+  const clearSelectedFiles = () => {
+    setFiles([]);
+    dispatch(clearImage());
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  const selectedFilePreview = urls.map((url, i) => {
+    const filename = files[i].name;
+    return (
+      <FilePreviewWrapper key={url}>
+        <img src={url} width={70} height={70} key={i} alt={filename} />
+        <StyledIconButton size="small" onClick={clearSelectedFiles}>
+          <ClearIcon fontSize="inherit" />
+        </StyledIconButton>
+      </FilePreviewWrapper>
+    );
+  });
 
   return (
     <StyledTopEditor>
       <FlexWrapper>
-        <SecondButton $width="40%">
+        <SecondButton $width="40%" sx={{ flexShrink: 0 }}>
           Add Cover Image
           <HiddenFileInput
+            ref={fileInputRef}
             type="file"
             accept="image/png, image/gif, image/jpeg, image/bmp, image/x-icon"
             onChange={onSelectFiles}
           />
         </SecondButton>
-
-        <SecondText>
-          Make sure you use an image of the right size and proportion: use a
-          100:42 ratio for best results.
-        </SecondText>
+        {selectedFilePreview.length ? (
+          selectedFilePreview
+        ) : (
+          <SecondText>
+            Make sure you use an image of the right size and proportion: use a
+            100:42 ratio for best results.
+          </SecondText>
+        )}
       </FlexWrapper>
 
       <FieldsWrapper>
