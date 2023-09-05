@@ -19,7 +19,7 @@ const AutocompleteSelect: FC<IAutocompleteSelectProps> = ({
   };
 
   const filterOptions = (
-    options: Array<{ title: string }>,
+    options: IOption[],
     state: { inputValue: string }
   ) => {
     if (state.inputValue) {
