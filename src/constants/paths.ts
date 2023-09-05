@@ -37,5 +37,3 @@ export const PASSWORD_RECOVERY_PATH = "/recovery-password";
 export const ADMIN_USER_LIST_PATH = "/user-list";
 
 export const ARTICLE_PATH = "/article";
-
-export const ARTICLE_PREVIEW_PATH = "/article-preview";

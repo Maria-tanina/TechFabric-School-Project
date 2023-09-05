@@ -6,11 +6,12 @@ import {
   StyledTopEditor,
   HiddenFileInput,
 } from "./style";
-import { ChangeEvent, SyntheticEvent, useMemo, useRef, useState } from "react";
+import { ChangeEvent, SyntheticEvent, useRef} from "react";
 import { ArticleInput } from "@components/ArticleInput";
 import TagsSelect from "@components/TagsSelect";
 import { IOption } from "@components/TagsSelect/types";
 import {
+  selectArticleImage,
   selectArticleTags,
   selectArticleThemes,
   selectArticleTitle,
@@ -31,14 +32,9 @@ import { fileToBase64 } from "@helpers/fileToBase64";
 import { FilePreview } from "@pages/CreatePostPage/components/FilePreview";
 
 export const TopEditor = () => {
-  const [files, setFiles] = useState<File[]>([]);
-
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const urls = useMemo(
-    () => files.map((file) => URL.createObjectURL(file)),
-    [files]
-  );
+  const image = useAppSelector(selectArticleImage);
 
   const title = useAppSelector(selectArticleTitle);
 
@@ -78,7 +74,6 @@ export const TopEditor = () => {
   const onSelectFiles = async (e: ChangeEvent<HTMLInputElement>) => {
     const fileInput = e.target;
     if (fileInput.files && fileInput.files.length > 0) {
-      setFiles([...fileInput.files]);
       const file = fileInput.files[0];
       const fileInfo: { fileName: string; base64String: string } = {
         fileName: file.name,
@@ -90,7 +85,6 @@ export const TopEditor = () => {
   };
 
   const clearSelectedFiles = () => {
-    setFiles([]);
     dispatch(clearImage());
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
@@ -109,10 +103,9 @@ export const TopEditor = () => {
             onChange={onSelectFiles}
           />
         </SecondButton>
-        {urls.length ? (
+        {image.base64String ? (
           <FilePreview
-            urls={urls}
-            files={files}
+            url={image.base64String}
             clearSelectedFiles={clearSelectedFiles}
           />
         ) : (

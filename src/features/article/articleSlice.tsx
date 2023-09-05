@@ -11,6 +11,7 @@ const initialState: IArticleSliceInitialState = {
   tags: [],
   themes: [],
   content: "",
+  showPreview: false,
 };
 
 const articleSlice = createSlice({
@@ -38,6 +39,9 @@ const articleSlice = createSlice({
     setContent: (state, action: PayloadAction<string>) => {
       state.content = action.payload;
     },
+    setShowPreview: (state) => {
+      state.showPreview = !state.showPreview;
+    },
   },
 });
 
@@ -48,6 +52,7 @@ export const {
   setTags,
   setThemes,
   setContent,
+  setShowPreview,
 } = articleSlice.actions;
 
 export default articleSlice.reducer;

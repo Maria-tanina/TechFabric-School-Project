@@ -4,6 +4,7 @@ import ReactQuill from "react-quill";
 export const StyledEditorWrapper = styled.div`
   width: 65%;
   flex-shrink: 0;
+  overflow: hidden;
 `;
 
 export const StyledReactQuill = styled(ReactQuill)`
@@ -32,7 +33,7 @@ export const StyledReactQuill = styled(ReactQuill)`
   }
   .ql-editor.ql-blank::before,
   .ql-editor p {
-    font-family: Archivo;
+    font-family: "Archivo", sans-serif;
     font-size: 15px;
     font-style: normal;
     font-weight: 500;
