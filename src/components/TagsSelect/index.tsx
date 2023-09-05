@@ -18,10 +18,7 @@ const AutocompleteSelect: FC<IAutocompleteSelectProps> = ({
     return option.title === title;
   };
 
-  const filterOptions = (
-    options: IOption[],
-    state: { inputValue: string }
-  ) => {
+  const filterOptions = (options: IOption[], state: { inputValue: string }) => {
     if (state.inputValue) {
       return options.filter(
         (option, index) =>

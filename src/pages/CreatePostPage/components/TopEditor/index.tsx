@@ -1,12 +1,10 @@
 import { SecondButton } from "@components/SecondButton";
 import {
   FieldsWrapper,
-  FilePreviewWrapper,
   FlexWrapper,
-  HiddenFileInput,
   SecondText,
-  StyledIconButton,
   StyledTopEditor,
+  HiddenFileInput,
 } from "./style";
 import { ChangeEvent, SyntheticEvent, useMemo, useRef, useState } from "react";
 import { ArticleInput } from "@components/ArticleInput";
@@ -29,7 +27,8 @@ import { tagsOptions } from "./tags";
 import { useAppDispatch, useAppSelector } from "../../../../store";
 import { StyledTagsSelect } from "@components/TagsSelect/style";
 import { useNotification } from "@hooks/useNotification";
-import ClearIcon from "@mui/icons-material/Clear";
+import { fileToBase64 } from "@helpers/fileToBase64";
+import { FilePreview } from "@pages/CreatePostPage/components/FilePreview";
 
 export const TopEditor = () => {
   const [files, setFiles] = useState<File[]>([]);
@@ -76,17 +75,6 @@ export const TopEditor = () => {
     dispatch(setThemes(newValue));
   };
 
-  const fileToBase64 = (file: File | Blob): Promise<string> =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        resolve(reader.result as string);
-      };
-
-      reader.readAsDataURL(file);
-      reader.onerror = reject;
-    });
-
   const onSelectFiles = async (e: ChangeEvent<HTMLInputElement>) => {
     const fileInput = e.target;
     if (fileInput.files && fileInput.files.length > 0) {
@@ -109,18 +97,6 @@ export const TopEditor = () => {
     }
   };
 
-  const selectedFilePreview = urls.map((url, i) => {
-    const filename = files[i].name;
-    return (
-      <FilePreviewWrapper key={url}>
-        <img src={url} width={70} height={70} key={i} alt={filename} />
-        <StyledIconButton size="small" onClick={clearSelectedFiles}>
-          <ClearIcon fontSize="inherit" />
-        </StyledIconButton>
-      </FilePreviewWrapper>
-    );
-  });
-
   return (
     <StyledTopEditor>
       <FlexWrapper>
@@ -133,8 +109,12 @@ export const TopEditor = () => {
             onChange={onSelectFiles}
           />
         </SecondButton>
-        {selectedFilePreview.length ? (
-          selectedFilePreview
+        {urls.length ? (
+          <FilePreview
+            urls={urls}
+            files={files}
+            clearSelectedFiles={clearSelectedFiles}
+          />
         ) : (
           <SecondText>
             Make sure you use an image of the right size and proportion: use a

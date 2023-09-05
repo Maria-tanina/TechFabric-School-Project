@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { IconButton } from "@mui/material";
 
 export const StyledTopEditor = styled.div(
   ({ theme: { colors } }) => `
@@ -52,17 +51,4 @@ export const HiddenFileInput = styled.input`
   top: 0;
   opacity: 0;
   right: 0;
-`;
-
-export const StyledIconButton = styled(IconButton)`
-  &.MuiButtonBase-root {
-    position: absolute;
-    right: -13px;
-    top: -13px;
-  }
-`;
-
-export const FilePreviewWrapper = styled.div`
-  position: relative;
-  max-width: 60%;
 `;
