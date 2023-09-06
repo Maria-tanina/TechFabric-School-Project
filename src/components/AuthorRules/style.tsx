@@ -13,6 +13,7 @@ export const RulesList = styled.ol`
 `;
 export const AuthorRulesWrapper = styled.div`
   max-width: 520px;
+  width: 35%;
 `;
 
 export const RulesListItem = styled.li(

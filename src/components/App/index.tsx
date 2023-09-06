@@ -14,6 +14,7 @@ import {
   RULES_PATH,
   CONTACT_US_PATH,
   SUCCESS_PUBLISHED_PATH,
+  CREATE_POST_PATH,
 } from "@constants/paths";
 import RegistrationConfirm from "@pages/RegistrationConfirm";
 import SuccessConfirmation from "@pages/SuccessConfirmation";
@@ -29,6 +30,7 @@ import AdminUserList from "@pages/AdminUserList";
 import { Role } from "@constants/roles";
 import RulesPage from "@pages/Rules";
 import ContactUs from "@pages/ContactUs";
+import CreatePostPage from "@pages/CreatePostPage";
 import { PublishSuccessPage } from "@pages/PublishSuccess";
 
 const App = () => {
@@ -83,6 +85,17 @@ const App = () => {
               }
             >
               <Route path={ADMIN_USER_LIST_PATH} element={<AdminUserList />} />
+            </Route>
+
+            <Route
+              element={
+                <RequireAuth
+                  redirectTo={LOGIN_PATH}
+                  allowedRoles={[Role.Author, Role.SuperAdmin]}
+                />
+              }
+            >
+              <Route path={CREATE_POST_PATH} element={<CreatePostPage />} />
             </Route>
           </Routes>
         </NotificationProvider>

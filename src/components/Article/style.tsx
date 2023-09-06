@@ -44,6 +44,8 @@ export const ArticleTags = styled.div`
 `;
 export const ArticleSubject = styled.div(
   ({ theme: { colors } }) => `
+  margin-bottom: 25px;
+  
   span{
     color: ${colors.black};
     font-size: 16px;
