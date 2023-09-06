@@ -58,6 +58,7 @@ const AutocompleteSelect: FC<IAutocompleteSelectProps> = ({
         typeof option === "string" ? option : option.title
       }
       freeSolo
+      filterSelectedOptions
       getOptionDisabled={getOptionDisabled}
       filterOptions={filterOptions}
       ChipProps={{
