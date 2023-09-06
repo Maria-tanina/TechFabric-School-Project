@@ -9,7 +9,7 @@ export const StyledEditorWrapper = styled.div`
 
 export const StyledReactQuill = styled(ReactQuill)`
   .ql-toolbar {
-    height: 56px;
+    height: auto;
   }
   .ql-toolbar,
   .ql-container {
@@ -21,7 +21,9 @@ export const StyledReactQuill = styled(ReactQuill)`
     padding: 0;
   }
   .ql-toolbar .ql-formats {
-    margin-right: 32px;
+    &:not(:last-child) {
+      margin-right: 32px;
+    }
   }
   .ql-container {
     border-radius: 0 0 8px 8px;
