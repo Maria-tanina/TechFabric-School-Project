@@ -26,19 +26,31 @@ interface IArticlePreviewProps {
 }
 
 export const ArticlePreview: FC<IArticlePreviewProps> = ({ article }) => {
-  const sanitizedContent = { __html: DOMPurify.sanitize(article.content) };
+  const { image, themes, tags, title, content } = article;
+
+  const sanitizedContent = { __html: DOMPurify.sanitize(content) };
+
   return (
     <ArticlePreviewWrap>
-      <ArticlePreviewMainImage src={article.image.base64String} />
+      <ArticlePreviewMainImage src={image.base64String} />
       <ArticleBody>
-        <ArticleMainHeader>{article.title}</ArticleMainHeader>
+        <ArticleMainHeader>{title}</ArticleMainHeader>
         <ArticleTags>
-          {article.tags.map((tag) => (
+          {tags.map((tag) => (
             <ArticleTag tag={tag.title} link="/" key={tag.title} />
           ))}
         </ArticleTags>
         <ArticleSubject>
-          <span>Subject: {article.themes.map((theme) => theme.title)}</span>
+          <span>
+            Subject:{" "}
+            {themes.map((theme, i) => {
+              if (i === themes.length - 1) {
+                return theme.title;
+              } else {
+                return `${theme.title}, `;
+              }
+            })}
+          </span>
         </ArticleSubject>
         <StyledContentWrapper dangerouslySetInnerHTML={sanitizedContent} />
       </ArticleBody>

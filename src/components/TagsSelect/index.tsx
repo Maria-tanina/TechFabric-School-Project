@@ -31,11 +31,11 @@ const AutocompleteSelect: FC<IAutocompleteSelectProps> = ({
         if (index === 0) {
           return true;
         }
-        if (typeof option === "string") {
-          return option.includes(state.inputValue);
-        } else {
-          return option.title.includes(state.inputValue);
-        }
+        return (
+          (typeof option === "string" && option.includes(state.inputValue)) ||
+          (typeof option !== "string" &&
+            option.title.includes(state.inputValue))
+        );
       });
     }
     return options;
@@ -49,7 +49,6 @@ const AutocompleteSelect: FC<IAutocompleteSelectProps> = ({
       getOptionLabel={(option) =>
         typeof option === "string" ? option : option.title
       }
-      filterSelectedOptions
       freeSolo
       getOptionDisabled={getOptionDisabled}
       filterOptions={filterOptions}

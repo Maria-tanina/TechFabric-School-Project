@@ -30,6 +30,10 @@ import { useNotification } from "@hooks/useNotification";
 import { fileToBase64 } from "@helpers/fileToBase64";
 import { FilePreview } from "../FilePreview";
 import { themesOptions } from "./themes";
+import {
+  atLeastOneItemIsMissing,
+  selectUniqueItems,
+} from "@helpers/selectUniqueItems";
 
 export const TopEditor = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -63,7 +67,20 @@ export const TopEditor = () => {
           return tag;
         }
       });
-      dispatch(setTags(newTags));
+
+      const uniqueNewTags = selectUniqueItems(newTags, tags);
+
+      if (uniqueNewTags.length) {
+        dispatch(setTags(newTags));
+      } else {
+        const atLeastOneTagIsMissing = atLeastOneItemIsMissing(newTags, tags);
+
+        if (atLeastOneTagIsMissing) {
+          dispatch(setTags(newTags));
+        } else {
+          showNotification("This tag already exists", "error");
+        }
+      }
     } else {
       showNotification(
         "You can choose up to 5 tags. Please delete 1 tag to add another one.",
@@ -76,15 +93,30 @@ export const TopEditor = () => {
     event: SyntheticEvent<Element, Event>,
     newValue: (IOption | string)[]
   ) => {
-    const themes = newValue.map((tag) => {
-      if (typeof tag === "string") {
-        tag = tag[0] === "#" ? tag : `#${tag}`;
-        return { title: tag };
+    const newThemes = newValue.map((theme) => {
+      if (typeof theme === "string") {
+        return { title: theme };
       } else {
-        return tag;
+        return theme;
       }
     });
-    dispatch(setThemes(themes));
+
+    const uniqueNewThemes = selectUniqueItems(newThemes, themes);
+
+    if (uniqueNewThemes.length) {
+      dispatch(setThemes(newThemes));
+    } else {
+      const atLeastOneThemeIsMissing = atLeastOneItemIsMissing(
+        newThemes,
+        themes
+      );
+
+      if (atLeastOneThemeIsMissing) {
+        dispatch(setThemes(newThemes));
+      } else {
+        showNotification("This theme already exists", "error");
+      }
+    }
   };
 
   const onSelectFiles = async (e: ChangeEvent<HTMLInputElement>) => {
