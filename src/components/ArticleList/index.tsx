@@ -1,17 +1,16 @@
-import ArticleCard from "@components/ArticleCard";
+import { ArticleCard } from "@components/ArticleCard";
 import { ArticlesWrapper } from "./style";
-import { IArticle } from "@customTypes/article";
-import { FC } from "react";
+import { IArticle } from "@customTypes/articleTypes";
 
-interface IArticleListProps {
-  articles: IArticle[];
+interface ArticleListProps {
+  articles: IArticle[] | undefined;
 }
 
-export const ArticleList: FC<IArticleListProps> = ({ articles }) => {
+export const ArticleList = ({ articles }: ArticleListProps) => {
   return (
     <ArticlesWrapper>
-      {articles.map((article) => (
-        <ArticleCard key={article.id} article={article} />
+      {articles?.map((article) => (
+        <ArticleCard key={article.author.id} article={article} />
       ))}
     </ArticlesWrapper>
   );

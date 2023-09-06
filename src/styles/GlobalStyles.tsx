@@ -23,7 +23,12 @@ const GlobalStyles = createGlobalStyle(
     text-decoration: none;
     color: inherit;
   }
- 
+  .MuiLinearProgress-root.MuiLinearProgress-colorPrimary{
+    background-color: ${colors.white}
+  }
+  .MuiLinearProgress-bar.MuiLinearProgress-barColorPrimary{
+      background-color: ${colors.main}
+  }
   .MuiButtonBase-root.MuiButton-root {
     text-transform: none;
     font-family: ${fonts.main};

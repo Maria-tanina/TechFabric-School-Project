@@ -9,14 +9,13 @@ import {
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import { ARTICLE_PATH } from "@constants/paths";
-import { nanoid } from "@reduxjs/toolkit";
 import ProfileInfo from "@components/ProfileInfo";
 import { LikeButton } from "@components/LikeButton";
-import { ArticleTag } from "@components/ArticleTag";
-import { IArticleProps } from "@customTypes/article";
+import { IArticleProps } from "@customTypes/articleTypes";
+import { getDate } from "@helpers/getDate";
 
 export const ArticleCard: FC<IArticleProps> = ({ article }) => {
-  const { title, image, user, date, tags } = article;
+  const date = getDate(article.createdAt);
 
   return (
     <article>
@@ -25,25 +24,21 @@ export const ArticleCard: FC<IArticleProps> = ({ article }) => {
           <CardMedia
             component="img"
             height="300"
-            image={image}
+            image="https://www.rankone.com/content/Images/hero-bg.jpg"
             alt="Sport news"
           />
         </Link>
 
         <StyledCardContent>
           <ProfileInfo
-            userName={user.firstName + " " + user.lastName}
+            userName={article.author.firstName + " " + article.author.lastName}
             subtitle={date}
           />
 
           <StyledCardTitle>
-            <Link to={ARTICLE_PATH}>{title}</Link>
+            <Link to={ARTICLE_PATH}>{article.title}</Link>
           </StyledCardTitle>
-          <StyledTagsWrapper>
-            {tags.map((tag) => (
-              <ArticleTag tag={tag} link="/" key={nanoid()} />
-            ))}
-          </StyledTagsWrapper>
+          <StyledTagsWrapper></StyledTagsWrapper>
           <FavoriteWrapper>
             <span>Add to favorites</span>
             <LikeButton />
