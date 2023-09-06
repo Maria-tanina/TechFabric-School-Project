@@ -14,11 +14,13 @@ const AutocompleteSelect: FC<IAutocompleteSelectProps> = ({
 }) => {
   const optionsWithTitle = [{ title }, ...options];
 
+  const noOptionsTitle = "No options";
+
   const getOptionDisabled = (option: { title: string } | string) => {
     if (typeof option === "string") {
       return false;
     } else {
-      return option.title === title;
+      return option.title === title || option.title === noOptionsTitle;
     }
   };
 
@@ -27,7 +29,7 @@ const AutocompleteSelect: FC<IAutocompleteSelectProps> = ({
     state: { inputValue: string }
   ) => {
     if (state.inputValue) {
-      return options.filter((option, index) => {
+      const filteredOptions = options.filter((option, index) => {
         if (index === 0) {
           return true;
         }
@@ -37,6 +39,12 @@ const AutocompleteSelect: FC<IAutocompleteSelectProps> = ({
             option.title.includes(state.inputValue))
         );
       });
+
+      if (filteredOptions.length === 1) {
+        return [{ title }, { title: noOptionsTitle }];
+      } else {
+        return filteredOptions;
+      }
     }
     return options;
   };
