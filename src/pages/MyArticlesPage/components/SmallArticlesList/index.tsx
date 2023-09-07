@@ -21,7 +21,9 @@ export const SmallArticlesList: FC<IArticleListProps> = ({ articles }) => {
       <Grid item sm={12}>
         <ArticlesInfo />
       </Grid>
-      {articles?.map((article) => <SmallArticleCard article={article} key={article.title} />)}
+      {articles?.map((article) => (
+        <SmallArticleCard article={article} key={article.title} />
+      ))}
       <WriteMoreCard />
     </Grid>
   );

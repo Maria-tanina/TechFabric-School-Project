@@ -9,7 +9,7 @@ import { IArticleProps } from "@customTypes/articleTypes";
 import {
   StyledCard,
   StyledCardContent,
-  StyledDate,
+  StyledMetaData,
   StyledDescription,
   StyledLink,
   StyledLinksWrapper,
@@ -17,15 +17,14 @@ import {
 } from "./style";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { ARTICLE_PATH } from "@constants/paths";
+import { sliceString } from "@helpers/sliceString";
 
 export const SmallArticleCard: FC<IArticleProps> = ({ article }) => {
-  const { title, description, createdAt } = article;
+  const { title, description, createdAt, status } = article;
 
-  const formattedTitle =
-    title.length > 40 ? `${title.slice(0, 100)}...` : title;
+  const formattedTitle = sliceString(title, 40);
 
-  const formattedDescription =
-    description.length > 100 ? `${description.slice(0, 100)}...` : description;
+  const formattedDescription = sliceString(description, 100);
 
   return (
     <Grid item key={title} sm={6} md={6} lg={6} xl={4}>
@@ -40,10 +39,13 @@ export const SmallArticleCard: FC<IArticleProps> = ({ article }) => {
             />
           </Link>
           <StyledCardContent>
-            <StyledDate>
-              <AccessTimeOutlinedIcon fontSize="small" />
-              {getDate(createdAt)}
-            </StyledDate>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <StyledMetaData>
+                <AccessTimeOutlinedIcon fontSize="small" />
+                {getDate(createdAt)}
+              </StyledMetaData>
+              <StyledMetaData>{status}</StyledMetaData>
+            </div>
             <StyledTitle gutterBottom variant="h5">
               <Link to={ARTICLE_PATH}>{formattedTitle}</Link>
             </StyledTitle>

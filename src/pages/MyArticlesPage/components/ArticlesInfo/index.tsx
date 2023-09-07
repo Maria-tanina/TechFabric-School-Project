@@ -9,17 +9,14 @@ import StarsOutlinedIcon from "@mui/icons-material/StarsOutlined";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import { getDate } from "@helpers/getDate";
 import { StyledInfoIcons } from "@pages/MyArticlesPage/components/ArticlesInfo/style";
+import { defineDateOfLatestPublication } from "@helpers/defineDateOfLatestPublication";
 
 export const ArticlesInfo = () => {
   const { data: articles = [] } = useGetMyArticlesQuery();
 
   const numberOfArticles = `Number of articles: ${articles?.length}`;
 
-  const latestDate = new Date(
-    Math.max(
-      ...articles.map((article) => new Date(article.createdAt).getTime())
-    )
-  );
+  const latestDate = defineDateOfLatestPublication(articles);
 
   const dateOfLastArticle = `Date of the last article: ${getDate(
     latestDate.toString()

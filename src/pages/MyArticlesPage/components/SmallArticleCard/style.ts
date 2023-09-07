@@ -4,7 +4,7 @@ import CardContent from "@mui/material/CardContent";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 
-export const StyledDate = styled.div(
+export const StyledMetaData = styled.div(
   ({ theme: { colors } }) => `
   display: flex;
   align-items: center;
