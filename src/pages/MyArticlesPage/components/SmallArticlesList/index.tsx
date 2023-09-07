@@ -11,13 +11,7 @@ interface IArticleListProps {
 
 export const SmallArticlesList: FC<IArticleListProps> = ({ articles }) => {
   return (
-    <Grid
-      container
-      direction="row"
-      justifyContent="space-between"
-      alignItems="stretch"
-      spacing={3}
-    >
+    <Grid container direction="row" alignItems="stretch" spacing={3}>
       <Grid item sm={12}>
         <ArticlesInfo />
       </Grid>
