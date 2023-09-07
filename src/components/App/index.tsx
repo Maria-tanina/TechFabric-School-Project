@@ -73,8 +73,6 @@ const App = () => {
 
             <Route path={CONTACT_US_PATH} element={<ContactUs />} />
 
-            <Route path={MY_ARTICLES_PATH} element={<MyArticlesPage />} />
-
             <Route path="*" element={<NotFound />} />
 
             {/*protected routes*/}
@@ -87,6 +85,17 @@ const App = () => {
               }
             >
               <Route path={ADMIN_USER_LIST_PATH} element={<AdminUserList />} />
+            </Route>
+
+            <Route
+              element={
+                <RequireAuth
+                  redirectTo={LOGIN_PATH}
+                  allowedRoles={[Role.Author, Role.SuperAdmin]}
+                />
+              }
+            >
+              <Route path={MY_ARTICLES_PATH} element={<MyArticlesPage />} />
             </Route>
           </Routes>
         </NotificationProvider>
