@@ -3,7 +3,6 @@ import { NavLink } from "react-router-dom";
 import GhostSelect from "@components/GhostSelect";
 import { filterTabs } from "./filterMenuConfig";
 import { FilterTabsWrapper, TabsMenuWrapper } from "./style";
-import { nanoid } from "@reduxjs/toolkit";
 
 const options = ["Theme1", "Theme2", "Theme3"];
 
@@ -11,8 +10,8 @@ const TabsMenu = () => {
   return (
     <TabsMenuWrapper>
       <FilterTabsWrapper>
-        {filterTabs.map((filter) => (
-          <GhostButton $width="110px" key={nanoid()}>
+        {filterTabs.map((filter, i) => (
+          <GhostButton $width="110px" key={i}>
             <NavLink
               to={filter.link}
               style={({ isActive }) => {
