@@ -4,7 +4,7 @@ import { FC } from "react";
 import { IInputProps } from "components/Input/types";
 import { WithController } from "@features/WithController";
 
-const Input: FC<IInputProps> = ({
+export const Input: FC<IInputProps> = ({
   inputType,
   value,
   onChange,
