@@ -18,7 +18,7 @@ import {
   StyledTablePaper,
 } from "./style";
 import { nanoid } from "@reduxjs/toolkit";
-import { Spinner } from "@components/Spinner";
+import { Spinner } from "@components/Spinner/style";
 import {
   useChangeUserRoleMutation,
   useGetUsersQuery,

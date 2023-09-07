@@ -1,8 +1,13 @@
-import CircularProgress from "@mui/material/CircularProgress";
-import styled from "styled-components";
+import { BoxForSpinner, Spinner } from "@components/Spinner/style";
+import { FC } from "react";
 
-export const Spinner = styled(CircularProgress)`
-  &.MuiCircularProgress-root {
-    margin: auto;
-  }
-`;
+interface IFullHeightSpinnerProps {
+  size: number;
+}
+export const FullHeightSpinner: FC<IFullHeightSpinnerProps> = ({ size }) => {
+  return (
+    <BoxForSpinner>
+      <Spinner size={size} />
+    </BoxForSpinner>
+  );
+};
