@@ -9,7 +9,7 @@ interface IArticleListProps {
   articles: IArticle[];
 }
 
-export const MyArticlesList: FC<IArticleListProps> = ({ articles }) => {
+export const SmallArticlesList: FC<IArticleListProps> = ({ articles }) => {
   return (
     <Grid
       container
@@ -21,7 +21,7 @@ export const MyArticlesList: FC<IArticleListProps> = ({ articles }) => {
       <Grid item sm={12}>
         <ArticlesInfo />
       </Grid>
-      {articles?.map((article) => <SmallArticleCard article={article} />)}
+      {articles?.map((article) => <SmallArticleCard article={article} key={article.title} />)}
       <WriteMoreCard />
     </Grid>
   );

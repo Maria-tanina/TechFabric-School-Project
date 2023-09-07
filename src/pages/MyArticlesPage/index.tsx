@@ -1,7 +1,7 @@
 import { LeftSidebar } from "@components/LeftSidebar";
 import NavigationMenu from "@components/NavigationMenu";
 import { MainContent } from "@components/MainContent";
-import { MyArticlesList } from "./components/SmallArticlesList";
+import { SmallArticlesList } from "./components/SmallArticlesList";
 import { useGetMyArticlesQuery } from "@services/articlesApi";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { LinearProgress } from "@mui/material";
@@ -31,7 +31,7 @@ const MyArticlesPage = () => {
               "Articles not found"}
           </ErrorMessage>
         ) : (
-          <MyArticlesList articles={articles} />
+          <SmallArticlesList articles={articles} />
         )}
       </MainContent>
     </MyArticlesPageWrapper>
