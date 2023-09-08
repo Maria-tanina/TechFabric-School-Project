@@ -3,6 +3,7 @@ import {
   CONTACT_US_PATH,
   FAVORITES_PATH,
   HOME_PATH,
+  MY_ARTICLES_PATH,
   RULES_PATH,
   TAGS_PATH,
 } from "@constants/paths";
@@ -35,6 +36,12 @@ export const mainMenu: IMenuItem[] = [
     link: FAVORITES_PATH,
     icon: <FavoriteBorderOutlinedIcon />,
     access: [Role.User, Role.Author, Role.SuperAdmin],
+  },
+  {
+    value: "My articles",
+    link: MY_ARTICLES_PATH,
+    icon: <ArticleOutlinedIcon />,
+    access: [Role.Author, Role.SuperAdmin],
   },
 ];
 export const adminMenu: IMenuItem[] = [

@@ -15,6 +15,7 @@ import {
   CONTACT_US_PATH,
   SUCCESS_PUBLISHED_PATH,
   CREATE_POST_PATH,
+  MY_ARTICLES_PATH,
 } from "@constants/paths";
 import RegistrationConfirm from "@pages/RegistrationConfirm";
 import SuccessConfirmation from "@pages/SuccessConfirmation";
@@ -32,6 +33,7 @@ import RulesPage from "@pages/Rules";
 import ContactUs from "@pages/ContactUs";
 import CreatePostPage from "@pages/CreatePostPage";
 import { PublishSuccessPage } from "@pages/PublishSuccess";
+import MyArticlesPage from "@pages/MyArticlesPage";
 import { FullHeightSpinner } from "@components/Spinner";
 import { useGetUsersInfoQuery } from "@services/authApi";
 
@@ -104,6 +106,7 @@ const App = () => {
               }
             >
               <Route path={CREATE_POST_PATH} element={<CreatePostPage />} />
+              <Route path={MY_ARTICLES_PATH} element={<MyArticlesPage />} />
             </Route>
           </Routes>
         </NotificationProvider>
