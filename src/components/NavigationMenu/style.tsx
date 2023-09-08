@@ -49,6 +49,14 @@ export const MenuLink = styled(NavLink)(
     color: ${colors.graphite};
     font-weight: 700;
   }
+  &.active { 
+      svg{
+        color: ${colors.white}; 
+      }
+      border-radius: 5px;
+      color: ${colors.white}; 
+      background-color: ${colors.main}; 
+    }
   ${media.desktop} {
     font-size: ${fontSizes.button};
     width: 100%;
