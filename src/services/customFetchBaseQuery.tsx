@@ -27,9 +27,11 @@ export const customFetchBaseQuery = (baseUrl: string | undefined) => {
 
           if (response.ok) {
             const data = await response.json();
-            const newToken = data.accessToken;
-            set("accessToken", newToken);
-            headers.set("Authorization", `Bearer ${newToken}`);
+            const newAccessToken = data.accessToken;
+            const newRefreshToken = data.refreshToken;
+            set("accessToken", newAccessToken);
+            set("refreshToken", newRefreshToken);
+            headers.set("Authorization", `Bearer ${newAccessToken}`);
           }
         } else {
           headers.set("Authorization", `Bearer ${token}`);
