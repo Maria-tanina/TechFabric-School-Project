@@ -32,6 +32,7 @@ import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { LinearProgress } from "@mui/material";
 
 const UsersTable = () => {
+
   const dispatch = useAppDispatch();
 
   const { showNotification } = useNotification();
