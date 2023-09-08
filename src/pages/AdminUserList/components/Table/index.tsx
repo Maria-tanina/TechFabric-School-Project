@@ -18,7 +18,6 @@ import {
   StyledTablePaper,
 } from "./style";
 import { nanoid } from "@reduxjs/toolkit";
-import { Spinner } from "@components/Spinner/style";
 import {
   useChangeUserRoleMutation,
   useGetUsersQuery,
@@ -30,6 +29,7 @@ import { allRoles } from "@constants/roles";
 import { useNotification } from "@hooks/useNotification";
 import { getErrorMessage } from "@helpers/errorHandlers";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { LinearProgress } from "@mui/material";
 
 const UsersTable = () => {
   const dispatch = useAppDispatch();
@@ -87,7 +87,7 @@ const UsersTable = () => {
   }, [isChangeRoleSuccess, isChangeRoleError]);
 
   if (isFetching) {
-    return <Spinner size={90} />;
+    return <LinearProgress />;
   }
 
   if (isError) {
