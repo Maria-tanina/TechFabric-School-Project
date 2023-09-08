@@ -41,7 +41,7 @@ const App = () => {
   const { isLoading } = useGetUsersInfoQuery();
 
   if (isLoading) {
-    return <FullHeightSpinner size={120} />;
+    return <FullHeightSpinner size={110} />;
   }
 
   return (
