@@ -34,8 +34,16 @@ import ContactUs from "@pages/ContactUs";
 import CreatePostPage from "@pages/CreatePostPage";
 import { PublishSuccessPage } from "@pages/PublishSuccess";
 import MyArticlesPage from "@pages/MyArticlesPage";
+import { FullHeightSpinner } from "@components/Spinner";
+import { useGetUsersInfoQuery } from "@services/authApi";
 
 const App = () => {
+  const { isLoading } = useGetUsersInfoQuery();
+
+  if (isLoading) {
+    return <FullHeightSpinner size={110} />;
+  }
+
   return (
     <div>
       <Layout>

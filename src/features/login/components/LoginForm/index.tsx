@@ -48,7 +48,7 @@ export const LoginForm = () => {
 
   const onSubmit = async (loginData: ILoginData) => {
     try {
-      await login(loginData);
+      await login(loginData).unwrap();
       dispatch(setIsLogin(true));
       navigate(HOME_PATH);
     } catch (error) {
