@@ -8,10 +8,7 @@ import loginValidationSchema from "../../loginValidationSchema";
 import { StyledLoginForm, StyledUnderlineText } from "./style";
 import { OutlinedButton } from "@components/OutlinedButton";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  FORGOT_PASSWORD_PATH,
-  HOME_PATH,
-} from "@constants/paths";
+import { FORGOT_PASSWORD_PATH, HOME_PATH } from "@constants/paths";
 import { useLoginMutation } from "@services/authApi";
 import { ILoginData } from "@customTypes/authTypes";
 import { useAppDispatch } from "../../../../store";
@@ -22,16 +19,13 @@ import { useNotification } from "@hooks/useNotification";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 export const LoginForm = () => {
-  const [login, { error, isLoading: isLoginLoading, isSuccess, isError }] =
-    useLoginMutation();
+  const [login, { isLoading: isLoginLoading }] = useLoginMutation();
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const { showNotification } = useNotification();
-
-  const errorMessage = getErrorMessage(error) || "Some error occurred...";
 
   const dispatch = useAppDispatch();
 
@@ -52,16 +46,17 @@ export const LoginForm = () => {
     }
   }, [formState.isSubmitSuccessful, reset]);
 
-  useEffect(() => {
-    isError && showNotification(errorMessage, "error");
-    if (isSuccess) {
+  const onSubmit = async (loginData: ILoginData) => {
+    try {
+      await login(loginData).unwrap();
       dispatch(setIsLogin(true));
       navigate(HOME_PATH);
+    } catch (error) {
+      showNotification(
+        getErrorMessage(error) || "Some error occurred...",
+        "error"
+      );
     }
-  }, [isSuccess, isError]);
-
-  const onSubmit = async (loginData: ILoginData) => {
-    await login(loginData);
   };
 
   return (
