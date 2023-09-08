@@ -18,12 +18,12 @@ import { useAppDispatch, useAppSelector } from "../../store";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { ListItemIcon } from "@mui/material";
 import { selectIsLogin } from "@features/user/usersSelectors";
-import { useGetUsersInfoQuery } from "@services/authApi";
+import { selectUserInfoData } from "@services/authSelectors";
 
 const NavigationMenu = () => {
   const isLogin = useAppSelector(selectIsLogin);
 
-  const { data: userInfo } = useGetUsersInfoQuery();
+  const userInfo = useAppSelector(selectUserInfoData);
 
   const currentRole = isLogin && userInfo ? userInfo?.userRole : Role.Guest;
 

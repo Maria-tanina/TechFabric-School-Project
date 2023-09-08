@@ -11,15 +11,15 @@ import { useAppSelector } from "../../store";
 import CreatePostButton from "@components/CreatePostButton";
 import ProfileInfo from "@components/ProfileInfo";
 import { selectIsLogin } from "@features/user/usersSelectors";
-import { useGetUsersInfoQuery } from "@services/authApi";
 import {
   selectUserFullName,
+  selectUserInfoData,
   selectUserIsAdmin,
   selectUserIsAuthor,
 } from "@services/authSelectors";
 
 const Header = () => {
-  const { data: userInfo } = useGetUsersInfoQuery();
+  const userInfo = useAppSelector(selectUserInfoData);
 
   const isLogin = useAppSelector(selectIsLogin);
 
