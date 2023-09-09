@@ -4,6 +4,8 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import usersSlice from "@features/user/usersSlice";
 import adminSlice from "@features/admin/adminSlice";
 import { authApi } from "@services/authApi";
+import articleSlice from "@features/article/articleSlice";
+import { articlesApi } from "@services/articlesApi";
 
 const store = configureStore({
   reducer: {
@@ -11,9 +13,15 @@ const store = configureStore({
     users: usersSlice,
     admin: adminSlice,
     [authApi.reducerPath]: authApi.reducer,
+    article: articleSlice,
+    [articlesApi.reducerPath]: articlesApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(usersApi.middleware, authApi.middleware),
+    getDefaultMiddleware().concat(
+      usersApi.middleware,
+      authApi.middleware,
+      articlesApi.middleware
+    ),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

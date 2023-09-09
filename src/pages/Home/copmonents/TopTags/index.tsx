@@ -4,7 +4,6 @@ import { StyledSidebarCard } from "@components/SidebarCard";
 import { StyledSidebarHeader } from "@components/SidebarHeader";
 import { Link } from "react-router-dom";
 import { HOME_PATH } from "@constants/paths";
-import { nanoid } from "@reduxjs/toolkit";
 
 export const TopTags = () => {
   return (
@@ -13,8 +12,8 @@ export const TopTags = () => {
         Top <span>Tags</span>
       </StyledSidebarHeader>
       <TagsWrapper>
-        {mockTags.map((tag) => (
-          <StyledTag key={nanoid()}>
+        {mockTags.map((tag, i) => (
+          <StyledTag key={i}>
             <Link to={HOME_PATH}>{tag}</Link>
           </StyledTag>
         ))}

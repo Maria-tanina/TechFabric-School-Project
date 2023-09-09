@@ -2,24 +2,16 @@ import { GhostButton } from "@components/GhostButton";
 import { NavLink } from "react-router-dom";
 import GhostSelect from "@components/GhostSelect";
 import { filterTabs } from "./filterMenuConfig";
-import { FilterTabsWrapper } from "./style";
-import { nanoid } from "@reduxjs/toolkit";
+import { FilterTabsWrapper, TabsMenuWrapper } from "./style";
 
 const options = ["Theme1", "Theme2", "Theme3"];
 
 const TabsMenu = () => {
   return (
-    <div
-      style={{
-        display: "flex",
-        marginBottom: "12px",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
+    <TabsMenuWrapper>
       <FilterTabsWrapper>
-        {filterTabs.map((filter) => (
-          <GhostButton $width="110px" key={nanoid()}>
+        {filterTabs.map((filter, i) => (
+          <GhostButton $width="110px" key={i}>
             <NavLink
               to={filter.link}
               style={({ isActive }) => {
@@ -35,7 +27,7 @@ const TabsMenu = () => {
       </FilterTabsWrapper>
 
       <GhostSelect options={options} />
-    </div>
+    </TabsMenuWrapper>
   );
 };
 

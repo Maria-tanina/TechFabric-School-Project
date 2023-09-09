@@ -2,5 +2,5 @@ import styled from "styled-components";
 
 export const MainContentWrap = styled.div`
   max-width: 1220px;
-  flex-shrink: 2;
+  flex: 1;
 `;

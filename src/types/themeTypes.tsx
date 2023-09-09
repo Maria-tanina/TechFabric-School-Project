@@ -4,7 +4,7 @@ interface IThemeTypes {
     black: string;
     white: string;
     error: string;
-    lightOrange: string;
+    lightYellow: string;
     graphite: string;
     lightGray: string;
     gray: string;
@@ -43,6 +43,7 @@ interface IThemeTypes {
   media: {
     tablet: string;
     desktop: string;
+    desktopLarge: string;
   };
 }
 

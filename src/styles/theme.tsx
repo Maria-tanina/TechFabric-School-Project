@@ -6,7 +6,7 @@ const theme: IThemeTypes = {
     black: "#060606",
     white: "#FFFFFF",
     error: "#EA0000",
-    lightOrange: "#FFF3EB",
+    lightYellow: "#fede2417",
     graphite: "#242424",
     lightGray: "#F5F5F5",
     gray: "#676767",
@@ -45,6 +45,7 @@ const theme: IThemeTypes = {
   media: {
     tablet: "@media(min-width: 900px)",
     desktop: "@media(min-width: 1280px)",
+    desktopLarge: "@media(min-width: 1600px)",
   },
 };
 
