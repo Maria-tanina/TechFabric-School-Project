@@ -10,7 +10,7 @@ export const articlesApi = createApi({
   endpoints: (build) => ({
     getArticles: build.query<IArticle[], void>({
       query: () => ({
-        url: "/articles",
+        url: "/articles/published",
         method: "GET",
       }),
     }),
