@@ -41,9 +41,9 @@ import { useGetSportTypesQuery } from "@services/articlesApi";
 const App = () => {
   const { isLoading } = useGetUsersInfoQuery();
 
-  useGetSportTypesQuery();
+  const { isLoading: isSportTypesLoading } = useGetSportTypesQuery();
 
-  if (isLoading) {
+  if (isLoading || isSportTypesLoading) {
     return <FullHeightSpinner size={110} />;
   }
 

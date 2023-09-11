@@ -32,11 +32,7 @@ import {
   atLeastOneItemIsMissing,
   selectUniqueItems,
 } from "@helpers/selectUniqueItems";
-import {
-  selectSportTypesData,
-  selectSportTypesIsLoading,
-} from "@services/articlesSelectors";
-import { CircularProgress } from "@mui/material";
+import { selectSportTypesData } from "@services/articlesSelectors";
 
 export const TopEditor = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -50,8 +46,6 @@ export const TopEditor = () => {
   const type = useAppSelector(selectArticleType);
 
   const types = useAppSelector(selectSportTypesData);
-
-  const isLoading = useAppSelector(selectSportTypesIsLoading);
 
   const dispatch = useAppDispatch();
 
@@ -177,7 +171,6 @@ export const TopEditor = () => {
 
         <TagsSelect
           options={types || []}
-          loading={isLoading}
           value={type}
           onChange={handleChangeType}
           title="Top sports"
@@ -187,14 +180,6 @@ export const TopEditor = () => {
               placeholder={type ? "" : "Start enter the type..."}
               InputProps={{
                 ...params.InputProps,
-                endAdornment: (
-                  <>
-                    {isLoading ? (
-                      <CircularProgress color="inherit" size={20} />
-                    ) : null}
-                    {params.InputProps.endAdornment}
-                  </>
-                ),
               }}
             />
           )}

@@ -7,8 +7,3 @@ export const selectSportTypesData = createSelector(
   selectSportTypes,
   (queryResult) => queryResult.data
 );
-
-export const selectSportTypesIsLoading = createSelector(
-  selectSportTypes,
-  (queryResult) => queryResult.isLoading
-);
