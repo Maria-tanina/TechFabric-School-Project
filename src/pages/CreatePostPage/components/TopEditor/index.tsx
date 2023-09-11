@@ -7,13 +7,14 @@ import {
   HiddenFileInput,
 } from "./style";
 import { ChangeEvent, SyntheticEvent, useRef } from "react";
-import { ArticleInput } from "@components/ArticleInput";
+import { ArticleInput, SmallArticleInput } from "@components/ArticleInput";
 import TagsSelect from "@components/TagsSelect";
 import {
   selectArticleImage,
   selectArticleTags,
   selectArticleType,
   selectArticleTitle,
+  selectArticleDescription,
 } from "@features/article/articleSelectors";
 import {
   clearImage,
@@ -21,6 +22,7 @@ import {
   setTags,
   setType,
   setTitle,
+  setDescription,
 } from "@features/article/articleSlice";
 import { tagsOptions } from "./tags";
 import { useAppDispatch, useAppSelector } from "../../../../store";
@@ -41,6 +43,8 @@ export const TopEditor = () => {
 
   const title = useAppSelector(selectArticleTitle);
 
+  const description = useAppSelector(selectArticleDescription);
+
   const tags = useAppSelector(selectArticleTags);
 
   const type = useAppSelector(selectArticleType);
@@ -53,6 +57,10 @@ export const TopEditor = () => {
 
   const handleChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setTitle(e.target.value));
+  };
+
+  const handleChangeDescription = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setDescription(e.target.value));
   };
 
   const handleChangeTags = (
@@ -150,6 +158,13 @@ export const TopEditor = () => {
           value={title}
           placeholder="Enter the title..."
           onChange={handleChangeTitle}
+        />
+
+        <SmallArticleInput
+          type="text"
+          value={description}
+          placeholder="Enter the description..."
+          onChange={handleChangeDescription}
         />
 
         <TagsSelect

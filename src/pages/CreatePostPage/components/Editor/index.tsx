@@ -2,7 +2,11 @@ import { ButtonsWrapper, StyledEditorWrapper, StyledReactQuill } from "./style";
 import { TopEditor } from "../TopEditor";
 import { OutlinedButton } from "@components/OutlinedButton";
 import { GhostButton } from "@components/GhostButton";
-import { setContent, setShowPreview } from "@features/article/articleSlice";
+import {
+  clearAllFields,
+  setContent,
+  setShowPreview,
+} from "@features/article/articleSlice";
 import {
   selectArticleContent,
   selectArticleImage,
@@ -10,12 +14,21 @@ import {
   selectArticleType,
   selectArticleTitle,
   selectShowPreview,
+  selectArticleDescription,
 } from "@features/article/articleSelectors";
 import { useAppDispatch, useAppSelector } from "../../../../store";
 import "react-quill/dist/quill.snow.css";
 import { ArticlePreview } from "@components/ArticlePreview";
+import { usePublishArticleMutation } from "@services/articlesApi";
+import { selectUserId } from "@services/authSelectors";
+import { useNotification } from "@hooks/useNotification";
+import { useNavigate } from "react-router-dom";
+import { MY_ARTICLES_PATH } from "@constants/paths";
+import { getErrorMessage } from "@helpers/errorHandlers";
 
 const Editor = () => {
+  const [publishArticle] = usePublishArticleMutation();
+
   const content = useAppSelector(selectArticleContent);
 
   const showPreviewArticle = useAppSelector(selectShowPreview);
@@ -24,15 +37,23 @@ const Editor = () => {
 
   const title = useAppSelector(selectArticleTitle);
 
+  const description = useAppSelector(selectArticleDescription);
+
   const tags = useAppSelector(selectArticleTags);
 
-  const type = useAppSelector(selectArticleType);
+  const sportType = useAppSelector(selectArticleType);
+
+  const userId = useAppSelector(selectUserId);
+
+  const { showNotification } = useNotification();
+
+  const navigate = useNavigate();
 
   const article = {
     image,
     title,
     tags,
-    type,
+    type: sportType,
     content,
   };
 
@@ -59,6 +80,38 @@ const Editor = () => {
     window.scrollTo(0, 0);
   };
 
+  const handlePublishButtonClick = async () => {
+    const isValid = title && description && image && sportType;
+
+    if (isValid) {
+      const article = {
+        title,
+        sport: sportType,
+        description,
+        image: image.base64String,
+        tags,
+        author: userId as string,
+        content,
+      };
+      try {
+        await publishArticle(article).unwrap();
+        if (showPreviewArticle) {
+          dispatch(setShowPreview());
+        }
+        dispatch(clearAllFields());
+        showNotification("Your post has been sent for moderation", "success");
+        navigate(MY_ARTICLES_PATH);
+      } catch (error) {
+        showNotification(
+          getErrorMessage(error) || "Some error occurred...",
+          "error"
+        );
+      }
+    } else {
+      showNotification("Fill all required fields!", "error");
+    }
+  };
+
   return (
     <StyledEditorWrapper>
       {showPreviewArticle ? (
@@ -77,7 +130,9 @@ const Editor = () => {
         </>
       )}
       <ButtonsWrapper>
-        <OutlinedButton $width="240px">Publish Article</OutlinedButton>
+        <OutlinedButton $width="240px" onClick={handlePublishButtonClick}>
+          Publish Article
+        </OutlinedButton>
         <GhostButton $width="240px" onClick={handlePreviewButtonClick}>
           {showPreviewArticle ? "Edit Article" : "Preview Article"}
         </GhostButton>

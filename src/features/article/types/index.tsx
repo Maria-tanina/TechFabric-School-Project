@@ -6,6 +6,7 @@ export interface IImage {
 export interface IArticleSliceInitialState {
   image: IImage;
   title: string;
+  description: string;
   tags: string[];
   type: string;
   content: string;
