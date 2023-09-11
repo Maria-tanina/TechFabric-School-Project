@@ -23,7 +23,7 @@ const AutocompleteSelect: FC<IAutocompleteSelectProps> = ({
         if (index === 0) {
           return true;
         }
-        return option.includes(state.inputValue);
+        return option.toLowerCase().includes(state.inputValue.toLowerCase());
       });
 
       if (filteredOptions.length === 1) {
