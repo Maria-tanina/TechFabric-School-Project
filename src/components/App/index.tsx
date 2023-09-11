@@ -39,11 +39,11 @@ import { useGetUsersInfoQuery } from "@services/authApi";
 import { useGetSportTypesQuery } from "@services/articlesApi";
 
 const App = () => {
-  const { isLoading } = useGetUsersInfoQuery();
+  const { isLoading: isUserInfoLoading } = useGetUsersInfoQuery();
 
   const { isLoading: isSportTypesLoading } = useGetSportTypesQuery();
 
-  if (isLoading || isSportTypesLoading) {
+  if (isUserInfoLoading || isSportTypesLoading) {
     return <FullHeightSpinner size={110} />;
   }
 
