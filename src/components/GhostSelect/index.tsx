@@ -35,7 +35,7 @@ const GhostSelect: FC<ISelectProps> = ({ options, label, value, ...rest }) => {
           </IconButton>
         )}
       >
-        <MenuItem value="">All</MenuItem>
+        <MenuItem value="All">All</MenuItem>
         {options.map((option) => (
           <MenuItem key={option} value={option}>
             {option}
