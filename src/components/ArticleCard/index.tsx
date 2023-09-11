@@ -13,6 +13,7 @@ import ProfileInfo from "@components/ProfileInfo";
 import { LikeButton } from "@components/LikeButton";
 import { IArticleProps } from "@customTypes/articleTypes";
 import { getDate } from "@helpers/getDate";
+import { ArticleTag } from "@components/ArticleTag";
 
 export const ArticleCard: FC<IArticleProps> = ({ article }) => {
   const date = getDate(article.createdAt);
@@ -38,7 +39,11 @@ export const ArticleCard: FC<IArticleProps> = ({ article }) => {
           <StyledCardTitle>
             <Link to={ARTICLE_PATH}>{article.title}</Link>
           </StyledCardTitle>
-          <StyledTagsWrapper></StyledTagsWrapper>
+          <StyledTagsWrapper>
+            {article.tags.map((tag) => (
+              <ArticleTag key={tag} link="" tag={tag} />
+            ))}
+          </StyledTagsWrapper>
           <FavoriteWrapper>
             <span>Add to favorites</span>
             <LikeButton />
