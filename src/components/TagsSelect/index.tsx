@@ -1,10 +1,7 @@
 import { FC } from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import CloseIcon from "@mui/icons-material/Close";
-import {
-  IAutocompleteSelectProps,
-  IOption,
-} from "@components/TagsSelect/types";
+import { IAutocompleteSelectProps } from "@components/TagsSelect/types";
 import { AutocompleteProps } from "@mui/material";
 
 const AutocompleteSelect: FC<IAutocompleteSelectProps> = ({
@@ -12,36 +9,25 @@ const AutocompleteSelect: FC<IAutocompleteSelectProps> = ({
   title,
   ...rest
 }) => {
-  const optionsWithTitle = [{ title }, ...options];
+  const optionsWithTitle = [title, ...options];
 
   const noOptionsTitle = "No options";
 
-  const getOptionDisabled = (option: { title: string } | string) => {
-    if (typeof option === "string") {
-      return false;
-    } else {
-      return option.title === title || option.title === noOptionsTitle;
-    }
+  const getOptionDisabled = (option: string) => {
+    return option === title || option === noOptionsTitle;
   };
 
-  const filterOptions = (
-    options: (IOption | string)[],
-    state: { inputValue: string }
-  ) => {
+  const filterOptions = (options: string[], state: { inputValue: string }) => {
     if (state.inputValue) {
       const filteredOptions = options.filter((option, index) => {
         if (index === 0) {
           return true;
         }
-        return (
-          (typeof option === "string" && option.includes(state.inputValue)) ||
-          (typeof option !== "string" &&
-            option.title.includes(state.inputValue))
-        );
+        return option.toLowerCase().includes(state.inputValue.toLowerCase());
       });
 
       if (filteredOptions.length === 1) {
-        return [{ title }, { title: noOptionsTitle }];
+        return [title, noOptionsTitle];
       } else {
         return filteredOptions;
       }
@@ -51,13 +37,8 @@ const AutocompleteSelect: FC<IAutocompleteSelectProps> = ({
 
   return (
     <Autocomplete
-      {...(rest as AutocompleteProps<IOption | string, true, false, true>)}
-      multiple
+      {...(rest as AutocompleteProps<string, any, any, any>)}
       options={optionsWithTitle}
-      getOptionLabel={(option) =>
-        typeof option === "string" ? option : option.title
-      }
-      freeSolo
       filterSelectedOptions
       getOptionDisabled={getOptionDisabled}
       filterOptions={filterOptions}

@@ -6,6 +6,7 @@ import adminSlice from "@features/admin/adminSlice";
 import { authApi } from "@services/authApi";
 import articleSlice from "@features/article/articleSlice";
 import { articlesApi } from "@services/articlesApi";
+import sortSlice from "@features/sort/sortSlice";
 
 const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ const store = configureStore({
     [authApi.reducerPath]: authApi.reducer,
     article: articleSlice,
     [articlesApi.reducerPath]: articlesApi.reducer,
+    sort: sortSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(

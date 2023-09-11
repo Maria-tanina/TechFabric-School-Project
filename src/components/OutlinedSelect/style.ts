@@ -10,7 +10,7 @@ export const StyledOutlinedSelect = styled(CustomSelect)(
   &.MuiInputBase-root.MuiInputBase-formControl {
     color: ${open || value ? colors.black : colors.gray};
     border: 2px solid ${
-      open ? colors.main : value ? colors.black : colors.strokeGray
+      value ? colors.black : open ? colors.main : colors.strokeGray
     };
   }
 `

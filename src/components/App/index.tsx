@@ -36,11 +36,14 @@ import { PublishSuccessPage } from "@pages/PublishSuccess";
 import MyArticlesPage from "@pages/MyArticlesPage";
 import { FullHeightSpinner } from "@components/Spinner";
 import { useGetUsersInfoQuery } from "@services/authApi";
+import { useGetSportTypesQuery } from "@services/articlesApi";
 
 const App = () => {
-  const { isLoading } = useGetUsersInfoQuery();
+  const { isLoading: isUserInfoLoading } = useGetUsersInfoQuery();
 
-  if (isLoading) {
+  const { isLoading: isSportTypesLoading } = useGetSportTypesQuery();
+
+  if (isUserInfoLoading || isSportTypesLoading) {
     return <FullHeightSpinner size={110} />;
   }
 
