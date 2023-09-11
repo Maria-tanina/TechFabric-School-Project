@@ -9,16 +9,12 @@ import {
 export const CustomSelect = styled(Select)(
   ({ theme: { colors }, open, value }) => `
   &.MuiInputBase-root.MuiInputBase-formControl {
-    color: ${open ? colors.black : colors.gray};
+    color: ${open || value ? colors.black : colors.gray};
     
     svg {
       fill: ${open || value ? colors.black : colors.gray};
       transform: ${open ? "rotate(90deg)" : ""};
     }
-    
-    &.Mui-focused + label {
-      display: none;
-     }
     
     &:hover {
       background-color: rgba(254, 222, 36, 0.1);

@@ -3,10 +3,28 @@ import { NavLink } from "react-router-dom";
 import GhostSelect from "@components/GhostSelect";
 import { filterTabs } from "./filterMenuConfig";
 import { FilterTabsWrapper, TabsMenuWrapper } from "./style";
-
-const options = ["Theme1", "Theme2", "Theme3"];
+import {
+  selectSportTypesData,
+  selectSportTypesIsLoading,
+} from "@services/articlesSelectors";
+import { useAppDispatch, useAppSelector } from "../../../../store";
+import { selectSortType } from "@features/sort/sortSelectors";
+import { CircularProgress, SelectChangeEvent } from "@mui/material";
+import { setType } from "@features/sort/sortSlice";
 
 const TabsMenu = () => {
+  const types = useAppSelector(selectSportTypesData);
+
+  const type = useAppSelector(selectSortType);
+
+  const isLoading = useAppSelector(selectSportTypesIsLoading);
+
+  const dispatch = useAppDispatch();
+
+  const handleTypeChange = (e: SelectChangeEvent<unknown>) => {
+    dispatch(setType(e.target.value as string));
+  };
+
   return (
     <TabsMenuWrapper>
       <FilterTabsWrapper>
@@ -26,7 +44,17 @@ const TabsMenu = () => {
         ))}
       </FilterTabsWrapper>
 
-      <GhostSelect options={options} />
+      <GhostSelect
+        options={types || []}
+        value={type}
+        onChange={handleTypeChange}
+        label="Sort by type"
+        endAdornment={
+          <>
+            {isLoading ? <CircularProgress color="inherit" size={20} /> : null}
+          </>
+        }
+      />
     </TabsMenuWrapper>
   );
 };

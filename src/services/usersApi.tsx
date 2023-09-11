@@ -1,10 +1,9 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { IUserInfo } from "@customTypes/authTypes";
 import { createSelector } from "@reduxjs/toolkit";
-import {customFetchBaseQuery} from "@services/customFetchBaseQuery";
+import { customFetchBaseQuery } from "@services/customFetchBaseQuery";
 
 const serverUrl = process.env.REACT_APP_DEV_API_URL;
-
 
 export const usersApi = createApi({
   reducerPath: "usersApi",

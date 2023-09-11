@@ -1,24 +1,12 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 import { IArticle } from "@customTypes/articleTypes";
-import { LSService } from "@services/localStorage";
+import { customFetchBaseQuery } from "@services/customFetchBaseQuery";
 
 const serverUrl = process.env.REACT_APP_DEV_API_URL;
 
-const { get } = LSService();
-
 export const articlesApi = createApi({
   reducerPath: "articlesApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: serverUrl,
-    prepareHeaders: (headers) => {
-      const token = get("accessToken");
-      if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
-      }
-      return headers;
-    },
-  }),
+  baseQuery: customFetchBaseQuery(serverUrl),
   endpoints: (build) => ({
     getArticles: build.query<IArticle[], void>({
       query: () => ({
@@ -32,7 +20,17 @@ export const articlesApi = createApi({
         method: "GET",
       }),
     }),
+    getSportTypes: build.query<string[], void>({
+      query: () => ({
+        url: "/articles/sports",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useGetArticlesQuery, useGetMyArticlesQuery } = articlesApi;
+export const {
+  useGetArticlesQuery,
+  useGetMyArticlesQuery,
+  useGetSportTypesQuery,
+} = articlesApi;

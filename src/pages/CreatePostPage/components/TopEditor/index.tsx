@@ -9,18 +9,17 @@ import {
 import { ChangeEvent, SyntheticEvent, useRef } from "react";
 import { ArticleInput } from "@components/ArticleInput";
 import TagsSelect from "@components/TagsSelect";
-import { IOption } from "@components/TagsSelect/types";
 import {
   selectArticleImage,
   selectArticleTags,
-  selectArticleThemes,
+  selectArticleType,
   selectArticleTitle,
 } from "@features/article/articleSelectors";
 import {
   clearImage,
   setImage,
   setTags,
-  setThemes,
+  setType,
   setTitle,
 } from "@features/article/articleSlice";
 import { tagsOptions } from "./tags";
@@ -29,11 +28,15 @@ import { StyledTagsSelect } from "@components/TagsSelect/style";
 import { useNotification } from "@hooks/useNotification";
 import { fileToBase64 } from "@helpers/fileToBase64";
 import { FilePreview } from "../FilePreview";
-import { themesOptions } from "./themes";
 import {
   atLeastOneItemIsMissing,
   selectUniqueItems,
 } from "@helpers/selectUniqueItems";
+import {
+  selectSportTypesData,
+  selectSportTypesIsLoading,
+} from "@services/articlesSelectors";
+import { CircularProgress } from "@mui/material";
 
 export const TopEditor = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -44,7 +47,11 @@ export const TopEditor = () => {
 
   const tags = useAppSelector(selectArticleTags);
 
-  const themes = useAppSelector(selectArticleThemes);
+  const type = useAppSelector(selectArticleType);
+
+  const types = useAppSelector(selectSportTypesData);
+
+  const isLoading = useAppSelector(selectSportTypesIsLoading);
 
   const dispatch = useAppDispatch();
 
@@ -56,66 +63,45 @@ export const TopEditor = () => {
 
   const handleChangeTags = (
     event: SyntheticEvent<Element, Event>,
-    newValue: (IOption | string)[]
+    newValue: string | string[] | null
   ) => {
-    if (newValue.length <= 5) {
-      const newTags = newValue.map((tag) => {
-        if (typeof tag === "string") {
+    if (Array.isArray(newValue)) {
+      if (newValue.length <= 5) {
+        const newTags = newValue.map((tag) => {
           tag = tag[0] === "#" ? tag : `#${tag}`;
-          return { title: tag };
-        } else {
           return tag;
-        }
-      });
+        });
 
-      const uniqueNewTags = selectUniqueItems(newTags, tags);
+        const uniqueNewTags = selectUniqueItems(newTags, tags);
 
-      if (uniqueNewTags.length) {
-        dispatch(setTags(newTags));
-      } else {
-        const atLeastOneTagIsMissing = atLeastOneItemIsMissing(newTags, tags);
-
-        if (atLeastOneTagIsMissing) {
+        if (uniqueNewTags.length) {
           dispatch(setTags(newTags));
         } else {
-          showNotification("This tag already exists", "error");
+          const atLeastOneTagIsMissing = atLeastOneItemIsMissing(newTags, tags);
+
+          if (atLeastOneTagIsMissing) {
+            dispatch(setTags(newTags));
+          } else {
+            showNotification("This tag already exists", "error");
+          }
         }
+      } else {
+        showNotification(
+          "You can choose up to 5 tags. Please delete 1 tag to add another one.",
+          "error"
+        );
       }
-    } else {
-      showNotification(
-        "You can choose up to 5 tags. Please delete 1 tag to add another one.",
-        "error"
-      );
     }
   };
 
-  const handleChangeThemes = (
+  const handleChangeType = (
     event: SyntheticEvent<Element, Event>,
-    newValue: (IOption | string)[]
+    newValue: string | string[] | null
   ) => {
-    const newThemes = newValue.map((theme) => {
-      if (typeof theme === "string") {
-        return { title: theme };
-      } else {
-        return theme;
-      }
-    });
-
-    const uniqueNewThemes = selectUniqueItems(newThemes, themes);
-
-    if (uniqueNewThemes.length) {
-      dispatch(setThemes(newThemes));
-    } else {
-      const atLeastOneThemeIsMissing = atLeastOneItemIsMissing(
-        newThemes,
-        themes
-      );
-
-      if (atLeastOneThemeIsMissing) {
-        dispatch(setThemes(newThemes));
-      } else {
-        showNotification("This theme already exists", "error");
-      }
+    if (typeof newValue === "string") {
+      dispatch(setType(newValue));
+    } else if (!newValue) {
+      dispatch(setType(""));
     }
   };
 
@@ -174,9 +160,11 @@ export const TopEditor = () => {
 
         <TagsSelect
           options={tagsOptions}
-          title="Top Tags:"
           value={tags}
           onChange={handleChangeTags}
+          freeSolo
+          multiple
+          title="Top Tags:"
           renderInput={(params) => (
             <StyledTagsSelect
               {...params}
@@ -188,14 +176,26 @@ export const TopEditor = () => {
         />
 
         <TagsSelect
-          options={themesOptions}
-          title="Top Themes:"
-          value={themes}
-          onChange={handleChangeThemes}
+          options={types || []}
+          loading={isLoading}
+          value={type}
+          onChange={handleChangeType}
+          title="Top sports"
           renderInput={(params) => (
             <StyledTagsSelect
               {...params}
-              placeholder={themes.length ? "" : "Start enter the theme..."}
+              placeholder={type ? "" : "Start enter the type..."}
+              InputProps={{
+                ...params.InputProps,
+                endAdornment: (
+                  <>
+                    {isLoading ? (
+                      <CircularProgress color="inherit" size={20} />
+                    ) : null}
+                    {params.InputProps.endAdornment}
+                  </>
+                ),
+              }}
             />
           )}
         />
