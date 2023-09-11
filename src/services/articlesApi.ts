@@ -1,24 +1,23 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 import { IArticle } from "@customTypes/articleTypes";
-import { LSService } from "@services/localStorage";
+import { customFetchBaseQuery } from "@services/customFetchBaseQuery";
 
 const serverUrl = process.env.REACT_APP_DEV_API_URL;
 
-const { get } = LSService();
+export interface IPublishArticleRequest {
+  title: string;
+  sport: string;
+  description: string;
+  image: string;
+  tags:  string[];
+  author: string;
+  content: string;
+
+}
 
 export const articlesApi = createApi({
   reducerPath: "articlesApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: serverUrl,
-    prepareHeaders: (headers) => {
-      const token = get("accessToken");
-      if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
-      }
-      return headers;
-    },
-  }),
+  baseQuery: customFetchBaseQuery(serverUrl),
   endpoints: (build) => ({
     getArticles: build.query<IArticle[], void>({
       query: () => ({
@@ -32,7 +31,14 @@ export const articlesApi = createApi({
         method: "GET",
       }),
     }),
+    publishArticle: build.mutation<void, IPublishArticleRequest>({
+      query: (body) => ({
+        url: "/articles",
+        method: "POST",
+        body
+      })
+    })
   }),
 });
 
-export const { useGetArticlesQuery, useGetMyArticlesQuery } = articlesApi;
+export const { useGetArticlesQuery, useGetMyArticlesQuery, usePublishArticleMutation } = articlesApi;
