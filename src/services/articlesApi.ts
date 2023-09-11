@@ -9,10 +9,9 @@ export interface IPublishArticleRequest {
   sport: string;
   description: string;
   image: string;
-  tags:  string[];
+  tags: string[];
   author: string;
   content: string;
-
 }
 
 export const articlesApi = createApi({
@@ -35,10 +34,14 @@ export const articlesApi = createApi({
       query: (body) => ({
         url: "/articles",
         method: "POST",
-        body
-      })
-    })
+        body,
+      }),
+    }),
   }),
 });
 
-export const { useGetArticlesQuery, useGetMyArticlesQuery, usePublishArticleMutation } = articlesApi;
+export const {
+  useGetArticlesQuery,
+  useGetMyArticlesQuery,
+  usePublishArticleMutation,
+} = articlesApi;
