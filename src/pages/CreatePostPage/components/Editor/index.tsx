@@ -7,7 +7,7 @@ import {
   selectArticleContent,
   selectArticleImage,
   selectArticleTags,
-  selectArticleThemes,
+  selectArticleType,
   selectArticleTitle,
   selectShowPreview,
 } from "@features/article/articleSelectors";
@@ -26,13 +26,13 @@ const Editor = () => {
 
   const tags = useAppSelector(selectArticleTags);
 
-  const themes = useAppSelector(selectArticleThemes);
+  const type = useAppSelector(selectArticleType);
 
   const article = {
     image,
     title,
     tags,
-    themes,
+    type,
     content,
   };
 

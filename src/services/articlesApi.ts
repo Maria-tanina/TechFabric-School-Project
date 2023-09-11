@@ -4,7 +4,6 @@ import { customFetchBaseQuery } from "@services/customFetchBaseQuery";
 
 const serverUrl = process.env.REACT_APP_DEV_API_URL;
 
-
 export const articlesApi = createApi({
   reducerPath: "articlesApi",
   baseQuery: customFetchBaseQuery(serverUrl),
@@ -21,7 +20,17 @@ export const articlesApi = createApi({
         method: "GET",
       }),
     }),
+    getSportTypes: build.query<string[], void>({
+      query: () => ({
+        url: "/articles/sports",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useGetArticlesQuery, useGetMyArticlesQuery } = articlesApi;
+export const {
+  useGetArticlesQuery,
+  useGetMyArticlesQuery,
+  useGetSportTypesQuery,
+} = articlesApi;

@@ -1,10 +1,7 @@
 import { AutocompleteProps } from "@mui/material";
 
-export interface IOption {
-  title: string;
-}
 export interface IAutocompleteSelectProps
-  extends AutocompleteProps<IOption, true, false, true> {
-  options: IOption[];
+  extends AutocompleteProps<string, any, any, any> {
+  options: string[];
   title: string;
 }

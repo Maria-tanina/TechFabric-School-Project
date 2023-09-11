@@ -29,6 +29,12 @@ const GlobalStyles = createGlobalStyle(
   .MuiLinearProgress-bar.MuiLinearProgress-barColorPrimary{
       background-color: ${colors.main}
   }
+  .MuiButtonBase-root.MuiMenuItem-root {
+     &.Mui-selected.MuiMenuItem-gutters, &.Mui-selected:hover {
+      background-color: ${colors.lightYellow};
+    }
+    
+  }
   .MuiButtonBase-root.MuiButton-root {
     text-transform: none;
     font-family: ${fonts.main};
