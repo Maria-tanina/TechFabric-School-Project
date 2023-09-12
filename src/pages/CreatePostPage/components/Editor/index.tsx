@@ -54,6 +54,7 @@ import {
   StyledReactQuill,
   StyledTopEditor,
 } from "./style";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 const Editor = () => {
   const [publishArticle] = usePublishArticleMutation();
@@ -215,7 +216,8 @@ const Editor = () => {
         navigate(MY_ARTICLES_PATH);
       } catch (error) {
         showNotification(
-          getErrorMessage(error) || "Some error occurred...",
+          getErrorMessage((error as FetchBaseQueryError).data) ||
+            "Some error occurred...",
           "error"
         );
       }
@@ -278,7 +280,7 @@ const Editor = () => {
 
               <TagsSelect
                 options={tagsOptions}
-                value={tags}
+                value={tags || null}
                 onChange={handleChangeTags}
                 freeSolo
                 multiple
@@ -295,7 +297,7 @@ const Editor = () => {
 
               <TagsSelect
                 options={types || []}
-                value={sportType}
+                value={sportType || null}
                 onChange={handleChangeType}
                 title="Top sports"
                 renderInput={(params) => (
