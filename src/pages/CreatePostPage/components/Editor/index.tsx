@@ -24,7 +24,6 @@ import { selectUserId } from "@services/authSelectors";
 import { useNotification } from "@hooks/useNotification";
 import { useNavigate } from "react-router-dom";
 import { MY_ARTICLES_PATH } from "@constants/paths";
-import { getErrorMessage } from "@helpers/errorHandlers";
 
 const Editor = () => {
   const [publishArticle] = usePublishArticleMutation();
@@ -81,7 +80,7 @@ const Editor = () => {
   };
 
   const handlePublishButtonClick = async () => {
-    const isValid = title && description && image && sportType;
+    const isValid = title && description && image.base64String;
 
     if (isValid) {
       const article = {
@@ -95,17 +94,14 @@ const Editor = () => {
       };
       try {
         await publishArticle(article).unwrap();
-        if (showPreviewArticle) {
-          dispatch(setShowPreview());
-        }
         dispatch(clearAllFields());
         showNotification("Your post has been sent for moderation", "success");
         navigate(MY_ARTICLES_PATH);
+        if (showPreviewArticle) {
+          dispatch(setShowPreview());
+        }
       } catch (error) {
-        showNotification(
-          getErrorMessage(error) || "Some error occurred...",
-          "error"
-        );
+        showNotification("Some error occurred...", "error");
       }
     } else {
       showNotification("Fill all required fields!", "error");

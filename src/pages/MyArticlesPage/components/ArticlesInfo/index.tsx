@@ -8,7 +8,7 @@ import NewspaperIcon from "@mui/icons-material/Newspaper";
 import StarsOutlinedIcon from "@mui/icons-material/StarsOutlined";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import { getDate } from "@helpers/getDate";
-import { StyledInfoIcons } from "@pages/MyArticlesPage/components/ArticlesInfo/style";
+import { StyledInfoIcons } from "./style";
 import { defineDateOfLatestPublication } from "@helpers/defineDateOfLatestPublication";
 
 export const ArticlesInfo = () => {
@@ -18,10 +18,14 @@ export const ArticlesInfo = () => {
 
   const latestDate = defineDateOfLatestPublication(articles);
 
-  const dateOfLastArticle = articles.length ? `Date of the last article: ${getDate(
-    latestDate.toString())}`  : "No articles yet.";
+  const dateOfLastArticle = articles.length
+    ? `Date of the last article: ${getDate(latestDate.toString())}`
+    : "No articles yet.";
 
-  const totalCountOfLikes = articles.reduce((acc, currentValue) => acc + currentValue.likeCount, 0);
+  const totalCountOfLikes = articles.reduce(
+    (acc, currentValue) => acc + currentValue.likeCount,
+    0
+  );
 
   const likes = `Likes: ${totalCountOfLikes}`;
 
