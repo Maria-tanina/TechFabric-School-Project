@@ -14,15 +14,16 @@ import { defineDateOfLatestPublication } from "@helpers/defineDateOfLatestPublic
 export const ArticlesInfo = () => {
   const { data: articles = [] } = useGetMyArticlesQuery();
 
-  const numberOfArticles = `Number of articles: ${articles?.length}`;
+  const numberOfArticles = `Number of articles: ${articles.length}`;
 
   const latestDate = defineDateOfLatestPublication(articles);
 
-  const dateOfLastArticle = `Date of the last article: ${getDate(
-    latestDate.toString()
-  )}`;
+  const dateOfLastArticle = articles.length ? `Date of the last article: ${getDate(
+    latestDate.toString())}`  : "No articles yet.";
 
-  const totalCountOfLikes = `Likes: 100`;
+  const totalCountOfLikes = articles.reduce((acc, currentValue) => acc + currentValue.likeCount, 0);
+
+  const likes = `Likes: ${totalCountOfLikes}`;
 
   return (
     <StyledSidebarCard>
@@ -46,7 +47,7 @@ export const ArticlesInfo = () => {
           <StyledInfoIcons>
             <StarsOutlinedIcon />
           </StyledInfoIcons>
-          <ListItemText primary={totalCountOfLikes} />
+          <ListItemText primary={likes} />
         </ListItemButton>
       </List>
     </StyledSidebarCard>
