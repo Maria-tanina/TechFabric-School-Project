@@ -36,7 +36,7 @@ export const articlesApi = createApi({
         method: "GET",
       }),
     }),
-    publishArticle: build.mutation<void, IPublishArticleRequest>({
+    createDraftArticle: build.mutation<void, IPublishArticleRequest>({
       query: (body) => ({
         url: "/articles",
         method: "POST",
@@ -50,5 +50,5 @@ export const {
   useGetArticlesQuery,
   useGetMyArticlesQuery,
   useGetSportTypesQuery,
-  usePublishArticleMutation,
+  useCreateDraftArticleMutation,
 } = articlesApi;

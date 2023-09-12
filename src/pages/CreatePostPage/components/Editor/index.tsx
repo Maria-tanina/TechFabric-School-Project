@@ -25,7 +25,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../../../../store";
 import "react-quill/dist/quill.snow.css";
 import { ArticlePreview } from "@components/ArticlePreview";
-import { usePublishArticleMutation } from "@services/articlesApi";
+import { useCreateDraftArticleMutation } from "@services/articlesApi";
 import { selectUserId } from "@services/authSelectors";
 import { useNotification } from "@hooks/useNotification";
 import { MY_ARTICLES_PATH } from "@constants/paths";
@@ -57,7 +57,7 @@ import {
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 const Editor = () => {
-  const [publishArticle] = usePublishArticleMutation();
+  const [createDraftArticle] = useCreateDraftArticleMutation();
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -210,9 +210,9 @@ const Editor = () => {
         image: image.base64String,
       };
       try {
-        await publishArticle(article).unwrap();
+        await createDraftArticle(article).unwrap();
         dispatch(clearAllFields());
-        showNotification("Your post has been sent for moderation", "success");
+        showNotification("Your draft was created", "success");
         navigate(MY_ARTICLES_PATH);
       } catch (error) {
         showNotification(
