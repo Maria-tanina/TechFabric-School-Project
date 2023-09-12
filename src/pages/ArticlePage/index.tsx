@@ -11,14 +11,28 @@ import { StyledSidebarCard } from "@components/SidebarCard";
 import { AuthorInfo } from "@pages/ArticlePage/components/AuthorInfo";
 import { AuthorArticlesSidebar } from "@components/AuthorArticlesSidebar";
 import { Article } from "@components/Article";
+import {useAppSelector} from "../../store";
+import { selectArticleId } from "@features/article/articleSelectors";
+import {LSService} from "@services/localStorage";
+import {useGetArticleInfoQuery} from "@services/articlesApi";
+import {IArticle} from "@customTypes/articleTypes";
 
 export const ArticlePage = () => {
-  return (
+    const articleId = useAppSelector(selectArticleId);
+    const {get} = LSService();
+    const token = get("accessToken") as string;
+    const {data} = useGetArticleInfoQuery(
+        {
+            articleId,
+            token
+        });
+
+    return (
     <>
       <LeftSidebar>
         <ArticleSideMenuItem>
           <LikeButton />
-          <Count>2</Count>
+          <Count>{data?.likeCount}</Count>
         </ArticleSideMenuItem>
         <ArticleSideMenuItem>
           <ChatOutlinedIcon />
@@ -27,12 +41,12 @@ export const ArticlePage = () => {
       </LeftSidebar>
 
       <MainContent>
-        <Article />
+          <Article article={data as IArticle} />
       </MainContent>
 
       <RightSidebar>
         <StyledSidebarCard>
-          <AuthorInfo />
+          <AuthorInfo author={data?.author} date={data?.createdAt}/>
         </StyledSidebarCard>
         <StyledSidebarCard>
           <AuthorArticlesSidebar />

@@ -1,11 +1,22 @@
-import { AuthorLabel } from "@components/AuthorLabel";
-import { ArticleDate } from "@pages/ArticlePage/components/AuthorInfo/style";
+import {AuthorLabel} from "@components/AuthorLabel";
+import {ArticleDate} from "@pages/ArticlePage/components/AuthorInfo/style";
+import {getDate} from "@helpers/getDate";
 
-export const AuthorInfo = () => {
-  return (
-    <>
-      <AuthorLabel firstName="Harold" lastName="Painless" link="/" />
-      <ArticleDate>Date: October 17, 2023</ArticleDate>
-    </>
-  );
+interface IAuthorInfo {
+    author: {
+        firstName: string;
+        lastName: string;
+    } | undefined;
+    date: string | undefined;
+}
+
+export const AuthorInfo = ({author,date}:IAuthorInfo) => {
+    const postedDate = getDate(date as string)
+
+    return (
+        <>
+            {author && <AuthorLabel firstName={author?.firstName} lastName={author?.lastName} link="/"/>}
+            <ArticleDate>{postedDate}</ArticleDate>
+        </>
+    );
 };
