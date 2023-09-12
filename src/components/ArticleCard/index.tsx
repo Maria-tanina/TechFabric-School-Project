@@ -18,8 +18,6 @@ import { ArticleTag } from "@components/ArticleTag";
 export const ArticleCard: FC<IArticleProps> = ({ article }) => {
   const date = getDate(article.createdAt);
 
-  console.log(article.image);
-
   return (
     <article>
       <StyledArticleCard>
