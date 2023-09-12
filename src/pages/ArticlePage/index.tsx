@@ -11,7 +11,6 @@ import { StyledSidebarCard } from "@components/SidebarCard";
 import { AuthorInfo } from "@pages/ArticlePage/components/AuthorInfo";
 import { AuthorArticlesSidebar } from "@components/AuthorArticlesSidebar";
 import { Article } from "@components/Article";
-import { LSService } from "@services/localStorage";
 import { useGetArticleInfoQuery } from "@services/articlesApi";
 import { IArticle } from "@customTypes/articleTypes";
 import { useNavigate, useParams } from "react-router-dom";
@@ -22,13 +21,11 @@ import { useNotification } from "@hooks/useNotification";
 
 export const ArticlePage = () => {
   const { articleId } = useParams<{ articleId?: string }>();
-  const { get } = LSService();
-  const token = get("accessToken") as string;
   const navigate = useNavigate();
   const { showNotification } = useNotification();
+
   const { data, isLoading, isError } = useGetArticleInfoQuery({
     articleId: articleId || "",
-    token,
   });
 
   useEffect(() => {

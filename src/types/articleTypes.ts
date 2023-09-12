@@ -1,6 +1,7 @@
 export interface IArticle {
   id: string;
   title: string;
+  sport: string;
   content: string;
   description: string;
   author: {

@@ -26,16 +26,13 @@ export const articlesApi = createApi({
         method: "GET",
       }),
     }),
-    getArticleInfo: build.query<IArticle, { articleId: string; token: string }>(
-      {
-        query: (args) => ({
-          url: `/articles/${args.articleId}`,
-          method: "GET",
-          headers: {
-            Authorization: args.token,
-          },
-        }),
-      }
+    getArticleInfo: build.query<IArticle, { articleId: string;}>(
+        {
+          query: (args) => ({
+            url: `/articles/${args.articleId}`,
+            method: "GET",
+          }),
+        }
     ),
   }),
 });

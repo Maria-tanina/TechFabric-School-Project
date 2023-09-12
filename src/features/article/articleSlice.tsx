@@ -2,7 +2,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IArticleSliceInitialState, IImage } from "./types";
 
 const initialState: IArticleSliceInitialState = {
-  id: "",
   image: {
     fileName: "",
     base64String: "",
