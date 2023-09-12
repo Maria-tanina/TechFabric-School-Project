@@ -10,7 +10,5 @@ export const selectArticleType = (state: RootState) => state.article.type;
 
 export const selectArticleContent = (state: RootState) => state.article.content;
 
-export const selectArticleId = (state: RootState) => state.article.id;
-
 export const selectShowPreview = (state: RootState) =>
   state.article.showPreview;

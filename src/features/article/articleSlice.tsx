@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IArticleSliceInitialState, IImage } from "./types";
 
 const initialState: IArticleSliceInitialState = {
-  id:"",
+  id: "",
   image: {
     fileName: "",
     base64String: "",
@@ -39,9 +39,6 @@ const articleSlice = createSlice({
     setContent: (state, action: PayloadAction<string>) => {
       state.content = action.payload;
     },
-    setId: (state, action: PayloadAction<string>) => {
-      state.id = action.payload;
-    },
     setShowPreview: (state) => {
       state.showPreview = !state.showPreview;
     },
@@ -55,7 +52,6 @@ export const {
   setTags,
   setType,
   setContent,
-  setId,
   setShowPreview,
 } = articleSlice.actions;
 

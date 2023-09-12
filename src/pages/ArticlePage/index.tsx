@@ -11,23 +11,34 @@ import { StyledSidebarCard } from "@components/SidebarCard";
 import { AuthorInfo } from "@pages/ArticlePage/components/AuthorInfo";
 import { AuthorArticlesSidebar } from "@components/AuthorArticlesSidebar";
 import { Article } from "@components/Article";
-import {useAppSelector} from "../../store";
-import { selectArticleId } from "@features/article/articleSelectors";
-import {LSService} from "@services/localStorage";
-import {useGetArticleInfoQuery} from "@services/articlesApi";
-import {IArticle} from "@customTypes/articleTypes";
+import { LSService } from "@services/localStorage";
+import { useGetArticleInfoQuery } from "@services/articlesApi";
+import { IArticle } from "@customTypes/articleTypes";
+import { useNavigate, useParams } from "react-router-dom";
+import { LinearProgress } from "@mui/material";
+import { useEffect } from "react";
+import { HOME_PATH } from "@constants/paths";
+import { useNotification } from "@hooks/useNotification";
 
 export const ArticlePage = () => {
-    const articleId = useAppSelector(selectArticleId);
-    const {get} = LSService();
-    const token = get("accessToken") as string;
-    const {data} = useGetArticleInfoQuery(
-        {
-            articleId,
-            token
-        });
+  const { articleId } = useParams<{ articleId?: string }>();
+  const { get } = LSService();
+  const token = get("accessToken") as string;
+  const navigate = useNavigate();
+  const { showNotification } = useNotification();
+  const { data, isLoading, isError } = useGetArticleInfoQuery({
+    articleId: articleId || "",
+    token,
+  });
 
-    return (
+  useEffect(() => {
+    if (isError) {
+      navigate(HOME_PATH);
+      showNotification("Something wrong. Article not found!", "error");
+    }
+  }, [isError]);
+
+  return (
     <>
       <LeftSidebar>
         <ArticleSideMenuItem>
@@ -41,12 +52,16 @@ export const ArticlePage = () => {
       </LeftSidebar>
 
       <MainContent>
+        {isLoading ? (
+          <LinearProgress />
+        ) : (
           <Article article={data as IArticle} />
+        )}
       </MainContent>
 
       <RightSidebar>
         <StyledSidebarCard>
-          <AuthorInfo author={data?.author} date={data?.createdAt}/>
+          <AuthorInfo author={data?.author} date={data?.createdAt} />
         </StyledSidebarCard>
         <StyledSidebarCard>
           <AuthorArticlesSidebar />

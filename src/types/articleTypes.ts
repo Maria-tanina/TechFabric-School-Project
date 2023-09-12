@@ -7,7 +7,7 @@ export interface IArticle {
     id: string;
     firstName: string;
     lastName: string;
-  },
+  };
   image: string;
   tags: string[];
   likeCount: number;
