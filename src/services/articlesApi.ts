@@ -4,6 +4,16 @@ import { customFetchBaseQuery } from "@services/customFetchBaseQuery";
 
 const serverUrl = process.env.REACT_APP_DEV_API_URL;
 
+export interface IPublishArticleRequest {
+  title: string;
+  sport: string;
+  description: string;
+  image: string;
+  tags: string[];
+  author: string;
+  content: string;
+}
+
 export const articlesApi = createApi({
   reducerPath: "articlesApi",
   baseQuery: customFetchBaseQuery(serverUrl),
@@ -32,6 +42,13 @@ export const articlesApi = createApi({
         method: "GET",
       }),
     }),
+    createDraftArticle: build.mutation<void, IPublishArticleRequest>({
+      query: (body) => ({
+        url: "/articles",
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -40,4 +57,5 @@ export const {
   useGetMyArticlesQuery,
   useGetSportTypesQuery,
   useGetArticleInfoQuery,
+  useCreateDraftArticleMutation,
 } = articlesApi;

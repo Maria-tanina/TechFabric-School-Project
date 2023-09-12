@@ -35,12 +35,17 @@ const AutocompleteSelect: FC<IAutocompleteSelectProps> = ({
     return options;
   };
 
+  const isOptionEqualToValue = (option: string, value: string) => {
+    return option === value || value === "";
+  };
+
   return (
     <Autocomplete
       {...(rest as AutocompleteProps<string, any, any, any>)}
       options={optionsWithTitle}
       filterSelectedOptions
       getOptionDisabled={getOptionDisabled}
+      isOptionEqualToValue={isOptionEqualToValue}
       filterOptions={filterOptions}
       ChipProps={{
         deleteIcon: <CloseIcon />,
