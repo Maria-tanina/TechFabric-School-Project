@@ -13,7 +13,7 @@ export const FilePreview: FC<IFilePreviewProps> = ({
 }) => {
   return (
     <FilePreviewWrapper key={url}>
-      <img src={url} height={150} key={url} alt="preview" />
+      <img src={url} height={140} key={url} alt="preview" />
       <StyledIconButton size="small" onClick={clearSelectedFiles}>
         <ClearIcon fontSize="inherit" />
       </StyledIconButton>
