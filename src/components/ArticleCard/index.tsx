@@ -18,6 +18,8 @@ import { ArticleTag } from "@components/ArticleTag";
 export const ArticleCard: FC<IArticleProps> = ({ article }) => {
   const date = getDate(article.createdAt);
 
+  console.log(article.image);
+
   return (
     <article>
       <StyledArticleCard>
@@ -25,7 +27,7 @@ export const ArticleCard: FC<IArticleProps> = ({ article }) => {
           <CardMedia
             component="img"
             height="300"
-            image="https://www.rankone.com/content/Images/hero-bg.jpg"
+            image={article.image}
             alt="Sport news"
           />
         </Link>
