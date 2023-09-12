@@ -13,7 +13,7 @@ export const LeftSidebar = styled.div`
   width: 42px;
 `;
 export const Count = styled.p(
-    ({ theme: { colors } }) => `
+  ({ theme: { colors } }) => `
     color: ${colors.graphite};
     font-size: 16px;
     font-weight: 700;

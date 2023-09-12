@@ -49,6 +49,9 @@ export const articlesApi = createApi({
         body,
       }),
     }),
+    getArticlesForReview: build.query<IArticle[], void>({
+      query: () => "/articles/in-review",
+    }),
   }),
 });
 
@@ -58,4 +61,5 @@ export const {
   useGetSportTypesQuery,
   useGetArticleInfoQuery,
   useCreateDraftArticleMutation,
+  useGetArticlesForReviewQuery,
 } = articlesApi;

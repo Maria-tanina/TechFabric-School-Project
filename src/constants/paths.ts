@@ -39,3 +39,5 @@ export const ADMIN_USER_LIST_PATH = "/user-list";
 export const ARTICLE_PATH = "/article";
 
 export const MY_ARTICLES_PATH = "/my-articles";
+
+export const ARTICLES_FOR_REVIEW_PATH = "/articles-for-review";

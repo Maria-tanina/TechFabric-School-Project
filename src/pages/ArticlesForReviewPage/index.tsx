@@ -1,23 +1,24 @@
+import {
+  ErrorMessage,
+  MyArticlesPageWrapper,
+} from "@pages/MyArticlesPage/style";
 import { LeftSidebar } from "@components/LeftSidebar";
 import NavigationMenu from "@components/NavigationMenu";
 import { MainContent } from "@components/MainContent";
-import { SmallArticlesList } from "@components/SmallArticlesList";
-import { useGetMyArticlesQuery } from "@services/articlesApi";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { Grid, LinearProgress } from "@mui/material";
 import { getErrorMessage } from "@helpers/errorHandlers";
-import { ErrorMessage, MyArticlesPageWrapper } from "./style";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { SmallArticlesList } from "@components/SmallArticlesList";
+import { useGetArticlesForReviewQuery } from "@services/articlesApi";
 import { ArticlesInfo } from "@components/ArticlesInfo";
-import { WriteMoreCard } from "./components/WriteMoreCard";
 
-const MyArticlesPage = () => {
+const ArticlesForReviewPage = () => {
   const {
     data: articles = [],
     isLoading,
     isError,
     error,
-  } = useGetMyArticlesQuery();
-
+  } = useGetArticlesForReviewQuery();
   return (
     <MyArticlesPageWrapper>
       <LeftSidebar>
@@ -35,10 +36,9 @@ const MyArticlesPage = () => {
         ) : (
           <Grid container direction="row" alignItems="stretch" spacing={3}>
             <Grid item sm={12}>
-              <ArticlesInfo showLikes={true} articles={articles} />
+              <ArticlesInfo showLikes={false} articles={articles} />
             </Grid>
             <SmallArticlesList articles={articles} />
-            <WriteMoreCard />
           </Grid>
         )}
       </MainContent>
@@ -46,4 +46,4 @@ const MyArticlesPage = () => {
   );
 };
 
-export default MyArticlesPage;
+export default ArticlesForReviewPage;

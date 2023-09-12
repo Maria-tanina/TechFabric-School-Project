@@ -16,6 +16,7 @@ import {
   SUCCESS_PUBLISHED_PATH,
   CREATE_POST_PATH,
   MY_ARTICLES_PATH,
+  ARTICLES_FOR_REVIEW_PATH,
 } from "@constants/paths";
 import RegistrationConfirm from "@pages/RegistrationConfirm";
 import SuccessConfirmation from "@pages/SuccessConfirmation";
@@ -37,6 +38,7 @@ import MyArticlesPage from "@pages/MyArticlesPage";
 import { FullHeightSpinner } from "@components/Spinner";
 import { useGetUsersInfoQuery } from "@services/authApi";
 import { useGetSportTypesQuery } from "@services/articlesApi";
+import ArticlesForReviewPage from "@pages/ArticlesForReviewPage";
 
 const App = () => {
   const { isLoading: isUserInfoLoading } = useGetUsersInfoQuery();
@@ -101,6 +103,11 @@ const App = () => {
               }
             >
               <Route path={ADMIN_USER_LIST_PATH} element={<AdminUserList />} />
+
+              <Route
+                path={ARTICLES_FOR_REVIEW_PATH}
+                element={<ArticlesForReviewPage />}
+              />
             </Route>
 
             <Route
