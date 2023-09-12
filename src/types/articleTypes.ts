@@ -1,10 +1,8 @@
-export interface IArticleProps {
-  article: IArticle;
-}
-
 export interface IArticle {
   id: string;
   title: string;
+  sport: string;
+  content: string;
   description: string;
   author: {
     id: string;
@@ -17,4 +15,7 @@ export interface IArticle {
   status: string;
   updatedAt: string;
   createdAt: string;
+}
+export interface IArticleProps {
+  article: IArticle;
 }

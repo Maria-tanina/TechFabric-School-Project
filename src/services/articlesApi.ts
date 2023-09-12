@@ -36,6 +36,12 @@ export const articlesApi = createApi({
         method: "GET",
       }),
     }),
+    getArticleInfo: build.query<IArticle, { articleId: string }>({
+      query: (args) => ({
+        url: `/articles/${args.articleId}`,
+        method: "GET",
+      }),
+    }),
     createDraftArticle: build.mutation<void, IPublishArticleRequest>({
       query: (body) => ({
         url: "/articles",
@@ -50,5 +56,6 @@ export const {
   useGetArticlesQuery,
   useGetMyArticlesQuery,
   useGetSportTypesQuery,
+  useGetArticleInfoQuery,
   useCreateDraftArticleMutation,
 } = articlesApi;

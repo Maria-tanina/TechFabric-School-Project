@@ -18,14 +18,16 @@ import { ArticleTag } from "@components/ArticleTag";
 export const ArticleCard: FC<IArticleProps> = ({ article }) => {
   const date = getDate(article.createdAt);
 
+  console.log(article.image);
+
   return (
     <article>
       <StyledArticleCard>
-        <Link to={ARTICLE_PATH}>
+        <Link to={`${ARTICLE_PATH}/${article.id}`}>
           <CardMedia
             component="img"
             height="300"
-            image="https://www.rankone.com/content/Images/hero-bg.jpg"
+            image={article.image}
             alt="Sport news"
           />
         </Link>
@@ -35,9 +37,8 @@ export const ArticleCard: FC<IArticleProps> = ({ article }) => {
             userName={article.author.firstName + " " + article.author.lastName}
             subtitle={date}
           />
-
           <StyledCardTitle>
-            <Link to={ARTICLE_PATH}>{article.title}</Link>
+            <Link to={`${ARTICLE_PATH}/${article.id}`}>{article.title}</Link>
           </StyledCardTitle>
           <StyledTagsWrapper>
             {article.tags.map((tag) => (
