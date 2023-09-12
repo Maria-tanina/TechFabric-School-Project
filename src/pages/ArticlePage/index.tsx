@@ -11,14 +11,36 @@ import { StyledSidebarCard } from "@components/SidebarCard";
 import { AuthorInfo } from "@pages/ArticlePage/components/AuthorInfo";
 import { AuthorArticlesSidebar } from "@components/AuthorArticlesSidebar";
 import { Article } from "@components/Article";
+import { useGetArticleInfoQuery } from "@services/articlesApi";
+import { IArticle } from "@customTypes/articleTypes";
+import { useNavigate, useParams } from "react-router-dom";
+import { LinearProgress } from "@mui/material";
+import { useEffect } from "react";
+import { HOME_PATH } from "@constants/paths";
+import { useNotification } from "@hooks/useNotification";
 
 export const ArticlePage = () => {
+  const { articleId } = useParams<{ articleId?: string }>();
+  const navigate = useNavigate();
+  const { showNotification } = useNotification();
+
+  const { data, isLoading, isError } = useGetArticleInfoQuery({
+    articleId: articleId || "",
+  });
+
+  useEffect(() => {
+    if (isError) {
+      navigate(HOME_PATH);
+      showNotification("Something wrong. Article not found!", "error");
+    }
+  }, [isError]);
+
   return (
     <>
       <LeftSidebar>
         <ArticleSideMenuItem>
           <LikeButton />
-          <Count>2</Count>
+          <Count>{data?.likeCount}</Count>
         </ArticleSideMenuItem>
         <ArticleSideMenuItem>
           <ChatOutlinedIcon />
@@ -27,12 +49,16 @@ export const ArticlePage = () => {
       </LeftSidebar>
 
       <MainContent>
-        <Article />
+        {isLoading ? (
+          <LinearProgress />
+        ) : (
+          <Article article={data as IArticle} />
+        )}
       </MainContent>
 
       <RightSidebar>
         <StyledSidebarCard>
-          <AuthorInfo />
+          <AuthorInfo author={data?.author} date={data?.createdAt} />
         </StyledSidebarCard>
         <StyledSidebarCard>
           <AuthorArticlesSidebar />

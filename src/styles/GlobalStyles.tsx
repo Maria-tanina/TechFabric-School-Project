@@ -24,6 +24,8 @@ const GlobalStyles = createGlobalStyle(
     color: inherit;
   }
   .MuiLinearProgress-root.MuiLinearProgress-colorPrimary{
+     width: 50%;
+     margin: 0 auto;
     background-color: ${colors.white}
   }
   .MuiLinearProgress-bar.MuiLinearProgress-barColorPrimary{

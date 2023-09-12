@@ -19,7 +19,7 @@ export const customFetchBaseQuery = (baseUrl: string | undefined) => {
             method: "POST",
             headers: {
               accept: "text/plain",
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${refreshToken}`,
               "Content-Type": "application/json",
             },
             body: JSON.stringify({ refreshToken }),

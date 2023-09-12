@@ -58,7 +58,10 @@ const App = () => {
 
             <Route path={SIGNUP_PATH} element={<SignUp />} />
 
-            <Route path={ARTICLE_PATH} element={<ArticlePage />} />
+            <Route
+              path={`${ARTICLE_PATH}/:articleId`}
+              element={<ArticlePage />}
+            />
 
             <Route path={RULES_PATH} element={<RulesPage />} />
 

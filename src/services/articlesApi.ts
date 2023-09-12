@@ -26,6 +26,12 @@ export const articlesApi = createApi({
         method: "GET",
       }),
     }),
+    getArticleInfo: build.query<IArticle, { articleId: string }>({
+      query: (args) => ({
+        url: `/articles/${args.articleId}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -33,4 +39,5 @@ export const {
   useGetArticlesQuery,
   useGetMyArticlesQuery,
   useGetSportTypesQuery,
+  useGetArticleInfoQuery,
 } = articlesApi;
