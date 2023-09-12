@@ -13,7 +13,7 @@ export const LeftSidebar = styled.div`
   width: 42px;
 `;
 export const Count = styled.p(
-  ({ theme: { colors } }) => `
+    ({ theme: { colors } }) => `
     color: ${colors.graphite};
     font-size: 16px;
     font-weight: 700;
@@ -21,3 +21,9 @@ export const Count = styled.p(
     margin-top: 5px;
 `
 );
+export const LoaderWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
