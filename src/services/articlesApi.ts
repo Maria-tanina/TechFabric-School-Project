@@ -52,6 +52,12 @@ export const articlesApi = createApi({
     getArticlesForReview: build.query<IArticle[], void>({
       query: () => "/articles/in-review",
     }),
+    publishArticle: build.mutation<void, { articleId: string }>({
+      query: (args) => ({
+        url: `/articles/${args.articleId}/publish`,
+        method: "PATCH",
+      }),
+    }),
   }),
 });
 
@@ -62,4 +68,5 @@ export const {
   useGetArticleInfoQuery,
   useCreateDraftArticleMutation,
   useGetArticlesForReviewQuery,
+  usePublishArticleMutation
 } = articlesApi;

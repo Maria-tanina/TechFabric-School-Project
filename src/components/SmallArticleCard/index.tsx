@@ -34,7 +34,7 @@ export const SmallArticleCard: FC<IArticleProps> = ({ article }) => {
             <CardMedia
               component="img"
               height="140"
-              image="https://st4.depositphotos.com/1005563/19666/i/450/depositphotos_196668956-stock-photo-balls-sport-trophy-championship-concept.jpg"
+              image={article.image}
               alt="sport"
             />
           </Link>
