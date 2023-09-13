@@ -5,7 +5,7 @@ import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 
 export const StyledMetaData = styled.div(
-  ({ theme: { colors } }) => `
+    ({ theme: { colors } }) => `
   display: flex;
   align-items: center;
   gap: 5px;
@@ -25,7 +25,7 @@ export const StyledCard = styled(Card)`
   height: 100%;
 `;
 export const StyledTitle = styled(Typography)(
-  ({ theme: { colors } }) => `
+    ({ theme: { colors } }) => `
   transition: .4s ease-in-out;
   &:hover {
     color: ${colors.main}
@@ -34,7 +34,7 @@ export const StyledTitle = styled(Typography)(
 );
 
 export const StyledDescription = styled.div(
-  ({ theme: { colors } }) => `
+    ({ theme: { colors } }) => `
   margin-bottom: 10px;
   color: ${colors.gray};
   font-size: 15px;
@@ -51,7 +51,7 @@ export const StyledLinksWrapper = styled.div`
 `;
 
 export const StyledLink = styled(Link)(
-  ({ theme: { colors } }) => `
+    ({ theme: { colors } }) => `
   display: flex;
   align-items: center;
   gap: 10px;
@@ -67,4 +67,9 @@ export const StyledCardContent = styled(CardContent)`
   display: flex;
   flex-direction: column;
   min-height: 239px;
+`;
+
+export const StyledCardDataBox = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;

@@ -83,3 +83,8 @@ export const CommentMessage = styled.p(
     margin-top: 12px;
 `
 );
+export const EditButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
