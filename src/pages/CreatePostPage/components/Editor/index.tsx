@@ -1,375 +1,396 @@
-import {ChangeEvent, SyntheticEvent, useEffect, useRef} from "react";
-import {useNavigate} from "react-router-dom";
-import {OutlinedButton} from "@components/OutlinedButton";
-import {GhostButton} from "@components/GhostButton";
+import { ChangeEvent, SyntheticEvent, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { OutlinedButton } from "@components/OutlinedButton";
+import { GhostButton } from "@components/GhostButton";
 import {
-    clearAllFields,
-    clearImage,
-    setContent,
-    setDescription,
-    setImage,
-    setShowPreview,
-    setTags,
-    setTitle,
-    setType,
+  clearAllFields,
+  clearImage,
+  setContent,
+  setDataField,
+  setDescription,
+  setImage,
+  setShowPreview,
+  setTags,
+  setTitle,
+  setType,
 } from "@features/article/articleSlice";
 import {
-    selectArticleContent,
-    selectArticleImage,
-    selectArticleTags,
-    selectArticleType,
-    selectArticleTitle,
-    selectShowPreview,
-    selectArticleDescription,
+  selectArticleContent,
+  selectArticleImage,
+  selectArticleTags,
+  selectArticleType,
+  selectArticleTitle,
+  selectShowPreview,
+  selectArticleDescription,
 } from "@features/article/articleSelectors";
-import {useAppDispatch, useAppSelector} from "../../../../store";
+import { useAppDispatch, useAppSelector } from "../../../../store";
 import "react-quill/dist/quill.snow.css";
-import {ArticlePreview} from "@components/ArticlePreview";
-import {useCreateDraftArticleMutation} from "@services/articlesApi";
-import {selectUserId} from "@services/authSelectors";
-import {useNotification} from "@hooks/useNotification";
-import {MY_ARTICLES_PATH} from "@constants/paths";
-import {FieldsWrapper, HiddenFileInput, SecondText} from "./style";
-import {SecondButton} from "@components/SecondButton";
-import {fileToBase64} from "@helpers/fileToBase64";
-import {useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
-import {FilePreview} from "@pages/CreatePostPage/components/FilePreview";
-import {ArticleInput, SmallArticleInput} from "@components/ArticleInput";
+import { ArticlePreview } from "@components/ArticlePreview";
+import { useCreateDraftArticleMutation } from "@services/articlesApi";
+import { selectUserId } from "@services/authSelectors";
+import { useNotification } from "@hooks/useNotification";
+import { MY_ARTICLES_PATH } from "@constants/paths";
+import { FieldsWrapper, HiddenFileInput, SecondText } from "./style";
+import { SecondButton } from "@components/SecondButton";
+import { fileToBase64 } from "@helpers/fileToBase64";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { FilePreview } from "@pages/CreatePostPage/components/FilePreview";
+import { ArticleInput, SmallArticleInput } from "@components/ArticleInput";
 import TagsSelect from "@components/TagsSelect";
-import {StyledTagsSelect} from "@components/TagsSelect/style";
+import { StyledTagsSelect } from "@components/TagsSelect/style";
 import {
-    atLeastOneItemIsMissing,
-    selectUniqueItems,
+  atLeastOneItemIsMissing,
+  selectUniqueItems,
 } from "@helpers/selectUniqueItems";
-import {selectSportTypesData} from "@services/articlesSelectors";
-import {getErrorMessage} from "@helpers/errorHandlers";
-import {ICreatePostFormValues} from "./types";
-import {tagsOptions} from "./tags";
+import { selectSportTypesData } from "@services/articlesSelectors";
+import { getErrorMessage } from "@helpers/errorHandlers";
+import { ICreatePostFormValues } from "./types";
+import { tagsOptions } from "./tags";
 import createPostValidationSchema from "./createPostValidationSchema";
 import {
-    ButtonsWrapper,
-    FlexWrapper,
-    StyledEditorWrapper,
-    StyledReactQuill,
-    StyledTopEditor,
+  ButtonsWrapper,
+  FlexWrapper,
+  StyledEditorWrapper,
+  StyledReactQuill,
+  StyledTopEditor,
 } from "./style";
-import {FetchBaseQueryError} from "@reduxjs/toolkit/query";
-import {IArticle, IUpdateArticleProps} from "@customTypes/articleTypes";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { IArticle, IUpdateArticleProps } from "@customTypes/articleTypes";
+import theme from "@styles/theme";
 
 const Editor = ({
-                    articleData,
-                    onSubmitUpdate,
-                }: {
-    articleData?: IArticle;
-    onSubmitUpdate?: (updatedData: IUpdateArticleProps) => void;
+  articleData,
+  onSubmitUpdate,
+  onDelete,
+}: {
+  articleData?: IArticle;
+  onSubmitUpdate?: (updatedData: IUpdateArticleProps) => void;
+  onDelete?: () => void;
 }) => {
-    useEffect(() => {
-        if (articleData) {
-            dispatch(setTitle(articleData.title));
-            dispatch(setDescription(articleData.description));
-            dispatch(setTags(articleData.tags));
-            dispatch(setType(articleData.sport));
-            dispatch(setContent(articleData.content));
+  const [createDraftArticle] = useCreateDraftArticleMutation();
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const content = useAppSelector(selectArticleContent);
+
+  const showPreviewArticle = useAppSelector(selectShowPreview);
+
+  const image = useAppSelector(selectArticleImage);
+
+  const title = useAppSelector(selectArticleTitle);
+
+  const description = useAppSelector(selectArticleDescription);
+
+  const tags = useAppSelector(selectArticleTags);
+
+  const types = useAppSelector(selectSportTypesData);
+
+  const sportType = useAppSelector(selectArticleType);
+
+  const author = useAppSelector(selectUserId);
+
+  const { showNotification } = useNotification();
+
+  const navigate = useNavigate();
+
+  const dispatch = useAppDispatch();
+
+  const { colors } = theme;
+
+  const articleForPreview = {
+    image,
+    title,
+    tags,
+    type: sportType,
+    content,
+  };
+
+  const modules = {
+    toolbar: [
+      [{ header: [2, 3, false] }],
+      ["bold"],
+      ["italic"],
+      ["link"],
+      [{ list: "bullet" }],
+      ["blockquote"],
+      ["image"],
+    ],
+  };
+
+  const {
+    handleSubmit,
+    formState: { errors },
+    register,
+    setValue,
+  } = useForm<ICreatePostFormValues>({
+    defaultValues: {
+      title: "",
+      sport: "",
+      description: "",
+    },
+    mode: "all",
+    resolver: yupResolver(createPostValidationSchema),
+  });
+
+  useEffect(() => {
+    if (articleData) {
+      dispatch(setDataField(articleData));
+      setValue("title", articleData.title);
+      setValue("sport", articleData.sport);
+      setValue("description", articleData.description);
+    } else {
+      dispatch(clearAllFields());
+    }
+  }, [articleData]);
+
+  const handleEditorChange = (value: string) => {
+    dispatch(setContent(value));
+  };
+
+  const clearSelectedFiles = () => {
+    dispatch(clearImage());
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  const handleChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setTitle(e.target.value));
+  };
+
+  const handleChangeDescription = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setDescription(e.target.value));
+  };
+
+  const handleChangeTags = (
+    event: SyntheticEvent<Element, Event>,
+    newValue: string | string[] | null
+  ) => {
+    if (Array.isArray(newValue)) {
+      if (newValue.length <= 5) {
+        const newTags = newValue.map((tag) => {
+          tag = tag[0] === "#" ? tag : `#${tag}`;
+          return tag;
+        });
+
+        const uniqueNewTags = selectUniqueItems(newTags, tags);
+
+        if (uniqueNewTags.length) {
+          dispatch(setTags(newTags));
         } else {
-            dispatch(clearAllFields());
+          const atLeastOneTagIsMissing = atLeastOneItemIsMissing(newTags, tags);
 
+          if (atLeastOneTagIsMissing) {
+            dispatch(setTags(newTags));
+          } else {
+            showNotification("This tag already exists", "error");
+          }
         }
-    }, [articleData]);
+      } else {
+        showNotification(
+          "You can choose up to 5 tags. Please delete 1 tag to add another one.",
+          "error"
+        );
+      }
+    }
+  };
 
-    const [createDraftArticle] = useCreateDraftArticleMutation();
+  const handleChangeType = (
+    event: SyntheticEvent<Element, Event>,
+    newValue: string | string[] | null
+  ) => {
+    if (typeof newValue === "string") {
+      dispatch(setType(newValue));
+    } else if (!newValue) {
+      dispatch(setType(""));
+    }
+  };
 
-    const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const onSelectFiles = async (e: ChangeEvent<HTMLInputElement>) => {
+    const fileInput = e.target;
+    if (fileInput.files && fileInput.files.length > 0) {
+      const file = fileInput.files[0];
+      const fileInfo =
+        file.type.indexOf("image") > -1 ? await fileToBase64(file) : "";
+      dispatch(setImage(fileInfo));
+    }
+  };
 
-    const content = useAppSelector(selectArticleContent);
+  const handlePreviewButtonClick = () => {
+    dispatch(setShowPreview());
+    window.scrollTo(0, 0);
+  };
 
-    const showPreviewArticle = useAppSelector(selectShowPreview);
-
-    const image = useAppSelector(selectArticleImage);
-
-    const title = useAppSelector(selectArticleTitle);
-
-    const description = useAppSelector(selectArticleDescription);
-
-    const tags = useAppSelector(selectArticleTags);
-
-    const types = useAppSelector(selectSportTypesData);
-
-    const sportType = useAppSelector(selectArticleType);
-
-    const author = useAppSelector(selectUserId);
-
-    const {showNotification} = useNotification();
-
-    const navigate = useNavigate();
-
-    const dispatch = useAppDispatch();
-
-    const articleForPreview = {
-        image,
-        title,
-        tags,
-        type: sportType,
-        content,
+  const onSubmit = async (createPostData: ICreatePostFormValues) => {
+    const article = {
+      ...createPostData,
+      tags,
+      author: author as string,
+      content,
+      image,
     };
+    if (!!articleData && onSubmitUpdate) {
+      onSubmitUpdate(article);
+      return;
+    }
+    if (image) {
+      try {
+        await createDraftArticle(article).unwrap();
+        dispatch(clearAllFields());
+        showNotification("Your draft was created", "success");
+        navigate(MY_ARTICLES_PATH);
+      } catch (error) {
+        showNotification(
+          getErrorMessage((error as FetchBaseQueryError).data) ||
+            "Some error occurred...",
+          "error"
+        );
+      }
+    } else {
+      showNotification("Add image to your article", "error");
+    }
+  };
 
-    const modules = {
-        toolbar: [
-            [{header: [2, 3, false]}],
-            ["bold"],
-            ["italic"],
-            ["link"],
-            [{list: "bullet"}],
-            ["blockquote"],
-            ["image"],
-        ],
-    };
+  return (
+    <StyledEditorWrapper onSubmit={handleSubmit(onSubmit)}>
+      {showPreviewArticle ? (
+        <ArticlePreview article={articleForPreview} />
+      ) : (
+        <>
+          <StyledTopEditor>
+            <FlexWrapper>
+              <SecondButton $width="40%" sx={{ flexShrink: 0 }} type="button">
+                Add Cover Image
+                <HiddenFileInput
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/png, image/gif, image/jpeg, image/bmp, image/x-icon"
+                  onChange={onSelectFiles}
+                />
+              </SecondButton>
 
-    const {
-        handleSubmit,
-        formState: {errors},
-        register,
-    } = useForm<ICreatePostFormValues>({
-        defaultValues: {
-            title: "",
-            sport: "",
-            description: "",
-        },
-        mode: "all",
-        resolver: yupResolver(createPostValidationSchema),
-    });
+              {image ? (
+                <FilePreview
+                  url={image}
+                  clearSelectedFiles={clearSelectedFiles}
+                />
+              ) : (
+                <SecondText>
+                  Make sure you use an image of the right size and proportion:
+                  use a 100:42 ratio for best results.
+                </SecondText>
+              )}
+            </FlexWrapper>
 
-    const handleEditorChange = (value: string) => {
-        dispatch(setContent(value));
-    };
+            <FieldsWrapper>
+              <ArticleInput
+                type="text"
+                {...register("title")}
+                value={title}
+                placeholder="Enter the title..."
+                onChange={handleChangeTitle}
+                error={!!errors.title?.message}
+                helperText={errors.title?.message}
+              />
 
-    const clearSelectedFiles = () => {
-        dispatch(clearImage());
-        if (fileInputRef.current) {
-            fileInputRef.current.value = "";
-        }
-    };
+              <SmallArticleInput
+                type="text"
+                {...register("description")}
+                value={description}
+                placeholder="Enter the description..."
+                onChange={handleChangeDescription}
+                error={!!errors.description?.message}
+                helperText={errors.description?.message}
+              />
 
-    const handleChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
-        dispatch(setTitle(e.target.value));
-    };
-
-    const handleChangeDescription = (e: ChangeEvent<HTMLInputElement>) => {
-        dispatch(setDescription(e.target.value));
-    };
-
-    const handleChangeTags = (
-        event: SyntheticEvent<Element, Event>,
-        newValue: string | string[] | null
-    ) => {
-        if (Array.isArray(newValue)) {
-            if (newValue.length <= 5) {
-                const newTags = newValue.map((tag) => {
-                    tag = tag[0] === "#" ? tag : `#${tag}`;
-                    return tag;
-                });
-
-                const uniqueNewTags = selectUniqueItems(newTags, tags);
-
-                if (uniqueNewTags.length) {
-                    dispatch(setTags(newTags));
-                } else {
-                    const atLeastOneTagIsMissing = atLeastOneItemIsMissing(newTags, tags);
-
-                    if (atLeastOneTagIsMissing) {
-                        dispatch(setTags(newTags));
-                    } else {
-                        showNotification("This tag already exists", "error");
+              <TagsSelect
+                options={tagsOptions}
+                value={tags || null}
+                onChange={handleChangeTags}
+                freeSolo
+                multiple
+                title="Top Tags:"
+                renderInput={(params) => (
+                  <StyledTagsSelect
+                    {...params}
+                    placeholder={
+                      tags.length ? "" : "Add up to 5 tags to your article..."
                     }
-                }
-            } else {
-                showNotification(
-                    "You can choose up to 5 tags. Please delete 1 tag to add another one.",
-                    "error"
-                );
-            }
-        }
-    };
+                  />
+                )}
+              />
 
-    const handleChangeType = (
-        event: SyntheticEvent<Element, Event>,
-        newValue: string | string[] | null
-    ) => {
-        if (typeof newValue === "string") {
-            dispatch(setType(newValue));
-        } else if (!newValue) {
-            dispatch(setType(""));
-        }
-    };
+              <TagsSelect
+                options={types || []}
+                value={sportType || null}
+                onChange={handleChangeType}
+                title="Top sports"
+                renderInput={(params) => (
+                  <StyledTagsSelect
+                    {...params}
+                    placeholder={sportType ? "" : "Start enter the type..."}
+                    {...register("sport")}
+                    error={!!errors.sport?.message}
+                    helperText={errors.sport?.message}
+                    InputProps={{
+                      ...params.InputProps,
+                    }}
+                  />
+                )}
+              />
+            </FieldsWrapper>
+          </StyledTopEditor>
 
-    const onSelectFiles = async (e: ChangeEvent<HTMLInputElement>) => {
-        const fileInput = e.target;
-        if (fileInput.files && fileInput.files.length > 0) {
-            const file = fileInput.files[0];
-            const fileInfo =
-                file.type.indexOf("image") > -1 ? await fileToBase64(file) : "";
-            dispatch(setImage(fileInfo));
-        }
-    };
+          <StyledReactQuill
+            theme="snow"
+            value={content}
+            onChange={handleEditorChange}
+            modules={modules}
+            placeholder="Write your article content here..."
+          />
+        </>
+      )}
 
-    const handlePreviewButtonClick = () => {
-        dispatch(setShowPreview());
-        window.scrollTo(0, 0);
-    };
-
-    const onSubmit = async (createPostData: ICreatePostFormValues) => {
-        const article = {
-            ...createPostData,
-            tags,
-            author: author as string,
-            content,
-            image: image,
-        };
-        if(!!articleData && onSubmitUpdate){
-            onSubmitUpdate(article)
-            return
-        }
-        if (image) {
-            try {
-                await createDraftArticle(article).unwrap();
-                dispatch(clearAllFields());
-                showNotification("Your draft was created", "success");
-                navigate(MY_ARTICLES_PATH);
-            } catch (error) {
-                showNotification(
-                    getErrorMessage((error as FetchBaseQueryError).data) ||
-                    "Some error occurred...",
-                    "error"
-                );
-            }
-        } else {
-            showNotification("Add image to your article", "error");
-        }
-    };
-
-
-    return (
-        <StyledEditorWrapper onSubmit={handleSubmit(onSubmit)}>
-            {showPreviewArticle ? (
-                <ArticlePreview article={articleForPreview}/>
-            ) : (
-                <>
-                    <StyledTopEditor>
-                        <FlexWrapper>
-                            <SecondButton $width="40%" sx={{flexShrink: 0}} type="button">
-                                Add Cover Image
-                                <HiddenFileInput
-                                    ref={fileInputRef}
-                                    type="file"
-                                    accept="image/png, image/gif, image/jpeg, image/bmp, image/x-icon"
-                                    onChange={onSelectFiles}
-                                />
-                            </SecondButton>
-
-                            {image ? (
-                                <FilePreview
-                                    url={image}
-                                    clearSelectedFiles={clearSelectedFiles}
-                                />
-                            ) : (
-                                <SecondText>
-                                    Make sure you use an image of the right size and proportion:
-                                    use a 100:42 ratio for best results.
-                                </SecondText>
-                            )}
-                        </FlexWrapper>
-
-                        <FieldsWrapper>
-                            <ArticleInput
-                                type="text"
-                                {...register("title")}
-                                value={title}
-                                placeholder="Enter the title..."
-                                onChange={handleChangeTitle}
-                                error={!!errors.title?.message}
-                                helperText={errors.title?.message}
-                            />
-
-                            <SmallArticleInput
-                                type="text"
-                                {...register("description")}
-                                value={description}
-                                placeholder="Enter the description..."
-                                onChange={handleChangeDescription}
-                                error={!!errors.description?.message}
-                                helperText={errors.description?.message}
-                            />
-
-                            <TagsSelect
-                                options={tagsOptions}
-                                value={tags || null}
-                                onChange={handleChangeTags}
-                                freeSolo
-                                multiple
-                                title="Top Tags:"
-                                renderInput={(params) => (
-                                    <StyledTagsSelect
-                                        {...params}
-                                        placeholder={
-                                            tags.length ? "" : "Add up to 5 tags to your article..."
-                                        }
-                                    />
-                                )}
-                            />
-
-                            <TagsSelect
-                                options={types || []}
-                                value={sportType || null}
-                                onChange={handleChangeType}
-                                title="Top sports"
-                                renderInput={(params) => (
-                                    <StyledTagsSelect
-                                        {...params}
-                                        placeholder={sportType ? "" : "Start enter the type..."}
-                                        {...register("sport")}
-                                        error={!!errors.sport?.message}
-                                        helperText={errors.sport?.message}
-                                        InputProps={{
-                                            ...params.InputProps,
-                                        }}
-                                    />
-                                )}
-                            />
-                        </FieldsWrapper>
-                    </StyledTopEditor>
-
-                    <StyledReactQuill
-                        theme="snow"
-                        value={content}
-                        onChange={handleEditorChange}
-                        modules={modules}
-                        placeholder="Write your article content here..."
-                    />
-                </>
-            )}
-
-
-            {!!articleData ?
-                (<ButtonsWrapper>
-                    <OutlinedButton $width="240px" type="submit">
-                        Update article
-                    </OutlinedButton>
-                </ButtonsWrapper>)
-                :
-                (<ButtonsWrapper>
-                <OutlinedButton $width="240px" type="submit">
-                    Create article
-                </OutlinedButton>
-                <GhostButton
-                    $width="240px"
-                    onClick={handlePreviewButtonClick}
-                    type="button"
-                >
-                    {showPreviewArticle ? "Edit Article" : "Preview Article"}
-                </GhostButton>
-            </ButtonsWrapper>)}
-        </StyledEditorWrapper>
-    );
+      {!!articleData ? (
+        <ButtonsWrapper>
+          <OutlinedButton $width="150px" type="submit">
+            Update article
+          </OutlinedButton>
+          <GhostButton
+            $width="150px"
+            onClick={handlePreviewButtonClick}
+            type="button"
+          >
+            {showPreviewArticle ? "Edit Article" : "Preview Article"}
+          </GhostButton>
+          <OutlinedButton
+            $hover={colors.error}
+            $width="150px"
+            $color={colors.graphite}
+            $border={colors.error}
+            onClick={onDelete}
+            type="button"
+          >
+            Delete article
+          </OutlinedButton>
+        </ButtonsWrapper>
+      ) : (
+        <ButtonsWrapper>
+          <OutlinedButton $width="240px" type="submit">
+            Create article
+          </OutlinedButton>
+          <GhostButton
+            $width="240px"
+            onClick={handlePreviewButtonClick}
+            type="button"
+          >
+            {showPreviewArticle ? "Edit Article" : "Preview Article"}
+          </GhostButton>
+        </ButtonsWrapper>
+      )}
+    </StyledEditorWrapper>
+  );
 };
 
 export default Editor;

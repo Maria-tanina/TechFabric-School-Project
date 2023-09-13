@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import forgotPasswordValidationSchema from "../../forgotPasswordValidationSchema";
+import forgotPasswordValidationSchema from "@features/forgotPassword/forgotPasswordValidationSchema";
 import { useEffect, useState } from "react";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import { InputWithController } from "@components/Input";
 import { OutlinedButton } from "@components/OutlinedButton";
-import { IForgotPasswordFormValues } from "../../types";
+import {IForgotPasswordFormValues} from "@features/forgotPassword/types";
 import { StyledForm } from "@components/Form";
 import { useForgotPasswordMutation } from "@services/authApi";
 import { CircularProgress } from "@mui/material";

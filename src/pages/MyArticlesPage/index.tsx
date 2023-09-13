@@ -11,41 +11,41 @@ import { WriteMoreCard } from "./components/WriteMoreCard";
 import { SmallArticleCard } from "@components/SmallArticleCard";
 
 const MyArticlesPage = () => {
-    const {
-        data: articles = [],
-        isLoading,
-        isError,
-        error,
-    } = useGetMyArticlesQuery();
+  const {
+    data: articles = [],
+    isLoading,
+    isError,
+    error,
+  } = useGetMyArticlesQuery();
 
-    return (
-        <MyArticlesPageWrapper>
-            <LeftSidebar>
-                <NavigationMenu />
-            </LeftSidebar>
+  return (
+    <MyArticlesPageWrapper>
+      <LeftSidebar>
+        <NavigationMenu />
+      </LeftSidebar>
 
-            <MainContent>
-                {isLoading ? (
-                    <LinearProgress />
-                ) : isError ? (
-                    <ErrorMessage>
-                        {getErrorMessage((error as FetchBaseQueryError)?.data) ||
-                            "Articles not found"}
-                    </ErrorMessage>
-                ) : (
-                    <Grid container direction="row" alignItems="stretch" spacing={3}>
-                        <Grid item sm={12}>
-                            <ArticlesInfo showLikes={true} articles={articles} />
-                        </Grid>
-                        {articles?.map((article) => (
-                            <SmallArticleCard article={article} key={article.title} />
-                        ))}
-                        <WriteMoreCard />
-                    </Grid>
-                )}
-            </MainContent>
-        </MyArticlesPageWrapper>
-    );
+      <MainContent>
+        {isLoading ? (
+          <LinearProgress />
+        ) : isError ? (
+          <ErrorMessage>
+            {getErrorMessage((error as FetchBaseQueryError)?.data) ||
+              "Articles not found"}
+          </ErrorMessage>
+        ) : (
+          <Grid container direction="row" alignItems="stretch" spacing={3}>
+            <Grid item sm={12}>
+              <ArticlesInfo showLikes={true} articles={articles} />
+            </Grid>
+            {articles?.map((article) => (
+              <SmallArticleCard article={article} key={article.title} />
+            ))}
+            <WriteMoreCard />
+          </Grid>
+        )}
+      </MainContent>
+    </MyArticlesPageWrapper>
+  );
 };
 
 export default MyArticlesPage;

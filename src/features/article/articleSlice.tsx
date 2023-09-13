@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IArticleSliceInitialState } from "./types";
+import { IArticle } from "@customTypes/articleTypes";
 
 const initialState: IArticleSliceInitialState = {
   image: "",
@@ -19,7 +20,7 @@ const articleSlice = createSlice({
       state.image = action.payload;
     },
     clearImage: (state) => {
-      state.image = ""
+      state.image = "";
     },
     setTitle: (state, action: PayloadAction<string>) => {
       state.title = action.payload;
@@ -47,6 +48,14 @@ const articleSlice = createSlice({
       state.type = "";
       state.content = "";
     },
+    setDataField: (state, action: PayloadAction<IArticle>) => {
+      const { image, title, description, tags, sport } = action.payload;
+      state.image = image;
+      state.title = title;
+      state.description = description;
+      state.tags = tags;
+      state.type = sport;
+    },
   },
 });
 
@@ -60,6 +69,7 @@ export const {
   setContent,
   setShowPreview,
   clearAllFields,
+  setDataField,
 } = articleSlice.actions;
 
 export default articleSlice.reducer;

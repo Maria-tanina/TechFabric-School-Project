@@ -1,130 +1,131 @@
 import Layout from "@components/Layout";
-import {Route, Routes} from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import SignUp from "@pages/SignUp";
 import {
-    ARTICLE_PATH,
-    ADMIN_USER_LIST_PATH,
-    FORGOT_PASSWORD_PATH,
-    HOME_PATH,
-    LOGIN_PATH,
-    PASSWORD_RECOVERY_PATH,
-    REGISTRATION_CONFIRM_PATH,
-    SIGNUP_PATH,
-    SUCCESS_CONFIRMATION_PATH,
-    RULES_PATH,
-    CONTACT_US_PATH,
-    SUCCESS_PUBLISHED_PATH,
-    CREATE_POST_PATH,
-    MY_ARTICLES_PATH, UPDATE_ARTICLE_PATH,
+  ARTICLE_PATH,
+  ADMIN_USER_LIST_PATH,
+  FORGOT_PASSWORD_PATH,
+  HOME_PATH,
+  LOGIN_PATH,
+  PASSWORD_RECOVERY_PATH,
+  REGISTRATION_CONFIRM_PATH,
+  SIGNUP_PATH,
+  SUCCESS_CONFIRMATION_PATH,
+  RULES_PATH,
+  CONTACT_US_PATH,
+  SUCCESS_PUBLISHED_PATH,
+  CREATE_POST_PATH,
+  MY_ARTICLES_PATH,
+  UPDATE_ARTICLE_PATH,
 } from "@constants/paths";
 import RegistrationConfirm from "@pages/RegistrationConfirm";
 import SuccessConfirmation from "@pages/SuccessConfirmation";
-import {Login} from "@pages/Login";
-import {ForgotPassword} from "@pages/ForgotPassword";
-import {PasswordRecovery} from "@pages/PasswordRecovery";
+import { Login } from "@pages/Login";
+import { ForgotPassword } from "@pages/ForgotPassword";
+import { PasswordRecovery } from "@pages/PasswordRecovery";
 import NotFound from "@pages/NotFound";
 import RequireAuth from "../RequireAuth";
 import HomePage from "@pages/Home";
-import {NotificationProvider} from "@hooks/useNotification";
-import {ArticlePage} from "@pages/ArticlePage";
+import { NotificationProvider } from "@hooks/useNotification";
+import { ArticlePage } from "@pages/ArticlePage";
 import AdminUserList from "@pages/AdminUserList";
-import {Role} from "@constants/roles";
+import { Role } from "@constants/roles";
 import RulesPage from "@pages/Rules";
 import ContactUs from "@pages/ContactUs";
 import CreatePostPage from "@pages/CreatePostPage";
-import {PublishSuccessPage} from "@pages/PublishSuccess";
+import { PublishSuccessPage } from "@pages/PublishSuccess";
 import MyArticlesPage from "@pages/MyArticlesPage";
-import {FullHeightSpinner} from "@components/Spinner";
-import {useGetUsersInfoQuery} from "@services/authApi";
-import {useGetSportTypesQuery} from "@services/articlesApi";
-import {UpdateArticlePage} from "@pages/UpdateArticlePage";
+import { FullHeightSpinner } from "@components/Spinner";
+import { useGetUsersInfoQuery } from "@services/authApi";
+import { useGetSportTypesQuery } from "@services/articlesApi";
+import { UpdateArticlePage } from "@pages/UpdateArticlePage";
 
 const App = () => {
-    const {isLoading: isUserInfoLoading} = useGetUsersInfoQuery();
+  const { isLoading: isUserInfoLoading } = useGetUsersInfoQuery();
 
-    const {isLoading: isSportTypesLoading} = useGetSportTypesQuery();
+  const { isLoading: isSportTypesLoading } = useGetSportTypesQuery();
 
-    if (isUserInfoLoading || isSportTypesLoading) {
-        return <FullHeightSpinner size={110}/>;
-    }
+  if (isUserInfoLoading || isSportTypesLoading) {
+    return <FullHeightSpinner size={110} />;
+  }
 
-    return (
-        <div>
-            <Layout>
-                <NotificationProvider>
-                    <Routes>
-                        <Route path={HOME_PATH} element={<HomePage/>}/>
+  return (
+    <div>
+      <Layout>
+        <NotificationProvider>
+          <Routes>
+            <Route path={HOME_PATH} element={<HomePage />} />
 
-                        <Route path={LOGIN_PATH} element={<Login/>}/>
+            <Route path={LOGIN_PATH} element={<Login />} />
 
-                        <Route path={SIGNUP_PATH} element={<SignUp/>}/>
+            <Route path={SIGNUP_PATH} element={<SignUp />} />
 
-                        <Route
-                            path={`${ARTICLE_PATH}/:articleId`}
-                            element={<ArticlePage/>}
-                        />
+            <Route
+              path={`${ARTICLE_PATH}/:articleId`}
+              element={<ArticlePage />}
+            />
 
-                        <Route
-                            path={`${UPDATE_ARTICLE_PATH}/:articleId`}
-                            element={<UpdateArticlePage/>}
-                        />
+            <Route
+              path={`${UPDATE_ARTICLE_PATH}/:articleId`}
+              element={<UpdateArticlePage />}
+            />
 
-                        <Route path={RULES_PATH} element={<RulesPage/>}/>
+            <Route path={RULES_PATH} element={<RulesPage />} />
 
-                        <Route
-                            path={SUCCESS_PUBLISHED_PATH}
-                            element={<PublishSuccessPage/>}
-                        />
+            <Route
+              path={SUCCESS_PUBLISHED_PATH}
+              element={<PublishSuccessPage />}
+            />
 
-                        <Route
-                            path={REGISTRATION_CONFIRM_PATH}
-                            element={<RegistrationConfirm/>}
-                        />
+            <Route
+              path={REGISTRATION_CONFIRM_PATH}
+              element={<RegistrationConfirm />}
+            />
 
-                        <Route
-                            path={SUCCESS_CONFIRMATION_PATH}
-                            element={<SuccessConfirmation/>}
-                        />
+            <Route
+              path={SUCCESS_CONFIRMATION_PATH}
+              element={<SuccessConfirmation />}
+            />
 
-                        <Route path={FORGOT_PASSWORD_PATH} element={<ForgotPassword/>}/>
+            <Route path={FORGOT_PASSWORD_PATH} element={<ForgotPassword />} />
 
-                        <Route
-                            path={PASSWORD_RECOVERY_PATH}
-                            element={<PasswordRecovery/>}
-                        />
+            <Route
+              path={PASSWORD_RECOVERY_PATH}
+              element={<PasswordRecovery />}
+            />
 
-                        <Route path={CONTACT_US_PATH} element={<ContactUs/>}/>
+            <Route path={CONTACT_US_PATH} element={<ContactUs />} />
 
-                        <Route path="*" element={<NotFound/>}/>
+            <Route path="*" element={<NotFound />} />
 
-                        {/*protected routes*/}
-                        <Route
-                            element={
-                                <RequireAuth
-                                    redirectTo={LOGIN_PATH}
-                                    allowedRoles={[Role.SuperAdmin]}
-                                />
-                            }
-                        >
-                            <Route path={ADMIN_USER_LIST_PATH} element={<AdminUserList/>}/>
-                        </Route>
+            {/*protected routes*/}
+            <Route
+              element={
+                <RequireAuth
+                  redirectTo={LOGIN_PATH}
+                  allowedRoles={[Role.SuperAdmin]}
+                />
+              }
+            >
+              <Route path={ADMIN_USER_LIST_PATH} element={<AdminUserList />} />
+            </Route>
 
-                        <Route
-                            element={
-                                <RequireAuth
-                                    redirectTo={LOGIN_PATH}
-                                    allowedRoles={[Role.Author, Role.SuperAdmin]}
-                                />
-                            }
-                        >
-                            <Route path={CREATE_POST_PATH} element={<CreatePostPage/>}/>
-                            <Route path={MY_ARTICLES_PATH} element={<MyArticlesPage/>}/>
-                        </Route>
-                    </Routes>
-                </NotificationProvider>
-            </Layout>
-        </div>
-    );
+            <Route
+              element={
+                <RequireAuth
+                  redirectTo={LOGIN_PATH}
+                  allowedRoles={[Role.Author, Role.SuperAdmin]}
+                />
+              }
+            >
+              <Route path={CREATE_POST_PATH} element={<CreatePostPage />} />
+              <Route path={MY_ARTICLES_PATH} element={<MyArticlesPage />} />
+            </Route>
+          </Routes>
+        </NotificationProvider>
+      </Layout>
+    </div>
+  );
 };
 
 export default App;

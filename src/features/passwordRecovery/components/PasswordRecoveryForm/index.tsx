@@ -3,7 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
 import { InputWithController } from "@components/Input";
 import { OutlinedButton } from "@components/OutlinedButton";
-import passwordRecoveryValidationSchema from "../../passwordRecoveryValidationSchema";
+import passwordRecoveryValidationSchema from "@features/passwordRecovery/passwordRecoveryValidationSchema";
 import { IPasswordRecoveryFormValues } from "../../types";
 import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
 import { StyledForm } from "@components/Form";
@@ -16,6 +16,7 @@ import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { HOME_PATH } from "@constants/paths";
 import { useTokenFromUrlAndLocalStorage } from "@hooks/useToken";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+
 
 export const PasswordRecoveryForm = () => {
   const { control, handleSubmit, formState, reset } =
