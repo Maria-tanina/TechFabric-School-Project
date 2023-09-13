@@ -8,9 +8,9 @@ import { MainContent } from "@components/MainContent";
 import { Grid, LinearProgress } from "@mui/material";
 import { getErrorMessage } from "@helpers/errorHandlers";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { SmallArticlesList } from "@components/SmallArticlesList";
 import { useGetArticlesForReviewQuery } from "@services/articlesApi";
 import { ArticlesInfo } from "@components/ArticlesInfo";
+import { ReviewCard } from "@pages/ArticlesForReviewPage/components/ReviewCard";
 
 const ArticlesForReviewPage = () => {
   const {
@@ -38,7 +38,9 @@ const ArticlesForReviewPage = () => {
             <Grid item sm={12}>
               <ArticlesInfo showLikes={false} articles={articles} />
             </Grid>
-            <SmallArticlesList articles={articles} />
+            {articles?.map((article) => (
+              <ReviewCard article={article} key={article.title} />
+            ))}
           </Grid>
         )}
       </MainContent>

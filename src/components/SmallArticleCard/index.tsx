@@ -14,6 +14,7 @@ import {
   StyledLink,
   StyledLinksWrapper,
   StyledTitle,
+  StyledCardDataBox,
 } from "./style";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { ARTICLE_PATH } from "@constants/paths";
@@ -39,13 +40,13 @@ export const SmallArticleCard: FC<IArticleProps> = ({ article }) => {
             />
           </Link>
           <StyledCardContent>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <StyledCardDataBox>
               <StyledMetaData>
                 <AccessTimeOutlinedIcon fontSize="small" />
                 {getDate(createdAt)}
               </StyledMetaData>
               <StyledMetaData>{status}</StyledMetaData>
-            </div>
+            </StyledCardDataBox>
             <StyledTitle gutterBottom variant="h5">
               <Link to={ARTICLE_PATH}>{formattedTitle}</Link>
             </StyledTitle>

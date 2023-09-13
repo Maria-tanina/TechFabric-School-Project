@@ -186,11 +186,8 @@ const Editor = () => {
     const fileInput = e.target;
     if (fileInput.files && fileInput.files.length > 0) {
       const file = fileInput.files[0];
-      const fileInfo: { fileName: string; base64String: string } = {
-        fileName: file.name,
-        base64String:
-          file.type.indexOf("image") > -1 ? await fileToBase64(file) : "",
-      };
+      const fileInfo =
+        file.type.indexOf("image") > -1 ? await fileToBase64(file) : "";
       dispatch(setImage(fileInfo));
     }
   };
@@ -201,13 +198,13 @@ const Editor = () => {
   };
 
   const onSubmit = async (createPostData: ICreatePostFormValues) => {
-    if (image.base64String) {
+    if (image) {
       const article = {
         ...createPostData,
         tags,
         author: author as string,
         content,
-        image: image.base64String,
+        image,
       };
       try {
         await createDraftArticle(article).unwrap();
@@ -244,9 +241,9 @@ const Editor = () => {
                 />
               </SecondButton>
 
-              {image.base64String ? (
+              {image ? (
                 <FilePreview
-                  url={image.base64String}
+                  url={image}
                   clearSelectedFiles={clearSelectedFiles}
                 />
               ) : (

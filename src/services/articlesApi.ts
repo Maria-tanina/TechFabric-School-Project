@@ -68,5 +68,5 @@ export const {
   useGetArticleInfoQuery,
   useCreateDraftArticleMutation,
   useGetArticlesForReviewQuery,
-  usePublishArticleMutation
+  usePublishArticleMutation,
 } = articlesApi;

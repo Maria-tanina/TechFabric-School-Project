@@ -1,11 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IArticleSliceInitialState, IImage } from "./types";
+import { IArticleSliceInitialState } from "./types";
+import { IArticle } from "@customTypes/articleTypes";
 
 const initialState: IArticleSliceInitialState = {
-  image: {
-    fileName: "",
-    base64String: "",
-  },
+  image: "",
   title: "",
   description: "",
   tags: [],
@@ -18,14 +16,11 @@ const articleSlice = createSlice({
   name: "article",
   initialState,
   reducers: {
-    setImage: (state, action: PayloadAction<IImage>) => {
+    setImage: (state, action: PayloadAction<string>) => {
       state.image = action.payload;
     },
     clearImage: (state) => {
-      state.image = {
-        fileName: "",
-        base64String: "",
-      };
+      state.image = "";
     },
     setTitle: (state, action: PayloadAction<string>) => {
       state.title = action.payload;
@@ -46,15 +41,21 @@ const articleSlice = createSlice({
       state.showPreview = !state.showPreview;
     },
     clearAllFields: (state) => {
-      state.image = {
-        fileName: "",
-        base64String: "",
-      };
+      state.image = "";
       state.title = "";
       state.description = "";
       state.tags = [];
       state.type = "";
       state.content = "";
+    },
+    setArticlePreview: (state, action: PayloadAction<IArticle>) => {
+      const { image, title, description, tags, sport } = action.payload;
+      state.image = image;
+      state.title = title;
+      state.description = description;
+      state.tags = tags;
+      state.type = sport;
+      state.showPreview = true;
     },
   },
 });
@@ -69,6 +70,7 @@ export const {
   setContent,
   setShowPreview,
   clearAllFields,
+  setArticlePreview,
 } = articleSlice.actions;
 
 export default articleSlice.reducer;
