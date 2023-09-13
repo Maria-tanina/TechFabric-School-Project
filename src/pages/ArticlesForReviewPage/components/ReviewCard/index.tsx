@@ -17,12 +17,14 @@ import { getDate } from "@helpers/getDate";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { StyledBottomText } from "@pages/ArticlesForReviewPage/components/ReviewCard/style";
 import { useNavigate } from "react-router-dom";
-import { CREATE_POST_PATH } from "@constants/paths";
-import { setArticlePreview } from "@features/article/articleSlice";
+import { UPDATE_ARTICLE_PATH } from "@constants/paths";
 import { useAppDispatch } from "../../../../store";
+import {
+  setShowPreview,
+} from "@features/article/articleSlice";
 
 export const ReviewCard: FC<IArticleProps> = ({ article }) => {
-  const { title, description, createdAt, status } = article;
+  const { title, description, createdAt, status, id } = article;
 
   const formattedTitle = sliceString(title, 40);
 
@@ -33,8 +35,8 @@ export const ReviewCard: FC<IArticleProps> = ({ article }) => {
   const dispatch = useAppDispatch();
 
   const handleCardClick = () => {
-    dispatch(setArticlePreview(article));
-    navigate(CREATE_POST_PATH);
+    dispatch(setShowPreview(true));
+    navigate(`${UPDATE_ARTICLE_PATH}/${id}`);
   };
 
   return (

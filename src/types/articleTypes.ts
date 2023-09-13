@@ -19,3 +19,13 @@ export interface IArticle {
 export interface IArticleProps {
   article: IArticle;
 }
+
+export interface IUpdateArticleProps {
+  tags: string[];
+  author: string;
+  content: string;
+  image: string;
+  title: string;
+  sport: string;
+  description: string;
+}

@@ -1,4 +1,4 @@
-import { ChangeEvent, SyntheticEvent, useRef } from "react";
+import { ChangeEvent, SyntheticEvent, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { OutlinedButton } from "@components/OutlinedButton";
 import { GhostButton } from "@components/GhostButton";
@@ -6,12 +6,14 @@ import {
   clearAllFields,
   clearImage,
   setContent,
+  setDataField,
   setDescription,
   setImage,
   setShowPreview,
   setTags,
   setTitle,
   setType,
+  toggleShowPreview,
 } from "@features/article/articleSlice";
 import {
   selectArticleContent,
@@ -25,10 +27,13 @@ import {
 import { useAppDispatch, useAppSelector } from "../../../../store";
 import "react-quill/dist/quill.snow.css";
 import { ArticlePreview } from "@components/ArticlePreview";
-import { useCreateDraftArticleMutation } from "@services/articlesApi";
-import { selectUserId } from "@services/authSelectors";
+import {
+  useCreateDraftArticleMutation,
+  usePublishArticleMutation,
+} from "@services/articlesApi";
+import { selectUserId, selectUserIsAdmin } from "@services/authSelectors";
 import { useNotification } from "@hooks/useNotification";
-import { MY_ARTICLES_PATH } from "@constants/paths";
+import { HOME_PATH, MY_ARTICLES_PATH } from "@constants/paths";
 import { FieldsWrapper, HiddenFileInput, SecondText } from "./style";
 import { SecondButton } from "@components/SecondButton";
 import { fileToBase64 } from "@helpers/fileToBase64";
@@ -55,9 +60,18 @@ import {
   StyledTopEditor,
 } from "./style";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { IArticle, IUpdateArticleProps } from "@customTypes/articleTypes";
 
-const Editor = () => {
+const Editor = ({
+  articleData,
+  onSubmitUpdate,
+}: {
+  articleData?: IArticle;
+  onSubmitUpdate?: (updatedData: IUpdateArticleProps) => void;
+}) => {
   const [createDraftArticle] = useCreateDraftArticleMutation();
+
+  const [publishArticle] = usePublishArticleMutation();
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -78,6 +92,8 @@ const Editor = () => {
   const sportType = useAppSelector(selectArticleType);
 
   const author = useAppSelector(selectUserId);
+
+  const userIsAdmin = useAppSelector(selectUserIsAdmin);
 
   const { showNotification } = useNotification();
 
@@ -109,6 +125,7 @@ const Editor = () => {
     handleSubmit,
     formState: { errors },
     register,
+    setValue,
   } = useForm<ICreatePostFormValues>({
     defaultValues: {
       title: "",
@@ -118,6 +135,18 @@ const Editor = () => {
     mode: "all",
     resolver: yupResolver(createPostValidationSchema),
   });
+
+  useEffect(() => {
+    if (articleData) {
+      dispatch(setDataField(articleData));
+      setValue("title", articleData.title);
+      setValue("sport", articleData.sport);
+      setValue("description", articleData.description);
+    } else {
+      dispatch(clearAllFields());
+      dispatch(setShowPreview(false));
+    }
+  }, [articleData]);
 
   const handleEditorChange = (value: string) => {
     dispatch(setContent(value));
@@ -193,7 +222,7 @@ const Editor = () => {
   };
 
   const handlePreviewButtonClick = () => {
-    dispatch(setShowPreview());
+    dispatch(toggleShowPreview());
     window.scrollTo(0, 0);
   };
 
@@ -206,6 +235,12 @@ const Editor = () => {
         content,
         image,
       };
+
+      if (!!articleData && onSubmitUpdate) {
+        onSubmitUpdate(article);
+        return;
+      }
+
       try {
         await createDraftArticle(article).unwrap();
         dispatch(clearAllFields());
@@ -220,6 +255,24 @@ const Editor = () => {
       }
     } else {
       showNotification("Add image to your article", "error");
+    }
+  };
+
+  const handlePublishArticle = () => {
+    if (articleData?.id) {
+      try {
+        publishArticle({
+          articleId: articleData.id,
+        }).unwrap();
+        showNotification("Post was published!", "success");
+        navigate(HOME_PATH);
+      } catch (error) {
+        showNotification(
+          getErrorMessage((error as FetchBaseQueryError).data) ||
+            "Some error occurred...",
+          "error"
+        );
+      }
     }
   };
 
@@ -322,18 +375,43 @@ const Editor = () => {
           />
         </>
       )}
-      <ButtonsWrapper>
-        <OutlinedButton $width="240px" type="submit">
-          Publish Article
-        </OutlinedButton>
-        <GhostButton
-          $width="240px"
-          onClick={handlePreviewButtonClick}
-          type="button"
-        >
-          {showPreviewArticle ? "Edit Article" : "Preview Article"}
-        </GhostButton>
-      </ButtonsWrapper>
+      {!!articleData ? (
+        <ButtonsWrapper>
+          {userIsAdmin ? (
+            <OutlinedButton
+              $width="240px"
+              type="button"
+              onClick={handlePublishArticle}
+            >
+              Publish article
+            </OutlinedButton>
+          ) : null}
+
+          <OutlinedButton $width="240px" type="submit">
+            Update article
+          </OutlinedButton>
+          <GhostButton
+            $width="240px"
+            onClick={handlePreviewButtonClick}
+            type="button"
+          >
+            {showPreviewArticle ? "Edit Article" : "Preview Article"}
+          </GhostButton>
+        </ButtonsWrapper>
+      ) : (
+        <ButtonsWrapper>
+          <OutlinedButton $width="240px" type="submit">
+            Create article
+          </OutlinedButton>
+          <GhostButton
+            $width="240px"
+            onClick={handlePreviewButtonClick}
+            type="button"
+          >
+            {showPreviewArticle ? "Edit Article" : "Preview Article"}
+          </GhostButton>
+        </ButtonsWrapper>
+      )}
     </StyledEditorWrapper>
   );
 };
