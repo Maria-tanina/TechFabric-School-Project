@@ -13,7 +13,7 @@ export const OutlinedButton = styled(Button)<OutlinedButtonProps>(
   &.MuiButton-root{
     border: 2px solid ${$border || colors.main};
     color: ${$color || colors.main};
-    background-color: "transparent";
+    background-color: transparent;
     width: ${$width || "100%"};
     
     &:hover {
