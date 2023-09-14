@@ -43,7 +43,7 @@ export const StyledContentWrapper = styled.div(
   }
   
   img{
-    max-width: 100%;
+    width: 100%;
   }
   ul {
     list-style-type: none; 

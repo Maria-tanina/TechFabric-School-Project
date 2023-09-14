@@ -5,9 +5,7 @@ import {
   ArticleTags,
 } from "@components/Article/style";
 import { ArticleTag } from "@components/ArticleTag";
-import { IImage } from "@features/article/types";
 import { FC } from "react";
-import { IOption } from "@components/TagsSelect/types";
 import {
   ArticlePreviewMainImage,
   ArticlePreviewWrap,
@@ -17,40 +15,31 @@ import * as DOMPurify from "dompurify";
 
 interface IArticlePreviewProps {
   article: {
-    image: IImage;
+    image: string;
     title: string;
-    tags: IOption[];
-    themes: IOption[];
+    tags: string[];
+    type: string;
     content: string;
   };
 }
 
 export const ArticlePreview: FC<IArticlePreviewProps> = ({ article }) => {
-  const { image, themes, tags, title, content } = article;
+  const { image, type, tags, title, content } = article;
 
   const sanitizedContent = { __html: DOMPurify.sanitize(content) };
 
   return (
     <ArticlePreviewWrap>
-      <ArticlePreviewMainImage src={image.base64String} />
+      <ArticlePreviewMainImage src={image} />
       <ArticleBody>
         <ArticleMainHeader>{title}</ArticleMainHeader>
         <ArticleTags>
           {tags.map((tag) => (
-            <ArticleTag tag={tag.title} link="/" key={tag.title} />
+            <ArticleTag tag={tag} link="/" key={tag} />
           ))}
         </ArticleTags>
         <ArticleSubject>
-          <span>
-            Subject:{" "}
-            {themes.map((theme, i) => {
-              if (i === themes.length - 1) {
-                return theme.title;
-              } else {
-                return `${theme.title}, `;
-              }
-            })}
-          </span>
+          <span>Type: {type}</span>
         </ArticleSubject>
         <StyledContentWrapper dangerouslySetInnerHTML={sanitizedContent} />
       </ArticleBody>

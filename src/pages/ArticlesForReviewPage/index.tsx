@@ -1,24 +1,25 @@
+import {
+  ErrorMessage,
+  MyArticlesPageWrapper,
+} from "@pages/MyArticlesPage/style";
 import { LeftSidebar } from "@components/LeftSidebar";
 import NavigationMenu from "@components/NavigationMenu";
 import { MainContent } from "@components/MainContent";
-import { useGetMyArticlesQuery } from "@services/articlesApi";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { Grid, LinearProgress } from "@mui/material";
 import { getErrorMessage } from "@helpers/errorHandlers";
-import { ErrorMessage, MyArticlesPageWrapper } from "./style";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { useGetArticlesForReviewQuery } from "@services/articlesApi";
 import { ArticlesInfo } from "@components/ArticlesInfo";
-import { WriteMoreCard } from "./components/WriteMoreCard";
 import { SmallArticleCard } from "@components/SmallArticleCard";
-import { ARTICLE_PATH } from "@constants/paths";
+import { UPDATE_ARTICLE_PATH } from "@constants/paths";
 
-const MyArticlesPage = () => {
+const ArticlesForReviewPage = () => {
   const {
     data: articles = [],
     isLoading,
     isError,
     error,
-  } = useGetMyArticlesQuery();
-
+  } = useGetArticlesForReviewQuery();
   return (
     <MyArticlesPageWrapper>
       <LeftSidebar>
@@ -36,17 +37,16 @@ const MyArticlesPage = () => {
         ) : (
           <Grid container direction="row" alignItems="stretch" spacing={3}>
             <Grid item sm={12}>
-              <ArticlesInfo showLikes={true} articles={articles} />
+              <ArticlesInfo showLikes={false} articles={articles} />
             </Grid>
             {articles?.map((article) => (
               <SmallArticleCard
                 article={article}
                 key={article.title}
-                link={`${ARTICLE_PATH}/${article.id}`}
-                reviewMode={false}
+                link={`${UPDATE_ARTICLE_PATH}/${article.id}`}
+                reviewMode={true}
               />
             ))}
-            <WriteMoreCard />
           </Grid>
         )}
       </MainContent>
@@ -54,4 +54,4 @@ const MyArticlesPage = () => {
   );
 };
 
-export default MyArticlesPage;
+export default ArticlesForReviewPage;

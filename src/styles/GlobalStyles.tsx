@@ -24,10 +24,18 @@ const GlobalStyles = createGlobalStyle(
     color: inherit;
   }
   .MuiLinearProgress-root.MuiLinearProgress-colorPrimary{
+     width: 50%;
+     margin: 0 auto;
     background-color: ${colors.white}
   }
   .MuiLinearProgress-bar.MuiLinearProgress-barColorPrimary{
       background-color: ${colors.main}
+  }
+  .MuiButtonBase-root.MuiMenuItem-root {
+     &.Mui-selected.MuiMenuItem-gutters, &.Mui-selected:hover {
+      background-color: ${colors.lightYellow};
+    }
+    
   }
   .MuiButtonBase-root.MuiButton-root {
     text-transform: none;

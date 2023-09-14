@@ -9,29 +9,47 @@ import {
   CommentBody,
   CommentMessage,
   CountComments,
+  EditButtonWrapper,
 } from "@components/Article/style";
 import { ArticleTag } from "@components/ArticleTag";
-import { nanoid } from "@reduxjs/toolkit";
 import { CommentForm } from "@components/CommentForm";
 import ProfileInfo from "@components/ProfileInfo";
+import { StyledContentWrapper } from "@components/ArticlePreview/style";
+import DOMPurify from "dompurify";
+import { IArticleProps } from "@customTypes/articleTypes";
+import { OutlinedButton } from "@components/OutlinedButton";
+import { Link } from "react-router-dom";
+import { UPDATE_ARTICLE_PATH } from "@constants/paths";
+import { useAppSelector } from "../../store";
+import { selectUserId } from "@services/authSelectors";
 
-export const Article = () => {
+export const Article = ({ article }: IArticleProps) => {
+  const sanitizedContent = { __html: DOMPurify.sanitize(article?.content) };
+  const author = useAppSelector(selectUserId);
+  const isAuthor = !!author && !!article && author === article.author.id;
+
   return (
     <ArticleWrap>
-      <ArticleMainImage src="https://www.rankone.com/content/Images/hero-bg.jpg" />
+      <ArticleMainImage src={article?.image} />
       <ArticleBody>
-        <ArticleMainHeader>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-          sed sapien tempor, mollis est tempus, tincidunt enim.
-        </ArticleMainHeader>
+        <ArticleMainHeader>{article?.title}</ArticleMainHeader>
         <ArticleTags>
-          <ArticleTag tag="#sport" link="/" key={nanoid()} />
+          {article?.tags.map((tag) => (
+            <ArticleTag key={tag} link="" tag={tag} />
+          ))}
         </ArticleTags>
         <ArticleSubject>
-          <span>Subject: Automotive</span>
+          <span>Subject: {article?.sport}</span>
         </ArticleSubject>
-        {/*ARTICLE HTML*/}
+        <StyledContentWrapper dangerouslySetInnerHTML={sanitizedContent} />
       </ArticleBody>
+      {isAuthor && (
+        <EditButtonWrapper>
+          <Link to={`${UPDATE_ARTICLE_PATH}/${article.id}`}>
+            <OutlinedButton variant="contained">Edit Article</OutlinedButton>
+          </Link>
+        </EditButtonWrapper>
+      )}
       <ArticleCommentWrapper>
         <CountComments>Comments: 4</CountComments>
         <CommentForm />

@@ -4,9 +4,12 @@ export const selectArticleImage = (state: RootState) => state.article.image;
 
 export const selectArticleTitle = (state: RootState) => state.article.title;
 
+export const selectArticleDescription = (state: RootState) =>
+  state.article.description;
+
 export const selectArticleTags = (state: RootState) => state.article.tags;
 
-export const selectArticleThemes = (state: RootState) => state.article.themes;
+export const selectArticleType = (state: RootState) => state.article.type;
 
 export const selectArticleContent = (state: RootState) => state.article.content;
 

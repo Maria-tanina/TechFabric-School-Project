@@ -9,13 +9,22 @@ import {
   StyledLink,
 } from "@pages/Login/style";
 import Logo from "@components/Logo";
-import { SIGNUP_PATH } from "@constants/paths";
+import { HOME_PATH, SIGNUP_PATH } from "@constants/paths";
 import { LoginForm } from "@features/login/components/LoginForm";
 import { SignUpButton } from "@components/SignUpButton";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import { MainHeader } from "@components/MainHeader";
+import { useAppSelector } from "../../store";
+import { selectIsLogin } from "@features/user/usersSelectors";
+import { Navigate } from "react-router-dom";
 
 export const Login = () => {
+  const isLogin = useAppSelector(selectIsLogin);
+
+  if (isLogin) {
+    return <Navigate to={HOME_PATH} />;
+  }
+
   return (
     <section>
       <AuthCard>

@@ -1,38 +1,99 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
-import { IArticle } from "@customTypes/articleTypes";
-import { LSService } from "@services/localStorage";
+import { IArticle, IUpdateArticleProps } from "@customTypes/articleTypes";
+import { customFetchBaseQuery } from "@services/customFetchBaseQuery";
 
 const serverUrl = process.env.REACT_APP_DEV_API_URL;
 
-const { get } = LSService();
+export interface IPublishArticleRequest {
+  title: string;
+  sport: string;
+  description: string;
+  image: string;
+  tags: string[];
+  author: string;
+  content: string;
+}
 
 export const articlesApi = createApi({
   reducerPath: "articlesApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: serverUrl,
-    prepareHeaders: (headers) => {
-      const token = get("accessToken");
-      if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
-      }
-      return headers;
-    },
-  }),
+  baseQuery: customFetchBaseQuery(serverUrl),
+  tagTypes: ["ARTICLES"],
   endpoints: (build) => ({
     getArticles: build.query<IArticle[], void>({
       query: () => ({
-        url: "/articles",
+        url: "/articles/published",
         method: "GET",
       }),
+      providesTags: ["ARTICLES"],
     }),
     getMyArticles: build.query<IArticle[], void>({
       query: () => ({
         url: "/articles/mine",
         method: "GET",
       }),
+      providesTags: ["ARTICLES"],
+    }),
+    getSportTypes: build.query<string[], void>({
+      query: () => ({
+        url: "/articles/sports",
+        method: "GET",
+      }),
+    }),
+    getArticleInfo: build.query<IArticle, { articleId: string }>({
+      query: (args) => ({
+        url: `/articles/${args.articleId}`,
+        method: "GET",
+      }),
+      providesTags: ["ARTICLES"],
+    }),
+    updateArticle: build.mutation<
+      void,
+      { updatedData: IUpdateArticleProps | undefined; articleId: string }
+    >({
+      query: (args) => ({
+        url: `/articles/${args.articleId}`,
+        method: "PATCH",
+        body: args.updatedData,
+      }),
+      invalidatesTags: ["ARTICLES"],
+    }),
+    deleteArticle: build.mutation<void, { articleId: string }>({
+      query: (args) => ({
+        url: `/articles/${args.articleId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["ARTICLES"],
+    }),
+    createDraftArticle: build.mutation<void, IPublishArticleRequest>({
+      query: (body) => ({
+        url: "/articles",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["ARTICLES"],
+    }),
+    getArticlesForReview: build.query<IArticle[], void>({
+      query: () => "/articles/in-review",
+      providesTags: ["ARTICLES"],
+    }),
+    publishArticle: build.mutation<void, { articleId: string }>({
+      query: (args) => ({
+        url: `/articles/${args.articleId}/publish`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["ARTICLES"],
     }),
   }),
 });
 
-export const { useGetArticlesQuery, useGetMyArticlesQuery } = articlesApi;
+export const {
+  useGetArticlesQuery,
+  useGetMyArticlesQuery,
+  useGetSportTypesQuery,
+  useGetArticleInfoQuery,
+  useCreateDraftArticleMutation,
+  useUpdateArticleMutation,
+  useDeleteArticleMutation,
+  useGetArticlesForReviewQuery,
+  usePublishArticleMutation,
+} = articlesApi;

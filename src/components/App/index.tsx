@@ -2,20 +2,22 @@ import Layout from "@components/Layout";
 import { Route, Routes } from "react-router-dom";
 import SignUp from "@pages/SignUp";
 import {
-  ARTICLE_PATH,
   ADMIN_USER_LIST_PATH,
+  ARTICLE_PATH,
+  ARTICLES_FOR_REVIEW_PATH,
+  CONTACT_US_PATH,
+  CREATE_POST_PATH,
   FORGOT_PASSWORD_PATH,
   HOME_PATH,
   LOGIN_PATH,
+  MY_ARTICLES_PATH,
   PASSWORD_RECOVERY_PATH,
   REGISTRATION_CONFIRM_PATH,
+  RULES_PATH,
   SIGNUP_PATH,
   SUCCESS_CONFIRMATION_PATH,
-  RULES_PATH,
-  CONTACT_US_PATH,
   SUCCESS_PUBLISHED_PATH,
-  CREATE_POST_PATH,
-  MY_ARTICLES_PATH,
+  UPDATE_ARTICLE_PATH,
 } from "@constants/paths";
 import RegistrationConfirm from "@pages/RegistrationConfirm";
 import SuccessConfirmation from "@pages/SuccessConfirmation";
@@ -36,11 +38,22 @@ import { PublishSuccessPage } from "@pages/PublishSuccess";
 import MyArticlesPage from "@pages/MyArticlesPage";
 import { FullHeightSpinner } from "@components/Spinner";
 import { useGetUsersInfoQuery } from "@services/authApi";
+import { useGetSportTypesQuery } from "@services/articlesApi";
+import ArticlesForReviewPage from "@pages/ArticlesForReviewPage";
+import { UpdateArticlePage } from "@pages/UpdateArticlePage";
+import { useAppSelector } from "../../store";
+import { selectIsLogin } from "@features/user/usersSelectors";
 
 const App = () => {
-  const { isLoading } = useGetUsersInfoQuery();
+  const isLogin = useAppSelector(selectIsLogin);
 
-  if (isLoading) {
+  const { isLoading: isUserInfoLoading } = useGetUsersInfoQuery(undefined, {
+    skip: !isLogin,
+  });
+
+  const { isLoading: isSportTypesLoading } = useGetSportTypesQuery();
+
+  if (isUserInfoLoading || isSportTypesLoading) {
     return <FullHeightSpinner size={110} />;
   }
 
@@ -55,7 +68,10 @@ const App = () => {
 
             <Route path={SIGNUP_PATH} element={<SignUp />} />
 
-            <Route path={ARTICLE_PATH} element={<ArticlePage />} />
+            <Route
+              path={`${ARTICLE_PATH}/:articleId`}
+              element={<ArticlePage />}
+            />
 
             <Route path={RULES_PATH} element={<RulesPage />} />
 
@@ -95,6 +111,23 @@ const App = () => {
               }
             >
               <Route path={ADMIN_USER_LIST_PATH} element={<AdminUserList />} />
+
+              <Route
+                path={ARTICLES_FOR_REVIEW_PATH}
+                element={<ArticlesForReviewPage />}
+              />
+            </Route>
+
+            <Route
+              element={
+                <RequireAuth
+                  redirectTo={LOGIN_PATH}
+                  allowedRoles={[Role.Author]}
+                />
+              }
+            >
+              <Route path={CREATE_POST_PATH} element={<CreatePostPage />} />
+              <Route path={MY_ARTICLES_PATH} element={<MyArticlesPage />} />
             </Route>
 
             <Route
@@ -105,8 +138,10 @@ const App = () => {
                 />
               }
             >
-              <Route path={CREATE_POST_PATH} element={<CreatePostPage />} />
-              <Route path={MY_ARTICLES_PATH} element={<MyArticlesPage />} />
+              <Route
+                path={`${UPDATE_ARTICLE_PATH}/:articleId`}
+                element={<UpdateArticlePage />}
+              />
             </Route>
           </Routes>
         </NotificationProvider>

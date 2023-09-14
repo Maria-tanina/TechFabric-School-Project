@@ -3,7 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
 import { InputWithController } from "@components/Input";
 import { OutlinedButton } from "@components/OutlinedButton";
-import passwordRecoveryValidationSchema from "../../passwordRecoveryValidationSchema";
+import passwordRecoveryValidationSchema from "@features/passwordRecovery/passwordRecoveryValidationSchema";
 import { IPasswordRecoveryFormValues } from "../../types";
 import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
 import { StyledForm } from "@components/Form";
@@ -13,7 +13,7 @@ import { CircularProgress, IconButton, InputAdornment } from "@mui/material";
 import { useNotification } from "@hooks/useNotification";
 import { getErrorMessage } from "@helpers/errorHandlers";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { HOME_PATH } from "@constants/paths";
+import { LOGIN_PATH } from "@constants/paths";
 import { useTokenFromUrlAndLocalStorage } from "@hooks/useToken";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
@@ -46,7 +46,7 @@ export const PasswordRecoveryForm = () => {
   useEffect(() => {
     if (isSuccess) {
       showNotification("Password was successfully changed", "success");
-      navigate(HOME_PATH);
+      navigate(LOGIN_PATH);
     } else if (isError) {
       showNotification(errorMessage, "error");
       reset();

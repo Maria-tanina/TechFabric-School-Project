@@ -1,5 +1,6 @@
 import {
   ADMIN_USER_LIST_PATH,
+  ARTICLES_FOR_REVIEW_PATH,
   CONTACT_US_PATH,
   FAVORITES_PATH,
   HOME_PATH,
@@ -14,6 +15,7 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
+import GradingOutlinedIcon from "@mui/icons-material/GradingOutlined";
 import { Role } from "@constants/roles";
 
 const allRoles = [Role.Guest, Role.User, Role.Author, Role.SuperAdmin];
@@ -41,7 +43,7 @@ export const mainMenu: IMenuItem[] = [
     value: "My articles",
     link: MY_ARTICLES_PATH,
     icon: <ArticleOutlinedIcon />,
-    access: [Role.Author, Role.SuperAdmin],
+    access: [Role.Author],
   },
 ];
 export const adminMenu: IMenuItem[] = [
@@ -49,6 +51,12 @@ export const adminMenu: IMenuItem[] = [
     value: "Users List",
     link: ADMIN_USER_LIST_PATH,
     icon: <FormatListBulletedIcon />,
+    access: [Role.SuperAdmin],
+  },
+  {
+    value: "Articles for review",
+    link: ARTICLES_FOR_REVIEW_PATH,
+    icon: <GradingOutlinedIcon />,
     access: [Role.SuperAdmin],
   },
 ];

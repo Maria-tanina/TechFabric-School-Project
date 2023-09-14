@@ -9,9 +9,9 @@ export const selectUserInfoData = createSelector(
   (queryResult) => queryResult.data
 );
 
-export const selectUserInfoIsLoading = createSelector(
-  selectUserInfo,
-  (queryResult) => queryResult.isLoading
+export const selectUserId = createSelector(
+  selectUserInfoData,
+  (queryResult) => queryResult?.id
 );
 
 export const selectUserFullName = createSelector(

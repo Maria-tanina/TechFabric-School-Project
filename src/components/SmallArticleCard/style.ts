@@ -66,5 +66,10 @@ export const StyledLink = styled(Link)(
 export const StyledCardContent = styled(CardContent)`
   display: flex;
   flex-direction: column;
-  min-height: 239px;
+  min-height: 271px;
+`;
+
+export const StyledCardDataBox = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;

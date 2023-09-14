@@ -19,6 +19,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { ListItemIcon } from "@mui/material";
 import { selectIsLogin } from "@features/user/usersSelectors";
 import { selectUserInfoData } from "@services/authSelectors";
+import { useNotification } from "@hooks/useNotification";
 
 const NavigationMenu = () => {
   const isLogin = useAppSelector(selectIsLogin);
@@ -29,8 +30,11 @@ const NavigationMenu = () => {
 
   const dispatch = useAppDispatch();
 
+  const { showNotification } = useNotification();
+
   const handleLogOutClick = () => {
     dispatch(logOut());
+    showNotification("You are logged out", "success");
   };
 
   return (

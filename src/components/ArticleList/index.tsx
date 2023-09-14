@@ -10,7 +10,7 @@ export const ArticleList = ({ articles }: ArticleListProps) => {
   return (
     <ArticlesWrapper>
       {articles?.map((article) => (
-        <ArticleCard key={article.author.id} article={article} />
+        <ArticleCard key={article.id} article={article} />
       ))}
     </ArticlesWrapper>
   );
