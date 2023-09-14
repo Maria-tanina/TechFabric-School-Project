@@ -24,6 +24,7 @@ export const UpdateArticlePage = () => {
   const { articleId = "" } = useParams<{ articleId?: string | undefined }>();
   const navigate = useNavigate();
   const { showNotification } = useNotification();
+  const isAdmin = useAppSelector(selectUserIsAdmin);
   const [updateArticle, { isError, isSuccess }] = useUpdateArticleMutation();
   const [deleteArticle] = useDeleteArticleMutation();
 
@@ -36,8 +37,6 @@ export const UpdateArticlePage = () => {
   const isAuthorOfCurrentArticle = myArticles?.some(
     (article) => article.id === articleId
   );
-
-  const isAdmin = useAppSelector(selectUserIsAdmin);
 
   const handleUpdateArticle = (
     updatedData: IUpdateArticleProps | undefined
