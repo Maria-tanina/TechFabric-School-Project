@@ -17,7 +17,7 @@ export interface IPublishArticleRequest {
 export const articlesApi = createApi({
   reducerPath: "articlesApi",
   baseQuery: customFetchBaseQuery(serverUrl),
-  tagTypes: ["ARTICLES"],
+  tagTypes: ["ARTICLES", "MY_ARTICLES"],
   endpoints: (build) => ({
     getArticles: build.query<IArticle[], void>({
       query: () => ({
@@ -31,7 +31,7 @@ export const articlesApi = createApi({
         url: "/articles/mine",
         method: "GET",
       }),
-      providesTags: ["ARTICLES"],
+      providesTags: ["ARTICLES", "MY_ARTICLES"],
     }),
     getSportTypes: build.query<string[], void>({
       query: () => ({

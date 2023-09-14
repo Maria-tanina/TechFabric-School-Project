@@ -2,6 +2,7 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import { IUserInfo } from "@customTypes/authTypes";
 import { createSelector } from "@reduxjs/toolkit";
 import { customFetchBaseQuery } from "@services/customFetchBaseQuery";
+import { authApi } from "@services/authApi";
 
 const serverUrl = process.env.REACT_APP_DEV_API_URL;
 
@@ -28,6 +29,12 @@ export const usersApi = createApi({
             newUserRole: newRole,
           },
         };
+      },
+      async onQueryStarted({ ...patch }, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          dispatch(authApi.util.invalidateTags(["UNAUTHORIZED"]));
+        } catch {}
       },
       invalidatesTags: ["Users"],
     }),
