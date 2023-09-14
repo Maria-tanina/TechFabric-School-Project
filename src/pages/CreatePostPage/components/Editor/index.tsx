@@ -61,13 +61,16 @@ import {
 } from "./style";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { IArticle, IUpdateArticleProps } from "@customTypes/articleTypes";
+import theme from "@styles/theme";
 
 const Editor = ({
   articleData,
   onSubmitUpdate,
+  onDelete,
 }: {
   articleData?: IArticle;
   onSubmitUpdate?: (updatedData: IUpdateArticleProps) => void;
+  onDelete?: () => void;
 }) => {
   const [createDraftArticle] = useCreateDraftArticleMutation();
 
@@ -100,6 +103,8 @@ const Editor = ({
   const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
+
+  const { colors } = theme;
 
   const articleForPreview = {
     image,
@@ -228,20 +233,18 @@ const Editor = ({
   };
 
   const onSubmit = async (createPostData: ICreatePostFormValues) => {
+    const article = {
+      ...createPostData,
+      tags,
+      author: author as string,
+      content,
+      image,
+    };
+    if (!!articleData && onSubmitUpdate) {
+      onSubmitUpdate(article);
+      return;
+    }
     if (image) {
-      const article = {
-        ...createPostData,
-        tags,
-        author: author as string,
-        content,
-        image,
-      };
-
-      if (!!articleData && onSubmitUpdate) {
-        onSubmitUpdate(article);
-        return;
-      }
-
       try {
         await createDraftArticle(article).unwrap();
         dispatch(clearAllFields());
@@ -376,6 +379,7 @@ const Editor = ({
           />
         </>
       )}
+
       {!!articleData ? (
         <ButtonsWrapper>
           {userIsAdmin ? (
@@ -387,14 +391,30 @@ const Editor = ({
               Publish article
             </OutlinedButton>
           ) : (
-            <GhostButton
-              $width="240px"
-              onClick={handlePreviewButtonClick}
-              type="button"
-            >
-              {showPreviewArticle ? "Edit Article" : "Preview Article"}
-            </GhostButton>
+            <>
+              <OutlinedButton $width="150px" type="submit">
+                Update article
+              </OutlinedButton>
+              <GhostButton
+                $width="150px"
+                onClick={handlePreviewButtonClick}
+                type="button"
+              >
+                {showPreviewArticle ? "Edit Article" : "Preview Article"}
+              </GhostButton>
+              <OutlinedButton
+                $hover={colors.error}
+                $width="150px"
+                $color={colors.graphite}
+                $border={colors.error}
+                onClick={onDelete}
+                type="button"
+              >
+                Delete article
+              </OutlinedButton>
+            </>
           )}
+
         </ButtonsWrapper>
       ) : (
         <ButtonsWrapper>

@@ -46,6 +46,24 @@ export const articlesApi = createApi({
       }),
       providesTags: ["ARTICLES"],
     }),
+    updateArticle: build.mutation<
+      void,
+      { updatedData: IUpdateArticleProps | undefined; articleId: string }
+    >({
+      query: (args) => ({
+        url: `/articles/${args.articleId}`,
+        method: "PATCH",
+        body: args.updatedData,
+      }),
+      invalidatesTags: ["ARTICLES"],
+    }),
+    deleteArticle: build.mutation<void, { articleId: string }>({
+      query: (args) => ({
+        url: `/articles/${args.articleId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["ARTICLES"],
+    }),
     createDraftArticle: build.mutation<void, IPublishArticleRequest>({
       query: (body) => ({
         url: "/articles",
@@ -65,17 +83,6 @@ export const articlesApi = createApi({
       }),
       invalidatesTags: ["ARTICLES"],
     }),
-    updateArticle: build.mutation<
-      void,
-      { updatedData: IUpdateArticleProps | undefined; articleId: string }
-    >({
-      query: (args) => ({
-        url: `/articles/${args.articleId}`,
-        method: "PATCH",
-        body: args.updatedData,
-      }),
-      invalidatesTags: ["ARTICLES"],
-    }),
   }),
 });
 
@@ -85,7 +92,8 @@ export const {
   useGetSportTypesQuery,
   useGetArticleInfoQuery,
   useCreateDraftArticleMutation,
+  useUpdateArticleMutation,
+  useDeleteArticleMutation,
   useGetArticlesForReviewQuery,
   usePublishArticleMutation,
-  useUpdateArticleMutation,
 } = articlesApi;

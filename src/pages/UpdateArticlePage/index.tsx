@@ -1,16 +1,17 @@
 import Editor from "@pages/CreatePostPage/components/Editor";
 import { useNavigate, useParams } from "react-router-dom";
 import {
+  useDeleteArticleMutation,
   useGetArticleInfoQuery,
   useUpdateArticleMutation,
 } from "@services/articlesApi";
 import { useNotification } from "@hooks/useNotification";
-import { ARTICLE_PATH } from "@constants/paths";
+import { ARTICLE_PATH, HOME_PATH } from "@constants/paths";
 import {
+  EditorWrapper,
   LoaderWrapper,
   UpdatePostWrapper,
 } from "@pages/UpdateArticlePage/style";
-import { AuthorRules } from "@components/AuthorRules";
 import { FullHeightSpinner } from "@components/Spinner";
 import { IUpdateArticleProps } from "@customTypes/articleTypes";
 import { getErrorMessage } from "@helpers/errorHandlers";
@@ -20,11 +21,13 @@ export const UpdateArticlePage = () => {
   const { articleId = "" } = useParams<{ articleId?: string | undefined }>();
   const navigate = useNavigate();
   const { showNotification } = useNotification();
-  const [updateArticle, { isError }] = useUpdateArticleMutation();
+  const [updateArticle, { isError, isSuccess }] = useUpdateArticleMutation();
+  const [deleteArticle] = useDeleteArticleMutation();
 
   const { data, isLoading } = useGetArticleInfoQuery({
     articleId: articleId || "",
   });
+
   const handleUpdateArticle = (
     updatedData: IUpdateArticleProps | undefined
   ) => {
@@ -32,6 +35,7 @@ export const UpdateArticlePage = () => {
       .unwrap()
       .then(() => {
         navigate(`${ARTICLE_PATH}/${articleId}`);
+        isSuccess && showNotification("Article was updated", "success");
       })
       .catch((error) => {
         isError &&
@@ -42,6 +46,19 @@ export const UpdateArticlePage = () => {
           );
       });
   };
+  const handleDeleteArticle = () => {
+    try {
+      deleteArticle({ articleId });
+      showNotification("Article was deleted!", "success");
+      navigate(HOME_PATH);
+    } catch (error) {
+      showNotification(
+        getErrorMessage((error as FetchBaseQueryError).data) ||
+          "Some error occurred...",
+        "error"
+      );
+    }
+  };
 
   return (
     <>
@@ -51,8 +68,13 @@ export const UpdateArticlePage = () => {
         </LoaderWrapper>
       ) : (
         <UpdatePostWrapper>
-          <Editor articleData={data} onSubmitUpdate={handleUpdateArticle} />
-          <AuthorRules />
+          <EditorWrapper>
+            <Editor
+              articleData={data}
+              onSubmitUpdate={handleUpdateArticle}
+              onDelete={handleDeleteArticle}
+            />
+          </EditorWrapper>
         </UpdatePostWrapper>
       )}
     </>

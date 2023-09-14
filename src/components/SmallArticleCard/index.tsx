@@ -18,6 +18,7 @@ import {
   StyledBottomText,
 } from "./style";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import { UPDATE_ARTICLE_PATH } from "@constants/paths";
 import { sliceString } from "@helpers/sliceString";
 import { setShowPreview } from "@features/article/articleSlice";
 import { useAppDispatch } from "../../store";
@@ -32,7 +33,7 @@ export const SmallArticleCard: FC<SmallArticleCardProps> = ({
   link,
   reviewMode,
 }) => {
-  const { title, description, createdAt, status } = article;
+  const { title, description, createdAt, status, id } = article;
 
   const formattedTitle = sliceString(title, 40);
 
@@ -92,7 +93,7 @@ export const SmallArticleCard: FC<SmallArticleCardProps> = ({
                     READ MORE
                     <EastOutlinedIcon fontSize="small" />
                   </StyledLink>
-                  <StyledLink to="/">
+                  <StyledLink to={`${UPDATE_ARTICLE_PATH}/${id}`}>
                     Edit
                     <EditOutlinedIcon fontSize="small" />
                   </StyledLink>

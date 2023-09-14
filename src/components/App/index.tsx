@@ -120,11 +120,11 @@ const App = () => {
                 />
               }
             >
-              <Route path={CREATE_POST_PATH} element={<CreatePostPage />} />
               <Route
                 path={`${UPDATE_ARTICLE_PATH}/:articleId`}
                 element={<UpdateArticlePage />}
               />
+              <Route path={CREATE_POST_PATH} element={<CreatePostPage />} />
               <Route path={MY_ARTICLES_PATH} element={<MyArticlesPage />} />
             </Route>
           </Routes>

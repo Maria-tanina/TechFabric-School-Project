@@ -9,7 +9,7 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
 import { SignUpButton } from "@components/SignUpButton";
-import registrationValidationSchema from "../../registrationValidationSchema";
+import registrationValidationSchema from "@features/registration/registrationValidationSchema";
 import { useSignupMutation } from "@services/authApi";
 import { CircularProgress, IconButton, InputAdornment } from "@mui/material";
 import { getErrorMessage } from "@helpers/errorHandlers";
