@@ -1,8 +1,9 @@
 import Editor from "@pages/CreatePostPage/components/Editor";
-import { useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import {
   useDeleteArticleMutation,
   useGetArticleInfoQuery,
+  useGetMyArticlesQuery,
   useUpdateArticleMutation,
 } from "@services/articlesApi";
 import { useNotification } from "@hooks/useNotification";
@@ -16,6 +17,8 @@ import { FullHeightSpinner } from "@components/Spinner";
 import { IUpdateArticleProps } from "@customTypes/articleTypes";
 import { getErrorMessage } from "@helpers/errorHandlers";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { useAppSelector } from "../../store";
+import { selectUserIsAdmin } from "@services/authSelectors";
 
 export const UpdateArticlePage = () => {
   const { articleId = "" } = useParams<{ articleId?: string | undefined }>();
@@ -27,6 +30,14 @@ export const UpdateArticlePage = () => {
   const { data, isLoading } = useGetArticleInfoQuery({
     articleId: articleId || "",
   });
+
+  const { data: myArticles = [] } = useGetMyArticlesQuery();
+
+  const isAuthorOfCurrentArticle = myArticles?.some(
+    (article) => article.id === articleId
+  );
+
+  const isAdmin = useAppSelector(selectUserIsAdmin);
 
   const handleUpdateArticle = (
     updatedData: IUpdateArticleProps | undefined
@@ -59,6 +70,10 @@ export const UpdateArticlePage = () => {
       );
     }
   };
+
+  if (!isAuthorOfCurrentArticle && !isAdmin) {
+    return <Navigate to={HOME_PATH} />;
+  }
 
   return (
     <>
