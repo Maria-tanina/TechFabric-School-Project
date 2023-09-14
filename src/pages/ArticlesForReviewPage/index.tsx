@@ -10,7 +10,8 @@ import { getErrorMessage } from "@helpers/errorHandlers";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { useGetArticlesForReviewQuery } from "@services/articlesApi";
 import { ArticlesInfo } from "@components/ArticlesInfo";
-import { ReviewCard } from "@pages/ArticlesForReviewPage/components/ReviewCard";
+import { SmallArticleCard } from "@components/SmallArticleCard";
+import { UPDATE_ARTICLE_PATH } from "@constants/paths";
 
 const ArticlesForReviewPage = () => {
   const {
@@ -39,7 +40,12 @@ const ArticlesForReviewPage = () => {
               <ArticlesInfo showLikes={false} articles={articles} />
             </Grid>
             {articles?.map((article) => (
-              <ReviewCard article={article} key={article.title} />
+              <SmallArticleCard
+                article={article}
+                key={article.title}
+                link={`${UPDATE_ARTICLE_PATH}/${article.id}`}
+                reviewMode={true}
+              />
             ))}
           </Grid>
         )}

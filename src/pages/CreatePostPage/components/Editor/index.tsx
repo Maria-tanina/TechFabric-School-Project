@@ -215,8 +215,9 @@ const Editor = ({
     const fileInput = e.target;
     if (fileInput.files && fileInput.files.length > 0) {
       const file = fileInput.files[0];
+      const base64 = await fileToBase64(file);
       const fileInfo =
-        file.type.indexOf("image") > -1 ? await fileToBase64(file) : "";
+        file.type.includes("image") ? base64 : "";
       dispatch(setImage(fileInfo));
     }
   };

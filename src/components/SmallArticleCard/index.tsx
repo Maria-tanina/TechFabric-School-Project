@@ -15,23 +15,50 @@ import {
   StyledLinksWrapper,
   StyledTitle,
   StyledCardDataBox,
+  StyledBottomText,
 } from "./style";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import { ARTICLE_PATH } from "@constants/paths";
 import { sliceString } from "@helpers/sliceString";
+import { setShowPreview } from "@features/article/articleSlice";
+import { useAppDispatch } from "../../store";
 
-export const SmallArticleCard: FC<IArticleProps> = ({ article }) => {
+interface SmallArticleCardProps extends IArticleProps {
+  link: string;
+  reviewMode: boolean;
+}
+
+export const SmallArticleCard: FC<SmallArticleCardProps> = ({
+  article,
+  link,
+  reviewMode,
+}) => {
   const { title, description, createdAt, status } = article;
 
   const formattedTitle = sliceString(title, 40);
 
   const formattedDescription = sliceString(description, 100);
 
+  const dispatch = useAppDispatch();
+
+  const handleCardClick = () => {
+    if (reviewMode) {
+      dispatch(setShowPreview(true));
+    }
+  };
+
   return (
-    <Grid item key={title} sm={6} md={6} lg={6} xl={4}>
+    <Grid
+      item
+      key={title}
+      sm={6}
+      md={6}
+      lg={6}
+      xl={4}
+      onClick={handleCardClick}
+    >
       <StyledCard>
         <CardActionArea>
-          <Link to={ARTICLE_PATH}>
+          <Link to={link}>
             <CardMedia
               component="img"
               height="140"
@@ -48,20 +75,29 @@ export const SmallArticleCard: FC<IArticleProps> = ({ article }) => {
               <StyledMetaData>{status}</StyledMetaData>
             </StyledCardDataBox>
             <StyledTitle gutterBottom variant="h5">
-              <Link to={ARTICLE_PATH}>{formattedTitle}</Link>
+              <Link to={link}>{formattedTitle}</Link>
             </StyledTitle>
             <StyledDescription>
-              <Link to={ARTICLE_PATH}>{formattedDescription}</Link>
+              <Link to={link}>{formattedDescription}</Link>
             </StyledDescription>
             <StyledLinksWrapper>
-              <StyledLink to={ARTICLE_PATH}>
-                READ MORE
-                <EastOutlinedIcon fontSize="small" />
-              </StyledLink>
-              <StyledLink to="/">
-                Edit
-                <EditOutlinedIcon fontSize="small" />
-              </StyledLink>
+              {reviewMode ? (
+                <StyledBottomText>
+                  Show preview
+                  <EditOutlinedIcon fontSize="small" />
+                </StyledBottomText>
+              ) : (
+                <>
+                  <StyledLink to={link}>
+                    READ MORE
+                    <EastOutlinedIcon fontSize="small" />
+                  </StyledLink>
+                  <StyledLink to="/">
+                    Edit
+                    <EditOutlinedIcon fontSize="small" />
+                  </StyledLink>
+                </>
+              )}
             </StyledLinksWrapper>
           </StyledCardContent>
         </CardActionArea>

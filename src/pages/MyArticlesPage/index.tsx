@@ -9,6 +9,7 @@ import { ErrorMessage, MyArticlesPageWrapper } from "./style";
 import { ArticlesInfo } from "@components/ArticlesInfo";
 import { WriteMoreCard } from "./components/WriteMoreCard";
 import { SmallArticleCard } from "@components/SmallArticleCard";
+import { ARTICLE_PATH } from "@constants/paths";
 
 const MyArticlesPage = () => {
   const {
@@ -38,7 +39,12 @@ const MyArticlesPage = () => {
               <ArticlesInfo showLikes={true} articles={articles} />
             </Grid>
             {articles?.map((article) => (
-              <SmallArticleCard article={article} key={article.title} />
+              <SmallArticleCard
+                article={article}
+                key={article.title}
+                link={`${ARTICLE_PATH}/${article.id}`}
+                reviewMode={false}
+              />
             ))}
             <WriteMoreCard />
           </Grid>
