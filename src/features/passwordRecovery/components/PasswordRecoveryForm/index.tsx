@@ -17,7 +17,6 @@ import { HOME_PATH } from "@constants/paths";
 import { useTokenFromUrlAndLocalStorage } from "@hooks/useToken";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
-
 export const PasswordRecoveryForm = () => {
   const { control, handleSubmit, formState, reset } =
     useForm<IPasswordRecoveryFormValues>({

@@ -85,6 +85,7 @@ export const CommentMessage = styled.p(
 );
 export const EditButtonWrapper = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+  padding: 0 24px;
 `;

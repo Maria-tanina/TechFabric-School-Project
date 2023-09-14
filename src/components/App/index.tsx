@@ -65,8 +65,6 @@ const App = () => {
               element={<ArticlePage />}
             />
 
-
-
             <Route path={RULES_PATH} element={<RulesPage />} />
 
             <Route
@@ -116,8 +114,8 @@ const App = () => {
               }
             >
               <Route
-                  path={`${UPDATE_ARTICLE_PATH}/:articleId`}
-                  element={<UpdateArticlePage />}
+                path={`${UPDATE_ARTICLE_PATH}/:articleId`}
+                element={<UpdateArticlePage />}
               />
               <Route path={CREATE_POST_PATH} element={<CreatePostPage />} />
               <Route path={MY_ARTICLES_PATH} element={<MyArticlesPage />} />

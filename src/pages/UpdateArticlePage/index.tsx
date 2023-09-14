@@ -12,7 +12,6 @@ import {
   LoaderWrapper,
   UpdatePostWrapper,
 } from "@pages/UpdateArticlePage/style";
-import { AuthorRules } from "@components/AuthorRules";
 import { FullHeightSpinner } from "@components/Spinner";
 import { IUpdateArticleProps } from "@customTypes/articleTypes";
 import { getErrorMessage } from "@helpers/errorHandlers";
@@ -22,7 +21,7 @@ export const UpdateArticlePage = () => {
   const { articleId = "" } = useParams<{ articleId?: string | undefined }>();
   const navigate = useNavigate();
   const { showNotification } = useNotification();
-  const [updateArticle, { isError }] = useUpdateArticleMutation();
+  const [updateArticle, { isError, isSuccess }] = useUpdateArticleMutation();
   const [deleteArticle] = useDeleteArticleMutation();
 
   const { data, isLoading } = useGetArticleInfoQuery({
@@ -36,6 +35,7 @@ export const UpdateArticlePage = () => {
       .unwrap()
       .then(() => {
         navigate(`${ARTICLE_PATH}/${articleId}`);
+        isSuccess && showNotification("Article was updated", "success");
       })
       .catch((error) => {
         isError &&
@@ -75,7 +75,6 @@ export const UpdateArticlePage = () => {
               onDelete={handleDeleteArticle}
             />
           </EditorWrapper>
-          <AuthorRules />
         </UpdatePostWrapper>
       )}
     </>
