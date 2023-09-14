@@ -41,9 +41,15 @@ import { useGetUsersInfoQuery } from "@services/authApi";
 import { useGetSportTypesQuery } from "@services/articlesApi";
 import ArticlesForReviewPage from "@pages/ArticlesForReviewPage";
 import { UpdateArticlePage } from "@pages/UpdateArticlePage";
+import { useAppSelector } from "../../store";
+import { selectIsLogin } from "@features/user/usersSelectors";
 
 const App = () => {
-  const { isLoading: isUserInfoLoading } = useGetUsersInfoQuery();
+  const isLogin = useAppSelector(selectIsLogin);
+
+  const { isLoading: isUserInfoLoading } = useGetUsersInfoQuery(undefined, {
+    skip: !isLogin,
+  });
 
   const { isLoading: isSportTypesLoading } = useGetSportTypesQuery();
 
