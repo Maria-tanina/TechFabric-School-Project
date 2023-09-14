@@ -68,3 +68,8 @@ export const StyledCardContent = styled(CardContent)`
   flex-direction: column;
   min-height: 239px;
 `;
+
+export const StyledCardDataBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;

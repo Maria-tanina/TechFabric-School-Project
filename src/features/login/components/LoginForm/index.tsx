@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { InputWithController } from "@components/Input";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
-import loginValidationSchema from "../../loginValidationSchema";
+import loginValidationSchema from "@features/login/loginValidationSchema";
 import { StyledLoginForm, StyledUnderlineText } from "./style";
 import { OutlinedButton } from "@components/OutlinedButton";
 import { Link, useNavigate } from "react-router-dom";

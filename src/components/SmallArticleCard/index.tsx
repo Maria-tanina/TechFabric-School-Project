@@ -14,13 +14,14 @@ import {
   StyledLink,
   StyledLinksWrapper,
   StyledTitle,
+  StyledCardDataBox,
 } from "./style";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import { ARTICLE_PATH } from "@constants/paths";
+import { ARTICLE_PATH, UPDATE_ARTICLE_PATH } from "@constants/paths";
 import { sliceString } from "@helpers/sliceString";
 
 export const SmallArticleCard: FC<IArticleProps> = ({ article }) => {
-  const { title, description, createdAt, status } = article;
+  const { title, description, createdAt, status, id } = article;
 
   const formattedTitle = sliceString(title, 40);
 
@@ -30,34 +31,34 @@ export const SmallArticleCard: FC<IArticleProps> = ({ article }) => {
     <Grid item key={title} sm={6} md={6} lg={6} xl={4}>
       <StyledCard>
         <CardActionArea>
-          <Link to={ARTICLE_PATH}>
+          <Link to={`${ARTICLE_PATH}/${id}`}>
             <CardMedia
               component="img"
               height="140"
-              image="https://st4.depositphotos.com/1005563/19666/i/450/depositphotos_196668956-stock-photo-balls-sport-trophy-championship-concept.jpg"
+              image={article.image}
               alt="sport"
             />
           </Link>
           <StyledCardContent>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <StyledCardDataBox>
               <StyledMetaData>
                 <AccessTimeOutlinedIcon fontSize="small" />
                 {getDate(createdAt)}
               </StyledMetaData>
               <StyledMetaData>{status}</StyledMetaData>
-            </div>
+            </StyledCardDataBox>
             <StyledTitle gutterBottom variant="h5">
-              <Link to={ARTICLE_PATH}>{formattedTitle}</Link>
+              <Link to={`${ARTICLE_PATH}/${id}`}>{formattedTitle}</Link>
             </StyledTitle>
             <StyledDescription>
-              <Link to={ARTICLE_PATH}>{formattedDescription}</Link>
+              <Link to={`${ARTICLE_PATH}/${id}`}>{formattedDescription}</Link>
             </StyledDescription>
             <StyledLinksWrapper>
-              <StyledLink to={ARTICLE_PATH}>
+              <StyledLink to={`${ARTICLE_PATH}/${id}`}>
                 READ MORE
                 <EastOutlinedIcon fontSize="small" />
               </StyledLink>
-              <StyledLink to="/">
+              <StyledLink to={`${UPDATE_ARTICLE_PATH}/${id}`}>
                 Edit
                 <EditOutlinedIcon fontSize="small" />
               </StyledLink>

@@ -53,6 +53,7 @@ export const StyledReactQuill = styled(ReactQuill)`
 
 export const ButtonsWrapper = styled.div`
   display: flex;
+  justify-content: center;
   gap: 40px;
   margin-top: 40px;
 `;

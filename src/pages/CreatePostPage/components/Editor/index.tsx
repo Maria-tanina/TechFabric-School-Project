@@ -1,4 +1,4 @@
-import { ChangeEvent, SyntheticEvent, useRef } from "react";
+import { ChangeEvent, SyntheticEvent, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { OutlinedButton } from "@components/OutlinedButton";
 import { GhostButton } from "@components/GhostButton";
@@ -6,6 +6,7 @@ import {
   clearAllFields,
   clearImage,
   setContent,
+  setDataField,
   setDescription,
   setImage,
   setShowPreview,
@@ -55,8 +56,18 @@ import {
   StyledTopEditor,
 } from "./style";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { IArticle, IUpdateArticleProps } from "@customTypes/articleTypes";
+import theme from "@styles/theme";
 
-const Editor = () => {
+const Editor = ({
+  articleData,
+  onSubmitUpdate,
+  onDelete,
+}: {
+  articleData?: IArticle;
+  onSubmitUpdate?: (updatedData: IUpdateArticleProps) => void;
+  onDelete?: () => void;
+}) => {
   const [createDraftArticle] = useCreateDraftArticleMutation();
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -85,6 +96,8 @@ const Editor = () => {
 
   const dispatch = useAppDispatch();
 
+  const { colors } = theme;
+
   const articleForPreview = {
     image,
     title,
@@ -109,6 +122,7 @@ const Editor = () => {
     handleSubmit,
     formState: { errors },
     register,
+    setValue,
   } = useForm<ICreatePostFormValues>({
     defaultValues: {
       title: "",
@@ -118,6 +132,17 @@ const Editor = () => {
     mode: "all",
     resolver: yupResolver(createPostValidationSchema),
   });
+
+  useEffect(() => {
+    if (articleData) {
+      dispatch(setDataField(articleData));
+      setValue("title", articleData.title);
+      setValue("sport", articleData.sport);
+      setValue("description", articleData.description);
+    } else {
+      dispatch(clearAllFields());
+    }
+  }, [articleData]);
 
   const handleEditorChange = (value: string) => {
     dispatch(setContent(value));
@@ -186,11 +211,8 @@ const Editor = () => {
     const fileInput = e.target;
     if (fileInput.files && fileInput.files.length > 0) {
       const file = fileInput.files[0];
-      const fileInfo: { fileName: string; base64String: string } = {
-        fileName: file.name,
-        base64String:
-          file.type.indexOf("image") > -1 ? await fileToBase64(file) : "",
-      };
+      const fileInfo =
+        file.type.indexOf("image") > -1 ? await fileToBase64(file) : "";
       dispatch(setImage(fileInfo));
     }
   };
@@ -201,14 +223,18 @@ const Editor = () => {
   };
 
   const onSubmit = async (createPostData: ICreatePostFormValues) => {
-    if (image.base64String) {
-      const article = {
-        ...createPostData,
-        tags,
-        author: author as string,
-        content,
-        image: image.base64String,
-      };
+    const article = {
+      ...createPostData,
+      tags,
+      author: author as string,
+      content,
+      image,
+    };
+    if (!!articleData && onSubmitUpdate) {
+      onSubmitUpdate(article);
+      return;
+    }
+    if (image) {
       try {
         await createDraftArticle(article).unwrap();
         dispatch(clearAllFields());
@@ -244,9 +270,9 @@ const Editor = () => {
                 />
               </SecondButton>
 
-              {image.base64String ? (
+              {image ? (
                 <FilePreview
-                  url={image.base64String}
+                  url={image}
                   clearSelectedFiles={clearSelectedFiles}
                 />
               ) : (
@@ -325,18 +351,44 @@ const Editor = () => {
           />
         </>
       )}
-      <ButtonsWrapper>
-        <OutlinedButton $width="240px" type="submit">
-          Publish Article
-        </OutlinedButton>
-        <GhostButton
-          $width="240px"
-          onClick={handlePreviewButtonClick}
-          type="button"
-        >
-          {showPreviewArticle ? "Edit Article" : "Preview Article"}
-        </GhostButton>
-      </ButtonsWrapper>
+
+      {!!articleData ? (
+        <ButtonsWrapper>
+          <OutlinedButton $width="150px" type="submit">
+            Update article
+          </OutlinedButton>
+          <GhostButton
+            $width="150px"
+            onClick={handlePreviewButtonClick}
+            type="button"
+          >
+            {showPreviewArticle ? "Edit Article" : "Preview Article"}
+          </GhostButton>
+          <OutlinedButton
+            $hover={colors.error}
+            $width="150px"
+            $color={colors.graphite}
+            $border={colors.error}
+            onClick={onDelete}
+            type="button"
+          >
+            Delete article
+          </OutlinedButton>
+        </ButtonsWrapper>
+      ) : (
+        <ButtonsWrapper>
+          <OutlinedButton $width="240px" type="submit">
+            Create article
+          </OutlinedButton>
+          <GhostButton
+            $width="240px"
+            onClick={handlePreviewButtonClick}
+            type="button"
+          >
+            {showPreviewArticle ? "Edit Article" : "Preview Article"}
+          </GhostButton>
+        </ButtonsWrapper>
+      )}
     </StyledEditorWrapper>
   );
 };

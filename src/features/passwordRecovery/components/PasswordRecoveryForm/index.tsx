@@ -3,7 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
 import { InputWithController } from "@components/Input";
 import { OutlinedButton } from "@components/OutlinedButton";
-import passwordRecoveryValidationSchema from "../../passwordRecoveryValidationSchema";
+import passwordRecoveryValidationSchema from "@features/passwordRecovery/passwordRecoveryValidationSchema";
 import { IPasswordRecoveryFormValues } from "../../types";
 import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
 import { StyledForm } from "@components/Form";

@@ -5,7 +5,6 @@ import {
   ArticleTags,
 } from "@components/Article/style";
 import { ArticleTag } from "@components/ArticleTag";
-import { IImage } from "@features/article/types";
 import { FC } from "react";
 import {
   ArticlePreviewMainImage,
@@ -16,7 +15,7 @@ import * as DOMPurify from "dompurify";
 
 interface IArticlePreviewProps {
   article: {
-    image: IImage;
+    image: string;
     title: string;
     tags: string[];
     type: string;
@@ -31,7 +30,7 @@ export const ArticlePreview: FC<IArticlePreviewProps> = ({ article }) => {
 
   return (
     <ArticlePreviewWrap>
-      <ArticlePreviewMainImage src={image.base64String} />
+      <ArticlePreviewMainImage src={image} />
       <ArticleBody>
         <ArticleMainHeader>{title}</ArticleMainHeader>
         <ArticleTags>
@@ -40,7 +39,7 @@ export const ArticlePreview: FC<IArticlePreviewProps> = ({ article }) => {
           ))}
         </ArticleTags>
         <ArticleSubject>
-          <span>Subject: {type}</span>
+          <span>Type: {type}</span>
         </ArticleSubject>
         <StyledContentWrapper dangerouslySetInnerHTML={sanitizedContent} />
       </ArticleBody>

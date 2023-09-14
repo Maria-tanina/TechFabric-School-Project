@@ -1,6 +1,5 @@
 import { StyledSidebarHeader } from "@components/SidebarHeader";
 import { StyledSidebarCard } from "@components/SidebarCard";
-import { useGetMyArticlesQuery } from "@services/articlesApi";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
@@ -10,10 +9,13 @@ import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined
 import { getDate } from "@helpers/getDate";
 import { StyledInfoIcons } from "./style";
 import { defineDateOfLatestPublication } from "@helpers/defineDateOfLatestPublication";
+import { FC } from "react";
+import { IArticle } from "@customTypes/articleTypes";
 
-export const ArticlesInfo = () => {
-  const { data: articles = [] } = useGetMyArticlesQuery();
-
+export const ArticlesInfo: FC<{ showLikes: boolean; articles: IArticle[] }> = ({
+  showLikes,
+  articles,
+}) => {
   const numberOfArticles = `Number of articles: ${articles.length}`;
 
   const latestDate = defineDateOfLatestPublication(articles);
@@ -47,12 +49,14 @@ export const ArticlesInfo = () => {
           </StyledInfoIcons>
           <ListItemText primary={dateOfLastArticle} />
         </ListItemButton>
-        <ListItemButton>
-          <StyledInfoIcons>
-            <StarsOutlinedIcon />
-          </StyledInfoIcons>
-          <ListItemText primary={likes} />
-        </ListItemButton>
+        {showLikes ? (
+          <ListItemButton>
+            <StyledInfoIcons>
+              <StarsOutlinedIcon />
+            </StyledInfoIcons>
+            <ListItemText primary={likes} />
+          </ListItemButton>
+        ) : null}
       </List>
     </StyledSidebarCard>
   );
