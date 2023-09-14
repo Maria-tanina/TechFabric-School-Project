@@ -221,8 +221,7 @@ const Editor = ({
     if (fileInput.files && fileInput.files.length > 0) {
       const file = fileInput.files[0];
       const base64 = await fileToBase64(file);
-      const fileInfo =
-        file.type.includes("image") ? base64 : "";
+      const fileInfo = file.type.includes("image") ? base64 : "";
       dispatch(setImage(fileInfo));
     }
   };
@@ -414,7 +413,6 @@ const Editor = ({
               </OutlinedButton>
             </>
           )}
-
         </ButtonsWrapper>
       ) : (
         <ButtonsWrapper>

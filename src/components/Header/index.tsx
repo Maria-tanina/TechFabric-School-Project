@@ -14,7 +14,6 @@ import { selectIsLogin } from "@features/user/usersSelectors";
 import {
   selectUserFullName,
   selectUserInfoData,
-  selectUserIsAdmin,
   selectUserIsAuthor,
 } from "@services/authSelectors";
 
@@ -27,8 +26,6 @@ const Header = () => {
 
   const isAuthor = useAppSelector(selectUserIsAuthor);
 
-  const isAdmin = useAppSelector(selectUserIsAdmin);
-
   return (
     <HeaderWrapper>
       <HeaderLeftSide>
@@ -36,7 +33,7 @@ const Header = () => {
         <SearchInput />
       </HeaderLeftSide>
       <HeaderRightSide>
-        {isLogin && (isAuthor || isAdmin) && <CreatePostButton />}
+        {isLogin && isAuthor && <CreatePostButton />}
         {isLogin && userInfo ? (
           <ProfileInfo userName={fullName} subtitle={userInfo.userRole} />
         ) : (

@@ -43,7 +43,7 @@ export const mainMenu: IMenuItem[] = [
     value: "My articles",
     link: MY_ARTICLES_PATH,
     icon: <ArticleOutlinedIcon />,
-    access: [Role.Author, Role.SuperAdmin],
+    access: [Role.Author],
   },
 ];
 export const adminMenu: IMenuItem[] = [

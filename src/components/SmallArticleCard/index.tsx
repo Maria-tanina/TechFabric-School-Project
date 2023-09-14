@@ -44,6 +44,8 @@ export const SmallArticleCard: FC<SmallArticleCardProps> = ({
   const handleCardClick = () => {
     if (reviewMode) {
       dispatch(setShowPreview(true));
+    } else {
+      dispatch(setShowPreview(false));
     }
   };
 

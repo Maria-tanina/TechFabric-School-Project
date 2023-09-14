@@ -116,7 +116,7 @@ const App = () => {
               element={
                 <RequireAuth
                   redirectTo={LOGIN_PATH}
-                  allowedRoles={[Role.Author, Role.SuperAdmin]}
+                  allowedRoles={[Role.Author]}
                 />
               }
             >
