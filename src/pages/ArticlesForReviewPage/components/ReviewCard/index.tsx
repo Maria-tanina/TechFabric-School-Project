@@ -19,9 +19,7 @@ import { StyledBottomText } from "@pages/ArticlesForReviewPage/components/Review
 import { useNavigate } from "react-router-dom";
 import { UPDATE_ARTICLE_PATH } from "@constants/paths";
 import { useAppDispatch } from "../../../../store";
-import {
-  setShowPreview,
-} from "@features/article/articleSlice";
+import { setShowPreview } from "@features/article/articleSlice";
 
 export const ReviewCard: FC<IArticleProps> = ({ article }) => {
   const { title, description, createdAt, status, id } = article;

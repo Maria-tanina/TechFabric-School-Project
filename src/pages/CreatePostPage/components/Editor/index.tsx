@@ -385,18 +385,15 @@ const Editor = ({
             >
               Publish article
             </OutlinedButton>
-          ) : null}
-
-          <OutlinedButton $width="240px" type="submit">
-            Update article
-          </OutlinedButton>
-          <GhostButton
-            $width="240px"
-            onClick={handlePreviewButtonClick}
-            type="button"
-          >
-            {showPreviewArticle ? "Edit Article" : "Preview Article"}
-          </GhostButton>
+          ) : (
+            <GhostButton
+              $width="240px"
+              onClick={handlePreviewButtonClick}
+              type="button"
+            >
+              {showPreviewArticle ? "Edit Article" : "Preview Article"}
+            </GhostButton>
+          )}
         </ButtonsWrapper>
       ) : (
         <ButtonsWrapper>
