@@ -19,8 +19,6 @@ import {
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { UPDATE_ARTICLE_PATH } from "@constants/paths";
 import { sliceString } from "@helpers/sliceString";
-import { setShowPreview } from "@features/article/articleSlice";
-import { useAppDispatch } from "../../store";
 
 interface SmallArticleCardProps extends IArticleProps {
   link: string;
@@ -38,26 +36,8 @@ export const SmallArticleCard: FC<SmallArticleCardProps> = ({
 
   const formattedDescription = sliceString(description, 100);
 
-  const dispatch = useAppDispatch();
-
-  const handleCardClick = () => {
-    if (reviewMode) {
-      dispatch(setShowPreview(true));
-    } else {
-      dispatch(setShowPreview(false));
-    }
-  };
-
   return (
-    <Grid
-      item
-      key={title}
-      sm={6}
-      md={6}
-      lg={6}
-      xl={4}
-      onClick={handleCardClick}
-    >
+    <Grid item key={title} sm={6} md={6} lg={6} xl={4}>
       <StyledCard>
         <CardActionArea>
           <Link to={link}>

@@ -17,8 +17,9 @@ import { FullHeightSpinner } from "@components/Spinner";
 import { IUpdateArticleProps } from "@customTypes/articleTypes";
 import { getErrorMessage } from "@helpers/errorHandlers";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { useAppSelector } from "../../store";
+import { useAppDispatch, useAppSelector } from "../../store";
 import { selectUserIsAdmin } from "@services/authSelectors";
+import { setShowPreview } from "@features/article/articleSlice";
 
 export const UpdateArticlePage = () => {
   const { articleId = "" } = useParams<{ articleId?: string | undefined }>();
@@ -37,6 +38,10 @@ export const UpdateArticlePage = () => {
   const isAuthorOfCurrentArticle = myArticles?.some(
     (article) => article.id === articleId
   );
+
+  const dispatch = useAppDispatch();
+
+  isAdmin && dispatch(setShowPreview(true));
 
   const handleUpdateArticle = (
     updatedData: IUpdateArticleProps | undefined
