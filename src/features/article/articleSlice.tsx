@@ -52,12 +52,13 @@ const articleSlice = createSlice({
       state.content = "";
     },
     setDataField: (state, action: PayloadAction<IArticle>) => {
-      const { image, title, description, tags, sport } = action.payload;
+      const { image, title, description, tags, sport, content } = action.payload;
       state.image = image;
       state.title = title;
       state.description = description;
       state.tags = tags;
       state.type = sport;
+      state.content = content;
     },
   },
 });
