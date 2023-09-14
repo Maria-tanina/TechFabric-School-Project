@@ -1,8 +1,3 @@
-export interface IImage {
-  fileName: string;
-  base64String: string;
-}
-
 export interface IArticleSliceInitialState {
   image: string;
   title: string;

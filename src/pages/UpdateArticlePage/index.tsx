@@ -1,8 +1,9 @@
 import Editor from "@pages/CreatePostPage/components/Editor";
-import { useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import {
   useDeleteArticleMutation,
   useGetArticleInfoQuery,
+  useGetMyArticlesQuery,
   useUpdateArticleMutation,
 } from "@services/articlesApi";
 import { useNotification } from "@hooks/useNotification";
@@ -16,17 +17,31 @@ import { FullHeightSpinner } from "@components/Spinner";
 import { IUpdateArticleProps } from "@customTypes/articleTypes";
 import { getErrorMessage } from "@helpers/errorHandlers";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { useAppDispatch, useAppSelector } from "../../store";
+import { selectUserIsAdmin } from "@services/authSelectors";
+import { setShowPreview } from "@features/article/articleSlice";
 
 export const UpdateArticlePage = () => {
   const { articleId = "" } = useParams<{ articleId?: string | undefined }>();
   const navigate = useNavigate();
   const { showNotification } = useNotification();
+  const isAdmin = useAppSelector(selectUserIsAdmin);
   const [updateArticle, { isError, isSuccess }] = useUpdateArticleMutation();
   const [deleteArticle] = useDeleteArticleMutation();
 
   const { data, isLoading } = useGetArticleInfoQuery({
     articleId: articleId || "",
   });
+
+  const { data: myArticles = [] } = useGetMyArticlesQuery();
+
+  const isAuthorOfCurrentArticle = myArticles?.some(
+    (article) => article.id === articleId
+  );
+
+  const dispatch = useAppDispatch();
+
+  isAdmin && dispatch(setShowPreview(true));
 
   const handleUpdateArticle = (
     updatedData: IUpdateArticleProps | undefined
@@ -59,6 +74,10 @@ export const UpdateArticlePage = () => {
       );
     }
   };
+
+  if (!isAuthorOfCurrentArticle && !isAdmin) {
+    return <Navigate to={HOME_PATH} />;
+  }
 
   return (
     <>

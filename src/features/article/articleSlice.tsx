@@ -37,8 +37,11 @@ const articleSlice = createSlice({
     setContent: (state, action: PayloadAction<string>) => {
       state.content = action.payload;
     },
-    setShowPreview: (state) => {
+    toggleShowPreview: (state) => {
       state.showPreview = !state.showPreview;
+    },
+    setShowPreview: (state, action: PayloadAction<boolean>) => {
+      state.showPreview = action.payload;
     },
     clearAllFields: (state) => {
       state.image = "";
@@ -66,12 +69,13 @@ export const {
   clearImage,
   setTitle,
   setDescription,
+  setShowPreview,
   setTags,
   setType,
   setContent,
-  setShowPreview,
   clearAllFields,
   setDataField,
+  toggleShowPreview,
 } = articleSlice.actions;
 
 export default articleSlice.reducer;

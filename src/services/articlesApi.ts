@@ -72,6 +72,17 @@ export const articlesApi = createApi({
       }),
       invalidatesTags: ["ARTICLES"],
     }),
+    getArticlesForReview: build.query<IArticle[], void>({
+      query: () => "/articles/in-review",
+      providesTags: ["ARTICLES"],
+    }),
+    publishArticle: build.mutation<void, { articleId: string }>({
+      query: (args) => ({
+        url: `/articles/${args.articleId}/publish`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["ARTICLES"],
+    }),
   }),
 });
 
@@ -83,4 +94,6 @@ export const {
   useCreateDraftArticleMutation,
   useUpdateArticleMutation,
   useDeleteArticleMutation,
+  useGetArticlesForReviewQuery,
+  usePublishArticleMutation,
 } = articlesApi;

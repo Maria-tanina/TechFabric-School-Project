@@ -13,6 +13,7 @@ import {
   setTags,
   setTitle,
   setType,
+  toggleShowPreview,
 } from "@features/article/articleSlice";
 import {
   selectArticleContent,
@@ -26,10 +27,13 @@ import {
 import { useAppDispatch, useAppSelector } from "../../../../store";
 import "react-quill/dist/quill.snow.css";
 import { ArticlePreview } from "@components/ArticlePreview";
-import { useCreateDraftArticleMutation } from "@services/articlesApi";
-import { selectUserId } from "@services/authSelectors";
+import {
+  useCreateDraftArticleMutation,
+  usePublishArticleMutation,
+} from "@services/articlesApi";
+import { selectUserId, selectUserIsAdmin } from "@services/authSelectors";
 import { useNotification } from "@hooks/useNotification";
-import { MY_ARTICLES_PATH } from "@constants/paths";
+import { HOME_PATH, MY_ARTICLES_PATH } from "@constants/paths";
 import { FieldsWrapper, HiddenFileInput, SecondText } from "./style";
 import { SecondButton } from "@components/SecondButton";
 import { fileToBase64 } from "@helpers/fileToBase64";
@@ -70,6 +74,8 @@ const Editor = ({
 }) => {
   const [createDraftArticle] = useCreateDraftArticleMutation();
 
+  const [publishArticle] = usePublishArticleMutation();
+
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const content = useAppSelector(selectArticleContent);
@@ -89,6 +95,8 @@ const Editor = ({
   const sportType = useAppSelector(selectArticleType);
 
   const author = useAppSelector(selectUserId);
+
+  const userIsAdmin = useAppSelector(selectUserIsAdmin);
 
   const { showNotification } = useNotification();
 
@@ -141,6 +149,7 @@ const Editor = ({
       setValue("description", articleData.description);
     } else {
       dispatch(clearAllFields());
+      dispatch(setShowPreview(false));
     }
   }, [articleData]);
 
@@ -211,14 +220,14 @@ const Editor = ({
     const fileInput = e.target;
     if (fileInput.files && fileInput.files.length > 0) {
       const file = fileInput.files[0];
-      const fileInfo =
-        file.type.indexOf("image") > -1 ? await fileToBase64(file) : "";
+      const base64 = await fileToBase64(file);
+      const fileInfo = file.type.includes("image") ? base64 : "";
       dispatch(setImage(fileInfo));
     }
   };
 
   const handlePreviewButtonClick = () => {
-    dispatch(setShowPreview());
+    dispatch(toggleShowPreview());
     window.scrollTo(0, 0);
   };
 
@@ -249,6 +258,24 @@ const Editor = ({
       }
     } else {
       showNotification("Add image to your article", "error");
+    }
+  };
+
+  const handlePublishArticle = () => {
+    if (articleData?.id) {
+      try {
+        publishArticle({
+          articleId: articleData.id,
+        }).unwrap();
+        showNotification("Post was published!", "success");
+        navigate(HOME_PATH);
+      } catch (error) {
+        showNotification(
+          getErrorMessage((error as FetchBaseQueryError).data) ||
+            "Some error occurred...",
+          "error"
+        );
+      }
     }
   };
 
@@ -354,26 +381,38 @@ const Editor = ({
 
       {!!articleData ? (
         <ButtonsWrapper>
-          <OutlinedButton $width="150px" type="submit">
-            Update article
-          </OutlinedButton>
-          <GhostButton
-            $width="150px"
-            onClick={handlePreviewButtonClick}
-            type="button"
-          >
-            {showPreviewArticle ? "Edit Article" : "Preview Article"}
-          </GhostButton>
-          <OutlinedButton
-            $hover={colors.error}
-            $width="150px"
-            $color={colors.graphite}
-            $border={colors.error}
-            onClick={onDelete}
-            type="button"
-          >
-            Delete article
-          </OutlinedButton>
+          {userIsAdmin ? (
+            <OutlinedButton
+              $width="240px"
+              type="button"
+              onClick={handlePublishArticle}
+            >
+              Publish article
+            </OutlinedButton>
+          ) : (
+            <>
+              <OutlinedButton $width="150px" type="submit">
+                Update article
+              </OutlinedButton>
+              <GhostButton
+                $width="150px"
+                onClick={handlePreviewButtonClick}
+                type="button"
+              >
+                {showPreviewArticle ? "Edit Article" : "Preview Article"}
+              </GhostButton>
+              <OutlinedButton
+                $hover={colors.error}
+                $width="150px"
+                $color={colors.graphite}
+                $border={colors.error}
+                onClick={onDelete}
+                type="button"
+              >
+                Delete article
+              </OutlinedButton>
+            </>
+          )}
         </ButtonsWrapper>
       ) : (
         <ButtonsWrapper>

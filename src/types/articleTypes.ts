@@ -19,6 +19,7 @@ export interface IArticle {
 export interface IArticleProps {
   article: IArticle;
 }
+
 export interface IUpdateArticleProps {
   tags: string[];
   author: string;
