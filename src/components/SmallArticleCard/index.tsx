@@ -15,7 +15,6 @@ import {
   StyledLinksWrapper,
   StyledTitle,
   StyledCardDataBox,
-  StyledBottomText,
 } from "./style";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { UPDATE_ARTICLE_PATH } from "@constants/paths";
@@ -85,10 +84,10 @@ export const SmallArticleCard: FC<SmallArticleCardProps> = ({
             </StyledDescription>
             <StyledLinksWrapper>
               {reviewMode ? (
-                <StyledBottomText>
+                <StyledLink to={link}>
                   Show preview
                   <EditOutlinedIcon fontSize="small" />
-                </StyledBottomText>
+                </StyledLink>
               ) : (
                 <>
                   <StyledLink to={link}>

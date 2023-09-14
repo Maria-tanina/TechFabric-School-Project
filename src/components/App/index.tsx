@@ -2,21 +2,21 @@ import Layout from "@components/Layout";
 import { Route, Routes } from "react-router-dom";
 import SignUp from "@pages/SignUp";
 import {
-  ARTICLE_PATH,
   ADMIN_USER_LIST_PATH,
+  ARTICLE_PATH,
+  ARTICLES_FOR_REVIEW_PATH,
+  CONTACT_US_PATH,
+  CREATE_POST_PATH,
   FORGOT_PASSWORD_PATH,
   HOME_PATH,
   LOGIN_PATH,
+  MY_ARTICLES_PATH,
   PASSWORD_RECOVERY_PATH,
   REGISTRATION_CONFIRM_PATH,
+  RULES_PATH,
   SIGNUP_PATH,
   SUCCESS_CONFIRMATION_PATH,
-  RULES_PATH,
-  CONTACT_US_PATH,
   SUCCESS_PUBLISHED_PATH,
-  CREATE_POST_PATH,
-  MY_ARTICLES_PATH,
-  ARTICLES_FOR_REVIEW_PATH,
   UPDATE_ARTICLE_PATH,
 } from "@constants/paths";
 import RegistrationConfirm from "@pages/RegistrationConfirm";
@@ -120,12 +120,22 @@ const App = () => {
                 />
               }
             >
+              <Route path={CREATE_POST_PATH} element={<CreatePostPage />} />
+              <Route path={MY_ARTICLES_PATH} element={<MyArticlesPage />} />
+            </Route>
+
+            <Route
+              element={
+                <RequireAuth
+                  redirectTo={LOGIN_PATH}
+                  allowedRoles={[Role.Author, Role.SuperAdmin]}
+                />
+              }
+            >
               <Route
                 path={`${UPDATE_ARTICLE_PATH}/:articleId`}
                 element={<UpdateArticlePage />}
               />
-              <Route path={CREATE_POST_PATH} element={<CreatePostPage />} />
-              <Route path={MY_ARTICLES_PATH} element={<MyArticlesPage />} />
             </Route>
           </Routes>
         </NotificationProvider>
