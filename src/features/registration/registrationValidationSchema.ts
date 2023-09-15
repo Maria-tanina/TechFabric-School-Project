@@ -30,7 +30,8 @@ const registrationValidationSchema = Yup.object().shape({
     .matches(
       PASSWORD_REGEX,
       "Password must contain at least 8 characters, one lowercase letter, one uppercase letter, one number, and one special character (-, _, +, =) and not contain spaces"
-    ),
+    )
+    .max(32, "Password should not exceed 32 characters."),
   repeatPassword: Yup.string()
     .required("Password confirmation is required")
     .oneOf([Yup.ref("password")], "The entered passwords don't match")

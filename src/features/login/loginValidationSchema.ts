@@ -8,6 +8,7 @@ const loginValidationSchema = Yup.object().shape({
       EMAIL_REGEX,
       "Invalid email address. Please enter a valid email address."
     )
+    .max(50, "Email should not exceed 50 characters.")
     .trim()
     .lowercase(),
   password: Yup.string()
@@ -15,7 +16,8 @@ const loginValidationSchema = Yup.object().shape({
     .matches(
       PASSWORD_REGEX,
       "Password must contain at least 8 characters, one lowercase letter, one uppercase letter, one number, and one special character (-, _, +, =) and not contain spaces"
-    ),
+    )
+    .max(32, "Password should not exceed 32 characters."),
 });
 
 export default loginValidationSchema;
