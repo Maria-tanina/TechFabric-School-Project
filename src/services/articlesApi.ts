@@ -8,7 +8,7 @@ const serverUrl = process.env.REACT_APP_DEV_API_URL;
 export const articlesApi = createApi({
   reducerPath: "articlesApi",
   baseQuery: customFetchBaseQuery(serverUrl),
-  tagTypes: ["ARTICLES", "MY_ARTICLES"],
+  tagTypes: ["ARTICLES", "MY_ARTICLES", "CURRENT_ARTICLE"],
   endpoints: (build) => ({
     getArticles: build.query<IArticle[], void>({
       query: () => ({
@@ -35,7 +35,7 @@ export const articlesApi = createApi({
         url: `/articles/${args.articleId}`,
         method: "GET",
       }),
-      providesTags: ["ARTICLES"],
+      providesTags: ["ARTICLES", "CURRENT_ARTICLE"],
     }),
     updateArticle: build.mutation<
       void,

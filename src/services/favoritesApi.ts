@@ -20,7 +20,7 @@ export const favoritesApi = createApi({
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled;
-          dispatch(articlesApi.util.invalidateTags(["ARTICLES"]));
+          dispatch(articlesApi.util.invalidateTags(["CURRENT_ARTICLE"]));
         } catch {}
       },
     }),
@@ -36,7 +36,7 @@ export const favoritesApi = createApi({
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled;
-          dispatch(articlesApi.util.invalidateTags(["ARTICLES"]));
+          dispatch(articlesApi.util.invalidateTags(["CURRENT_ARTICLE"]));
         } catch {}
       },
     }),
