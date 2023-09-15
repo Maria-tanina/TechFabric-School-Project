@@ -7,7 +7,7 @@ import { authApi } from "@services/authApi";
 import articleSlice from "@features/article/articleSlice";
 import { articlesApi } from "@services/articlesApi";
 import sortSlice from "@features/sort/sortSlice";
-import { favoritesApi } from "@services/favoritesAti";
+import { favoritesApi } from "@services/favoritesApi";
 
 const store = configureStore({
   reducer: {

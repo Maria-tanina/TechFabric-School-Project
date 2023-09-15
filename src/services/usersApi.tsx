@@ -30,7 +30,7 @@ export const usersApi = createApi({
           },
         };
       },
-      async onQueryStarted({ ...patch }, { dispatch, queryFulfilled }) {
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled;
           dispatch(authApi.util.invalidateTags(["UNAUTHORIZED"]));

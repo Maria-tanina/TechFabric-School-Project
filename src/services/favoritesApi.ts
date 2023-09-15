@@ -1,5 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { customFetchBaseQuery } from "@services/customFetchBaseQuery";
+import { articlesApi } from "@services/articlesApi";
 
 const serverUrl = process.env.REACT_APP_DEV_API_URL;
 
@@ -11,15 +12,33 @@ export const favoritesApi = createApi({
       query: (args) => ({
         url: `/favorites/add`,
         method: "POST",
-        body: args.articleId,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(args.articleId),
       }),
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          dispatch(articlesApi.util.invalidateTags(["ARTICLES"]));
+        } catch {}
+      },
     }),
     removeFromFavorites: build.mutation<void, { articleId: string }>({
       query: (args) => ({
         url: `/favorites/remove`,
         method: "DELETE",
-        body: args.articleId,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(args.articleId),
       }),
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          dispatch(articlesApi.util.invalidateTags(["ARTICLES"]));
+        } catch {}
+      },
     }),
   }),
 });
