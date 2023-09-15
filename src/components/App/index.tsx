@@ -105,7 +105,7 @@ const App = () => {
             <Route
               element={
                 <RequireAuth
-                  redirectTo={LOGIN_PATH}
+                  redirectTo={HOME_PATH}
                   allowedRoles={[Role.SuperAdmin]}
                 />
               }
@@ -121,7 +121,7 @@ const App = () => {
             <Route
               element={
                 <RequireAuth
-                  redirectTo={LOGIN_PATH}
+                  redirectTo={HOME_PATH}
                   allowedRoles={[Role.Author]}
                 />
               }
@@ -133,7 +133,7 @@ const App = () => {
             <Route
               element={
                 <RequireAuth
-                  redirectTo={LOGIN_PATH}
+                  redirectTo={HOME_PATH}
                   allowedRoles={[Role.Author, Role.SuperAdmin]}
                 />
               }
