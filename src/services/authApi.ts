@@ -6,6 +6,7 @@ import { IForgotPasswordFormValues } from "@features/forgotPassword/types";
 import { IPasswordRecoveryFormValues } from "@features/passwordRecovery/types";
 import { IRegistrationFormValues } from "features/registration/components/types";
 import { customFetchBaseQuery } from "@services/customFetchBaseQuery";
+import { articlesApi } from "@services/articlesApi";
 
 const serverUrl = process.env.REACT_APP_DEV_API_URL;
 const { set } = LSService();
@@ -62,6 +63,7 @@ export const authApi = createApi({
               Object.assign(draft, userInfoResponse.data as IUserInfo);
             })
           );
+          dispatch(articlesApi.util.invalidateTags(["MY_ARTICLES"]));
           return { data: userInfoResponse.data as IUserInfo };
         }
       },

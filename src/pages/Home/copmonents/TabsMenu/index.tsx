@@ -3,14 +3,14 @@ import { NavLink } from "react-router-dom";
 import GhostSelect from "@components/GhostSelect";
 import { filterTabs } from "./filterMenuConfig";
 import { FilterTabsWrapper, TabsMenuWrapper } from "./style";
-import { selectSportTypesData } from "@services/articlesSelectors";
+import { selectSportNames } from "@services/articlesSelectors";
 import { useAppDispatch, useAppSelector } from "../../../../store";
 import { selectSortType } from "@features/sort/sortSelectors";
 import { SelectChangeEvent } from "@mui/material";
 import { setType } from "@features/sort/sortSlice";
 
 const TabsMenu = () => {
-  const types = useAppSelector(selectSportTypesData);
+  const types = useAppSelector(selectSportNames);
 
   const type = useAppSelector(selectSortType);
 
