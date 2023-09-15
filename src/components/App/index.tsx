@@ -7,6 +7,7 @@ import {
   ARTICLES_FOR_REVIEW_PATH,
   CONTACT_US_PATH,
   CREATE_POST_PATH,
+  FAVORITES_PATH,
   FORGOT_PASSWORD_PATH,
   HOME_PATH,
   LOGIN_PATH,
@@ -43,6 +44,7 @@ import ArticlesForReviewPage from "@pages/ArticlesForReviewPage";
 import { UpdateArticlePage } from "@pages/UpdateArticlePage";
 import { useAppSelector } from "../../store";
 import { selectIsLogin } from "@features/user/usersSelectors";
+import { LikedArticlePage } from "@pages/LikedArticlePage";
 
 const App = () => {
   const isLogin = useAppSelector(selectIsLogin);
@@ -67,6 +69,8 @@ const App = () => {
             <Route path={LOGIN_PATH} element={<Login />} />
 
             <Route path={SIGNUP_PATH} element={<SignUp />} />
+
+            <Route path={FAVORITES_PATH} element={<LikedArticlePage />} />
 
             <Route
               path={`${ARTICLE_PATH}/:articleId`}

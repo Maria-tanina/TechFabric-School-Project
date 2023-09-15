@@ -39,7 +39,7 @@ export const Article = ({ article }: IArticleProps) => {
           ))}
         </ArticleTags>
         <ArticleSubject>
-          <span>Subject: {article?.sport}</span>
+          <span>Type: {article?.sport}</span>
         </ArticleSubject>
         <StyledContentWrapper dangerouslySetInnerHTML={sanitizedContent} />
       </ArticleBody>
