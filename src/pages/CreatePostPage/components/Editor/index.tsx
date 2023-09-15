@@ -47,7 +47,7 @@ import {
   atLeastOneItemIsMissing,
   selectUniqueItems,
 } from "@helpers/selectUniqueItems";
-import { selectSportTypesData } from "@services/articlesSelectors";
+import { selectSportNames } from "@services/articlesSelectors";
 import { getErrorMessage } from "@helpers/errorHandlers";
 import { ICreatePostFormValues } from "./types";
 import { tagsOptions } from "./tags";
@@ -90,7 +90,7 @@ const Editor = ({
 
   const tags = useAppSelector(selectArticleTags);
 
-  const types = useAppSelector(selectSportTypesData);
+  const types = useAppSelector(selectSportNames);
 
   const sportType = useAppSelector(selectArticleType);
 

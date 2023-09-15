@@ -1,23 +1,14 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { IArticle, IUpdateArticleProps } from "@customTypes/articleTypes";
 import { customFetchBaseQuery } from "@services/customFetchBaseQuery";
+import { IPublishArticleRequest, ISport } from "./types/articlesApiTypes";
 
 const serverUrl = process.env.REACT_APP_DEV_API_URL;
-
-export interface IPublishArticleRequest {
-  title: string;
-  sport: string;
-  description: string;
-  image: string;
-  tags: string[];
-  author: string;
-  content: string;
-}
 
 export const articlesApi = createApi({
   reducerPath: "articlesApi",
   baseQuery: customFetchBaseQuery(serverUrl),
-  tagTypes: ["ARTICLES"],
+  tagTypes: ["ARTICLES", "MY_ARTICLES"],
   endpoints: (build) => ({
     getArticles: build.query<IArticle[], void>({
       query: () => ({
@@ -31,11 +22,11 @@ export const articlesApi = createApi({
         url: "/articles/mine",
         method: "GET",
       }),
-      providesTags: ["ARTICLES"],
+      providesTags: ["ARTICLES", "MY_ARTICLES"],
     }),
-    getSportTypes: build.query<string[], void>({
+    getSportTypes: build.query<ISport[], void>({
       query: () => ({
-        url: "/articles/sports",
+        url: "/sports",
         method: "GET",
       }),
     }),

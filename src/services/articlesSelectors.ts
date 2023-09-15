@@ -3,14 +3,7 @@ import { articlesApi } from "@services/articlesApi";
 
 const selectSportTypes = articlesApi.endpoints?.getSportTypes.select();
 
-const selectMyArticles = articlesApi.endpoints?.getMyArticles.select();
-
-export const selectSportTypesData = createSelector(
+export const selectSportNames = createSelector(
   selectSportTypes,
-  (queryResult) => queryResult.data
-);
-
-export const selectMyArticlesData = createSelector(
-  selectMyArticles,
-  (queryResult) => queryResult.data
+  (queryResult) => queryResult.data?.map((type) => type.name)
 );
