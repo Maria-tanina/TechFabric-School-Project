@@ -20,6 +20,7 @@ import { useNotification } from "@hooks/useNotification";
 import { useDispatch } from "react-redux";
 import { setEmail } from "@features/user/usersSlice";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { BUTTON_DISABLE } from "@constants/timers";
 
 const RegistrationForm = () => {
   const { control, handleSubmit, formState, reset } =
@@ -42,6 +43,7 @@ const RegistrationForm = () => {
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { showNotification } = useNotification();
@@ -56,11 +58,18 @@ const RegistrationForm = () => {
   }, [formState.isSubmitSuccessful, reset]);
 
   useEffect(() => {
+    setTimeout(() => {
+      setIsButtonDisabled(false);
+    }, BUTTON_DISABLE);
+  }, [isButtonDisabled]);
+
+  useEffect(() => {
     isError && showNotification(errorMessage, "error");
     isSuccess && navigate(REGISTRATION_CONFIRM_PATH);
   }, [isSuccess, isError]);
 
   const onSubmit = async (data: IRegistrationFormValues) => {
+    setIsButtonDisabled(true);
     await signup(data);
     dispatch(setEmail(data.email));
   };
@@ -136,7 +145,7 @@ const RegistrationForm = () => {
         type="submit"
         variant="contained"
         startIcon={<MailOutlineIcon />}
-        disabled={!formState.isValid}
+        disabled={!formState.isValid || isButtonDisabled}
       >
         {isLoading ? (
           <CircularProgress size={20} color="inherit" />
