@@ -70,8 +70,6 @@ const App = () => {
 
             <Route path={SIGNUP_PATH} element={<SignUp />} />
 
-            <Route path={FAVORITES_PATH} element={<LikedArticlePage />} />
-
             <Route
               path={`${ARTICLE_PATH}/:articleId`}
               element={<ArticlePage />}
@@ -146,6 +144,16 @@ const App = () => {
                 path={`${UPDATE_ARTICLE_PATH}/:articleId`}
                 element={<UpdateArticlePage />}
               />
+            </Route>
+            <Route
+                element={
+                  <RequireAuth
+                      redirectTo={HOME_PATH}
+                      allowedRoles={[Role.Author, Role.User, Role.SuperAdmin]}
+                  />
+                }
+            >
+              <Route path={FAVORITES_PATH} element={<LikedArticlePage />} />
             </Route>
           </Routes>
         </NotificationProvider>
