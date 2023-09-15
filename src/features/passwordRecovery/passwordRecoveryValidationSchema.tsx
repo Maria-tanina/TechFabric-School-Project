@@ -8,6 +8,7 @@ const passwordRecoveryValidationSchema = Yup.object().shape({
       PASSWORD_REGEX,
       "Password must contain at least 8 characters, one lowercase letter, one uppercase letter, one number, and one special character (-, _, +, =)"
     )
+    .max(32, "Password should not exceed 32 characters.")
     .trim(),
   repeatPassword: Yup.string()
     .required("Password confirmation is required")
