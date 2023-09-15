@@ -3,13 +3,15 @@ import {
   useAddToFavoritesMutation,
   useRemoveFromFavoritesMutation,
 } from "@services/favoritesApi";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { LIKE_BUTTON_DISABLE } from "@constants/timers";
 import { getErrorMessage } from "@helpers/errorHandlers";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { useNotification } from "@hooks/useNotification";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { FavoriteButton } from "./style";
+import { useAppSelector } from "../../store";
+import { selectIsLogin } from "@features/user/usersSelectors";
 
 interface ILikeButtonProps {
   articleId: string;
@@ -22,6 +24,14 @@ export const LikeButton: FC<ILikeButtonProps> = ({ articleId, showText }) => {
   const [removeFromFavorites] = useRemoveFromFavoritesMutation();
 
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
+
+  const isLogin = useAppSelector(selectIsLogin);
+
+  useEffect(() => {
+    if(!isLogin) {
+      setIsButtonDisabled(true);
+    }
+  }, [isLogin]);
 
   //temporary variable
   const [
@@ -80,7 +90,7 @@ export const LikeButton: FC<ILikeButtonProps> = ({ articleId, showText }) => {
       onClick={handleToggleLike}
       disabled={isButtonDisabled}
       endIcon={iconToShow}
-      isCurrentArticleAddedToFavorites={isCurrentArticleAddedToFavorites}
+      $isCurrentArticleAddedToFavorites={isCurrentArticleAddedToFavorites}
     >
       {showText ? <span>{textToShow}</span> : null}
     </FavoriteButton>

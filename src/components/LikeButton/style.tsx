@@ -39,11 +39,11 @@ export const StyledIconButton = styled(IconButton)(
 );
 
 interface IFavoriteButtonProps extends ButtonProps {
-  isCurrentArticleAddedToFavorites: boolean;
+  $isCurrentArticleAddedToFavorites: boolean;
 }
 
 export const FavoriteButton = styled(Button)<IFavoriteButtonProps>(
-  ({ theme: { colors }, isCurrentArticleAddedToFavorites }) => `
+  ({ theme: { colors }, $isCurrentArticleAddedToFavorites }) => `
   &.MuiButton-root.MuiButtonBase-root {
     font-size: 16px;
     min-width: 32px;
@@ -54,7 +54,7 @@ export const FavoriteButton = styled(Button)<IFavoriteButtonProps>(
     color: ${colors.gray};
     transition: .4s ease-in-out;
     svg path {
-      fill: ${isCurrentArticleAddedToFavorites ? colors.main : colors.black};
+      fill: ${$isCurrentArticleAddedToFavorites ? colors.main : colors.black};
       transition: .4s ease-in-out;
     }
     &:hover {
