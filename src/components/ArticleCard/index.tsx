@@ -52,7 +52,7 @@ export const ArticleCard: FC<IArticleProps> = ({ article }) => {
             </StyledTagsWrapper>
 
             {isLogin ? (
-              <LikeButton articleId={article.id} showText={true} />
+              <LikeButton articleId={article.id} showText={true} size="32px" />
             ) : null}
           </StyledBottomWrapper>
         </StyledCardContent>

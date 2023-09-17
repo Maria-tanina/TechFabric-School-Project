@@ -5,8 +5,7 @@ import {
 } from "@services/favoritesApi";
 import { FC, useEffect, useState } from "react";
 import { LIKE_BUTTON_DISABLE } from "@constants/timers";
-import { getErrorMessage } from "@helpers/errorHandlers";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { getErrorTitle } from "@helpers/errorHandlers";
 import { useNotification } from "@hooks/useNotification";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { FavoriteButton } from "./style";
@@ -16,9 +15,14 @@ import { selectIsLogin } from "@features/user/usersSelectors";
 interface ILikeButtonProps {
   articleId: string;
   showText: boolean;
+  size: string;
 }
 
-export const LikeButton: FC<ILikeButtonProps> = ({ articleId, showText }) => {
+export const LikeButton: FC<ILikeButtonProps> = ({
+  articleId,
+  showText,
+  size,
+}) => {
   const [addToFavorites] = useAddToFavoritesMutation();
 
   const [removeFromFavorites] = useRemoveFromFavoritesMutation();
@@ -28,7 +32,7 @@ export const LikeButton: FC<ILikeButtonProps> = ({ articleId, showText }) => {
   const isLogin = useAppSelector(selectIsLogin);
 
   useEffect(() => {
-    if(!isLogin) {
+    if (!isLogin) {
       setIsButtonDisabled(true);
     }
   }, [isLogin]);
@@ -44,7 +48,7 @@ export const LikeButton: FC<ILikeButtonProps> = ({ articleId, showText }) => {
   const iconToShow = isCurrentArticleAddedToFavorites ? (
     <FavoriteIcon />
   ) : (
-    <FavoriteBorderIcon />
+    <FavoriteBorderIcon className="favoriteBorderIcon" />
   );
 
   const textToShow = isCurrentArticleAddedToFavorites
@@ -56,31 +60,28 @@ export const LikeButton: FC<ILikeButtonProps> = ({ articleId, showText }) => {
     if (isCurrentArticleAddedToFavorites) {
       try {
         await removeFromFavorites({ articleId }).unwrap();
-        setTimeout(() => setIsButtonDisabled(false), LIKE_BUTTON_DISABLE);
-        showNotification(
-          "The article was deleted from your favorites.",
-          "success"
-        );
+        showNotification("The article was deleted from favorites.", "success");
         setIsCurrentArticleAddedToFavorites(!isCurrentArticleAddedToFavorites);
       } catch (error) {
         showNotification(
-          getErrorMessage((error as FetchBaseQueryError).data) ||
-            "Some error occurred...",
+          getErrorTitle(error) || "Some error occurred...",
           "error"
         );
+      } finally {
+        setTimeout(() => setIsButtonDisabled(false), LIKE_BUTTON_DISABLE);
       }
     } else {
       try {
         await addToFavorites({ articleId }).unwrap();
-        setTimeout(() => setIsButtonDisabled(false), LIKE_BUTTON_DISABLE);
-        showNotification("The article was added to your favorites.", "success");
+        showNotification("The article was added to favorites.", "success");
         setIsCurrentArticleAddedToFavorites(!isCurrentArticleAddedToFavorites);
       } catch (error) {
         showNotification(
-          getErrorMessage((error as FetchBaseQueryError).data) ||
-            "Some error occurred...",
+          getErrorTitle(error) || "Some error occurred...",
           "error"
         );
+      } finally {
+        setTimeout(() => setIsButtonDisabled(false), LIKE_BUTTON_DISABLE);
       }
     }
   };
@@ -91,8 +92,10 @@ export const LikeButton: FC<ILikeButtonProps> = ({ articleId, showText }) => {
       disabled={isButtonDisabled}
       endIcon={iconToShow}
       $isCurrentArticleAddedToFavorites={isCurrentArticleAddedToFavorites}
+      $size={size}
     >
       {showText ? <span>{textToShow}</span> : null}
+      <FavoriteIcon className="favoriteFilledHoverIcon" />
     </FavoriteButton>
   );
 };

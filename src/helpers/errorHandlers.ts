@@ -1,4 +1,5 @@
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { IErrorWithTitle } from "@customTypes/errorTypes";
 
 export function isFetchBaseQueryError(
   error: unknown
@@ -23,4 +24,8 @@ export function getErrorMessage(error: unknown) {
   } else if (isErrorWithMessage(error)) {
     return error.message;
   }
+}
+
+export function getErrorTitle(error: unknown) {
+  return (error as IErrorWithTitle).data.title;
 }
