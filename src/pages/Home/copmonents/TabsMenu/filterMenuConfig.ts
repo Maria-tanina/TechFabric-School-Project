@@ -5,13 +5,21 @@ export const filterTabs: TabsMenuItem[] = [
   {
     value: "Last Articles",
     link: HOME_PATH,
+    orderBy: "byCreatedDateDesc",
   },
   {
     value: "Top Rated",
     link: HOME_PATH,
+    orderBy: "topRated",
+  },
+  {
+    value: "First Articles",
+    link: HOME_PATH,
+    orderBy: "byCreatedDateAsc",
   },
   {
     value: "All Posts",
     link: HOME_PATH,
+    orderBy: "byCreatedDateDesc",
   },
 ];

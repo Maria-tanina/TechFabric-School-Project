@@ -10,7 +10,6 @@ export const PaginationRounded: FC<PaginationProps> = (props) => {
   return (
     <Stack spacing={2}>
       <StyledPagination
-        count={10}
         variant="outlined"
         shape="rounded"
         {...props}

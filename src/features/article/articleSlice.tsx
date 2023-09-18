@@ -12,7 +12,7 @@ const initialState: IArticleSliceInitialState = {
   content: "",
   showPreview: false,
   pageNumber: 1,
-  pageSize: 5,
+  pageSize: 10,
   orderBy: "byCreatedDateDesc",
 };
 

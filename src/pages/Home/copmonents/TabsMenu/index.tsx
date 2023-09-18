@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "../../../../store";
 import { selectSortType } from "@features/sort/sortSelectors";
 import { SelectChangeEvent } from "@mui/material";
 import { setType } from "@features/sort/sortSlice";
+import { setOrderBy } from "@features/article/articleSlice";
 
 const TabsMenu = () => {
   const types = useAppSelector(selectSportNames);
@@ -24,7 +25,11 @@ const TabsMenu = () => {
     <TabsMenuWrapper>
       <FilterTabsWrapper>
         {filterTabs.map((filter, i) => (
-          <GhostButton $width="110px" key={i}>
+          <GhostButton
+            $width="110px"
+            key={i}
+            onClick={() => dispatch(setOrderBy(filter.orderBy))}
+          >
             <NavLink
               to={filter.link}
               style={({ isActive }) => {
