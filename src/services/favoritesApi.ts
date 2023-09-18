@@ -21,6 +21,7 @@ export const favoritesApi = createApi({
         try {
           await queryFulfilled;
           dispatch(articlesApi.util.invalidateTags(["CURRENT_ARTICLE"]));
+          dispatch(articlesApi.util.invalidateTags(["MY_ARTICLES"]));
         } catch {}
       },
     }),
