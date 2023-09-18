@@ -8,13 +8,24 @@ export const StyledPagination = styled(Pagination)(
   .MuiPagination-ul {
     justify-content: center;
   }
+  
   .MuiPaginationItem-root {
+    transition: .4s ease-in-out;
     border-width: 2px;
+    border-color: ${colors.strokeGray};
     background-color: transparent;
   }
-  .MuiPaginationItem-root.Mui-selected {
-    border-color: ${colors.main};
+  
+  .MuiPaginationItem-root:hover {
+     border-color: ${colors.main};
      background-color: transparent;
+     color: ${colors.main};
+  }
+  
+  .MuiPaginationItem-root.Mui-selected, .MuiPaginationItem-root.Mui-selected:hover {
+     border-color: ${colors.main};
+     background-color: ${colors.lightYellow};
+     color: ${colors.main};
   }
 `
 );

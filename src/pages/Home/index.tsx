@@ -28,7 +28,7 @@ const HomePage = () => {
 
   const {
     data: articles,
-    isLoading,
+    isFetching,
     isError,
   } = useGetArticlesQuery({
     pageNumber,
@@ -44,6 +44,7 @@ const HomePage = () => {
 
   const handlePageChange = (event: ChangeEvent<unknown>, value: number) => {
     dispatch(setPageNumber(value));
+    window.scrollTo(0, 0);
   };
 
   return (
@@ -54,18 +55,20 @@ const HomePage = () => {
 
       <MainContent>
         <TabsMenu />
-        {isLoading ? (
+        {isFetching ? (
           <LinearProgress />
         ) : isError ? (
           <ErrorMessage>Articles not found!</ErrorMessage>
         ) : (
           <ArticleList articles={articles?.articles} />
         )}
-        <PaginationRounded
-          count={pagesTotalCount}
-          page={pageNumber}
-          onChange={handlePageChange}
-        />
+        {!isFetching && (
+          <PaginationRounded
+            count={pagesTotalCount}
+            page={pageNumber}
+            onChange={handlePageChange}
+          />
+        )}
       </MainContent>
 
       <RightSidebar>
