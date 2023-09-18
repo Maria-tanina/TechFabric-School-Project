@@ -24,3 +24,13 @@ export const FilterTabsWrapper = styled.div(
   }
 `
 );
+
+interface IStyledTabProps {
+  isActive: boolean;
+}
+
+export const StyledTab = styled.div<IStyledTabProps>(
+  ({ isActive }) => `
+  font-weight: ${isActive ? 800 : 500};
+`
+);
