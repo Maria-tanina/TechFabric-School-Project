@@ -42,13 +42,14 @@ export const StyledCardContent = styled(CardContent)(
 `
 );
 
+export const StyledBottomWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+`;
+
 export const StyledTagsWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
-`;
-export const FavoriteWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
 `;

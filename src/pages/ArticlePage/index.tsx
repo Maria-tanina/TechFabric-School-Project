@@ -47,7 +47,11 @@ export const ArticlePage = () => {
         <>
           <LeftSidebar>
             <ArticleSideMenuItem>
-              <LikeButton />
+              <LikeButton
+                articleId={articleId || ""}
+                showText={false}
+                size="42px"
+              />
               <Count>{data?.likeCount}</Count>
             </ArticleSideMenuItem>
             <ArticleSideMenuItem>
