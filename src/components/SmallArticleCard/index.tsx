@@ -6,6 +6,7 @@ import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
 import { getDate } from "@helpers/getDate";
 import EastOutlinedIcon from "@mui/icons-material/EastOutlined";
 import { IArticleProps } from "@customTypes/articleTypes";
+import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import {
   StyledCard,
   StyledCardContent,
@@ -66,7 +67,7 @@ export const SmallArticleCard: FC<SmallArticleCardProps> = ({
               {reviewMode ? (
                 <StyledLink to={link}>
                   Show preview
-                  <EditOutlinedIcon fontSize="small" />
+                  <RemoveRedEyeOutlinedIcon fontSize="small" />
                 </StyledLink>
               ) : (
                 <>
