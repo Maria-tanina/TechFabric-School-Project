@@ -73,6 +73,7 @@ const articleSlice = createSlice({
     },
     setOrderBy: (state, action: PayloadAction<TOrderByTypes>) => {
       state.orderBy = action.payload;
+      state.pageNumber = 1;
     },
   },
 });

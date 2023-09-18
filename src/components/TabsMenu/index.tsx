@@ -3,12 +3,12 @@ import GhostSelect from "@components/GhostSelect";
 import { filterTabs } from "./filterMenuConfig";
 import { FilterTabsWrapper, StyledTab, TabsMenuWrapper } from "./style";
 import { selectSportNames } from "@services/articlesSelectors";
-import { useAppDispatch, useAppSelector } from "../../../../store";
 import { selectSortType } from "@features/sort/sortSelectors";
 import { SelectChangeEvent } from "@mui/material";
 import { setType } from "@features/sort/sortSlice";
 import { setOrderBy } from "@features/article/articleSlice";
 import { selectOrderBy } from "@features/article/articleSelectors";
+import { useAppDispatch, useAppSelector } from "../../store";
 
 const TabsMenu = () => {
   const types = useAppSelector(selectSportNames);

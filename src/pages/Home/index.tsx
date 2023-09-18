@@ -1,5 +1,4 @@
 import { ErrorMessage, HomePageWrapper } from "./style";
-import TabsMenu from "./copmonents/TabsMenu";
 import ArticleList from "@components/ArticleList";
 import { TopTags } from "./copmonents/TopTags";
 import { TopAuthors } from "./copmonents/TopAuthors";
@@ -18,6 +17,7 @@ import {
 import { PaginationRounded } from "@components/PaginationRounded";
 import { ChangeEvent } from "react";
 import { setPageNumber } from "@features/article/articleSlice";
+import TabsMenu from "@components/TabsMenu";
 
 const HomePage = () => {
   const pageNumber = useAppSelector(selectPageNumber);

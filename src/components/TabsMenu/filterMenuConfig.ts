@@ -1,4 +1,4 @@
-import { TabsMenuItem } from "@pages/Home/copmonents/TabsMenu/types";
+import { TabsMenuItem } from "./types";
 
 export const filterTabs: TabsMenuItem[] = [
   {
