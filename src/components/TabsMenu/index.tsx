@@ -32,7 +32,7 @@ const TabsMenu = () => {
             key={i}
             onClick={() => dispatch(setOrderBy(filter.orderBy))}
           >
-            <StyledTab isActive={filter.orderBy === orderBy}>
+            <StyledTab $isActive={filter.orderBy === orderBy}>
               {filter.value}
             </StyledTab>
           </GhostButton>

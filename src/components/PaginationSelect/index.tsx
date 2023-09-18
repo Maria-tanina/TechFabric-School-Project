@@ -15,7 +15,9 @@ export const PaginationSelect: FC<IPaginationSelectProps> = ({
       <div>Articles per page: </div>
       <TextField select {...rest}>
         {options.map((item) => (
-          <MenuItem value={item}>{item}</MenuItem>
+          <MenuItem key={item} value={item}>
+            {item}
+          </MenuItem>
         ))}
       </TextField>
     </StyledPaginationSelectWrapper>
