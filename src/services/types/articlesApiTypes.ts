@@ -1,3 +1,5 @@
+import { IArticle } from "@customTypes/articleTypes";
+
 export interface IPublishArticleRequest {
   title: string;
   sport: string;
@@ -11,4 +13,22 @@ export interface IPublishArticleRequest {
 export interface ISport {
   name: string;
   description: string;
+}
+
+export interface IGetArticlesResponse {
+  pageNumber: number;
+  pageSize: number;
+  totalCount: number;
+  articles: IArticle[];
+}
+
+export type TOrderByTypes =
+  | "byCreatedDateDesc"
+  | "byCreatedDateAsc"
+  | "topRated";
+
+export interface IArticleParams {
+  pageNumber: number;
+  pageSize: number;
+  orderBy: TOrderByTypes;
 }

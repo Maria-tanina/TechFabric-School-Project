@@ -1,7 +1,12 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { IArticle, IUpdateArticleProps } from "@customTypes/articleTypes";
 import { customFetchBaseQuery } from "@services/customFetchBaseQuery";
-import { IPublishArticleRequest, ISport } from "./types/articlesApiTypes";
+import {
+  IArticleParams,
+  IGetArticlesResponse,
+  IPublishArticleRequest,
+  ISport,
+} from "./types/articlesApiTypes";
 
 const serverUrl = process.env.REACT_APP_DEV_API_URL;
 
@@ -10,9 +15,14 @@ export const articlesApi = createApi({
   baseQuery: customFetchBaseQuery(serverUrl),
   tagTypes: ["ARTICLES", "MY_ARTICLES", "CURRENT_ARTICLE"],
   endpoints: (build) => ({
-    getArticles: build.query<IArticle[], void>({
-      query: () => ({
+    getArticles: build.query<IGetArticlesResponse, IArticleParams>({
+      query: ({ pageNumber, pageSize, orderBy }) => ({
         url: "/articles/published",
+        params: {
+          pageNumber,
+          pageSize,
+          orderBy,
+        },
         method: "GET",
       }),
       providesTags: ["ARTICLES"],

@@ -146,12 +146,12 @@ const App = () => {
               />
             </Route>
             <Route
-                element={
-                  <RequireAuth
-                      redirectTo={HOME_PATH}
-                      allowedRoles={[Role.Author, Role.User, Role.SuperAdmin]}
-                  />
-                }
+              element={
+                <RequireAuth
+                  redirectTo={HOME_PATH}
+                  allowedRoles={[Role.Author, Role.User, Role.SuperAdmin]}
+                />
+              }
             >
               <Route path={FAVORITES_PATH} element={<LikedArticlePage />} />
             </Route>
