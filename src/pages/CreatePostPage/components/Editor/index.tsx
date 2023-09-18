@@ -48,7 +48,7 @@ import {
   selectUniqueItems,
 } from "@helpers/selectUniqueItems";
 import { selectSportNames } from "@services/articlesSelectors";
-import { getErrorMessage } from "@helpers/errorHandlers";
+import { getErrorMessage, getErrorTitle } from "@helpers/errorHandlers";
 import { ICreatePostFormValues } from "./types";
 import { tagsOptions } from "./tags";
 import createPostValidationSchema from "./createPostValidationSchema";
@@ -251,8 +251,7 @@ const Editor = ({
         navigate(MY_ARTICLES_PATH);
       } catch (error) {
         showNotification(
-          getErrorMessage((error as FetchBaseQueryError).data) ||
-            "Some error occurred...",
+          getErrorTitle(error),
           "error"
         );
       }
