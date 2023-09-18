@@ -19,6 +19,7 @@ import { ChangeEvent } from "react";
 import { setPageNumber, setPageSize } from "@features/article/articleSlice";
 import TabsMenu from "@components/TabsMenu";
 import { PaginationSelect } from "@components/PaginationSelect";
+import { countTotalNumberOfPages } from "@helpers/countTotalNumberOfPages";
 
 const HomePage = () => {
   const pageNumber = useAppSelector(selectPageNumber);
@@ -39,7 +40,7 @@ const HomePage = () => {
 
   const articlesTotalCount = articles?.totalCount || 0;
 
-  const pagesTotalCount = Math.ceil(articlesTotalCount / pageSize);
+  const pagesTotalCount = countTotalNumberOfPages(articlesTotalCount, pageSize);
 
   const dispatch = useAppDispatch();
 

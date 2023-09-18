@@ -5,6 +5,7 @@ export const StyledPaginationSelectWrapper = styled.div`
   align-items: center;
   gap: 20px;
   justify-content: flex-end;
+  padding-top: 15px;
 
   .MuiFormControl-root .MuiInputBase-root {
     border: none;

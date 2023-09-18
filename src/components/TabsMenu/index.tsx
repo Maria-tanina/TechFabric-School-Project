@@ -28,7 +28,7 @@ const TabsMenu = () => {
       <FilterTabsWrapper>
         {filterTabs.map((filter, i) => (
           <GhostButton
-            $width="110px"
+            $width="120px"
             key={i}
             onClick={() => dispatch(setOrderBy(filter.orderBy))}
           >

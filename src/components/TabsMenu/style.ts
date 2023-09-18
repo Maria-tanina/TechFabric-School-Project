@@ -10,15 +10,16 @@ export const TabsMenuWrapper = styled.div`
 export const FilterTabsWrapper = styled.div(
   ({ theme: { media } }) => `
   display: flex;
-  gap: 12px;
-  .MuiButton-root{
+  gap: 6px;
+  ${media.desktop}{
+       gap: 12px;
+    }
+    
+  .MuiButton-root.MuiButtonBase-root {
+    font-size: 12px;
+    width: 100px;
     ${media.desktop}{
         width: 140px;
-    }
-  }
-  a{
-    font-size: 12px;
-    ${media.desktop}{
         font-size: 15px;
     }
   }
