@@ -16,8 +16,9 @@ import {
 } from "@features/article/articleSelectors";
 import { PaginationRounded } from "@components/PaginationRounded";
 import { ChangeEvent } from "react";
-import { setPageNumber } from "@features/article/articleSlice";
+import { setPageNumber, setPageSize } from "@features/article/articleSlice";
 import TabsMenu from "@components/TabsMenu";
+import { PaginationSelect } from "@components/PaginationSelect";
 
 const HomePage = () => {
   const pageNumber = useAppSelector(selectPageNumber);
@@ -47,6 +48,13 @@ const HomePage = () => {
     window.scrollTo(0, 0);
   };
 
+  const handlePageSizeChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    dispatch(setPageSize(+event.target.value));
+    window.scrollTo(0, 0);
+  };
+
   return (
     <HomePageWrapper>
       <LeftSidebar>
@@ -63,11 +71,18 @@ const HomePage = () => {
           <ArticleList articles={articles?.articles} />
         )}
         {!isFetching && (
-          <PaginationRounded
-            count={pagesTotalCount}
-            page={pageNumber}
-            onChange={handlePageChange}
-          />
+          <>
+            <PaginationRounded
+              count={pagesTotalCount}
+              page={pageNumber}
+              onChange={handlePageChange}
+            />
+            <PaginationSelect
+              value={pageSize}
+              onChange={handlePageSizeChange}
+              options={[5, 10, 25, 50]}
+            />
+          </>
         )}
       </MainContent>
 

@@ -70,6 +70,7 @@ const articleSlice = createSlice({
     },
     setPageSize: (state, action: PayloadAction<number>) => {
       state.pageSize = action.payload;
+      state.pageNumber = 1;
     },
     setOrderBy: (state, action: PayloadAction<TOrderByTypes>) => {
       state.orderBy = action.payload;
