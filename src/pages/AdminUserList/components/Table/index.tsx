@@ -22,7 +22,10 @@ import {
   useChangeUserRoleMutation,
   useGetUsersQuery,
 } from "@services/usersApi";
-import { TableFetchError, TableSearchError } from "../TableNotification/index";
+import {
+  TableFetchError,
+  TableSearchError,
+} from "@components/TableNotification";
 import { setPaginationPage, setRowsPerPage } from "@features/admin/adminSlice";
 import TableSelect from "@components/TableSelect";
 import { allRoles } from "@constants/roles";

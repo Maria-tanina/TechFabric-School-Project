@@ -37,5 +37,5 @@ export const StyledTypography = styled(Typography)(
 export const StyledErrorNotification = styled(StyledMessage)`
   position: relative;
   margin: auto;
-  padding: 0;
+  padding: 50px 0;
 `;

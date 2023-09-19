@@ -1,5 +1,4 @@
-import { ErrorMessage, HomePageWrapper } from "./style";
-import TabsMenu from "./copmonents/TabsMenu";
+import { HomePageWrapper } from "./style";
 import ArticleList from "@components/ArticleList";
 import { TopTags } from "./copmonents/TopTags";
 import { TopAuthors } from "./copmonents/TopAuthors";
@@ -17,7 +16,11 @@ import {
 } from "@features/article/articleSelectors";
 import { PaginationRounded } from "@components/PaginationRounded";
 import { ChangeEvent } from "react";
-import { setPageNumber } from "@features/article/articleSlice";
+import { setPageNumber, setPageSize } from "@features/article/articleSlice";
+import TabsMenu from "@components/TabsMenu";
+import { PaginationSelect } from "@components/PaginationSelect";
+import { countTotalNumberOfPages } from "@helpers/countTotalNumberOfPages";
+import { TableFetchError } from "@components/TableNotification";
 
 const HomePage = () => {
   const pageNumber = useAppSelector(selectPageNumber);
@@ -38,12 +41,19 @@ const HomePage = () => {
 
   const articlesTotalCount = articles?.totalCount || 0;
 
-  const pagesTotalCount = Math.ceil(articlesTotalCount / pageSize);
+  const pagesTotalCount = countTotalNumberOfPages(articlesTotalCount, pageSize);
 
   const dispatch = useAppDispatch();
 
   const handlePageChange = (event: ChangeEvent<unknown>, value: number) => {
     dispatch(setPageNumber(value));
+    window.scrollTo(0, 0);
+  };
+
+  const handlePageSizeChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    dispatch(setPageSize(+event.target.value));
     window.scrollTo(0, 0);
   };
 
@@ -58,16 +68,23 @@ const HomePage = () => {
         {isFetching ? (
           <LinearProgress />
         ) : isError ? (
-          <ErrorMessage>Articles not found!</ErrorMessage>
+          <TableFetchError message="Articles not found!" />
         ) : (
           <ArticleList articles={articles?.articles} />
         )}
-        {!isFetching && (
-          <PaginationRounded
-            count={pagesTotalCount}
-            page={pageNumber}
-            onChange={handlePageChange}
-          />
+        {!isFetching && !isError && (
+          <>
+            <PaginationRounded
+              count={pagesTotalCount}
+              page={pageNumber}
+              onChange={handlePageChange}
+            />
+            <PaginationSelect
+              value={pageSize}
+              onChange={handlePageSizeChange}
+              options={[5, 10, 25, 50]}
+            />
+          </>
         )}
       </MainContent>
 
