@@ -48,7 +48,7 @@ import {
   selectUniqueItems,
 } from "@helpers/selectUniqueItems";
 import { selectSportNames } from "@services/articlesSelectors";
-import { getErrorMessage } from "@helpers/errorHandlers";
+import { getErrorMessage, getErrorTitle } from "@helpers/errorHandlers";
 import { ICreatePostFormValues } from "./types";
 import { tagsOptions } from "./tags";
 import createPostValidationSchema from "./createPostValidationSchema";
@@ -59,7 +59,6 @@ import {
   StyledReactQuill,
   StyledTopEditor,
 } from "./style";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { IArticle, IUpdateArticleProps } from "@customTypes/articleTypes";
 import theme from "@styles/theme";
 
@@ -250,11 +249,7 @@ const Editor = ({
         showNotification("Your draft was created", "success");
         navigate(MY_ARTICLES_PATH);
       } catch (error) {
-        showNotification(
-          getErrorMessage((error as FetchBaseQueryError).data) ||
-            "Some error occurred...",
-          "error"
-        );
+        showNotification(getErrorTitle(error), "error");
       }
     } else {
       showNotification("Add image to your article", "error");
@@ -263,19 +258,19 @@ const Editor = ({
 
   const handlePublishArticle = () => {
     if (articleData?.id) {
-      try {
-        publishArticle({
-          articleId: articleData.id,
-        }).unwrap();
-        showNotification("Post was published!", "success");
-        navigate(HOME_PATH);
-      } catch (error) {
-        showNotification(
-          getErrorMessage((error as FetchBaseQueryError).data) ||
-            "Some error occurred...",
-          "error"
-        );
-      }
+      publishArticle({
+        articleId: articleData.id,
+      })
+        .then(() => {
+          showNotification("Post was published!", "success");
+          navigate(HOME_PATH);
+        })
+        .catch((error) => {
+          showNotification(
+            getErrorMessage(error) || "Some error occurred...",
+            "error"
+          );
+        });
     }
   };
 
