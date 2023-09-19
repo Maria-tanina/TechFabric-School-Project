@@ -17,5 +17,7 @@ export const StyledTableBody = styled(TableBody)`
 
   .MuiTableCell-root {
     padding: 6px 16px;
+    white-space: break-spaces;
+    word-break: break-word;
   }
 `;

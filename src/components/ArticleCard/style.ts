@@ -19,6 +19,8 @@ export const StyledCardTitle = styled(Typography)(
     line-height: 30px;
     margin: 20px 0 12px;
     transition: all 0.4s ease-in-out;
+    white-space: break-spaces;
+    word-break: break-word;
     ${media.desktop}{
         font-size: ${fontSizes.cardHeader};
         line-height: 48px;
