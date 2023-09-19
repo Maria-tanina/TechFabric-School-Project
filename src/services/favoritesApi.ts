@@ -46,8 +46,23 @@ export const favoritesApi = createApi({
         headers: {
           "Content-Type": "application/json",
         },
-        providesTags: ["FAVORITES"],
       }),
+      providesTags: ["FAVORITES"],
+    }),
+    getFavoritesArticles: build.query<IGetArticlesResponse, IArticleParams>({
+      query: ({ pageNumber, pageSize, orderBy }) => ({
+        url: "/articles/favorites",
+        params: {
+          pageNumber,
+          pageSize,
+          orderBy,
+        },
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+      providesTags: ["FAVORITES"],
     }),
   }),
 });
@@ -56,4 +71,5 @@ export const {
   useAddToFavoritesMutation,
   useRemoveFromFavoritesMutation,
   useGetFavoritesQuery,
+  useGetFavoritesArticlesQuery,
 } = favoritesApi;

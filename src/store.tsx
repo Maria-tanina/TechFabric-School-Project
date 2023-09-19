@@ -8,6 +8,7 @@ import articleSlice from "@features/article/articleSlice";
 import { articlesApi } from "@services/articlesApi";
 import sortSlice from "@features/sort/sortSlice";
 import { favoritesApi } from "@services/favoritesApi";
+import favoritesArticleSlice from "@features/favoritesArticle/favoritesArticleSlice";
 
 const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
     admin: adminSlice,
     [authApi.reducerPath]: authApi.reducer,
     article: articleSlice,
+    favoritesArticle: favoritesArticleSlice,
     [articlesApi.reducerPath]: articlesApi.reducer,
     sort: sortSlice,
     [favoritesApi.reducerPath]: favoritesApi.reducer,

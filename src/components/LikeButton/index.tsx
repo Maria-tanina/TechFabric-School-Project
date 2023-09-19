@@ -14,10 +14,7 @@ interface ILikeButtonProps {
   size: string;
 }
 
-export const AddLikeButton: FC<ILikeButtonProps> = ({
-  size,
-}) => {
-
+export const AddLikeButton: FC<ILikeButtonProps> = ({ size }) => {
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
 
   const isLogin = useAppSelector(selectIsLogin);
@@ -45,7 +42,6 @@ export const AddLikeButton: FC<ILikeButtonProps> = ({
     setIsButtonDisabled(true);
     if (isCurrentArticleAddedToFavorites) {
       try {
-        // await removeFromFavorites({ articleId }).unwrap();
         showNotification("The article was deleted from favorites.", "success");
         setIsCurrentArticleAddedToFavorites(!isCurrentArticleAddedToFavorites);
       } catch (error) {
@@ -58,7 +54,6 @@ export const AddLikeButton: FC<ILikeButtonProps> = ({
       }
     } else {
       try {
-        // await addToFavorites({ articleId }).unwrap();
         showNotification("The article was added to favorites.", "success");
         setIsCurrentArticleAddedToFavorites(!isCurrentArticleAddedToFavorites);
       } catch (error) {

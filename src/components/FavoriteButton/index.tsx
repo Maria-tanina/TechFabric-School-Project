@@ -33,13 +33,15 @@ export const AddFavoriteButton: FC<IFavoriteButtonProps> = ({
   const isLogin = useAppSelector(selectIsLogin);
   const pageNumber = useAppSelector(selectPageNumber);
   const pageSize = useAppSelector(selectPageSize);
+  const { showNotification } = useNotification();
   const orderBy = useAppSelector(selectOrderBy);
-  const { data: fetchFavorites, isSuccess: favoritesSuccess } =
-    useGetFavoritesQuery({
-      pageNumber,
-      pageSize,
-      orderBy,
-    });
+  const { data: fetchFavorites } = useGetFavoritesQuery({
+    pageNumber,
+    pageSize,
+    orderBy,
+  });
+  const isFavorite =
+      Array.isArray(fetchFavorites) && fetchFavorites.includes(articleId);
 
   useEffect(() => {
     if (!isLogin) {
@@ -47,25 +49,8 @@ export const AddFavoriteButton: FC<IFavoriteButtonProps> = ({
     }
   }, [isLogin]);
 
-  const isFavorite =
-    Array.isArray(fetchFavorites) && fetchFavorites.includes(articleId);
 
-  const [
-    isCurrentArticleAddedToFavorites,
-    setIsCurrentArticleAddedToFavorites,
-  ] = useState<boolean>(isFavorite);
-
-  useEffect(() => {
-    if (favoritesSuccess) {
-      setIsCurrentArticleAddedToFavorites(
-        Array.isArray(fetchFavorites) && fetchFavorites.includes(articleId)
-      );
-    }
-  }, [articleId, fetchFavorites, favoritesSuccess]);
-
-  console.log("test", isCurrentArticleAddedToFavorites);
-  const { showNotification } = useNotification();
-  const iconToShow = isCurrentArticleAddedToFavorites ? (
+  const iconToShow = isFavorite ? (
     <Bookmark />
   ) : (
     <BookmarkBorderIcon className="favoriteBorderIcon" />
@@ -73,11 +58,10 @@ export const AddFavoriteButton: FC<IFavoriteButtonProps> = ({
 
   const handleToggleLike = async () => {
     setIsButtonDisabled(true);
-    if (isCurrentArticleAddedToFavorites) {
+    if (isFavorite) {
       try {
         await removeFromFavorites({ articleId }).unwrap();
         showNotification("The article was deleted from favorites.", "success");
-        setIsCurrentArticleAddedToFavorites(!isCurrentArticleAddedToFavorites);
       } catch (error) {
         showNotification(
           getErrorTitle(error) || "Some error occurred...",
@@ -90,7 +74,6 @@ export const AddFavoriteButton: FC<IFavoriteButtonProps> = ({
       try {
         await addToFavorites({ articleId }).unwrap();
         showNotification("The article was added to favorites.", "success");
-        setIsCurrentArticleAddedToFavorites(!isCurrentArticleAddedToFavorites);
       } catch (error) {
         showNotification(
           getErrorTitle(error) || "Some error occurred...",
@@ -107,7 +90,7 @@ export const AddFavoriteButton: FC<IFavoriteButtonProps> = ({
       onClick={handleToggleLike}
       disabled={isButtonDisabled}
       endIcon={iconToShow}
-      $isCurrentArticleAddedToFavorites={isCurrentArticleAddedToFavorites}
+      $isCurrentArticleAddedToFavorites={isFavorite}
       $size={size}
     >
       <BookmarkBorderIcon className="favoriteFilledHoverIcon" />
