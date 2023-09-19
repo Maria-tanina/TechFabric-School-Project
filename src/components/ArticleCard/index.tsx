@@ -15,7 +15,7 @@ import { getDate } from "@helpers/getDate";
 import { ArticleTag } from "@components/ArticleTag";
 import { useAppSelector } from "../../store";
 import { selectIsLogin } from "@features/user/usersSelectors";
-import { LikeButton } from "@components/LikeButton";
+import { AddLikeButton } from "@components/LikeButton";
 
 export const ArticleCard: FC<IArticleProps> = ({ article }) => {
   const date = getDate(article.createdAt);
@@ -52,7 +52,11 @@ export const ArticleCard: FC<IArticleProps> = ({ article }) => {
             </StyledTagsWrapper>
 
             {isLogin ? (
-              <LikeButton articleId={article.id} showText={true} size="32px" />
+              <AddLikeButton
+                articleId={article.id}
+                showText={true}
+                size="32px"
+              />
             ) : null}
           </StyledBottomWrapper>
         </StyledCardContent>

@@ -12,7 +12,7 @@ export const LikedArticlePage = () => {
         <NavigationMenu />
       </LeftSidebar>
       <MainContent>
-        <MainHeader>Liked Articles</MainHeader>
+        <MainHeader>Favorite Articles</MainHeader>
         <ArticleList articles={mockArticles} />
       </MainContent>
     </>
