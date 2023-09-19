@@ -19,7 +19,7 @@ import { LinearProgress } from "@mui/material";
 import { useEffect } from "react";
 import { HOME_PATH } from "@constants/paths";
 import { useNotification } from "@hooks/useNotification";
-import { FullHeightSpinner } from "@components/Spinner";
+import { Spinner } from "@components/Spinner/style";
 
 export const ArticlePage = () => {
   const { articleId } = useParams<{ articleId?: string }>();
@@ -40,8 +40,8 @@ export const ArticlePage = () => {
   return (
     <>
       {isLoading ? (
-        <LoaderWrapper>
-          <FullHeightSpinner size={110} />
+        <LoaderWrapper style={{ height: "calc(100vh - 264px)" }}>
+          <Spinner size={110} />
         </LoaderWrapper>
       ) : (
         <>
