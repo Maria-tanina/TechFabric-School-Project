@@ -14,7 +14,7 @@ export const usersApi = createApi({
     getUsers: build.query<IUserInfo[], void>({
       query: () => {
         return {
-          url: "/api/users",
+          url: "/users",
           method: "GET",
         };
       },
@@ -23,14 +23,14 @@ export const usersApi = createApi({
     changeUserRole: build.mutation<void, { userId: string; newRole: string }>({
       query: ({ userId, newRole }) => {
         return {
-          url: `/api/users/${userId}/role`,
+          url: `/users/${userId}/role`,
           method: "PATCH",
           body: {
             newUserRole: newRole,
           },
         };
       },
-      async onQueryStarted({ ...patch }, { dispatch, queryFulfilled }) {
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled;
           dispatch(authApi.util.invalidateTags(["UNAUTHORIZED"]));

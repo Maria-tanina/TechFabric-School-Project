@@ -11,7 +11,7 @@ export const AuthorName = styled.div(
     font-size: 18px;
     font-weight: 700;
     line-height: 20px;
-    ${media.desktop}{
+    ${media.desktopLarge}{
         font-size: 24px;
         line-height: 36px;
     }
@@ -31,7 +31,7 @@ export const StyledTopAuthorAvatar = styled.div(
     font-size: 18px;
     font-weight: 700;
     line-height: 24px;
-    ${media.desktop}{
+    ${media.desktopLarge}{
       width: 72px;
       height: 72px;
     }

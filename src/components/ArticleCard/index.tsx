@@ -1,7 +1,7 @@
 import CardMedia from "@mui/material/CardMedia";
 import {
-  FavoriteWrapper,
   StyledArticleCard,
+  StyledBottomWrapper,
   StyledCardContent,
   StyledCardTitle,
   StyledTagsWrapper,
@@ -10,13 +10,17 @@ import { FC } from "react";
 import { Link } from "react-router-dom";
 import { ARTICLE_PATH } from "@constants/paths";
 import ProfileInfo from "@components/ProfileInfo";
-import { LikeButton } from "@components/LikeButton";
 import { IArticleProps } from "@customTypes/articleTypes";
 import { getDate } from "@helpers/getDate";
 import { ArticleTag } from "@components/ArticleTag";
+import { useAppSelector } from "../../store";
+import { selectIsLogin } from "@features/user/usersSelectors";
+import { LikeButton } from "@components/LikeButton";
 
 export const ArticleCard: FC<IArticleProps> = ({ article }) => {
   const date = getDate(article.createdAt);
+
+  const isLogin = useAppSelector(selectIsLogin);
 
   return (
     <article>
@@ -35,18 +39,22 @@ export const ArticleCard: FC<IArticleProps> = ({ article }) => {
             userName={article.author.firstName + " " + article.author.lastName}
             subtitle={date}
           />
+
           <StyledCardTitle>
             <Link to={`${ARTICLE_PATH}/${article.id}`}>{article.title}</Link>
           </StyledCardTitle>
-          <StyledTagsWrapper>
-            {article.tags.map((tag) => (
-              <ArticleTag key={tag} link="" tag={tag} />
-            ))}
-          </StyledTagsWrapper>
-          <FavoriteWrapper>
-            <span>Add to favorites</span>
-            <LikeButton />
-          </FavoriteWrapper>
+
+          <StyledBottomWrapper>
+            <StyledTagsWrapper>
+              {article.tags.map((tag) => (
+                <ArticleTag key={tag} link="" tag={tag} />
+              ))}
+            </StyledTagsWrapper>
+
+            {isLogin ? (
+              <LikeButton articleId={article.id} showText={true} size="32px" />
+            ) : null}
+          </StyledBottomWrapper>
         </StyledCardContent>
       </StyledArticleCard>
     </article>

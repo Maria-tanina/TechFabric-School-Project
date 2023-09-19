@@ -19,6 +19,8 @@ export const StyledCardTitle = styled(Typography)(
     line-height: 30px;
     margin: 20px 0 12px;
     transition: all 0.4s ease-in-out;
+    white-space: break-spaces;
+    word-break: break-word;
     ${media.desktop}{
         font-size: ${fontSizes.cardHeader};
         line-height: 48px;
@@ -42,13 +44,14 @@ export const StyledCardContent = styled(CardContent)(
 `
 );
 
+export const StyledBottomWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+`;
+
 export const StyledTagsWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
-`;
-export const FavoriteWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
 `;
