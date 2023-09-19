@@ -15,3 +15,9 @@ export const selectArticleContent = (state: RootState) => state.article.content;
 
 export const selectShowPreview = (state: RootState) =>
   state.article.showPreview;
+
+export const selectPageNumber = (state: RootState) => state.article.pageNumber;
+
+export const selectPageSize = (state: RootState) => state.article.pageSize;
+
+export const selectOrderBy = (state: RootState) => state.article.orderBy;

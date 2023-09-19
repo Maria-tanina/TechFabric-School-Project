@@ -6,4 +6,7 @@ export interface IArticleSliceInitialState {
   type: string;
   content: string;
   showPreview: boolean;
+  pageNumber: number;
+  pageSize: number;
+  orderBy: "byCreatedDateDesc" | "byCreatedDateAsc" | "topRated";
 }

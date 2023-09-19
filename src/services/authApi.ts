@@ -29,7 +29,7 @@ export const authApi = createApi({
         fetchWithBQ
       ) => {
         const loginResponse = await fetchWithBQ({
-          url: "/api/token",
+          url: "/token",
           method: "POST",
           body,
           credentials: "include",
@@ -48,7 +48,7 @@ export const authApi = createApi({
         set("refreshToken", refreshToken);
 
         const userInfoResponse = await fetchWithBQ({
-          url: "/api/users/info",
+          url: "/users/info",
           method: "GET",
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -71,13 +71,13 @@ export const authApi = createApi({
     }),
 
     getUsersInfo: build.query<IUserInfo, void>({
-      query: () => "/api/users/info",
+      query: () => "/users/info",
       providesTags: ["UNAUTHORIZED"],
     }),
 
     signup: build.mutation<void, IRegistrationFormValues>({
       query: (userData) => ({
-        url: "/api/users/register",
+        url: "/users/register",
         method: "POST",
         body: userData,
       }),
@@ -85,7 +85,7 @@ export const authApi = createApi({
 
     resendEmail: build.mutation<void, string>({
       query: (email) => ({
-        url: "/api/users/registration-confirm",
+        url: "/users/registration-confirm",
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -96,7 +96,7 @@ export const authApi = createApi({
 
     forgotPassword: build.mutation<void, IForgotPasswordFormValues>({
       query: (email) => ({
-        url: "/api/users/restore-password",
+        url: "/users/restore-password",
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -110,7 +110,7 @@ export const authApi = createApi({
       { passwords: IPasswordRecoveryFormValues; token: string }
     >({
       query: (args) => ({
-        url: `/api/users/recover-password?verificationToken=${args.token}`,
+        url: `/users/recover-password?verificationToken=${args.token}`,
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -121,7 +121,7 @@ export const authApi = createApi({
 
     verified: build.mutation<void, string | null>({
       query: (token) => ({
-        url: `/api/users/confirmation?verificationToken=${token}`,
+        url: `/users/confirmation?verificationToken=${token}`,
         method: "POST",
         headers: {
           "Content-Type": "application/json",
