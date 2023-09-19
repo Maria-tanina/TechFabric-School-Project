@@ -1,4 +1,4 @@
-import { ErrorMessage, HomePageWrapper } from "./style";
+import { HomePageWrapper } from "./style";
 import ArticleList from "@components/ArticleList";
 import { TopTags } from "./copmonents/TopTags";
 import { TopAuthors } from "./copmonents/TopAuthors";
@@ -20,6 +20,7 @@ import { setPageNumber, setPageSize } from "@features/article/articleSlice";
 import TabsMenu from "@components/TabsMenu";
 import { PaginationSelect } from "@components/PaginationSelect";
 import { countTotalNumberOfPages } from "@helpers/countTotalNumberOfPages";
+import { TableFetchError } from "@components/TableNotification";
 
 const HomePage = () => {
   const pageNumber = useAppSelector(selectPageNumber);
@@ -67,11 +68,11 @@ const HomePage = () => {
         {isFetching ? (
           <LinearProgress />
         ) : isError ? (
-          <ErrorMessage>Articles not found!</ErrorMessage>
+          <TableFetchError message="Articles not found!" />
         ) : (
           <ArticleList articles={articles?.articles} />
         )}
-        {!isFetching && (
+        {!isFetching && !isError && (
           <>
             <PaginationRounded
               count={pagesTotalCount}

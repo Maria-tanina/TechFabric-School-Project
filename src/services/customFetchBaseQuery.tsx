@@ -15,7 +15,7 @@ export const customFetchBaseQuery = (baseUrl: string | undefined) => {
         const isTokenValid = getTokenInfo(token);
 
         if (!isTokenValid) {
-          const response = await fetch(`${baseUrl}/api/token/refresh`, {
+          const response = await fetch(`${baseUrl}/token/refresh`, {
             method: "POST",
             headers: {
               accept: "text/plain",
