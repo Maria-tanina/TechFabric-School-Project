@@ -1,8 +1,6 @@
 import { StyledTag, TagsWrapper } from "./style";
 import { StyledSidebarCard } from "@components/SidebarCard";
 import { StyledSidebarHeader } from "@components/SidebarHeader";
-import { Link } from "react-router-dom";
-import { HOME_PATH } from "@constants/paths";
 import { useGetTopTagsQuery } from "@services/topsApi";
 import { TOP_TAGS_COUNT } from "@constants/tops";
 
@@ -20,7 +18,7 @@ export const TopTags = () => {
       <TagsWrapper>
         {topTags?.map((tag, i) => (
           <StyledTag key={i}>
-            <Link to={HOME_PATH}>{tag}</Link>
+            {tag}
           </StyledTag>
         ))}
       </TagsWrapper>
