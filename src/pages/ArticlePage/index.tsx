@@ -6,7 +6,7 @@ import {
   LeftSidebar,
   LoaderWrapper,
 } from "@pages/ArticlePage/style";
-import { LikeButton } from "@components/LikeButton";
+import { AddLikeButton } from "@components/LikeButton";
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import { StyledSidebarCard } from "@components/SidebarCard";
 import { AuthorInfo } from "@pages/ArticlePage/components/AuthorInfo";
@@ -20,6 +20,7 @@ import { useEffect } from "react";
 import { HOME_PATH } from "@constants/paths";
 import { useNotification } from "@hooks/useNotification";
 import { Spinner } from "@components/Spinner/style";
+import { AddFavoriteButton } from "@components/FavoriteButton";
 
 export const ArticlePage = () => {
   const { articleId } = useParams<{ articleId?: string }>();
@@ -47,12 +48,19 @@ export const ArticlePage = () => {
         <>
           <LeftSidebar>
             <ArticleSideMenuItem>
-              <LikeButton
+              <AddLikeButton
                 articleId={articleId || ""}
                 showText={false}
                 size="42px"
               />
               <Count>{data?.likeCount}</Count>
+            </ArticleSideMenuItem>
+            <ArticleSideMenuItem>
+              <AddFavoriteButton
+                articleId={articleId || ""}
+                size="42px"
+                showText={false}
+              />
             </ArticleSideMenuItem>
             <ArticleSideMenuItem>
               <ChatOutlinedIcon />

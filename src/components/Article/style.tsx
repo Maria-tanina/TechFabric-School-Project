@@ -41,6 +41,7 @@ export const ArticleMainHeader = styled.h1(
 export const ArticleTags = styled.div`
   display: flex;
   gap: 12px;
+  flex-wrap: wrap;
 `;
 export const ArticleSubject = styled.div(
   ({ theme: { colors } }) => `

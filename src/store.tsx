@@ -8,6 +8,10 @@ import articleSlice from "@features/article/articleSlice";
 import { articlesApi } from "@services/articlesApi";
 import sortSlice from "@features/sort/sortSlice";
 import { favoritesApi } from "@services/favoritesApi";
+import favoritesArticleSlice from "@features/favoritesArticle/favoritesArticleSlice";
+import { topsApi } from "@services/topsApi";
+import myArticleSlice from "@features/myArticle/myArticleSlice";
+import articleForReviewSlice from "@features/articleForReview/articleForReviewSlice";
 
 const store = configureStore({
   reducer: {
@@ -16,16 +20,21 @@ const store = configureStore({
     admin: adminSlice,
     [authApi.reducerPath]: authApi.reducer,
     article: articleSlice,
+    favoritesArticle: favoritesArticleSlice,
     [articlesApi.reducerPath]: articlesApi.reducer,
     sort: sortSlice,
     [favoritesApi.reducerPath]: favoritesApi.reducer,
+    [topsApi.reducerPath]: topsApi.reducer,
+    myArticle: myArticleSlice,
+    articleForReview: articleForReviewSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       usersApi.middleware,
       authApi.middleware,
       articlesApi.middleware,
-      favoritesApi.middleware
+      favoritesApi.middleware,
+      topsApi.middleware
     ),
 });
 

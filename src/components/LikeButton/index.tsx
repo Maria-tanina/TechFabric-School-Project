@@ -1,14 +1,10 @@
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import {
-  useAddToFavoritesMutation,
-  useRemoveFromFavoritesMutation,
-} from "@services/favoritesApi";
 import { FC, useEffect, useState } from "react";
 import { LIKE_BUTTON_DISABLE } from "@constants/timers";
 import { getErrorTitle } from "@helpers/errorHandlers";
 import { useNotification } from "@hooks/useNotification";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { FavoriteButton } from "./style";
+import { LikeButton } from "./style";
 import { useAppSelector } from "../../store";
 import { selectIsLogin } from "@features/user/usersSelectors";
 
@@ -18,15 +14,7 @@ interface ILikeButtonProps {
   size: string;
 }
 
-export const LikeButton: FC<ILikeButtonProps> = ({
-  articleId,
-  showText,
-  size,
-}) => {
-  const [addToFavorites] = useAddToFavoritesMutation();
-
-  const [removeFromFavorites] = useRemoveFromFavoritesMutation();
-
+export const AddLikeButton: FC<ILikeButtonProps> = ({ size }) => {
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
 
   const isLogin = useAppSelector(selectIsLogin);
@@ -37,7 +25,6 @@ export const LikeButton: FC<ILikeButtonProps> = ({
     }
   }, [isLogin]);
 
-  //temporary variable
   const [
     isCurrentArticleAddedToFavorites,
     setIsCurrentArticleAddedToFavorites,
@@ -51,15 +38,10 @@ export const LikeButton: FC<ILikeButtonProps> = ({
     <FavoriteBorderIcon className="favoriteBorderIcon" />
   );
 
-  const textToShow = isCurrentArticleAddedToFavorites
-    ? "Remove from favorites"
-    : "Add to favorites";
-
   const handleToggleLike = async () => {
     setIsButtonDisabled(true);
     if (isCurrentArticleAddedToFavorites) {
       try {
-        await removeFromFavorites({ articleId }).unwrap();
         showNotification("The article was deleted from favorites.", "success");
         setIsCurrentArticleAddedToFavorites(!isCurrentArticleAddedToFavorites);
       } catch (error) {
@@ -72,7 +54,6 @@ export const LikeButton: FC<ILikeButtonProps> = ({
       }
     } else {
       try {
-        await addToFavorites({ articleId }).unwrap();
         showNotification("The article was added to favorites.", "success");
         setIsCurrentArticleAddedToFavorites(!isCurrentArticleAddedToFavorites);
       } catch (error) {
@@ -86,7 +67,7 @@ export const LikeButton: FC<ILikeButtonProps> = ({
     }
   };
   return (
-    <FavoriteButton
+    <LikeButton
       disableRipple
       onClick={handleToggleLike}
       disabled={isButtonDisabled}
@@ -94,8 +75,7 @@ export const LikeButton: FC<ILikeButtonProps> = ({
       $isCurrentArticleAddedToFavorites={isCurrentArticleAddedToFavorites}
       $size={size}
     >
-      {showText ? <span>{textToShow}</span> : null}
       <FavoriteIcon className="favoriteFilledHoverIcon" />
-    </FavoriteButton>
+    </LikeButton>
   );
 };
