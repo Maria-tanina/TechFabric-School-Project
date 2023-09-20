@@ -8,12 +8,12 @@ interface IFavoriteArticleSliceState {
 }
 const initialState: IFavoriteArticleSliceState = {
   pageNumber: 1,
-  pageSize: 5,
+  pageSize: 10,
   orderBy: "byCreatedDateDesc",
 };
 
 const favoritesArticleSlice = createSlice({
-  name: "article",
+  name: "FavoriteArticle",
   initialState,
   reducers: {
     setFavoritePageNumber: (state, action: PayloadAction<number>) => {

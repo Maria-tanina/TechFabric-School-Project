@@ -17,6 +17,7 @@ import { setFavoritePageNumber } from "@features/favoritesArticle/favoritesArtic
 import { useNotification } from "@hooks/useNotification";
 import { HOME_PATH } from "@constants/paths";
 import { useNavigate } from "react-router-dom";
+import {TableFetchError} from "@components/TableNotification";
 
 export const FavoritesArticlePage = () => {
   const pageNumber = useAppSelector(selectFavoritePageNumber);
@@ -31,6 +32,7 @@ export const FavoritesArticlePage = () => {
     pageSize,
     orderBy,
   });
+  console.log(fetchFavorites)
   const { showNotification } = useNotification();
   const navigate = useNavigate();
   const articlesTotalCount = fetchFavorites?.totalCount || 0;
@@ -56,14 +58,20 @@ export const FavoritesArticlePage = () => {
       </LeftSidebar>
       <MainContent>
         <MainHeader>Favorite Articles</MainHeader>
-        {isFetching && <LinearProgress />}
-        <ArticleList articles={fetchFavorites?.articles} />
-        {!isFetching && (
-          <PaginationRounded
-            count={pagesTotalCount}
-            page={pageNumber}
-            onChange={handlePageChange}
-          />
+        {!articlesTotalCount ? (
+            <TableFetchError message="Articles not found!" />
+        ) : (
+            <>
+              {isFetching && <LinearProgress />}
+              <ArticleList articles={fetchFavorites?.articles} />
+              {!isFetching && (
+                  <PaginationRounded
+                      count={pagesTotalCount}
+                      page={pageNumber}
+                      onChange={handlePageChange}
+                  />
+              )}
+            </>
         )}
       </MainContent>
     </>
