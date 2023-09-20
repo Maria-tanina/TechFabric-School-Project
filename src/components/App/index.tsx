@@ -44,7 +44,7 @@ import ArticlesForReviewPage from "@pages/ArticlesForReviewPage";
 import { UpdateArticlePage } from "@pages/UpdateArticlePage";
 import { useAppSelector } from "../../store";
 import { selectIsLogin } from "@features/user/usersSelectors";
-import { LikedArticlePage } from "@pages/LikedArticlePage";
+import { FavoritesArticlePage } from "@pages/FavoritesArticlePage";
 
 const App = () => {
   const isLogin = useAppSelector(selectIsLogin);
@@ -153,7 +153,7 @@ const App = () => {
                 />
               }
             >
-              <Route path={FAVORITES_PATH} element={<LikedArticlePage />} />
+              <Route path={FAVORITES_PATH} element={<FavoritesArticlePage />} />
             </Route>
           </Routes>
         </NotificationProvider>

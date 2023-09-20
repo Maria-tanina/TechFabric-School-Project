@@ -11,6 +11,13 @@ export const StyledArticleCard = styled(Card)`
   }
 `;
 
+export const FavoritesButtons = styled.div`
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin-left: auto;
+`;
+
 export const StyledCardTitle = styled(Typography)(
   ({ theme: { fontSizes, colors, media } }) => `
   &.MuiTypography-root {
@@ -53,5 +60,6 @@ export const StyledBottomWrapper = styled.div`
 export const StyledTagsWrapper = styled.div`
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 12px;
 `;
