@@ -24,7 +24,7 @@ export const FavoritesArticlePage = () => {
   const pageSize = useAppSelector(selectFavoritePageSize);
   const orderBy = useAppSelector(selectFavoriteOrderBy);
   const {
-    data: fetchFavorites,
+    data: favoritesData,
     isError,
     isFetching,
   } = useGetFavoritesArticlesQuery({
@@ -32,10 +32,9 @@ export const FavoritesArticlePage = () => {
     pageSize,
     orderBy,
   });
-  console.log(fetchFavorites);
   const { showNotification } = useNotification();
   const navigate = useNavigate();
-  const articlesTotalCount = fetchFavorites?.totalCount || 0;
+  const articlesTotalCount = favoritesData?.totalCount || 0;
   const pagesTotalCount = Math.ceil(articlesTotalCount / pageSize);
   const dispatch = useAppDispatch();
 
@@ -63,7 +62,7 @@ export const FavoritesArticlePage = () => {
         ) : (
           <>
             {isFetching && <LinearProgress />}
-            <ArticleList articles={fetchFavorites?.articles} />
+            <ArticleList articles={favoritesData?.articles} />
             {!isFetching && (
               <PaginationRounded
                 count={pagesTotalCount}

@@ -8,7 +8,7 @@ interface IFavoriteArticleSliceState {
 }
 const initialState: IFavoriteArticleSliceState = {
   pageNumber: 1,
-  pageSize: 10,
+  pageSize: 5,
   orderBy: "byCreatedDateDesc",
 };
 
@@ -30,8 +30,6 @@ const favoritesArticleSlice = createSlice({
 
 export const {
   setFavoritePageNumber,
-  setFavoritePageSize,
-  setFavoriteOrderBy,
 } = favoritesArticleSlice.actions;
 
 export default favoritesArticleSlice.reducer;
