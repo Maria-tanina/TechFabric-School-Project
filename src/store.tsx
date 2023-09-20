@@ -9,6 +9,7 @@ import { articlesApi } from "@services/articlesApi";
 import sortSlice from "@features/sort/sortSlice";
 import { favoritesApi } from "@services/favoritesApi";
 import favoritesArticleSlice from "@features/favoritesArticle/favoritesArticleSlice";
+import { topsApi } from "@services/topsApi";
 
 const store = configureStore({
   reducer: {
@@ -21,13 +22,15 @@ const store = configureStore({
     [articlesApi.reducerPath]: articlesApi.reducer,
     sort: sortSlice,
     [favoritesApi.reducerPath]: favoritesApi.reducer,
+    [topsApi.reducerPath]: topsApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       usersApi.middleware,
       authApi.middleware,
       articlesApi.middleware,
-      favoritesApi.middleware
+      favoritesApi.middleware,
+      topsApi.middleware
     ),
 });
 
