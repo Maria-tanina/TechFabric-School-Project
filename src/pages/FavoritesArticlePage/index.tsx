@@ -12,11 +12,11 @@ import {
   selectFavoritePageSize,
 } from "@features/favoritesArticle/favoritesArticleSelectors";
 import { PaginationRounded } from "@components/PaginationRounded";
-import {ChangeEvent, useEffect} from "react";
-import {setFavoritePageNumber} from "@features/favoritesArticle/favoritesArticleSlice";
-import {useNotification} from "@hooks/useNotification";
-import {HOME_PATH} from "@constants/paths";
-import {useNavigate} from "react-router-dom";
+import { ChangeEvent, useEffect } from "react";
+import { setFavoritePageNumber } from "@features/favoritesArticle/favoritesArticleSlice";
+import { useNotification } from "@hooks/useNotification";
+import { HOME_PATH } from "@constants/paths";
+import { useNavigate } from "react-router-dom";
 
 export const FavoritesArticlePage = () => {
   const pageNumber = useAppSelector(selectFavoritePageNumber);

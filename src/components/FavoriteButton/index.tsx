@@ -21,11 +21,13 @@ import {
 interface IFavoriteButtonProps {
   articleId: string;
   size: string;
+  showText: boolean;
 }
 
 export const AddFavoriteButton: FC<IFavoriteButtonProps> = ({
   articleId,
   size,
+  showText,
 }) => {
   const [addToFavorites] = useAddToFavoritesMutation();
   const [removeFromFavorites] = useRemoveFromFavoritesMutation();
@@ -41,14 +43,14 @@ export const AddFavoriteButton: FC<IFavoriteButtonProps> = ({
     orderBy,
   });
   const isFavorite =
-      Array.isArray(fetchFavorites) && fetchFavorites.includes(articleId);
+    Array.isArray(fetchFavorites) && fetchFavorites.includes(articleId);
+  const textToShow = isFavorite ? "Remove from favorites" : "Add to favorites";
 
   useEffect(() => {
     if (!isLogin) {
       setIsButtonDisabled(true);
     }
   }, [isLogin]);
-
 
   const iconToShow = isFavorite ? (
     <Bookmark />
@@ -93,6 +95,7 @@ export const AddFavoriteButton: FC<IFavoriteButtonProps> = ({
       $isCurrentArticleAddedToFavorites={isFavorite}
       $size={size}
     >
+      {showText ? <span>{textToShow}</span> : null}
       <BookmarkBorderIcon className="favoriteFilledHoverIcon" />
     </FavoriteButton>
   );

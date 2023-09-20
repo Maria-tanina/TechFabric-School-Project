@@ -56,7 +56,11 @@ export const ArticlePage = () => {
               <Count>{data?.likeCount}</Count>
             </ArticleSideMenuItem>
             <ArticleSideMenuItem>
-              <AddFavoriteButton articleId={articleId || ""} size="42px" />
+              <AddFavoriteButton
+                articleId={articleId || ""}
+                size="42px"
+                showText={false}
+              />
             </ArticleSideMenuItem>
             <ArticleSideMenuItem>
               <ChatOutlinedIcon />
