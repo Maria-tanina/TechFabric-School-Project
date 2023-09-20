@@ -7,7 +7,7 @@ interface IArticleForReviewSliceState {
 }
 const initialState: IArticleForReviewSliceState = {
   pageNumber: 1,
-  pageSize: 5,
+  pageSize: 6,
   orderBy: "byCreatedDateDesc",
 };
 

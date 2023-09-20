@@ -14,13 +14,13 @@ import { SmallArticleCard } from "@components/SmallArticleCard";
 import { UPDATE_ARTICLE_PATH } from "@constants/paths";
 import { PaginationRounded } from "@components/PaginationRounded";
 import { ChangeEvent } from "react";
-import { setMyArticlePageNumber } from "@features/myArticle/myArticleSlice";
 import { useAppDispatch, useAppSelector } from "../../store";
 import {
   selectArticleForReviewOrderBy,
   selectArticleForReviewPageNumber,
   selectArticleForReviewPageSize,
 } from "@features/articleForReview/articleForReviewSelectors";
+import { setArticleForReviewPageNumber } from "@features/articleForReview/articleForReviewSlice";
 
 const ArticlesForReviewPage = () => {
   const pageNumber = useAppSelector(selectArticleForReviewPageNumber);
@@ -49,7 +49,7 @@ const ArticlesForReviewPage = () => {
   const pagesTotalCount = Math.ceil(articlesTotalCount / pageSize);
 
   const handlePageChange = (event: ChangeEvent<unknown>, value: number) => {
-    dispatch(setMyArticlePageNumber(value));
+    dispatch(setArticleForReviewPageNumber(value));
     window.scrollTo(0, 0);
   };
 

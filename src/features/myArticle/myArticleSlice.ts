@@ -7,7 +7,7 @@ interface IMyArticleSliceState {
 }
 const initialState: IMyArticleSliceState = {
   pageNumber: 1,
-  pageSize: 5,
+  pageSize: 6,
   orderBy: "byCreatedDateDesc",
 };
 

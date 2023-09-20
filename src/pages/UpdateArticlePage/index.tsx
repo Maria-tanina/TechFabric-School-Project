@@ -13,7 +13,6 @@ import {
   LoaderWrapper,
   UpdatePostWrapper,
 } from "@pages/UpdateArticlePage/style";
-import { FullHeightSpinner } from "@components/Spinner";
 import { IUpdateArticleProps } from "@customTypes/articleTypes";
 import { getErrorMessage } from "@helpers/errorHandlers";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
@@ -25,6 +24,7 @@ import {
   selectMyArticlePageNumber,
   selectMyArticlePageSize,
 } from "@features/myArticle/myArticleSelectors";
+import { Spinner } from "@components/Spinner/style";
 
 export const UpdateArticlePage = () => {
   const { articleId = "" } = useParams<{ articleId?: string | undefined }>();
@@ -98,8 +98,8 @@ export const UpdateArticlePage = () => {
   return (
     <>
       {isLoading ? (
-        <LoaderWrapper>
-          <FullHeightSpinner size={110} />
+        <LoaderWrapper style={{ height: "calc(100vh - 264px)" }}>
+          <Spinner size={110} />
         </LoaderWrapper>
       ) : (
         <UpdatePostWrapper>
