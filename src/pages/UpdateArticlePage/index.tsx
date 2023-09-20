@@ -20,6 +20,11 @@ import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { selectUserIsAdmin } from "@services/authSelectors";
 import { setShowPreview } from "@features/article/articleSlice";
+import {
+  selectMyArticleOrderBy,
+  selectMyArticlePageNumber,
+  selectMyArticlePageSize,
+} from "@features/myArticle/myArticleSelectors";
 
 export const UpdateArticlePage = () => {
   const { articleId = "" } = useParams<{ articleId?: string | undefined }>();
@@ -28,12 +33,23 @@ export const UpdateArticlePage = () => {
   const isAdmin = useAppSelector(selectUserIsAdmin);
   const [updateArticle, { isError, isSuccess }] = useUpdateArticleMutation();
   const [deleteArticle] = useDeleteArticleMutation();
+  const pageNumber = useAppSelector(selectMyArticlePageNumber);
+
+  const pageSize = useAppSelector(selectMyArticlePageSize);
+
+  const orderBy = useAppSelector(selectMyArticleOrderBy);
 
   const { data, isLoading } = useGetArticleInfoQuery({
     articleId: articleId || "",
   });
 
-  const { data: myArticles = [] } = useGetMyArticlesQuery();
+  const { data: articlesData } = useGetMyArticlesQuery({
+    pageNumber,
+    pageSize,
+    orderBy,
+  });
+
+  const myArticles = articlesData?.articles || [];
 
   const isAuthorOfCurrentArticle = myArticles?.some(
     (article) => article.id === articleId

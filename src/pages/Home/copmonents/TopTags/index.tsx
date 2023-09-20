@@ -16,11 +16,7 @@ export const TopTags = () => {
         Top <span>Tags</span>
       </StyledSidebarHeader>
       <TagsWrapper>
-        {topTags?.map((tag, i) => (
-          <StyledTag key={i}>
-            {tag}
-          </StyledTag>
-        ))}
+        {topTags?.map((tag, i) => <StyledTag key={i}>{tag}</StyledTag>)}
       </TagsWrapper>
     </StyledSidebarCard>
   ) : null;

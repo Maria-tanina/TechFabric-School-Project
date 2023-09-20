@@ -27,9 +27,14 @@ export const articlesApi = createApi({
       }),
       providesTags: ["ARTICLES"],
     }),
-    getMyArticles: build.query<IArticle[], void>({
-      query: () => ({
+    getMyArticles: build.query<IGetArticlesResponse, IArticleParams>({
+      query: ({ pageNumber, pageSize, orderBy }) => ({
         url: "/articles/mine",
+        params: {
+          pageNumber,
+          pageSize,
+          orderBy,
+        },
         method: "GET",
       }),
       providesTags: ["ARTICLES", "MY_ARTICLES"],
@@ -73,8 +78,15 @@ export const articlesApi = createApi({
       }),
       invalidatesTags: ["ARTICLES"],
     }),
-    getArticlesForReview: build.query<IArticle[], void>({
-      query: () => "/articles/in-review",
+    getArticlesForReview: build.query<IGetArticlesResponse, IArticleParams>({
+      query: ({ pageNumber, pageSize, orderBy }) => ({
+        url: "/articles/in-review",
+        params: {
+          pageNumber,
+          pageSize,
+          orderBy,
+        },
+      }),
       providesTags: ["ARTICLES"],
     }),
     publishArticle: build.mutation<void, { articleId: string }>({
