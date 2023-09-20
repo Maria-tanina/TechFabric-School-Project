@@ -246,7 +246,7 @@ const Editor = ({
       try {
         await createDraftArticle(article).unwrap();
         dispatch(clearAllFields());
-        showNotification("Your draft was created", "success");
+        showNotification("Your post was created", "success");
         navigate(MY_ARTICLES_PATH);
       } catch (error) {
         showNotification(getErrorTitle(error), "error");

@@ -12,14 +12,47 @@ import { useGetArticlesForReviewQuery } from "@services/articlesApi";
 import { ArticlesInfo } from "@components/ArticlesInfo";
 import { SmallArticleCard } from "@components/SmallArticleCard";
 import { UPDATE_ARTICLE_PATH } from "@constants/paths";
+import { PaginationRounded } from "@components/PaginationRounded";
+import { ChangeEvent } from "react";
+import { useAppDispatch, useAppSelector } from "../../store";
+import {
+  selectArticleForReviewOrderBy,
+  selectArticleForReviewPageNumber,
+  selectArticleForReviewPageSize,
+} from "@features/articleForReview/articleForReviewSelectors";
+import { setArticleForReviewPageNumber } from "@features/articleForReview/articleForReviewSlice";
 
 const ArticlesForReviewPage = () => {
+  const pageNumber = useAppSelector(selectArticleForReviewPageNumber);
+
+  const pageSize = useAppSelector(selectArticleForReviewPageSize);
+
+  const orderBy = useAppSelector(selectArticleForReviewOrderBy);
+
   const {
-    data: articles = [],
-    isLoading,
+    data: articlesData,
+    isFetching,
     isError,
     error,
-  } = useGetArticlesForReviewQuery();
+  } = useGetArticlesForReviewQuery({
+    pageNumber,
+    pageSize,
+    orderBy,
+  });
+
+  const dispatch = useAppDispatch();
+
+  const articles = articlesData?.articles || [];
+
+  const articlesTotalCount = articlesData?.totalCount || 0;
+
+  const pagesTotalCount = Math.ceil(articlesTotalCount / pageSize);
+
+  const handlePageChange = (event: ChangeEvent<unknown>, value: number) => {
+    dispatch(setArticleForReviewPageNumber(value));
+    window.scrollTo(0, 0);
+  };
+
   return (
     <MyArticlesPageWrapper>
       <LeftSidebar>
@@ -27,7 +60,7 @@ const ArticlesForReviewPage = () => {
       </LeftSidebar>
 
       <MainContent>
-        {isLoading ? (
+        {isFetching ? (
           <LinearProgress />
         ) : isError ? (
           <ErrorMessage>
@@ -48,6 +81,16 @@ const ArticlesForReviewPage = () => {
               />
             ))}
           </Grid>
+        )}
+
+        {!isFetching && !isError && (
+          <>
+            <PaginationRounded
+              count={pagesTotalCount}
+              page={pageNumber}
+              onChange={handlePageChange}
+            />
+          </>
         )}
       </MainContent>
     </MyArticlesPageWrapper>

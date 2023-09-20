@@ -10,6 +10,8 @@ import sortSlice from "@features/sort/sortSlice";
 import { favoritesApi } from "@services/favoritesApi";
 import favoritesArticleSlice from "@features/favoritesArticle/favoritesArticleSlice";
 import { topsApi } from "@services/topsApi";
+import myArticleSlice from "@features/myArticle/myArticleSlice";
+import articleForReviewSlice from "@features/articleForReview/articleForReviewSlice";
 
 const store = configureStore({
   reducer: {
@@ -23,6 +25,8 @@ const store = configureStore({
     sort: sortSlice,
     [favoritesApi.reducerPath]: favoritesApi.reducer,
     [topsApi.reducerPath]: topsApi.reducer,
+    myArticle: myArticleSlice,
+    articleForReview: articleForReviewSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
