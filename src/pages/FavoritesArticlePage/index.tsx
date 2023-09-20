@@ -46,7 +46,7 @@ export const FavoritesArticlePage = () => {
   useEffect(() => {
     if (isError) {
       navigate(HOME_PATH);
-      showNotification("Something wrong. Article not found!", "error");
+      showNotification("Something wrong. Article not found! ", "error");
     }
   }, [isError]);
 
