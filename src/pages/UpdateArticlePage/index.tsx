@@ -26,8 +26,10 @@ export const UpdateArticlePage = () => {
   const { showNotification } = useNotification();
   const isAdmin = useAppSelector(selectUserIsAdmin);
   const userId = useAppSelector(selectUserId);
-  const [updateArticle, { isError, isSuccess }] = useUpdateArticleMutation();
-  const [deleteArticle] = useDeleteArticleMutation();
+  const [updateArticle, { isError, isSuccess, isLoading: isUpdateLoading }] =
+    useUpdateArticleMutation();
+  const [deleteArticle, { isLoading: isDeleteLoading }] =
+    useDeleteArticleMutation();
 
   const { data, isLoading } = useGetArticleInfoQuery({
     articleId: articleId || "",
@@ -43,6 +45,7 @@ export const UpdateArticlePage = () => {
   const handleUpdateArticle = (
     updatedData: IUpdateArticleProps | undefined
   ) => {
+    window.scrollTo(0, 0);
     updateArticle({ updatedData, articleId })
       .unwrap()
       .then(() => {
@@ -54,6 +57,7 @@ export const UpdateArticlePage = () => {
       });
   };
   const handleDeleteArticle = () => {
+    window.scrollTo(0, 0);
     try {
       deleteArticle({ articleId });
       showNotification("Article was deleted!", "success");
@@ -73,7 +77,7 @@ export const UpdateArticlePage = () => {
 
   return (
     <>
-      {isLoading ? (
+      {isLoading || isUpdateLoading || isDeleteLoading ? (
         <LoaderWrapper style={{ height: "calc(100vh - 264px)" }}>
           <Spinner size={110} />
         </LoaderWrapper>

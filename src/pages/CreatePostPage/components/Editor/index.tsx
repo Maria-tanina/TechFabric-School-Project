@@ -65,6 +65,8 @@ import { isAllStringValid } from "@helpers/isTagValid";
 import { TAG_REGEX } from "@constants/regexp";
 import { isContentValid, removeImgTags } from "@helpers/removeImgTags";
 import { contentMaxLength, contentMinLength } from "@constants/validation";
+import { LoaderWrapper } from "@pages/UpdateArticlePage/style";
+import { Spinner } from "@components/Spinner/style";
 
 const Editor = ({
   articleData,
@@ -77,7 +79,8 @@ const Editor = ({
 }) => {
   const [createDraftArticle] = useCreateDraftArticleMutation();
 
-  const [publishArticle] = usePublishArticleMutation();
+  const [publishArticle, { isLoading: isPublishLoading }] =
+    usePublishArticleMutation();
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -287,6 +290,7 @@ const Editor = ({
 
   const handlePublishArticle = () => {
     if (articleData?.id) {
+      window.scrollTo(0, 0);
       publishArticle({
         articleId: articleData.id,
       })
@@ -302,6 +306,14 @@ const Editor = ({
         });
     }
   };
+
+  if (isPublishLoading) {
+    return (
+      <LoaderWrapper style={{ height: "calc(100vh - 264px)" }}>
+        <Spinner size={110} />
+      </LoaderWrapper>
+    );
+  }
 
   return (
     <StyledEditorWrapper onSubmit={handleSubmit(onSubmit)}>
