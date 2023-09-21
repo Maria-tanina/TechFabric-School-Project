@@ -61,8 +61,13 @@ import {
 } from "./style";
 import { IArticle, IUpdateArticleProps } from "@customTypes/articleTypes";
 import theme from "@styles/theme";
-import { isAllStringValid } from "@helpers/isStringValid";
+import { isAllStringValid } from "@helpers/isTagValid";
 import { TAG_REGEX } from "@constants/regexp";
+import { removeImgTags } from "@helpers/removeImgTags";
+import { contentMaxLength, contentMinLength } from "@constants/validation";
+import { LoaderWrapper } from "@pages/UpdateArticlePage/style";
+import { Spinner } from "@components/Spinner/style";
+import { isContentValid } from "@helpers/isContentValid";
 
 const Editor = ({
   articleData,
@@ -75,7 +80,8 @@ const Editor = ({
 }) => {
   const [createDraftArticle] = useCreateDraftArticleMutation();
 
-  const [publishArticle] = usePublishArticleMutation();
+  const [publishArticle, { isLoading: isPublishLoading }] =
+    usePublishArticleMutation();
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -252,18 +258,31 @@ const Editor = ({
       content,
       image,
     };
-    if (!!articleData && onSubmitUpdate) {
-      onSubmitUpdate(article);
-      return;
-    }
     if (image) {
-      try {
-        await createDraftArticle(article).unwrap();
-        dispatch(clearAllFields());
-        showNotification("Your post was created", "success");
-        navigate(MY_ARTICLES_PATH);
-      } catch (error) {
-        showNotification(getErrorTitle(error), "error");
+      if (isContentValid(content, contentMinLength, contentMaxLength)) {
+        if (!!articleData && onSubmitUpdate) {
+          onSubmitUpdate(article);
+          return;
+        }
+        try {
+          await createDraftArticle(article).unwrap();
+          dispatch(clearAllFields());
+          showNotification("Your post was created", "success");
+          navigate(MY_ARTICLES_PATH);
+        } catch (error) {
+          showNotification(getErrorTitle(error), "error");
+        }
+      } else {
+        removeImgTags(content).length < contentMinLength &&
+          showNotification(
+            `Content must be more than ${contentMinLength}`,
+            "error"
+          );
+        removeImgTags(content).length > contentMaxLength &&
+          showNotification(
+            `Content must be less than ${contentMaxLength} characters`,
+            "error"
+          );
       }
     } else {
       showNotification("Add image to your article", "error");
@@ -272,6 +291,7 @@ const Editor = ({
 
   const handlePublishArticle = () => {
     if (articleData?.id) {
+      window.scrollTo(0, 0);
       publishArticle({
         articleId: articleData.id,
       })
@@ -287,6 +307,14 @@ const Editor = ({
         });
     }
   };
+
+  if (isPublishLoading) {
+    return (
+      <LoaderWrapper style={{ height: "calc(100vh - 264px)" }}>
+        <Spinner size={110} />
+      </LoaderWrapper>
+    );
+  }
 
   return (
     <StyledEditorWrapper onSubmit={handleSubmit(onSubmit)}>

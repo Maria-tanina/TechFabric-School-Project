@@ -38,6 +38,8 @@ export const SmallArticleCard: FC<SmallArticleCardProps> = ({
 
   const formattedDescription = sliceString(description, 200);
 
+  const isPublished = article.status === "Published";
+
   return (
     <Grid item key={title} sm={6} md={6} lg={6} xl={4}>
       <StyledCard>
@@ -76,10 +78,12 @@ export const SmallArticleCard: FC<SmallArticleCardProps> = ({
                     READ MORE
                     <EastOutlinedIcon fontSize="small" />
                   </StyledLink>
-                  <StyledLink to={`${UPDATE_ARTICLE_PATH}/${id}`}>
-                    Edit
-                    <EditOutlinedIcon fontSize="small" />
-                  </StyledLink>
+                  {!isPublished && (
+                    <StyledLink to={`${UPDATE_ARTICLE_PATH}/${id}`}>
+                      Edit
+                      <EditOutlinedIcon fontSize="small" />
+                    </StyledLink>
+                  )}
                 </>
               )}
             </StyledLinksWrapper>
