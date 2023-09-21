@@ -53,7 +53,11 @@ export const UpdateArticlePage = () => {
         isSuccess && showNotification("Article was updated", "success");
       })
       .catch((error) => {
-        isError && showNotification(getErrorTitle(error), "error");
+        isError &&
+          showNotification(
+            getErrorTitle(error) || "Some error occurred...",
+            "error"
+          );
       });
   };
   const handleDeleteArticle = () => {

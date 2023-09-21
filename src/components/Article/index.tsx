@@ -28,6 +28,8 @@ export const Article = ({ article }: IArticleProps) => {
   const author = useAppSelector(selectUserId);
   const isAuthor = !!author && !!article && author === article.author.id;
 
+  const isPublished = article.status === "Published";
+
   return (
     <ArticleWrap>
       <ArticleMainImage src={article?.image} />
@@ -43,7 +45,7 @@ export const Article = ({ article }: IArticleProps) => {
         </ArticleSubject>
         <StyledContentWrapper dangerouslySetInnerHTML={sanitizedContent} />
       </ArticleBody>
-      {isAuthor && (
+      {isAuthor && !isPublished && (
         <EditButtonWrapper>
           <Link to={`${UPDATE_ARTICLE_PATH}/${article.id}`}>
             <OutlinedButton variant="contained">Edit Article</OutlinedButton>
