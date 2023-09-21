@@ -19,9 +19,11 @@ export const StyledContentWrapper = styled.div(
   font-size: 20px;
   font-weight: 400;
   line-height: 34px;
-  white-space: pre-wrap;
-  word-wrap: break-word;
   
+  p {
+    overflow-wrap: anywhere;
+  }
+   
   blockquote, div, img, ul {
     &:not(:last-child) {
       margin-bottom: 36px;

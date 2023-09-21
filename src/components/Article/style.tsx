@@ -32,6 +32,7 @@ export const ArticleMainHeader = styled.h1(
     font-style: normal;
     font-weight: 700;
     line-height: 40px; 
+    overflow-wrap: anywhere;
     ${media.desktop} {
         font-size: 45px;
         line-height: 60px; 
