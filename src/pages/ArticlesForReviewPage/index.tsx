@@ -70,7 +70,11 @@ const ArticlesForReviewPage = () => {
         ) : (
           <Grid container direction="row" alignItems="stretch" spacing={3}>
             <Grid item sm={12}>
-              <ArticlesInfo showLikes={false} articles={articles} />
+              <ArticlesInfo
+                showLikes={false}
+                articles={articles}
+                articlesTotalCount={articlesTotalCount}
+              />
             </Grid>
             {articles?.map((article) => (
               <SmallArticleCard

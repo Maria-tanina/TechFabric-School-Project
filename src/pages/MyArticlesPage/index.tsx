@@ -68,7 +68,11 @@ const MyArticlesPage = () => {
         ) : (
           <Grid container direction="row" alignItems="stretch" spacing={3}>
             <Grid item sm={12}>
-              <ArticlesInfo showLikes={true} articles={articles} />
+              <ArticlesInfo
+                showLikes={true}
+                articles={articles}
+                articlesTotalCount={articlesTotalCount}
+              />
             </Grid>
             {articles.map((article) => (
               <SmallArticleCard
