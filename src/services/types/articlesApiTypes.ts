@@ -32,3 +32,6 @@ export interface IArticleParams {
   pageSize: number;
   orderBy: TOrderByTypes;
 }
+export interface ISearchByTags extends IArticleParams {
+  substring: string;
+}

@@ -12,6 +12,8 @@ import favoritesArticleSlice from "@features/favoritesArticle/favoritesArticleSl
 import { topsApi } from "@services/topsApi";
 import myArticleSlice from "@features/myArticle/myArticleSlice";
 import articleForReviewSlice from "@features/articleForReview/articleForReviewSlice";
+import searchArticleSlice from "@features/searchArticle/searchArticleSlice";
+import tagsSlice from "@features/tags/tagsSlice";
 
 const store = configureStore({
   reducer: {
@@ -27,6 +29,8 @@ const store = configureStore({
     [topsApi.reducerPath]: topsApi.reducer,
     myArticle: myArticleSlice,
     articleForReview: articleForReviewSlice,
+    searchArticle: searchArticleSlice,
+    allTags: tagsSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(

@@ -15,6 +15,7 @@ import {
   PASSWORD_RECOVERY_PATH,
   REGISTRATION_CONFIRM_PATH,
   RULES_PATH,
+  SEARCH_PATH,
   SIGNUP_PATH,
   SUCCESS_CONFIRMATION_PATH,
   SUCCESS_PUBLISHED_PATH,
@@ -45,6 +46,8 @@ import { UpdateArticlePage } from "@pages/UpdateArticlePage";
 import { useAppSelector } from "../../store";
 import { selectIsLogin } from "@features/user/usersSelectors";
 import { FavoritesArticlePage } from "@pages/FavoritesArticlePage";
+import { SearchingResultsPage } from "@pages/SearchingResultsPage";
+import { useGetTopTagsQuery } from "@services/topsApi";
 
 const App = () => {
   const isLogin = useAppSelector(selectIsLogin);
@@ -54,8 +57,9 @@ const App = () => {
   });
 
   const { isLoading: isSportTypesLoading } = useGetSportTypesQuery();
+  const { isLoading: isTopTagsLoading } = useGetTopTagsQuery();
 
-  if (isUserInfoLoading || isSportTypesLoading) {
+  if (isUserInfoLoading || isSportTypesLoading || isTopTagsLoading) {
     return <FullHeightSpinner size={110} />;
   }
 
@@ -102,6 +106,11 @@ const App = () => {
             <Route path={CONTACT_US_PATH} element={<ContactUs />} />
 
             <Route path="*" element={<NotFound />} />
+
+            <Route
+              path={`${SEARCH_PATH}/:searchBy/:searchQuery`}
+              element={<SearchingResultsPage />}
+            />
 
             {/*protected routes*/}
             <Route
