@@ -33,9 +33,9 @@ export const SmallArticleCard: FC<SmallArticleCardProps> = ({
 }) => {
   const { title, description, createdAt, status, id } = article;
 
-  const formattedTitle = sliceString(title, 40);
+  const formattedTitle = sliceString(title, 70);
 
-  const formattedDescription = sliceString(description, 100);
+  const formattedDescription = sliceString(description, 200);
 
   return (
     <Grid item key={title} sm={6} md={6} lg={6} xl={4}>

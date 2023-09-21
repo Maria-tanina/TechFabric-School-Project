@@ -61,7 +61,10 @@ import {
 } from "./style";
 import { IArticle, IUpdateArticleProps } from "@customTypes/articleTypes";
 import theme from "@styles/theme";
-import { isAllStringValid } from "@helpers/isAllTagsValid";
+import {
+  isAllStringValid,
+} from "@helpers/isStringValid";
+import { TAG_REGEX } from "@constants/regexp";
 
 const Editor = ({
   articleData,
@@ -185,13 +188,16 @@ const Editor = ({
 
         const uniqueNewTags = selectUniqueItems(newTags, tags);
 
-        const isAllTagsValid = isAllStringValid(newTags, 30);
+        const validationResult = isAllStringValid(newTags, 30, TAG_REGEX);
 
-        if (uniqueNewTags.length && isAllTagsValid) {
+        if (uniqueNewTags.length && validationResult.isValid) {
           dispatch(setTags(newTags));
         } else {
-          if (!isAllTagsValid) {
-            showNotification("Tag can't be longer than 30 symbols", "error");
+          if (!validationResult.isValid) {
+            showNotification(
+              validationResult?.reason || "Some error occurred",
+              "error"
+            );
           } else {
             const atLeastOneTagIsMissing = atLeastOneItemIsMissing(
               newTags,
