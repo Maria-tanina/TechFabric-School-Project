@@ -3,7 +3,6 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import {
   useDeleteArticleMutation,
   useGetArticleInfoQuery,
-  useGetMyArticlesQuery,
   useUpdateArticleMutation,
 } from "@services/articlesApi";
 import { useNotification } from "@hooks/useNotification";
@@ -17,13 +16,8 @@ import { IUpdateArticleProps } from "@customTypes/articleTypes";
 import { getErrorMessage, getErrorTitle } from "@helpers/errorHandlers";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { useAppDispatch, useAppSelector } from "../../store";
-import { selectUserIsAdmin } from "@services/authSelectors";
+import { selectUserId, selectUserIsAdmin } from "@services/authSelectors";
 import { setShowPreview } from "@features/article/articleSlice";
-import {
-  selectMyArticleOrderBy,
-  selectMyArticlePageNumber,
-  selectMyArticlePageSize,
-} from "@features/myArticle/myArticleSelectors";
 import { Spinner } from "@components/Spinner/style";
 
 export const UpdateArticlePage = () => {
@@ -31,29 +25,15 @@ export const UpdateArticlePage = () => {
   const navigate = useNavigate();
   const { showNotification } = useNotification();
   const isAdmin = useAppSelector(selectUserIsAdmin);
+  const userId = useAppSelector(selectUserId);
   const [updateArticle, { isError, isSuccess }] = useUpdateArticleMutation();
   const [deleteArticle] = useDeleteArticleMutation();
-  const pageNumber = useAppSelector(selectMyArticlePageNumber);
-
-  const pageSize = useAppSelector(selectMyArticlePageSize);
-
-  const orderBy = useAppSelector(selectMyArticleOrderBy);
 
   const { data, isLoading } = useGetArticleInfoQuery({
     articleId: articleId || "",
   });
 
-  const { data: articlesData } = useGetMyArticlesQuery({
-    pageNumber,
-    pageSize,
-    orderBy,
-  });
-
-  const myArticles = articlesData?.articles || [];
-
-  const isAuthorOfCurrentArticle = myArticles?.some(
-    (article) => article.id === articleId
-  );
+  const isAuthorOfCurrentArticle = data?.author.id === userId;
 
   const dispatch = useAppDispatch();
 
