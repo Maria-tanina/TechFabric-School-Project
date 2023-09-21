@@ -1,11 +1,8 @@
-import {
-  InputAdornment,
-  TextField,
-} from "@mui/material";
+import { InputAdornment, TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { SearchInputStyle } from "@components/SearchInput/style";
-import {useLocation, useNavigate} from "react-router-dom";
-import {ChangeEvent, useEffect, useState} from "react";
+import { useNavigate } from "react-router-dom";
+import { ChangeEvent, useState } from "react";
 import { SEARCH_PATH } from "@constants/paths";
 import { useAppSelector } from "../../store";
 import { selectTags } from "@features/tags/tagsSelectors";
@@ -15,16 +12,8 @@ export const SearchInput = () => {
   const tags = useAppSelector(selectTags);
   const [options, setOptions] = useState<string[]>([]);
   const [isInputEmpty, setInputEmpty] = useState(true);
-  const location = useLocation();
 
-    useEffect(() => {
-        setInputEmpty(true);
-    }, [location.pathname]);
-
-  const handleInputChange = (
-    event: ChangeEvent<{}>,
-    value: string,
-  ) => {
+  const handleInputChange = (event: ChangeEvent<{}>, value: string) => {
     const inputValue = value;
     if (inputValue.startsWith("#")) {
       const matchingTags = tags.filter((tagObject) =>
@@ -38,7 +27,7 @@ export const SearchInput = () => {
     } else {
       setOptions([]);
     }
-      setInputEmpty(inputValue === "");
+    setInputEmpty(inputValue === "");
   };
 
   const handleOptionSelect = (value: string) => {
@@ -46,8 +35,7 @@ export const SearchInput = () => {
   };
   return (
     <SearchInputStyle
-      freeSolo
-      disableClearable
+      selectOnFocus
       options={options}
       onInputChange={handleInputChange}
       onChange={(event, value) => {
@@ -64,7 +52,7 @@ export const SearchInput = () => {
             type: "search",
             endAdornment: (
               <InputAdornment position="end">
-                  {isInputEmpty ? <SearchIcon /> : null}
+                {isInputEmpty ? <SearchIcon /> : null}
               </InputAdornment>
             ),
           }}
