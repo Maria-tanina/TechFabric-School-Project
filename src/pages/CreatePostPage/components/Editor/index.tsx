@@ -63,10 +63,11 @@ import { IArticle, IUpdateArticleProps } from "@customTypes/articleTypes";
 import theme from "@styles/theme";
 import { isAllStringValid } from "@helpers/isTagValid";
 import { TAG_REGEX } from "@constants/regexp";
-import { isContentValid, removeImgTags } from "@helpers/removeImgTags";
+import { removeImgTags } from "@helpers/removeImgTags";
 import { contentMaxLength, contentMinLength } from "@constants/validation";
 import { LoaderWrapper } from "@pages/UpdateArticlePage/style";
 import { Spinner } from "@components/Spinner/style";
+import { isContentValid } from "@helpers/isContentValid";
 
 const Editor = ({
   articleData,
