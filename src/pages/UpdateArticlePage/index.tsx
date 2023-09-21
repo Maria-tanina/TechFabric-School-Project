@@ -33,7 +33,8 @@ export const UpdateArticlePage = () => {
     articleId: articleId || "",
   });
 
-  const isAuthorOfCurrentArticle = data?.author.id === userId;
+  const isAuthorOfCurrentArticle =
+    !!userId && !!data && userId === data.author.id;
 
   const dispatch = useAppDispatch();
 
@@ -66,7 +67,7 @@ export const UpdateArticlePage = () => {
     }
   };
 
-  if (!isAuthorOfCurrentArticle && !isAdmin) {
+  if (data && !isAuthorOfCurrentArticle && !isAdmin) {
     return <Navigate to={HOME_PATH} />;
   }
 
