@@ -12,11 +12,12 @@ import { defineDateOfLatestPublication } from "@helpers/defineDateOfLatestPublic
 import { FC } from "react";
 import { IArticle } from "@customTypes/articleTypes";
 
-export const ArticlesInfo: FC<{ showLikes: boolean; articles: IArticle[] }> = ({
-  showLikes,
-  articles,
-}) => {
-  const numberOfArticles = `Number of articles: ${articles.length}`;
+export const ArticlesInfo: FC<{
+  showLikes: boolean;
+  articles: IArticle[];
+  articlesTotalCount: number;
+}> = ({ showLikes, articles, articlesTotalCount }) => {
+  const numberOfArticles = `Number of articles: ${articlesTotalCount}`;
 
   const latestDate = defineDateOfLatestPublication(articles);
 
