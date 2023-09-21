@@ -14,7 +14,7 @@ import {
   UpdatePostWrapper,
 } from "@pages/UpdateArticlePage/style";
 import { IUpdateArticleProps } from "@customTypes/articleTypes";
-import { getErrorMessage } from "@helpers/errorHandlers";
+import { getErrorMessage, getErrorTitle } from "@helpers/errorHandlers";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { selectUserIsAdmin } from "@services/authSelectors";
@@ -69,12 +69,7 @@ export const UpdateArticlePage = () => {
         isSuccess && showNotification("Article was updated", "success");
       })
       .catch((error) => {
-        isError &&
-          showNotification(
-            getErrorMessage((error as FetchBaseQueryError).data) ||
-              "Some error occurred...",
-            "error"
-          );
+        isError && showNotification(getErrorTitle(error), "error");
       });
   };
   const handleDeleteArticle = () => {

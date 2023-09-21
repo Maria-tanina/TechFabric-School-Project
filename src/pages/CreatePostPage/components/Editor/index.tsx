@@ -252,11 +252,11 @@ const Editor = ({
       content,
       image,
     };
-    if (!!articleData && onSubmitUpdate) {
-      onSubmitUpdate(article);
-      return;
-    }
     if (image) {
+      if (!!articleData && onSubmitUpdate) {
+        onSubmitUpdate(article);
+        return;
+      }
       try {
         await createDraftArticle(article).unwrap();
         dispatch(clearAllFields());
