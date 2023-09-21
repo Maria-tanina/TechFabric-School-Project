@@ -61,9 +61,7 @@ import {
 } from "./style";
 import { IArticle, IUpdateArticleProps } from "@customTypes/articleTypes";
 import theme from "@styles/theme";
-import {
-  isAllStringValid,
-} from "@helpers/isStringValid";
+import { isAllStringValid } from "@helpers/isStringValid";
 import { TAG_REGEX } from "@constants/regexp";
 
 const Editor = ({

@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import { CardActionArea, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import CardMedia from "@mui/material/CardMedia";
 import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
 import { getDate } from "@helpers/getDate";
@@ -16,6 +16,7 @@ import {
   StyledLinksWrapper,
   StyledTitle,
   StyledCardDataBox,
+  StyledCardActionArea,
 } from "./style";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { UPDATE_ARTICLE_PATH } from "@constants/paths";
@@ -40,7 +41,7 @@ export const SmallArticleCard: FC<SmallArticleCardProps> = ({
   return (
     <Grid item key={title} sm={6} md={6} lg={6} xl={4}>
       <StyledCard>
-        <CardActionArea>
+        <StyledCardActionArea>
           <Link to={link}>
             <CardMedia
               component="img"
@@ -83,7 +84,7 @@ export const SmallArticleCard: FC<SmallArticleCardProps> = ({
               )}
             </StyledLinksWrapper>
           </StyledCardContent>
-        </CardActionArea>
+        </StyledCardActionArea>
       </StyledCard>
     </Grid>
   );
