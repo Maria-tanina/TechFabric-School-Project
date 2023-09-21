@@ -38,9 +38,7 @@ export const ArticlePreview: FC<IArticlePreviewProps> = ({ article }) => {
             <ArticleTag tag={tag} link="/" key={tag} />
           ))}
         </ArticleTags>
-        <ArticleSubject>
-          <span>Type: {type}</span>
-        </ArticleSubject>
+        <ArticleSubject>{type && <span>Type: {type}</span>}</ArticleSubject>
         <StyledContentWrapper dangerouslySetInnerHTML={sanitizedContent} />
       </ArticleBody>
     </ArticlePreviewWrap>

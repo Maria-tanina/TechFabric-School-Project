@@ -61,6 +61,8 @@ import {
 } from "./style";
 import { IArticle, IUpdateArticleProps } from "@customTypes/articleTypes";
 import theme from "@styles/theme";
+import { isAllStringValid } from "@helpers/isStringValid";
+import { TAG_REGEX } from "@constants/regexp";
 
 const Editor = ({
   articleData,
@@ -179,20 +181,32 @@ const Editor = ({
       if (newValue.length <= 5) {
         const newTags = newValue.map((tag) => {
           tag = tag[0] === "#" ? tag : `#${tag}`;
-          return tag;
+          return tag.replace(/ /g, "");
         });
 
         const uniqueNewTags = selectUniqueItems(newTags, tags);
 
-        if (uniqueNewTags.length) {
+        const validationResult = isAllStringValid(newTags, 30, TAG_REGEX);
+
+        if (uniqueNewTags.length && validationResult.isValid) {
           dispatch(setTags(newTags));
         } else {
-          const atLeastOneTagIsMissing = atLeastOneItemIsMissing(newTags, tags);
-
-          if (atLeastOneTagIsMissing) {
-            dispatch(setTags(newTags));
+          if (!validationResult.isValid) {
+            showNotification(
+              validationResult?.reason || "Some error occurred",
+              "error"
+            );
           } else {
-            showNotification("This tag already exists", "error");
+            const atLeastOneTagIsMissing = atLeastOneItemIsMissing(
+              newTags,
+              tags
+            );
+
+            if (atLeastOneTagIsMissing) {
+              dispatch(setTags(newTags));
+            } else {
+              showNotification("This tag already exists", "error");
+            }
           }
         }
       } else {
