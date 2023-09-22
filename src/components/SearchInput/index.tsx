@@ -14,26 +14,18 @@ export const SearchInput = () => {
   const tags = useAppSelector(selectTags);
   const location = useLocation();
   const dispatch = useAppDispatch();
-  const storeValue = useAppSelector(selectValue);
+  const inputValue = useAppSelector(selectValue);
   const [options, setOptions] = useState<string[]>([]);
   const [isInputEmpty, setInputEmpty] = useState(true);
-  const [inputValue, setInputValue] = useState(storeValue || "");
-  useEffect(() => {
-    if (storeValue) {
-      setInputValue(storeValue);
-    }
-  }, [storeValue]);
 
   useEffect(() => {
     if (!location.pathname.includes(SEARCH_PATH)) {
       dispatch(setValue(""));
-      setInputValue("");
     }
   }, [location]);
 
   const handleInputChange = (event: ChangeEvent<{}>, value: string) => {
     const inputValue = value;
-    setInputValue(value);
     dispatch(setValue(value));
     if (inputValue.startsWith("#") && tags) {
       const matchingTags = tags?.filter((tagObject) =>
@@ -60,7 +52,7 @@ export const SearchInput = () => {
       disablePortal
       clearOnBlur
       options={options}
-      value={storeValue}
+      value={inputValue}
       onKeyDown={(e) => {
         if (e.key === 'Enter' && inputValue) handleOptionSelect(inputValue);
       }}

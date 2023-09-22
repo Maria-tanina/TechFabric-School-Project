@@ -38,6 +38,7 @@ export const SearchingResultsPage = () => {
     const articlesTotalCount = articlesTags?.totalCount || 0;
     const pagesTotalCount = Math.ceil(articlesTotalCount / pageSize);
     const dispatch = useAppDispatch();
+
     const handlePageChange = (event: ChangeEvent<unknown>, value: number) => {
         dispatch(setSearchPageNumber(value));
         window.scrollTo(0, 0);
