@@ -25,7 +25,7 @@ import TabsMenu from "@components/TabsMenu";
 import { PaginationSelect } from "@components/PaginationSelect";
 import { countTotalNumberOfPages } from "@helpers/countTotalNumberOfPages";
 import { TableFetchError } from "@components/TableNotification";
-import { allTypesOfSport } from "@constants/filtrationStrinds";
+import { allTypesOfSport } from "@constants/filtrationStrings";
 
 const HomePage = () => {
   const pageNumber = useAppSelector(selectPageNumber);

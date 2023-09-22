@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IArticleSliceInitialState } from "./types";
 import { IArticle } from "@customTypes/articleTypes";
 import { SportTypes, TOrderByTypes } from "@services/types/articlesApiTypes";
+import { allTypesOfSport } from "@constants/filtrationStrings";
 
 const initialState: IArticleSliceInitialState = {
   image: "",
@@ -14,7 +15,7 @@ const initialState: IArticleSliceInitialState = {
   pageNumber: 1,
   pageSize: 10,
   orderBy: "byCreatedDateDesc",
-  filterSportType: "All",
+  filterSportType: allTypesOfSport,
 };
 
 const articleSlice = createSlice({
