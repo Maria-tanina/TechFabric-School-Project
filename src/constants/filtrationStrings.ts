@@ -1,0 +1,1 @@
+export const allTypesOfSport = "All";
