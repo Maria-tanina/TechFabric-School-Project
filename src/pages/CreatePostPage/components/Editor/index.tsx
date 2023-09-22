@@ -50,7 +50,6 @@ import {
 import { selectSportNames } from "@services/articlesSelectors";
 import { getErrorMessage, getErrorTitle } from "@helpers/errorHandlers";
 import { ICreatePostFormValues } from "./types";
-import { tagsOptions } from "./tags";
 import createPostValidationSchema from "./createPostValidationSchema";
 import {
   ButtonsWrapper,
@@ -68,6 +67,7 @@ import { contentMaxLength, contentMinLength } from "@constants/validation";
 import { LoaderWrapper } from "@pages/UpdateArticlePage/style";
 import { Spinner } from "@components/Spinner/style";
 import { isContentValid } from "@helpers/isContentValid";
+import { selectTags } from "@features/tags/tagsSelectors";
 
 const Editor = ({
   articleData,
@@ -96,6 +96,8 @@ const Editor = ({
   const description = useAppSelector(selectArticleDescription);
 
   const tags = useAppSelector(selectArticleTags);
+
+  const tagsOptions = useAppSelector(selectTags);
 
   const types = useAppSelector(selectSportNames);
 
@@ -187,7 +189,7 @@ const Editor = ({
       if (newValue.length <= 5) {
         const newTags = newValue.map((tag) => {
           tag = tag[0] === "#" ? tag : `#${tag}`;
-          return tag.replace(/ /g, "");
+          return tag.replace(/ /g, "").toLowerCase();
         });
 
         const uniqueNewTags = selectUniqueItems(newTags, tags);

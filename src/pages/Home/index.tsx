@@ -6,21 +6,26 @@ import NavigationMenu from "@components/NavigationMenu";
 import { LeftSidebar } from "@components/LeftSidebar";
 import { RightSidebar } from "@components/RightSidebar";
 import { MainContent } from "@components/MainContent";
-import { useGetArticlesQuery } from "@services/articlesApi";
+import {
+  useFilterArticlesByTypeQuery,
+  useGetArticlesQuery,
+} from "@services/articlesApi";
 import { LinearProgress } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../store";
 import {
+  selectFilterSportType,
   selectOrderBy,
   selectPageNumber,
   selectPageSize,
 } from "@features/article/articleSelectors";
 import { PaginationRounded } from "@components/PaginationRounded";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useMemo } from "react";
 import { setPageNumber, setPageSize } from "@features/article/articleSlice";
 import TabsMenu from "@components/TabsMenu";
 import { PaginationSelect } from "@components/PaginationSelect";
 import { countTotalNumberOfPages } from "@helpers/countTotalNumberOfPages";
 import { TableFetchError } from "@components/TableNotification";
+import { allTypesOfSport } from "@constants/filtrationStrings";
 
 const HomePage = () => {
   const pageNumber = useAppSelector(selectPageNumber);
@@ -29,21 +34,60 @@ const HomePage = () => {
 
   const orderBy = useAppSelector(selectOrderBy);
 
+  const sportType = useAppSelector(selectFilterSportType);
+
+  const dispatch = useAppDispatch();
+
   const {
     data: articles,
     isFetching,
     isError,
-  } = useGetArticlesQuery({
-    pageNumber,
-    pageSize,
-    orderBy,
-  });
+  } = useGetArticlesQuery(
+    {
+      pageNumber,
+      pageSize,
+      orderBy,
+    },
+    {
+      skip: sportType !== allTypesOfSport,
+    }
+  );
 
-  const articlesTotalCount = articles?.totalCount || 0;
+  const {
+    data: filteredArticles,
+    isFetching: isFilteredArticlesFetching,
+    isError: isFilteringError,
+  } = useFilterArticlesByTypeQuery(
+    {
+      sportType,
+      pageNumber,
+      pageSize,
+      orderBy,
+    },
+    {
+      skip: sportType === allTypesOfSport,
+    }
+  );
 
-  const pagesTotalCount = countTotalNumberOfPages(articlesTotalCount, pageSize);
+  const articlesToShow = useMemo(() => {
+    if (sportType !== allTypesOfSport) {
+      return filteredArticles?.articles;
+    } else {
+      return articles?.articles;
+    }
+  }, [sportType, articles, filteredArticles]);
 
-  const dispatch = useAppDispatch();
+  const pagesTotalCount = useMemo(() => {
+    if (sportType !== allTypesOfSport) {
+      const articlesTotalCount = filteredArticles?.totalCount || 0;
+
+      return countTotalNumberOfPages(articlesTotalCount, pageSize);
+    } else {
+      const articlesTotalCount = articles?.totalCount || 0;
+
+      return countTotalNumberOfPages(articlesTotalCount, pageSize);
+    }
+  }, [sportType, filteredArticles, articles, pageSize]);
 
   const handlePageChange = (event: ChangeEvent<unknown>, value: number) => {
     dispatch(setPageNumber(value));
@@ -57,6 +101,15 @@ const HomePage = () => {
     window.scrollTo(0, 0);
   };
 
+  const showPagination = useMemo(() => {
+    return (
+      !isFetching &&
+      !isError &&
+      !isFilteredArticlesFetching &&
+      !isFilteringError
+    );
+  }, [isError, isFetching, isFilteredArticlesFetching, isFilteringError]);
+
   return (
     <HomePageWrapper>
       <LeftSidebar>
@@ -65,14 +118,14 @@ const HomePage = () => {
 
       <MainContent>
         <TabsMenu />
-        {isFetching ? (
+        {isFetching || isFilteredArticlesFetching ? (
           <LinearProgress />
         ) : isError ? (
           <TableFetchError message="Articles not found!" />
         ) : (
-          <ArticleList articles={articles?.articles} />
+          <ArticleList articles={articlesToShow} />
         )}
-        {!isFetching && !isError && (
+        {showPagination && (
           <>
             <PaginationRounded
               count={pagesTotalCount}
