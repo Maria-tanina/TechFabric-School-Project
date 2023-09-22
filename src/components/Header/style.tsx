@@ -12,6 +12,10 @@ export const HeaderWrapper = styled.header(
   ${media.desktop} {
     padding: ${paddings.headerPadding};
   }
+  
+  .MuiPaper-root.MuiPaper-elevation:empty{
+    display: none;
+  }
 `
 );
 export const HeaderLeftSide = styled.div(

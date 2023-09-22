@@ -5,6 +5,7 @@ import {
   IArticleParams,
   IGetArticlesResponse,
   IPublishArticleRequest,
+  ISearchByTags,
   ISport,
 } from "./types/articlesApiTypes";
 
@@ -96,6 +97,19 @@ export const articlesApi = createApi({
       }),
       invalidatesTags: ["ARTICLES"],
     }),
+    getArticlesByTags: build.query<IGetArticlesResponse, ISearchByTags>({
+      query: ({ pageNumber, pageSize, orderBy, substring }) => ({
+        url: "/articles/search-by-tag",
+        params: {
+          substring,
+          pageNumber,
+          pageSize,
+          orderBy,
+        },
+        method: "GET",
+      }),
+      providesTags: ["ARTICLES"],
+    }),
   }),
 });
 
@@ -109,4 +123,5 @@ export const {
   useDeleteArticleMutation,
   useGetArticlesForReviewQuery,
   usePublishArticleMutation,
+  useGetArticlesByTagsQuery,
 } = articlesApi;

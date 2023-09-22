@@ -6,6 +6,7 @@ export const StyledTag = styled.div(
   font-weight: 600;
   line-height: 30px;
   text-decoration-line: underline;
+  word-break: break-word;
   ${media.desktop}{
     font-size: ${fontSizes.sidebarTag};
   }
