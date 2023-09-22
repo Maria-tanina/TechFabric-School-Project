@@ -126,6 +126,19 @@ export const articlesApi = createApi({
       }),
       providesTags: ["ARTICLES"],
     }),
+    getArticlesByTitle: build.query<IGetArticlesResponse, ISearchByTags>({
+      query: ({ pageNumber, pageSize, orderBy, substring }) => ({
+        url: "/articles/search-by-title",
+        params: {
+          substring,
+          pageNumber,
+          pageSize,
+          orderBy,
+        },
+        method: "GET",
+      }),
+      providesTags: ["ARTICLES"],
+    }),
   }),
 });
 
