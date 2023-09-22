@@ -19,9 +19,10 @@ const SearchMenu = ({ activeSearchType, searchQuery }: IActiveSearchType) => {
   const [activeItem, setActiveItem] = useState(activeSearchType);
   const navigate = useNavigate();
   const handleMenuItemClick = (menuItemValue: string) => {
-    setActiveItem(menuItemValue);
+    const lowerMenuItemValue = menuItemValue.toLowerCase();
+    setActiveItem(lowerMenuItemValue);
     navigate(
-      `${SEARCH_PATH}/${menuItemValue}/${encodeURIComponent(searchQuery)}`
+      `${SEARCH_PATH}/${lowerMenuItemValue}/${encodeURIComponent(searchQuery)}`
     );
   };
   return (

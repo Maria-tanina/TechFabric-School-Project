@@ -27,16 +27,13 @@ export const SearchingResultsPage = () => {
   const pageNumber = useAppSelector(selectSearchPageNumber);
   const pageSize = useAppSelector(selectSearchPageSize);
   const orderBy = useAppSelector(selectSearchOrderBy);
-  const {
-    data: articlesTags,
-    isFetching: tagsIsFetching,
-    isLoading: isTagsLoading,
-  } = useGetArticlesByTagsQuery({
-    substring: searchQuery,
-    pageNumber,
-    pageSize,
-    orderBy,
-  });
+  const { data: articlesTags, isFetching: tagsIsFetching } =
+    useGetArticlesByTagsQuery({
+      substring: searchQuery,
+      pageNumber,
+      pageSize,
+      orderBy,
+    });
   const articlesTotalCount = articlesTags?.totalCount || 0;
   const pagesTotalCount = Math.ceil(articlesTotalCount / pageSize);
   const dispatch = useAppDispatch();
@@ -51,7 +48,7 @@ export const SearchingResultsPage = () => {
         <SearchMenu activeSearchType={searchAbout} searchQuery={searchQuery} />
       </LeftSidebar>
       <MainContent>
-        {isTagsLoading ? (
+        {tagsIsFetching ? (
           <FullHeightSpinner size={110} />
         ) : (
           <>

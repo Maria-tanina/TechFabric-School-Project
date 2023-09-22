@@ -8,3 +8,5 @@ export const selectSearchPageSize = (state: RootState) =>
 
 export const selectSearchOrderBy = (state: RootState) =>
   state.searchArticle.orderBy;
+
+export const selectValue = (state: RootState) => state.searchArticle.value;

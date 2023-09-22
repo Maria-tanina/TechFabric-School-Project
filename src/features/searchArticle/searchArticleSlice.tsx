@@ -5,11 +5,14 @@ interface ISearchArticleSliceState {
   pageNumber: number;
   pageSize: number;
   orderBy: "byCreatedDateDesc" | "byCreatedDateAsc" | "topRated";
+  value: string;
 }
+
 const initialState: ISearchArticleSliceState = {
   pageNumber: 1,
   pageSize: 5,
   orderBy: "byCreatedDateDesc",
+  value: "",
 };
 
 const searchArticleSlice = createSlice({
@@ -25,9 +28,12 @@ const searchArticleSlice = createSlice({
     setSearchOrderBy: (state, action: PayloadAction<TOrderByTypes>) => {
       state.orderBy = action.payload;
     },
+    setValue: (state, action: PayloadAction<string>) => {
+      state.value = action.payload;
+    },
   },
 });
 
-export const { setSearchPageNumber } = searchArticleSlice.actions;
+export const { setSearchPageNumber, setValue } = searchArticleSlice.actions;
 
 export default searchArticleSlice.reducer;

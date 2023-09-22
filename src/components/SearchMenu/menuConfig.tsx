@@ -12,7 +12,4 @@ export const searchMenu: ISearchMenuItem[] = [
   {
     value: "Tags",
   },
-  {
-    value: "Comments",
-  },
 ];
