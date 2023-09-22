@@ -13,6 +13,7 @@ import {
 import { LinearProgress } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../store";
 import {
+  selectFilterSportType,
   selectOrderBy,
   selectPageNumber,
   selectPageSize,
@@ -24,16 +25,6 @@ import TabsMenu from "@components/TabsMenu";
 import { PaginationSelect } from "@components/PaginationSelect";
 import { countTotalNumberOfPages } from "@helpers/countTotalNumberOfPages";
 import { TableFetchError } from "@components/TableNotification";
-import {
-  selectFilteredPageNumber,
-  selectFilteredPageOrderBy,
-  selectFilteredPageSize,
-  selectSportType,
-} from "@features/sort/sortSelectors";
-import {
-  setFilteredArticlesPageNumber,
-  setFilteredArticlesPageSize,
-} from "@features/sort/sortSlice";
 import { allTypesOfSport } from "@constants/filtrationStrinds";
 
 const HomePage = () => {
@@ -43,13 +34,7 @@ const HomePage = () => {
 
   const orderBy = useAppSelector(selectOrderBy);
 
-  const sportType = useAppSelector(selectSportType);
-
-  const filteredPageNumber = useAppSelector(selectFilteredPageNumber);
-
-  const filteredPageSize = useAppSelector(selectFilteredPageSize);
-
-  const filteredPageOrderBy = useAppSelector(selectFilteredPageOrderBy);
+  const sportType = useAppSelector(selectFilterSportType);
 
   const dispatch = useAppDispatch();
 
@@ -92,67 +77,38 @@ const HomePage = () => {
     }
   }, [sportType, articles, filteredArticles]);
 
-  const pageSettings = useMemo(() => {
+  const pagesTotalCount = useMemo(() => {
     if (sportType !== allTypesOfSport) {
       const articlesTotalCount = filteredArticles?.totalCount || 0;
 
-      const pagesTotalCount = countTotalNumberOfPages(
-        articlesTotalCount,
-        filteredPageSize
-      );
-
-      return {
-        pageNumber: filteredPageNumber,
-        pageSize: filteredPageSize,
-        orderBy: filteredPageOrderBy,
-        pagesTotalCount,
-      };
+      return countTotalNumberOfPages(articlesTotalCount, pageSize);
     } else {
       const articlesTotalCount = articles?.totalCount || 0;
 
-      const pagesTotalCount = countTotalNumberOfPages(
-        articlesTotalCount,
-        pageSize
-      );
-
-      return {
-        pageNumber,
-        pageSize,
-        orderBy,
-        pagesTotalCount,
-      };
+      return countTotalNumberOfPages(articlesTotalCount, pageSize);
     }
-  }, [
-    sportType,
-    filteredArticles?.totalCount,
-    filteredPageSize,
-    filteredPageNumber,
-    filteredPageOrderBy,
-    articles?.totalCount,
-    pageSize,
-    pageNumber,
-    orderBy,
-  ]);
+  }, [sportType, filteredArticles, articles, pageSize]);
 
   const handlePageChange = (event: ChangeEvent<unknown>, value: number) => {
-    if (sportType !== allTypesOfSport) {
-      dispatch(setFilteredArticlesPageNumber(value));
-    } else {
-      dispatch(setPageNumber(value));
-    }
+    dispatch(setPageNumber(value));
     window.scrollTo(0, 0);
   };
 
   const handlePageSizeChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    if (sportType !== allTypesOfSport) {
-      dispatch(setFilteredArticlesPageSize(+event.target.value));
-    } else {
-      dispatch(setPageSize(+event.target.value));
-    }
+    dispatch(setPageSize(+event.target.value));
     window.scrollTo(0, 0);
   };
+
+  const showPagination = useMemo(() => {
+    return (
+      !isFetching &&
+      !isError &&
+      !isFilteredArticlesFetching &&
+      !isFilteringError
+    );
+  }, [isError, isFetching, isFilteredArticlesFetching, isFilteringError]);
 
   return (
     <HomePageWrapper>
@@ -169,23 +125,20 @@ const HomePage = () => {
         ) : (
           <ArticleList articles={articlesToShow} />
         )}
-        {!isFetching &&
-          !isError &&
-          !isFilteredArticlesFetching &&
-          !isFilteringError && (
-            <>
-              <PaginationRounded
-                count={pageSettings.pagesTotalCount}
-                page={pageSettings.pageNumber}
-                onChange={handlePageChange}
-              />
-              <PaginationSelect
-                value={pageSettings.pageSize}
-                onChange={handlePageSizeChange}
-                options={[5, 10, 25, 50]}
-              />
-            </>
-          )}
+        {showPagination && (
+          <>
+            <PaginationRounded
+              count={pagesTotalCount}
+              page={pageNumber}
+              onChange={handlePageChange}
+            />
+            <PaginationSelect
+              value={pageSize}
+              onChange={handlePageSizeChange}
+              options={[5, 10, 25, 50]}
+            />
+          </>
+        )}
       </MainContent>
 
       <RightSidebar>
