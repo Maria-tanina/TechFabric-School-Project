@@ -61,9 +61,12 @@ export const SearchInput = () => {
       clearOnBlur
       options={options}
       value={storeValue}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' && inputValue) handleOptionSelect(inputValue);
+      }}
       onInputChange={handleInputChange}
       onChange={(event, value) => {
-        if (typeof value === "string") {
+        if (typeof value === "string" && value) {
           handleOptionSelect(value);
         }
       }}
