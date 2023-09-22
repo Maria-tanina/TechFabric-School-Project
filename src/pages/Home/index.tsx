@@ -10,7 +10,6 @@ import {
   useFilterArticlesByTypeQuery,
   useGetArticlesQuery,
 } from "@services/articlesApi";
-import { LinearProgress } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../store";
 import {
   selectFilterSportType,
@@ -25,9 +24,8 @@ import TabsMenu from "@components/TabsMenu";
 import { PaginationSelect } from "@components/PaginationSelect";
 import { countTotalNumberOfPages } from "@helpers/countTotalNumberOfPages";
 import { TableFetchError } from "@components/TableNotification";
+import {SkeletonCard} from "@components/SkeletonCard";
 import { allTypesOfSport } from "@constants/filtrationStrings";
-import { LoaderWrapper } from "@pages/ArticlePage/style";
-import { Spinner } from "@components/Spinner/style";
 
 const HomePage = () => {
   const pageNumber = useAppSelector(selectPageNumber);
@@ -127,10 +125,9 @@ const HomePage = () => {
 
       <MainContent>
         <TabsMenu />
-
         {isFetching || isFilteredArticlesFetching ? (
-          <LinearProgress />
-        ) : !articlesToShow?.length ? (
+            <SkeletonCard/>
+        ) : !articlesToShow?.length? (
           <TableFetchError message="Articles not found!" />
         ) : (
           <ArticleList articles={articlesToShow} />
