@@ -57,19 +57,20 @@ export const FavoritesArticlePage = () => {
       </LeftSidebar>
       <MainContent>
         <MainHeader>Favorite Articles</MainHeader>
-        {!articlesTotalCount ? (
+        {isFetching ? (
+          <LinearProgress />
+        ) : !articlesTotalCount ? (
           <TableFetchError message="Articles not found!" />
         ) : (
+          <ArticleList articles={favoritesData?.articles} />
+        )}
+        {!isFetching && !!articlesTotalCount && (
           <>
-            {isFetching && <LinearProgress />}
-            <ArticleList articles={favoritesData?.articles} />
-            {!isFetching && (
-              <PaginationRounded
-                count={pagesTotalCount}
-                page={pageNumber}
-                onChange={handlePageChange}
-              />
-            )}
+            <PaginationRounded
+              count={pagesTotalCount}
+              page={pageNumber}
+              onChange={handlePageChange}
+            />
           </>
         )}
       </MainContent>

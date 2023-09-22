@@ -1,12 +1,23 @@
 import styled from "styled-components";
-import { TextField } from "@mui/material";
+import Autocomplete from "@mui/material/Autocomplete";
 
-export const SearchInputStyle = styled(TextField)(
+export const SearchInputStyle = styled(Autocomplete)(
   ({ theme: { media } }) => `
-  &.MuiFormControl-root.MuiTextField-root{
-    width: 58%;
+   &.MuiAutocomplete-root{
+    width: 50%;
+    .MuiFormControl-root {
+        .MuiInputBase-root.MuiOutlinedInput-root,.MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon{
+            padding-right: 9px;
+        }
+    }
+   
+    .MuiInputBase-root .MuiAutocomplete-input{
+        padding: 0;
+    }
   }
-  
+  .MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon{
+    padding-right: 9px;
+  }
   .MuiInputBase-root {
     ${media.desktop} {
       width: 100%;

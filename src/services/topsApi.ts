@@ -3,7 +3,7 @@ import { customFetchBaseQuery } from "@services/customFetchBaseQuery";
 
 const serverUrl = process.env.REACT_APP_DEV_API_URL;
 
-interface ITagData {
+export interface ITagData {
   tagName: string;
 }
 
