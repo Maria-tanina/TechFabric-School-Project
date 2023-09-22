@@ -32,3 +32,16 @@ export interface IArticleParams {
   pageSize: number;
   orderBy: TOrderByTypes;
 }
+export enum SportTypes {
+  Basketball,
+  Football,
+  Tennis,
+  Baseball,
+  Soccer,
+  Golf,
+  Other,
+}
+
+export interface IFilterArticlesByTypeParams extends IArticleParams {
+  sportType: keyof typeof SportTypes;
+}

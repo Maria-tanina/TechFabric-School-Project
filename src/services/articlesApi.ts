@@ -3,6 +3,7 @@ import { IArticle, IUpdateArticleProps } from "@customTypes/articleTypes";
 import { customFetchBaseQuery } from "@services/customFetchBaseQuery";
 import {
   IArticleParams,
+  IFilterArticlesByTypeParams,
   IGetArticlesResponse,
   IPublishArticleRequest,
   ISport,
@@ -26,6 +27,20 @@ export const articlesApi = createApi({
         method: "GET",
       }),
       providesTags: ["ARTICLES"],
+    }),
+    filterArticlesByType: build.query<
+      IGetArticlesResponse,
+      IFilterArticlesByTypeParams
+    >({
+      query: ({ pageNumber, pageSize, orderBy }) => ({
+        url: "/articles/filter-by-sport",
+        params: {
+          pageNumber,
+          pageSize,
+          orderBy,
+        },
+        method: "GET",
+      }),
     }),
     getMyArticles: build.query<IGetArticlesResponse, IArticleParams>({
       query: ({ pageNumber, pageSize, orderBy }) => ({
