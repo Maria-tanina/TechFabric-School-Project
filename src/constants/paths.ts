@@ -42,3 +42,5 @@ export const UPDATE_ARTICLE_PATH = "/update-article";
 export const MY_ARTICLES_PATH = "/my-articles";
 
 export const ARTICLES_FOR_REVIEW_PATH = "/articles-for-review";
+
+export const SEARCH_PATH = "/search";

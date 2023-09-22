@@ -46,3 +46,6 @@ export enum SportTypes {
 export interface IFilterArticlesByTypeParams extends IArticleParams {
   sportType: keyof typeof SportTypes;
 }
+export interface ISearchByTags extends IArticleParams {
+  substring: string;
+}
