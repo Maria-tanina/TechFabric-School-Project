@@ -5,7 +5,6 @@ import ArticleList from "@components/ArticleList";
 import { MainHeader } from "@components/MainHeader";
 import { useGetFavoritesArticlesQuery } from "@services/favoritesApi";
 import { useAppDispatch, useAppSelector } from "../../store";
-import { LinearProgress } from "@mui/material";
 import {
   selectFavoriteOrderBy,
   selectFavoritePageNumber,
@@ -18,6 +17,7 @@ import { useNotification } from "@hooks/useNotification";
 import { HOME_PATH } from "@constants/paths";
 import { useNavigate } from "react-router-dom";
 import { TableFetchError } from "@components/TableNotification";
+import {SkeletonCard} from "@components/SkeletonCard";
 
 export const FavoritesArticlePage = () => {
   const pageNumber = useAppSelector(selectFavoritePageNumber);
@@ -58,7 +58,7 @@ export const FavoritesArticlePage = () => {
       <MainContent>
         <MainHeader>Favorite Articles</MainHeader>
         {isFetching ? (
-          <LinearProgress />
+            <SkeletonCard/>
         ) : !articlesTotalCount ? (
           <TableFetchError message="Articles not found!" />
         ) : (

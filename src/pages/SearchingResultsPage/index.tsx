@@ -16,9 +16,8 @@ import {
   selectSearchPageNumber,
   selectSearchPageSize,
 } from "@features/searchArticle/searchArticleSelectors";
-import { TableFetchError } from "@components/TableNotification";
-import { Spinner } from "@components/Spinner/style";
-import { LoaderWrapper } from "@pages/ArticlePage/style";
+import {TableFetchError} from "@components/TableNotification";
+import {SkeletonCard} from "@components/SkeletonCard";
 
 export const SearchingResultsPage = () => {
   const { searchQuery = "" } = useParams<{
@@ -51,15 +50,13 @@ export const SearchingResultsPage = () => {
       </LeftSidebar>
       <MainContent>
         <MainHeader>Search Results: {searchQuery}</MainHeader>
-        {tagsIsFetching ? (
-          <LoaderWrapper style={{ height: "calc(100vh - 264px)" }}>
-            <Spinner size={110} />
-          </LoaderWrapper>
+          <TabsMenu />
+          {tagsIsFetching ? (
+              <SkeletonCard/>
         ) : !articlesTotalCount ? (
           <TableFetchError message="Articles not found!" />
         ) : (
           <>
-            <TabsMenu />
             <ArticleList articles={articlesTags?.articles} />
           </>
         )}
