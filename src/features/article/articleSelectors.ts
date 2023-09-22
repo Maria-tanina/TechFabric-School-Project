@@ -21,3 +21,6 @@ export const selectPageNumber = (state: RootState) => state.article.pageNumber;
 export const selectPageSize = (state: RootState) => state.article.pageSize;
 
 export const selectOrderBy = (state: RootState) => state.article.orderBy;
+
+export const selectFilterSportType = (state: RootState) =>
+  state.article.filterSportType;

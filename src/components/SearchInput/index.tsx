@@ -54,7 +54,7 @@ export const SearchInput = () => {
       options={options}
       value={inputValue}
       onKeyDown={(e) => {
-        if (e.key === 'Enter' && inputValue) handleOptionSelect(inputValue);
+        if (e.key === "Enter" && inputValue) handleOptionSelect(inputValue);
       }}
       onInputChange={handleInputChange}
       onChange={(event, value) => {

@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IArticleSliceInitialState } from "./types";
 import { IArticle } from "@customTypes/articleTypes";
-import { TOrderByTypes } from "@services/types/articlesApiTypes";
+import { SportTypes, TOrderByTypes } from "@services/types/articlesApiTypes";
+import { allTypesOfSport } from "@constants/filtrationStrings";
 
 const initialState: IArticleSliceInitialState = {
   image: "",
@@ -14,6 +15,7 @@ const initialState: IArticleSliceInitialState = {
   pageNumber: 1,
   pageSize: 10,
   orderBy: "byCreatedDateDesc",
+  filterSportType: allTypesOfSport,
 };
 
 const articleSlice = createSlice({
@@ -76,6 +78,13 @@ const articleSlice = createSlice({
       state.orderBy = action.payload;
       state.pageNumber = 1;
     },
+    setFilterSportType: (
+      state,
+      action: PayloadAction<keyof typeof SportTypes>
+    ) => {
+      state.filterSportType = action.payload;
+      state.pageNumber = 1;
+    },
   },
 });
 
@@ -94,6 +103,7 @@ export const {
   setPageNumber,
   setPageSize,
   setOrderBy,
+  setFilterSportType,
 } = articleSlice.actions;
 
 export default articleSlice.reducer;
