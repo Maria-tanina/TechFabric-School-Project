@@ -26,6 +26,8 @@ import { PaginationSelect } from "@components/PaginationSelect";
 import { countTotalNumberOfPages } from "@helpers/countTotalNumberOfPages";
 import { TableFetchError } from "@components/TableNotification";
 import { allTypesOfSport } from "@constants/filtrationStrings";
+import { LoaderWrapper } from "@pages/ArticlePage/style";
+import { Spinner } from "@components/Spinner/style";
 
 const HomePage = () => {
   const pageNumber = useAppSelector(selectPageNumber);
@@ -106,9 +108,16 @@ const HomePage = () => {
       !isFetching &&
       !isError &&
       !isFilteredArticlesFetching &&
-      !isFilteringError
+      !isFilteringError &&
+      articlesToShow?.length !== 0
     );
-  }, [isError, isFetching, isFilteredArticlesFetching, isFilteringError]);
+  }, [
+    articlesToShow?.length,
+    isError,
+    isFetching,
+    isFilteredArticlesFetching,
+    isFilteringError,
+  ]);
 
   return (
     <HomePageWrapper>
@@ -118,13 +127,15 @@ const HomePage = () => {
 
       <MainContent>
         <TabsMenu />
+
         {isFetching || isFilteredArticlesFetching ? (
           <LinearProgress />
-        ) : isError ? (
+        ) : !articlesToShow?.length ? (
           <TableFetchError message="Articles not found!" />
         ) : (
           <ArticleList articles={articlesToShow} />
         )}
+
         {showPagination && (
           <>
             <PaginationRounded
