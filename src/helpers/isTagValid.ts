@@ -13,7 +13,11 @@ export const isStringLessThenMaxLength = (
 };
 
 export const isStringMatchesRegex = (tags: string[], regExp: RegExp) => {
-  const invalidTag = tags.find((tag) => !regExp.test(tag));
+  const invalidTag = tags.find((tag) => {
+    const tagWithoutHash = tag.replace(/^#/, "");
+    return tagWithoutHash === "" || !regExp.test(tagWithoutHash);
+  });
+
   if (invalidTag) {
     return {
       isValid: false,
