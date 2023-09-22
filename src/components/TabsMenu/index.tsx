@@ -3,24 +3,25 @@ import GhostSelect from "@components/GhostSelect";
 import { filterTabs } from "./filterMenuConfig";
 import { FilterTabsWrapper, StyledTab, TabsMenuWrapper } from "./style";
 import { selectSportNames } from "@services/articlesSelectors";
-import { selectSortType } from "@features/sort/sortSelectors";
+import { selectSportType } from "@features/sort/sortSelectors";
 import { SelectChangeEvent } from "@mui/material";
 import { setType } from "@features/sort/sortSlice";
 import { setOrderBy } from "@features/article/articleSlice";
 import { selectOrderBy } from "@features/article/articleSelectors";
 import { useAppDispatch, useAppSelector } from "../../store";
+import { SportTypes } from "@services/types/articlesApiTypes";
 
 const TabsMenu = () => {
   const types = useAppSelector(selectSportNames);
 
   const orderBy = useAppSelector(selectOrderBy);
 
-  const type = useAppSelector(selectSortType);
+  const type = useAppSelector(selectSportType);
 
   const dispatch = useAppDispatch();
 
   const handleTypeChange = (e: SelectChangeEvent<unknown>) => {
-    dispatch(setType(e.target.value as string));
+    dispatch(setType(e.target.value as keyof typeof SportTypes));
   };
 
   return (

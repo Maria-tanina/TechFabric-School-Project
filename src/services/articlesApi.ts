@@ -32,9 +32,10 @@ export const articlesApi = createApi({
       IGetArticlesResponse,
       IFilterArticlesByTypeParams
     >({
-      query: ({ pageNumber, pageSize, orderBy }) => ({
+      query: ({ sportType, pageNumber, pageSize, orderBy }) => ({
         url: "/articles/filter-by-sport",
         params: {
+          sportType,
           pageNumber,
           pageSize,
           orderBy,
@@ -124,4 +125,5 @@ export const {
   useDeleteArticleMutation,
   useGetArticlesForReviewQuery,
   usePublishArticleMutation,
+  useFilterArticlesByTypeQuery,
 } = articlesApi;

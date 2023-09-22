@@ -40,6 +40,7 @@ export enum SportTypes {
   Soccer,
   Golf,
   Other,
+  "All",
 }
 
 export interface IFilterArticlesByTypeParams extends IArticleParams {
