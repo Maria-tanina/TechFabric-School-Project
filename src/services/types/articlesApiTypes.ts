@@ -51,3 +51,7 @@ export interface IFilterArticlesByTypeParams extends IArticleParams {
 export interface ISearchByString extends IArticleParams {
   substring: string;
 }
+
+export interface ISearchByAuthor extends IArticleParams {
+  authorName: string;
+}

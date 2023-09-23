@@ -1,11 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { TOrderByTypes } from "@services/types/articlesApiTypes";
 
+export type TSearchBy = "articles" | "users" | "tags";
+
 interface ISearchArticleSliceState {
   pageNumber: number;
   pageSize: number;
   orderBy: "byCreatedDateDesc" | "byCreatedDateAsc" | "topRated";
   value: string;
+  searchBy: TSearchBy;
 }
 
 const initialState: ISearchArticleSliceState = {
@@ -13,6 +16,7 @@ const initialState: ISearchArticleSliceState = {
   pageSize: 5,
   orderBy: "byCreatedDateDesc",
   value: "",
+  searchBy: "articles",
 };
 
 const searchArticleSlice = createSlice({
@@ -31,9 +35,13 @@ const searchArticleSlice = createSlice({
     setValue: (state, action: PayloadAction<string>) => {
       state.value = action.payload;
     },
+    setSearchBy: (state, action: PayloadAction<TSearchBy>) => {
+      state.searchBy = action.payload;
+    },
   },
 });
 
-export const { setSearchPageNumber, setValue } = searchArticleSlice.actions;
+export const { setSearchPageNumber, setValue, setSearchBy } =
+  searchArticleSlice.actions;
 
 export default searchArticleSlice.reducer;

@@ -6,25 +6,34 @@ import {
   NavWrapper,
 } from "@components/SearchMenu/style";
 import { searchMenu } from "@components/SearchMenu/menuConfig";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SEARCH_PATH } from "@constants/paths";
+import { useAppDispatch, useAppSelector } from "../../store";
+import {
+  setSearchBy,
+  TSearchBy,
+} from "@features/searchArticle/searchArticleSlice";
+import { selectSearchBy } from "@features/searchArticle/searchArticleSelectors";
 
 interface IActiveSearchType {
-  activeSearchType: string;
   searchQuery: string;
 }
 
-const SearchMenu = ({ activeSearchType, searchQuery }: IActiveSearchType) => {
-  const [activeItem, setActiveItem] = useState(activeSearchType);
+const SearchMenu = ({ searchQuery }: IActiveSearchType) => {
   const navigate = useNavigate();
+
+  const dispatch = useAppDispatch();
+
+  const searchBy = useAppSelector(selectSearchBy);
+
   const handleMenuItemClick = (menuItemValue: string) => {
     const lowerMenuItemValue = menuItemValue.toLowerCase();
-    setActiveItem(lowerMenuItemValue);
+    dispatch(setSearchBy(lowerMenuItemValue as TSearchBy));
     navigate(
       `${SEARCH_PATH}/${lowerMenuItemValue}/${encodeURIComponent(searchQuery)}`
     );
   };
+
   return (
     <NavWrapper>
       <MenuWrap>
@@ -33,9 +42,7 @@ const SearchMenu = ({ activeSearchType, searchQuery }: IActiveSearchType) => {
             <MenuItemStyle key={index}>
               <MenuButton
                 className={
-                  menuItem.value.toLowerCase() === activeItem.toLowerCase()
-                    ? "active"
-                    : ""
+                  menuItem.value.toLowerCase() === searchBy ? "active" : ""
                 }
                 onClick={() => handleMenuItemClick(menuItem.value)}
               >

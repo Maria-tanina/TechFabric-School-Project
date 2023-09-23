@@ -6,6 +6,7 @@ import {
   IFilterArticlesByTypeParams,
   IGetArticlesResponse,
   IPublishArticleRequest,
+  ISearchByAuthor,
   ISearchByString,
   ISport,
 } from "./types/articlesApiTypes";
@@ -139,11 +140,11 @@ export const articlesApi = createApi({
       }),
       providesTags: ["ARTICLES"],
     }),
-    getArticlesByAuthor: build.query<IGetArticlesResponse, ISearchByString>({
-      query: ({ pageNumber, pageSize, orderBy, substring }) => ({
+    getArticlesByAuthor: build.query<IGetArticlesResponse, ISearchByAuthor>({
+      query: ({ pageNumber, pageSize, orderBy, authorName }) => ({
         url: "/articles/search-by-author",
         params: {
-          substring,
+          authorName,
           pageNumber,
           pageSize,
           orderBy,

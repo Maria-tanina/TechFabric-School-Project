@@ -6,17 +6,28 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { SEARCH_PATH } from "@constants/paths";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { setValue } from "@features/searchArticle/searchArticleSlice";
-import { selectValue } from "@features/searchArticle/searchArticleSelectors";
+import {
+  selectSearchBy,
+  selectValue,
+} from "@features/searchArticle/searchArticleSelectors";
 import { selectTags } from "@features/tags/tagsSelectors";
 
 export const SearchInput = () => {
   const navigate = useNavigate();
+
   const tags = useAppSelector(selectTags);
+
   const location = useLocation();
+
   const dispatch = useAppDispatch();
+
   const inputValue = useAppSelector(selectValue);
+
   const [options, setOptions] = useState<string[]>([]);
+
   const [isInputEmpty, setInputEmpty] = useState(true);
+
+  const searchBy = useAppSelector(selectSearchBy);
 
   useEffect(() => {
     if (!location.pathname.includes(SEARCH_PATH)) {
@@ -43,8 +54,9 @@ export const SearchInput = () => {
   };
 
   const handleOptionSelect = (value: string) => {
-    navigate(`${SEARCH_PATH}/tags/${encodeURIComponent(value)}`);
+    navigate(`${SEARCH_PATH}/${searchBy}/${encodeURIComponent(value)}`);
   };
+
   return (
     <SearchInputStyle
       selectOnFocus
