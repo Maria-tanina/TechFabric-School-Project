@@ -1,4 +1,4 @@
-import { SportTypes } from "@services/types/articlesApiTypes";
+import { TSportOptions } from "@services/types/articlesApiTypes";
 
 export interface IArticleSliceInitialState {
   image: string;
@@ -11,5 +11,5 @@ export interface IArticleSliceInitialState {
   pageNumber: number;
   pageSize: number;
   orderBy: "byCreatedDateDesc" | "byCreatedDateAsc" | "topRated";
-  filterSportType: keyof typeof SportTypes;
+  filterSportType: TSportOptions;
 }

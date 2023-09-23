@@ -24,7 +24,7 @@ import TabsMenu from "@components/TabsMenu";
 import { PaginationSelect } from "@components/PaginationSelect";
 import { countTotalNumberOfPages } from "@helpers/countTotalNumberOfPages";
 import { TableFetchError } from "@components/TableNotification";
-import {SkeletonCard} from "@components/SkeletonCard";
+import { SkeletonCard } from "@components/SkeletonCard";
 import { allTypesOfSport } from "@constants/filtrationStrings";
 
 const HomePage = () => {
@@ -38,6 +38,10 @@ const HomePage = () => {
 
   const dispatch = useAppDispatch();
 
+  const filterIsSelected = useMemo(() => {
+    return sportType !== allTypesOfSport && sportType !== "";
+  }, [sportType]);
+
   const {
     data: articles,
     isFetching,
@@ -49,7 +53,7 @@ const HomePage = () => {
       orderBy,
     },
     {
-      skip: sportType !== allTypesOfSport,
+      skip: filterIsSelected,
     }
   );
 
@@ -65,20 +69,20 @@ const HomePage = () => {
       orderBy,
     },
     {
-      skip: sportType === allTypesOfSport,
+      skip: !filterIsSelected,
     }
   );
 
   const articlesToShow = useMemo(() => {
-    if (sportType !== allTypesOfSport) {
+    if (filterIsSelected) {
       return filteredArticles?.articles;
     } else {
       return articles?.articles;
     }
-  }, [sportType, articles, filteredArticles]);
+  }, [filterIsSelected, filteredArticles?.articles, articles?.articles]);
 
   const pagesTotalCount = useMemo(() => {
-    if (sportType !== allTypesOfSport) {
+    if (filterIsSelected) {
       const articlesTotalCount = filteredArticles?.totalCount || 0;
 
       return countTotalNumberOfPages(articlesTotalCount, pageSize);
@@ -126,8 +130,8 @@ const HomePage = () => {
       <MainContent>
         <TabsMenu />
         {isFetching || isFilteredArticlesFetching ? (
-            <SkeletonCard/>
-        ) : !articlesToShow?.length? (
+          <SkeletonCard />
+        ) : !articlesToShow?.length ? (
           <TableFetchError message="Articles not found!" />
         ) : (
           <ArticleList articles={articlesToShow} />

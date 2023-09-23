@@ -10,7 +10,7 @@ import {
   selectOrderBy,
 } from "@features/article/articleSelectors";
 import { useAppDispatch, useAppSelector } from "../../store";
-import { SportTypes } from "@services/types/articlesApiTypes";
+import { TSportOptions } from "@services/types/articlesApiTypes";
 
 const TabsMenu = () => {
   const types = useAppSelector(selectSportNames);
@@ -22,7 +22,7 @@ const TabsMenu = () => {
   const dispatch = useAppDispatch();
 
   const handleTypeChange = (e: SelectChangeEvent<unknown>) => {
-    dispatch(setFilterSportType(e.target.value as keyof typeof SportTypes));
+    dispatch(setFilterSportType(e.target.value as TSportOptions));
   };
 
   return (
