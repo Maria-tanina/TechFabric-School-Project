@@ -39,3 +39,10 @@ export const StyledErrorNotification = styled(StyledMessage)`
   margin: auto;
   padding: 50px 0;
 `;
+
+export const StyledStartNotification = styled(StyledMessage)`
+  position: relative;
+  margin: auto;
+  min-height: 415px;
+  padding: 100px 0;
+`;

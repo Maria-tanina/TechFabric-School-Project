@@ -1,7 +1,6 @@
 import { StyledSidebarCard } from "@components/SidebarCard";
 import { mockAuthors } from "../TopAuthors/mockAuthors";
 import { StyledSidebarHeader } from "@components/SidebarHeader";
-import { nanoid } from "@reduxjs/toolkit";
 import { AuthorLabel } from "@components/AuthorLabel";
 
 export const TopAuthors = () => {
@@ -10,10 +9,9 @@ export const TopAuthors = () => {
       <StyledSidebarHeader>
         Top <span>Authors</span>
       </StyledSidebarHeader>
-      {mockAuthors.map((author) => (
+      {mockAuthors.map((author, i) => (
         <AuthorLabel
-          key={nanoid()}
-          link="/"
+          key={i}
           firstName={author.firstname}
           lastName={author.lastname}
         />

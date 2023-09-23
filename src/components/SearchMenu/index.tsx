@@ -15,11 +15,7 @@ import {
 } from "@features/searchArticle/searchArticleSlice";
 import { selectSearchBy } from "@features/searchArticle/searchArticleSelectors";
 
-interface IActiveSearchType {
-  searchQuery: string;
-}
-
-const SearchMenu = ({ searchQuery }: IActiveSearchType) => {
+const SearchMenu = () => {
   const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
@@ -29,9 +25,7 @@ const SearchMenu = ({ searchQuery }: IActiveSearchType) => {
   const handleMenuItemClick = (menuItemValue: string) => {
     const lowerMenuItemValue = menuItemValue.toLowerCase();
     dispatch(setSearchBy(lowerMenuItemValue as TSearchBy));
-    navigate(
-      `${SEARCH_PATH}/${lowerMenuItemValue}/${encodeURIComponent(searchQuery)}`
-    );
+    navigate(`${SEARCH_PATH}/${lowerMenuItemValue}`);
   };
 
   return (

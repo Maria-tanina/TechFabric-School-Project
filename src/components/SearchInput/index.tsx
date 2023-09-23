@@ -2,10 +2,19 @@ import { InputAdornment, TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { SearchInputStyle } from "@components/SearchInput/style";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ChangeEvent, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  KeyboardEventHandler,
+  SyntheticEvent,
+  useEffect,
+  useState,
+} from "react";
 import { SEARCH_PATH } from "@constants/paths";
 import { useAppDispatch, useAppSelector } from "../../store";
-import { setValue } from "@features/searchArticle/searchArticleSlice";
+import {
+  setAppliedValue,
+  setValue,
+} from "@features/searchArticle/searchArticleSlice";
 import {
   selectSearchBy,
   selectValue,
@@ -36,7 +45,7 @@ export const SearchInput = () => {
   }, [location]);
 
   const handleInputChange = (event: ChangeEvent<{}>, value: string) => {
-    const inputValue = value;
+    const inputValue = value.trim();
     dispatch(setValue(value));
     if (inputValue.startsWith("#") && tags) {
       const matchingTags = tags?.filter((tagObject) =>
@@ -54,7 +63,21 @@ export const SearchInput = () => {
   };
 
   const handleOptionSelect = (value: string) => {
-    navigate(`${SEARCH_PATH}/${searchBy}/${encodeURIComponent(value)}`);
+    navigate(`${SEARCH_PATH}/${searchBy}`);
+    dispatch(setValue(value));
+    dispatch(setAppliedValue(value));
+  };
+
+  const handleKeyDown: KeyboardEventHandler<HTMLDivElement> = (e) => {
+    if (e.key === "Enter" && inputValue.trim().length >= 3) {
+      handleOptionSelect(inputValue.trim());
+    }
+  };
+
+  const handleSelectValueChange = (event: SyntheticEvent, value: unknown) => {
+    if (typeof value === "string" && value.trim().length >= 3) {
+      handleOptionSelect(value.trim());
+    }
   };
 
   return (
@@ -65,15 +88,9 @@ export const SearchInput = () => {
       clearOnBlur
       options={options}
       value={inputValue}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" && inputValue) handleOptionSelect(inputValue);
-      }}
+      onKeyDown={handleKeyDown}
       onInputChange={handleInputChange}
-      onChange={(event, value) => {
-        if (typeof value === "string" && value) {
-          handleOptionSelect(value);
-        }
-      }}
+      onChange={handleSelectValueChange}
       renderInput={(params) => (
         <TextField
           {...params}

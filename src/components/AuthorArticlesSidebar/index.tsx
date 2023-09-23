@@ -18,10 +18,10 @@ export const AuthorArticlesSidebar = () => {
           Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         </HeaderSidebarArticle>
         <TagsWrapper>
-          <ArticleTag tag="#sfdfsdf" link="/" />
-          <ArticleTag tag="#sfdfsdf" link="/" />
-          <ArticleTag tag="#sfdfsdf" link="/" />
-          <ArticleTag tag="#sfdfsdf" link="/" />
+          <ArticleTag tag="#sfdfsdf" />
+          <ArticleTag tag="#sfdfsdf" />
+          <ArticleTag tag="#sfdfsdf" />
+          <ArticleTag tag="#sfdfsdf" />
         </TagsWrapper>
         <Line />
       </SidebarArticle>
@@ -30,10 +30,10 @@ export const AuthorArticlesSidebar = () => {
           Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         </HeaderSidebarArticle>
         <TagsWrapper>
-          <ArticleTag tag="#sfdfsdf" link="/" />
-          <ArticleTag tag="#sfdfsdf" link="/" />
-          <ArticleTag tag="#sfdfsdf" link="/" />
-          <ArticleTag tag="#sfdfsdf" link="/" />
+          <ArticleTag tag="#sfdfsdf" />
+          <ArticleTag tag="#sfdfsdf" />
+          <ArticleTag tag="#sfdfsdf" />
+          <ArticleTag tag="#sfdfsdf" />
         </TagsWrapper>
         <Line />
       </SidebarArticle>

@@ -11,5 +11,8 @@ export const selectSearchOrderBy = (state: RootState) =>
 
 export const selectValue = (state: RootState) => state.searchArticle.value;
 
+export const selectAppliedValue = (state: RootState) =>
+  state.searchArticle.appliedValue;
+
 export const selectSearchBy = (state: RootState) =>
   state.searchArticle.searchBy;

@@ -11,25 +11,24 @@ import {
 } from "@services/articlesApi";
 import ArticleList from "@components/ArticleList";
 import { SearchWrapper } from "@pages/SearchingResultsPage/style";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { PaginationRounded } from "@components/PaginationRounded";
 import { ChangeEvent, useEffect, useMemo } from "react";
 import { setSearchPageNumber } from "@features/searchArticle/searchArticleSlice";
 import {
+  selectAppliedValue,
   selectSearchBy,
   selectSearchOrderBy,
   selectSearchPageNumber,
   selectSearchPageSize,
 } from "@features/searchArticle/searchArticleSelectors";
-import { TableFetchError } from "@components/TableNotification";
+import { TableStartSearch } from "@components/TableNotification";
 import { SkeletonCard } from "@components/SkeletonCard";
 import { SEARCH_PATH } from "@constants/paths";
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
 export const SearchingResultsPage = () => {
-  const { searchQuery = "" } = useParams<{
-    searchQuery?: string | undefined;
-  }>();
-
   const pageNumber = useAppSelector(selectSearchPageNumber);
 
   const pageSize = useAppSelector(selectSearchPageSize);
@@ -40,48 +39,50 @@ export const SearchingResultsPage = () => {
 
   const dispatch = useAppDispatch();
 
+  const substring = useAppSelector(selectAppliedValue);
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    navigate(`${SEARCH_PATH}/${searchBy}/${encodeURIComponent(searchQuery)}`);
+    navigate(`${SEARCH_PATH}/${searchBy}`);
   }, []);
 
   const { data: articlesByTags, isFetching: articlesByTagsIsFetching } =
     useGetArticlesByTagsQuery(
       {
-        substring: searchQuery,
+        substring,
         pageNumber,
         pageSize,
         orderBy,
       },
       {
-        skip: searchBy !== "tags",
+        skip: searchBy !== "tags" || !substring,
       }
     );
 
   const { data: articlesByTitle, isFetching: articlesByTitleIsFetching } =
     useGetArticlesByTitleQuery(
       {
-        substring: searchQuery,
+        substring,
         pageNumber,
         pageSize,
         orderBy,
       },
       {
-        skip: searchBy !== "articles",
+        skip: searchBy !== "articles" || !substring,
       }
     );
 
   const { data: articlesByAuthor, isFetching: articlesByAuthorIsFetching } =
     useGetArticlesByAuthorQuery(
       {
-        authorName: searchQuery,
+        authorName: substring,
         pageNumber,
         pageSize,
         orderBy,
       },
       {
-        skip: searchBy !== "users",
+        skip: searchBy !== "users" || !substring,
       }
     );
 
@@ -120,20 +121,27 @@ export const SearchingResultsPage = () => {
   return (
     <SearchWrapper>
       <LeftSidebar>
-        <SearchMenu searchQuery={searchQuery} />
+        <SearchMenu />
       </LeftSidebar>
       <MainContent>
-        <MainHeader>Search Results: {searchQuery}</MainHeader>
-        <TabsMenu />
-        {isFetching ? (
-          <SkeletonCard />
-        ) : !articlesTotalCount ? (
-          <TableFetchError message="Articles not found!" />
-        ) : (
-          <>
-            <ArticleList articles={articlesToShow?.articles} />
-          </>
-        )}
+        <MainHeader>Search Results: {substring}</MainHeader>
+        {!!articlesTotalCount && <TabsMenu />}
+        {isFetching ? <SkeletonCard /> : null}
+        {!articlesTotalCount && !substring ? (
+          <TableStartSearch
+            message="Start your search!"
+            icon={<SearchOutlinedIcon />}
+          />
+        ) : null}
+        {!articlesTotalCount && substring && !isFetching ? (
+          <TableStartSearch
+            message="Articles not found!"
+            icon={<ErrorOutlineIcon />}
+          />
+        ) : null}
+        {!isFetching && articlesTotalCount ? (
+          <ArticleList articles={articlesToShow?.articles} />
+        ) : null}
         {!isFetching && !!articlesTotalCount && (
           <>
             <PaginationRounded

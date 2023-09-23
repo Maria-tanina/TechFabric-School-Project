@@ -9,6 +9,7 @@ interface ISearchArticleSliceState {
   orderBy: "byCreatedDateDesc" | "byCreatedDateAsc" | "topRated";
   value: string;
   searchBy: TSearchBy;
+  appliedValue: string;
 }
 
 const initialState: ISearchArticleSliceState = {
@@ -16,6 +17,7 @@ const initialState: ISearchArticleSliceState = {
   pageSize: 5,
   orderBy: "byCreatedDateDesc",
   value: "",
+  appliedValue: "",
   searchBy: "articles",
 };
 
@@ -35,13 +37,16 @@ const searchArticleSlice = createSlice({
     setValue: (state, action: PayloadAction<string>) => {
       state.value = action.payload;
     },
+    setAppliedValue: (state, action: PayloadAction<string>) => {
+      state.appliedValue = action.payload;
+    },
     setSearchBy: (state, action: PayloadAction<TSearchBy>) => {
       state.searchBy = action.payload;
     },
   },
 });
 
-export const { setSearchPageNumber, setValue, setSearchBy } =
+export const { setSearchPageNumber, setValue, setAppliedValue, setSearchBy } =
   searchArticleSlice.actions;
 
 export default searchArticleSlice.reducer;
