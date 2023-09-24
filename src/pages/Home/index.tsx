@@ -19,13 +19,20 @@ import {
 } from "@features/article/articleSelectors";
 import { PaginationRounded } from "@components/PaginationRounded";
 import { ChangeEvent, useMemo } from "react";
-import { setPageNumber, setPageSize } from "@features/article/articleSlice";
+import {
+  setFilterSportType,
+  setOrderBy,
+  setPageNumber,
+  setPageSize,
+} from "@features/article/articleSlice";
 import TabsMenu from "@components/TabsMenu";
 import { PaginationSelect } from "@components/PaginationSelect";
 import { countTotalNumberOfPages } from "@helpers/countTotalNumberOfPages";
 import { TableFetchError } from "@components/TableNotification";
 import { SkeletonCard } from "@components/SkeletonCard";
 import { allTypesOfSport } from "@constants/filtrationStrings";
+import { SelectChangeEvent } from "@mui/material";
+import { TOrderByTypes, TSportOptions } from "@services/types/articlesApiTypes";
 
 const HomePage = () => {
   const pageNumber = useAppSelector(selectPageNumber);
@@ -121,6 +128,13 @@ const HomePage = () => {
     isFilteringError,
   ]);
 
+  const handleSportTypeChange = (e: SelectChangeEvent<unknown>) => {
+    dispatch(setFilterSportType(e.target.value as TSportOptions));
+  };
+
+  const handleOrderChange = (filter: TOrderByTypes) =>
+    dispatch(setOrderBy(filter));
+
   return (
     <HomePageWrapper>
       <LeftSidebar>
@@ -128,7 +142,12 @@ const HomePage = () => {
       </LeftSidebar>
 
       <MainContent>
-        <TabsMenu />
+        <TabsMenu
+          orderBy={orderBy}
+          handleOrderBy={handleOrderChange}
+          handleTypeChange={handleSportTypeChange}
+          sportType={sportType}
+        />
         {isFetching || isFilteredArticlesFetching ? (
           <SkeletonCard />
         ) : !articlesToShow?.length ? (

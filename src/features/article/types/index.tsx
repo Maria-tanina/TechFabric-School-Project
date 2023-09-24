@@ -1,5 +1,7 @@
 import { TSportOptions } from "@services/types/articlesApiTypes";
 
+export type TOrderBy = "byCreatedDateDesc" | "byCreatedDateAsc" | "topRated";
+
 export interface IArticleSliceInitialState {
   image: string;
   title: string;
@@ -10,6 +12,6 @@ export interface IArticleSliceInitialState {
   showPreview: boolean;
   pageNumber: number;
   pageSize: number;
-  orderBy: "byCreatedDateDesc" | "byCreatedDateAsc" | "topRated";
+  orderBy: TOrderBy;
   filterSportType: TSportOptions;
 }

@@ -6,6 +6,7 @@ import {
   ChangeEvent,
   KeyboardEventHandler,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 import { SEARCH_PATH } from "@constants/paths";
@@ -14,13 +15,14 @@ import {
   setAppliedValue,
   setSearchBy,
   setValue,
-  TSearchBy,
 } from "@features/searchArticle/searchArticleSlice";
 import {
   selectSearchBy,
   selectValue,
 } from "@features/searchArticle/searchArticleSelectors";
 import { selectTags } from "@features/tags/tagsSelectors";
+import { ISearchOption } from "./types";
+import { mockAuthors } from "@pages/Home/copmonents/TopAuthors/mockAuthors";
 
 export const SearchInput = () => {
   const navigate = useNavigate();
@@ -37,33 +39,38 @@ export const SearchInput = () => {
 
   const searchBy = useAppSelector(selectSearchBy);
 
-  interface ISearchOption {
-    label: string;
-    type: TSearchBy;
-  }
-
-  const tagsWithType: ISearchOption[] = tags.map((tag) => ({
-    label: tag,
-    type: "tags",
-  }));
-
-  const options: ISearchOption[] = [
-    ...tagsWithType,
-    {
-      label: "title",
-      type: "articles",
-    },
-    {
-      label: "lord",
-      type: "users",
-    },
-  ];
-
   useEffect(() => {
     if (!location.pathname.includes(SEARCH_PATH)) {
       dispatch(setValue(""));
+      dispatch(setAppliedValue(""));
+      setInputEmpty(true);
     }
   }, [location]);
+
+  const tagsWithType: ISearchOption[] = useMemo(() => {
+    return tags.map((tag) => ({
+      label: tag,
+      type: "tags",
+    }));
+  }, [tags]);
+
+  const authorsWithType: ISearchOption[] = useMemo(() => {
+    return mockAuthors.map((author) => ({
+      label: `${author.firstname} ${author.lastname}`,
+      type: "users",
+    }));
+  }, [mockAuthors]);
+
+  const options: ISearchOption[] = inputValue
+    ? [
+        ...tagsWithType,
+        {
+          label: "title",
+          type: "articles",
+        },
+        ...authorsWithType,
+      ]
+    : [...tagsWithType.slice(0, 4)];
 
   const handleInputChange = (event: ChangeEvent<{}>, value: string) => {
     const inputValue = value.trim();
@@ -73,7 +80,6 @@ export const SearchInput = () => {
 
   const handleOptionSelect = (value: string) => {
     navigate(`${SEARCH_PATH}/${searchBy}`);
-    dispatch(setValue(value));
     dispatch(setAppliedValue(value));
   };
 
@@ -86,7 +92,6 @@ export const SearchInput = () => {
         const typeOfOption = options[index].type;
         dispatch(setSearchBy(typeOfOption));
         navigate(`${SEARCH_PATH}/${typeOfOption}`);
-        dispatch(setValue(value));
         dispatch(setAppliedValue(value));
       } else {
         handleOptionSelect(value);
@@ -101,11 +106,9 @@ export const SearchInput = () => {
       if (options.find((option) => option.label === valueWithType.label)) {
         dispatch(setSearchBy(valueWithType.type));
         navigate(`${SEARCH_PATH}/${valueWithType.type}`);
-        dispatch(setValue(valueWithType.label));
         dispatch(setAppliedValue(valueWithType.label));
       } else {
         navigate(`${SEARCH_PATH}/${searchBy}`);
-        dispatch(setValue(value as string));
         dispatch(setAppliedValue(value as string));
       }
     }
@@ -118,6 +121,10 @@ export const SearchInput = () => {
       disablePortal
       options={options}
       inputValue={inputValue}
+      groupBy={(option) => {
+        const category = (option as ISearchOption).type;
+        return category.charAt(0).toUpperCase() + category.slice(1);
+      }}
       onKeyDown={handleKeyDown}
       onInputChange={handleInputChange}
       value={inputValue}

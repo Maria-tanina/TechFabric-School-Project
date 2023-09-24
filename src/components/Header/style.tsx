@@ -16,6 +16,20 @@ export const HeaderWrapper = styled.header(
   .MuiPaper-root.MuiPaper-elevation:empty{
     display: none;
   }
+  
+    .MuiAutocomplete-popper {
+      .MuiListSubheader-root {
+        position: static;
+        padding: 6px 15px;
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 22px; 
+        color: ${colors.black};
+        opacity: 1;
+        background-color: ${colors.lightYellow};
+      }
+    }
+  }
 `
 );
 export const HeaderLeftSide = styled.div(

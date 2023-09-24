@@ -16,3 +16,6 @@ export const selectAppliedValue = (state: RootState) =>
 
 export const selectSearchBy = (state: RootState) =>
   state.searchArticle.searchBy;
+
+export const selectSearchSportType = (state: RootState) =>
+  state.searchArticle.filterSportType;

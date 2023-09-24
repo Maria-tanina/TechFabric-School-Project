@@ -27,6 +27,8 @@ import { SkeletonCard } from "@components/SkeletonCard";
 import { SEARCH_PATH } from "@constants/paths";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import { setSearchOrderBy } from "@features/searchArticle/searchArticleSlice";
+import { TOrderByTypes } from "@services/types/articlesApiTypes";
 
 export const SearchingResultsPage = () => {
   const pageNumber = useAppSelector(selectSearchPageNumber);
@@ -118,6 +120,9 @@ export const SearchingResultsPage = () => {
     window.scrollTo(0, 0);
   };
 
+  const handleOrderChange = (filter: TOrderByTypes) =>
+    dispatch(setSearchOrderBy(filter));
+
   return (
     <SearchWrapper>
       <LeftSidebar>
@@ -125,7 +130,9 @@ export const SearchingResultsPage = () => {
       </LeftSidebar>
       <MainContent>
         <MainHeader>Search Results: {substring}</MainHeader>
-        {!!articlesTotalCount && <TabsMenu />}
+        {!!articlesTotalCount && (
+          <TabsMenu orderBy={orderBy} handleOrderBy={handleOrderChange} />
+        )}
         {isFetching ? <SkeletonCard /> : null}
         {!articlesTotalCount && !substring ? (
           <TableStartSearch

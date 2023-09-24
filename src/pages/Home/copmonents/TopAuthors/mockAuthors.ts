@@ -2,15 +2,15 @@ import { IAuthor } from "@pages/Home/copmonents/TopAuthors/types";
 
 export const mockAuthors: IAuthor[] = [
   {
-    firstname: "Harold",
-    lastname: "Painless",
+    firstname: "Lord",
+    lastname: "Volondemor",
   },
   {
-    firstname: "Harold",
-    lastname: "Painless",
+    firstname: "User",
+    lastname: "User",
   },
   {
-    firstname: "Harold",
-    lastname: "Painless",
+    firstname: "Test",
+    lastname: "Test",
   },
 ];
