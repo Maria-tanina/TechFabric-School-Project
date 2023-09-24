@@ -20,7 +20,7 @@ const TabsMenu: FC<ITabsMenuProps> = ({
   orderBy,
   handleOrderBy,
   handleTypeChange,
-  sportType,
+  sportType = "",
 }) => {
   const types = useAppSelector(selectSportNames);
 
@@ -39,7 +39,7 @@ const TabsMenu: FC<ITabsMenuProps> = ({
           </GhostButton>
         ))}
       </FilterTabsWrapper>
-      {sportType && handleTypeChange && (
+      {handleTypeChange && (
         <GhostSelect
           options={types || []}
           value={sportType}
