@@ -5,7 +5,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import {
   ChangeEvent,
   KeyboardEventHandler,
-  SyntheticEvent,
   useEffect,
   useState,
 } from "react";
@@ -13,7 +12,9 @@ import { SEARCH_PATH } from "@constants/paths";
 import { useAppDispatch, useAppSelector } from "../../store";
 import {
   setAppliedValue,
+  setSearchBy,
   setValue,
+  TSearchBy,
 } from "@features/searchArticle/searchArticleSlice";
 import {
   selectSearchBy,
@@ -32,11 +33,31 @@ export const SearchInput = () => {
 
   const inputValue = useAppSelector(selectValue);
 
-  const [options, setOptions] = useState<string[]>([]);
-
   const [isInputEmpty, setInputEmpty] = useState(true);
 
   const searchBy = useAppSelector(selectSearchBy);
+
+  interface ISearchOption {
+    label: string;
+    type: TSearchBy;
+  }
+
+  const tagsWithType: ISearchOption[] = tags.map((tag) => ({
+    label: tag,
+    type: "tags",
+  }));
+
+  const options: ISearchOption[] = [
+    ...tagsWithType,
+    {
+      label: "title",
+      type: "articles",
+    },
+    {
+      label: "lord",
+      type: "users",
+    },
+  ];
 
   useEffect(() => {
     if (!location.pathname.includes(SEARCH_PATH)) {
@@ -47,18 +68,6 @@ export const SearchInput = () => {
   const handleInputChange = (event: ChangeEvent<{}>, value: string) => {
     const inputValue = value.trim();
     dispatch(setValue(value));
-    if (inputValue.startsWith("#") && tags) {
-      const matchingTags = tags?.filter((tagObject) =>
-        tagObject.includes(inputValue)
-      );
-      if (matchingTags.length > 0) {
-        setOptions(matchingTags.map((tagObj) => tagObj));
-      } else {
-        setOptions([]);
-      }
-    } else {
-      setOptions([]);
-    }
     setInputEmpty(inputValue === "");
   };
 
@@ -68,15 +77,37 @@ export const SearchInput = () => {
     dispatch(setAppliedValue(value));
   };
 
-  const handleKeyDown: KeyboardEventHandler<HTMLDivElement> = (e) => {
+  const handleKeyDown: KeyboardEventHandler<HTMLDivElement> = (e: any) => {
+    const value = e.target.value as string;
+    const index = options.findIndex((option) => option.label.includes(value));
+
     if (e.key === "Enter" && inputValue.trim().length >= 3) {
-      handleOptionSelect(inputValue.trim());
+      if (index >= 0) {
+        const typeOfOption = options[index].type;
+        dispatch(setSearchBy(typeOfOption));
+        navigate(`${SEARCH_PATH}/${typeOfOption}`);
+        dispatch(setValue(value));
+        dispatch(setAppliedValue(value));
+      } else {
+        handleOptionSelect(value);
+      }
     }
   };
 
-  const handleSelectValueChange = (event: SyntheticEvent, value: unknown) => {
-    if (typeof value === "string" && value.trim().length >= 3) {
-      handleOptionSelect(value.trim());
+  const handleSelectValueChange = (event: any, value: unknown) => {
+    const valueWithType = value as ISearchOption;
+
+    if (value) {
+      if (options.find((option) => option.label === valueWithType.label)) {
+        dispatch(setSearchBy(valueWithType.type));
+        navigate(`${SEARCH_PATH}/${valueWithType.type}`);
+        dispatch(setValue(valueWithType.label));
+        dispatch(setAppliedValue(valueWithType.label));
+      } else {
+        navigate(`${SEARCH_PATH}/${searchBy}`);
+        dispatch(setValue(value as string));
+        dispatch(setAppliedValue(value as string));
+      }
     }
   };
 
@@ -85,11 +116,11 @@ export const SearchInput = () => {
       selectOnFocus
       freeSolo
       disablePortal
-      clearOnBlur
       options={options}
-      value={inputValue}
+      inputValue={inputValue}
       onKeyDown={handleKeyDown}
       onInputChange={handleInputChange}
+      value={inputValue}
       onChange={handleSelectValueChange}
       renderInput={(params) => (
         <TextField
