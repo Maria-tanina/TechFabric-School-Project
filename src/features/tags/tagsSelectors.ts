@@ -7,3 +7,8 @@ export const selectTags = createSelector(
   selectAllTags,
   (queryResult) => queryResult.data?.map((tag) => tag.tagName) || []
 );
+
+export const selectTagsIsError = createSelector(
+  selectAllTags,
+  (queryResult) => queryResult.isError
+);
