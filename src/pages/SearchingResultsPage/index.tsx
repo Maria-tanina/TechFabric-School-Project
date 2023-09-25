@@ -11,12 +11,14 @@ import {
 } from "@services/articlesApi";
 import ArticleList from "@components/ArticleList";
 import { SearchWrapper } from "@pages/SearchingResultsPage/style";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { PaginationRounded } from "@components/PaginationRounded";
 import { ChangeEvent, useMemo } from "react";
-import { setSearchPageNumber, TSearchBy } from "@features/searchArticle/searchArticleSlice";
 import {
-  selectSearchBy,
+  setSearchPageNumber,
+  TSearchBy,
+} from "@features/searchArticle/searchArticleSlice";
+import {
   selectSearchOrderBy,
   selectSearchPageNumber,
   selectSearchPageSize,
@@ -29,7 +31,7 @@ import { setSearchOrderBy } from "@features/searchArticle/searchArticleSlice";
 import { TOrderByTypes } from "@services/types/articlesApiTypes";
 
 export const SearchingResultsPage = () => {
-  const {searchQuery: substring = "articles"} = useParams<{
+  const { searchQuery: substring = "articles" } = useParams<{
     searchQuery?: TSearchBy | undefined;
   }>();
 
@@ -39,13 +41,11 @@ export const SearchingResultsPage = () => {
 
   const orderBy = useAppSelector(selectSearchOrderBy);
 
-  const searchBy = useAppSelector(selectSearchBy);
+  const { pathname } = useLocation();
+
+  const searchBy = pathname.split("/")[2];
 
   const dispatch = useAppDispatch();
-
-  // useEffect(() => {
-  //   dispatch(setSearchBy(substring));
-  // }, [])
 
   const { data: articlesByTags, isFetching: articlesByTagsIsFetching } =
     useGetArticlesByTagsQuery(

@@ -12,14 +12,8 @@ import {
 import { useNotification } from "@hooks/useNotification";
 import { SEARCH_PATH } from "@constants/paths";
 import { useAppDispatch, useAppSelector } from "../../store";
-import {
-  setSearchBy,
-  setValue,
-} from "@features/searchArticle/searchArticleSlice";
-import {
-  selectSearchBy,
-  selectValue,
-} from "@features/searchArticle/searchArticleSelectors";
+import { setValue } from "@features/searchArticle/searchArticleSlice";
+import { selectValue } from "@features/searchArticle/searchArticleSelectors";
 import { selectTags } from "@features/tags/tagsSelectors";
 import { ISearchOption } from "./types";
 import { selectTopAuthorsData } from "@features/authors/authorsSelectors";
@@ -40,8 +34,6 @@ export const SearchInput = () => {
   const inputValue = useAppSelector(selectValue);
 
   const [isInputEmpty, setInputEmpty] = useState(true);
-
-  const searchBy = useAppSelector(selectSearchBy);
 
   useEffect(() => {
     if (!location.pathname.includes(SEARCH_PATH)) {
@@ -75,7 +67,7 @@ export const SearchInput = () => {
   };
 
   const handleOptionSelect = (value: string) => {
-    navigate(`${SEARCH_PATH}/${searchBy}/${encodeURIComponent(value)}`);
+    navigate(`${SEARCH_PATH}/articles/${encodeURIComponent(value)}`);
   };
 
   const handleKeyDown: KeyboardEventHandler<HTMLDivElement> = (e: any) => {
@@ -85,7 +77,6 @@ export const SearchInput = () => {
     if (e.key === "Enter" && inputValue.trim().length >= 3) {
       if (index >= 0) {
         const typeOfOption = options[index].type;
-        dispatch(setSearchBy(typeOfOption));
         navigate(`${SEARCH_PATH}/${typeOfOption}/${encodeURIComponent(value)}`);
       } else {
         handleOptionSelect(value);
@@ -100,14 +91,12 @@ export const SearchInput = () => {
 
   const handleSelectValueChange = (event: any, value: unknown) => {
     const valueWithType = value as ISearchOption;
-
     if (value) {
-      if (options.find((option) => option.label === valueWithType.label)) {
-        dispatch(setSearchBy(valueWithType.type));
-        navigate(`${SEARCH_PATH}/${valueWithType.type}/${encodeURIComponent(valueWithType.label)}`);
-      } else {
-        navigate(`${SEARCH_PATH}/${searchBy}/${encodeURIComponent(valueWithType.label)}`);
-      }
+      navigate(
+        `${SEARCH_PATH}/${valueWithType.type}/${encodeURIComponent(
+          valueWithType.label
+        )}`
+      );
     }
   };
 

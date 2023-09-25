@@ -6,10 +6,7 @@ import {
   StyledTopAuthorName,
 } from "@components/AuthorLabel/style";
 import { useAppDispatch } from "../../store";
-import {
-  setSearchBy,
-  setValue,
-} from "@features/searchArticle/searchArticleSlice";
+import { setValue } from "@features/searchArticle/searchArticleSlice";
 import { SEARCH_PATH } from "@constants/paths";
 
 interface IAuthorProps {
@@ -25,7 +22,6 @@ export const AuthorLabel: React.FC<IAuthorProps> = ({
 
   const handleAuthorClick = (user: string) => {
     dispatch(setValue(user));
-    dispatch(setSearchBy("users"));
   };
 
   return (

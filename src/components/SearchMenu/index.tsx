@@ -6,30 +6,26 @@ import {
   NavWrapper,
 } from "@components/SearchMenu/style";
 import { searchMenu } from "@components/SearchMenu/menuConfig";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { SEARCH_PATH } from "@constants/paths";
-import { useAppDispatch, useAppSelector } from "../../store";
-import {
-  setSearchBy,
-  TSearchBy,
-} from "@features/searchArticle/searchArticleSlice";
-import { selectSearchBy } from "@features/searchArticle/searchArticleSelectors";
 
 const SearchMenu = () => {
-  const {searchQuery = ""} = useParams<{
+  const { searchQuery = "" } = useParams<{
     searchQuery?: string | undefined;
   }>();
 
   const navigate = useNavigate();
 
-  const dispatch = useAppDispatch();
+  const { pathname } = useLocation();
 
-  const searchBy = useAppSelector(selectSearchBy);
+  const searchBy = pathname.split("/")[2];
 
   const handleMenuItemClick = (menuItemValue: string) => {
     const lowerMenuItemValue = menuItemValue.toLowerCase();
-    dispatch(setSearchBy(lowerMenuItemValue as TSearchBy));
-    navigate(`${SEARCH_PATH}/${lowerMenuItemValue}/${encodeURIComponent(searchQuery)}`);
+    // dispatch(setSearchBy(lowerMenuItemValue as TSearchBy));
+    navigate(
+      `${SEARCH_PATH}/${lowerMenuItemValue}/${encodeURIComponent(searchQuery)}`
+    );
   };
 
   return (
