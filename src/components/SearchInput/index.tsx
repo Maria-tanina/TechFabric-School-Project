@@ -9,6 +9,7 @@ import {
   useMemo,
   useState,
 } from "react";
+import { useNotification } from "@hooks/useNotification";
 import { SEARCH_PATH } from "@constants/paths";
 import { useAppDispatch, useAppSelector } from "../../store";
 import {
@@ -25,6 +26,8 @@ import { ISearchOption } from "./types";
 import { mockAuthors } from "@pages/Home/copmonents/TopAuthors/mockAuthors";
 
 export const SearchInput = () => {
+  const { showNotification } = useNotification();
+
   const navigate = useNavigate();
 
   const tags = useAppSelector(selectTags);
@@ -62,14 +65,7 @@ export const SearchInput = () => {
   }, [mockAuthors]);
 
   const options: ISearchOption[] = inputValue
-    ? [
-        ...tagsWithType,
-        {
-          label: "title",
-          type: "articles",
-        },
-        ...authorsWithType,
-      ]
+    ? [...tagsWithType, ...authorsWithType]
     : [...tagsWithType.slice(0, 4)];
 
   const handleInputChange = (event: ChangeEvent<{}>, value: string) => {
@@ -96,6 +92,11 @@ export const SearchInput = () => {
       } else {
         handleOptionSelect(value);
       }
+    } else if (e.key === "Enter" && inputValue.trim().length < 3) {
+      showNotification(
+        "Search query must contain at least 3 characters",
+        "error"
+      );
     }
   };
 
