@@ -34,6 +34,7 @@ export const ArticlePage = () => {
     articleId: articleId || "",
   });
   const isPublished = data?.status === "Published";
+
   useEffect(() => {
     if (isError) {
       navigate(HOME_PATH);
