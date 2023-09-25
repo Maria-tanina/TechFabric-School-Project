@@ -1,21 +1,20 @@
 import { StyledTag, TagsWrapper } from "./style";
 import { StyledSidebarCard } from "@components/SidebarCard";
 import { StyledSidebarHeader } from "@components/SidebarHeader";
-import { useGetTopTagsQuery } from "@services/topsApi";
 import { TOP_TAGS_COUNT } from "@constants/tops";
 import { Link } from "react-router-dom";
 import { SEARCH_PATH } from "@constants/paths";
-import { useAppDispatch } from "../../../../store";
+import { useAppDispatch, useAppSelector } from "../../../../store";
 import { useState } from "react";
 import { setValue } from "@features/searchArticle/searchArticleSlice";
+import { selectTags, selectTagsIsError } from "@features/tags/tagsSelectors";
 
 export const TopTags = () => {
-  const { data, isError } = useGetTopTagsQuery();
+  const isError = useAppSelector(selectTagsIsError);
+  const tags = useAppSelector(selectTags);
   const dispatch = useAppDispatch();
   const [selectedTag, setSelectedTag] = useState("");
-  const topTags: string[] = (data || [])
-    .slice(0, TOP_TAGS_COUNT)
-    .map((item) => item.tagName);
+  const topTags: string[] = (tags || []).slice(0, TOP_TAGS_COUNT);
   const handleTagClick = (tag: string) => {
     setSelectedTag(tag);
     dispatch(setValue(tag));

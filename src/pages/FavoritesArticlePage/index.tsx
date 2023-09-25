@@ -17,9 +17,9 @@ import { useNotification } from "@hooks/useNotification";
 import { HOME_PATH } from "@constants/paths";
 import { useNavigate } from "react-router-dom";
 import { TableFetchError } from "@components/TableNotification";
-import {SkeletonCard} from "@components/SkeletonCard";
-import {PaginationSelect} from "@components/PaginationSelect";
-import {setPageSize} from "@features/article/articleSlice";
+import { SkeletonCard } from "@components/SkeletonCard";
+import { PaginationSelect } from "@components/PaginationSelect";
+import { setPageSize } from "@features/article/articleSlice";
 
 export const FavoritesArticlePage = () => {
   const pageNumber = useAppSelector(selectFavoritePageNumber);
@@ -45,7 +45,7 @@ export const FavoritesArticlePage = () => {
     window.scrollTo(0, 0);
   };
   const handlePageSizeChange = (
-      event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     dispatch(setPageSize(+event.target.value));
     window.scrollTo(0, 0);
@@ -66,7 +66,7 @@ export const FavoritesArticlePage = () => {
       <MainContent>
         <MainHeader>Favorite Articles</MainHeader>
         {isFetching ? (
-            <SkeletonCard/>
+          <SkeletonCard />
         ) : !articlesTotalCount ? (
           <TableFetchError message="Articles not found!" />
         ) : (
@@ -80,9 +80,9 @@ export const FavoritesArticlePage = () => {
               onChange={handlePageChange}
             />
             <PaginationSelect
-                value={pageSize}
-                onChange={handlePageSizeChange}
-                options={[5, 10, 25, 50]}
+              value={pageSize}
+              onChange={handlePageSizeChange}
+              options={[5, 10, 25, 50]}
             />
           </>
         )}
