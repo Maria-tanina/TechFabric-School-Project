@@ -1,17 +1,11 @@
-import { createSelector } from "@reduxjs/toolkit";
 import { topsApi } from "@services/topsApi";
+import { createSelector } from 'reselect';
 
-const selectTopTags = topsApi.endpoints?.getTopTags.select({
-    pageSize: 7,
-    pageNumber: 1,
+export const selectTags = createSelector([state => state,(_, params) => params], (state,params) =>{
+    return topsApi.endpoints?.getTopTags.select(params)(state)?.data?.map((tag) => tag.tagName) ?? [];
 });
 
-export const selectTags = createSelector(
-    selectTopTags,
-  (queryResult) => queryResult.data?.map((tag) => tag.tagName) || []
-);
+export const selectTagsLoading = createSelector([state => state,(_, params) => params], (state,params) =>{
+    return topsApi.endpoints?.getTopTags.select(params)(state)?.isLoading;
+});
 
-export const selectTagsIsError = createSelector(
-    selectTopTags,
-  (queryResult) => queryResult.isError
-);

@@ -98,7 +98,10 @@ const Editor = ({
 
   const tags = useAppSelector(selectArticleTags);
 
-  const tagsOptions = useAppSelector(selectTags);
+  const tagsOptions = useAppSelector(state => selectTags(state, {
+    pageSize: 5,
+    pageNumber: 1
+  }));
 
   const types = useAppSelector(selectSportNames);
 

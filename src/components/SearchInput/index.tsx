@@ -7,11 +7,14 @@ import { SEARCH_PATH } from "@constants/paths";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { setValue } from "@features/searchArticle/searchArticleSlice";
 import { selectValue } from "@features/searchArticle/searchArticleSelectors";
-import { selectTags } from "@features/tags/tagsSelectors";
+import {selectTags} from "@features/tags/tagsSelectors";
 
 export const SearchInput = () => {
   const navigate = useNavigate();
-  const tags = useAppSelector(selectTags);
+  const tags = useAppSelector(state => selectTags(state, {
+    pageSize: 7,
+    pageNumber: 1
+  }));
   const location = useLocation();
   const dispatch = useAppDispatch();
   const storeValue = useAppSelector(selectValue);

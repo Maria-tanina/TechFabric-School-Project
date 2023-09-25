@@ -4,17 +4,21 @@ import { StyledSidebarHeader } from "@components/SidebarHeader";
 import { TOP_TAGS_COUNT } from "@constants/tops";
 import { Link } from "react-router-dom";
 import { SEARCH_PATH } from "@constants/paths";
-import { useAppDispatch, useAppSelector } from "../../../../store";
+import { useAppDispatch } from "../../../../store";
 import { useState } from "react";
 import { setValue } from "@features/searchArticle/searchArticleSlice";
-import { selectTags, selectTagsIsError } from "@features/tags/tagsSelectors";
+import {useGetTopTagsQuery} from "@services/topsApi";
 
 export const TopTags = () => {
-  const isError = useAppSelector(selectTagsIsError);
-  const tags = useAppSelector(selectTags);
+
+    const { data:tags,isError } = useGetTopTagsQuery({
+        pageSize: 7,
+        pageNumber: 1,
+    })
   const dispatch = useAppDispatch();
   const [selectedTag, setSelectedTag] = useState("");
-  const topTags: string[] = (tags || []).slice(0, TOP_TAGS_COUNT);
+    const topTags: string[] = (tags ? tags.map(tag => tag.tagName) : []).slice(0, TOP_TAGS_COUNT);
+
   const handleTagClick = (tag: string) => {
     setSelectedTag(tag);
     dispatch(setValue(tag));
