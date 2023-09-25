@@ -1,20 +1,27 @@
-import { topsApi } from "@services/topsApi";
+import { ITagsParam, topsApi } from "@services/topsApi";
 import { createSelector } from "reselect";
+import { RootState } from "../../store";
+
+const selectState = (state: RootState) => state;
+const selectParams = (_: any, params: ITagsParam) => params;
 
 export const selectTags = createSelector(
-  [(state) => state, (_, params) => params],
+  [selectState, selectParams],
   (state, params) => {
-    return (
-      topsApi.endpoints?.getTopTags
-        .select(params)(state)
-        ?.data?.map((tag) => tag.tagName) ?? []
-    );
+    return topsApi.endpoints?.getTopTags.select(params)(state)?.data ?? [];
   }
 );
 
 export const selectTagsLoading = createSelector(
-  [(state) => state, (_, params) => params],
+  [selectState, selectParams],
   (state, params) => {
     return topsApi.endpoints?.getTopTags.select(params)(state)?.isLoading;
+  }
+);
+
+export const selectTagsError = createSelector(
+  [selectState, selectParams],
+  (state, params) => {
+    return topsApi.endpoints?.getTopTags.select(params)(state)?.isError;
   }
 );

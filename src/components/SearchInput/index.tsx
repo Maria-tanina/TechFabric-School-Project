@@ -17,6 +17,7 @@ export const SearchInput = () => {
       pageNumber: 1,
     })
   );
+
   const location = useLocation();
   const dispatch = useAppDispatch();
   const storeValue = useAppSelector(selectValue);
@@ -41,11 +42,11 @@ export const SearchInput = () => {
     setInputValue(value);
     dispatch(setValue(value));
     if (inputValue.startsWith("#") && tags) {
-      const matchingTags = tags?.filter((tagObject) =>
-        tagObject.includes(inputValue)
+      const matchingTags = tags?.filter(
+        (tagObject) => tagObject?.tagName.includes(inputValue)
       );
       if (matchingTags.length > 0) {
-        setOptions(matchingTags.map((tagObj) => tagObj));
+        setOptions(matchingTags.map((tagObj) => tagObj.tagName));
       } else {
         setOptions([]);
       }

@@ -6,7 +6,7 @@ const serverUrl = process.env.REACT_APP_DEV_API_URL;
 export interface ITagData {
   tagName: string;
 }
-interface ITagsParam {
+export interface ITagsParam {
   pageNumber: number;
   pageSize: number;
 }
