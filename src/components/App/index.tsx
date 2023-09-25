@@ -58,10 +58,12 @@ const App = () => {
 
   const { isLoading: isSportTypesLoading } = useGetSportTypesQuery();
 
-  const isTopTagsLoading = useAppSelector(state => selectTagsLoading(state, {
-    pageSize: 7,
-    pageNumber: 1
-  }));
+  const isTopTagsLoading = useAppSelector((state) =>
+    selectTagsLoading(state, {
+      pageSize: 7,
+      pageNumber: 1,
+    })
+  );
 
   if (isUserInfoLoading || isSportTypesLoading || isTopTagsLoading) {
     return <FullHeightSpinner size={110} />;
