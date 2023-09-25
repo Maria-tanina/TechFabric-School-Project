@@ -23,7 +23,7 @@ import {
 } from "@features/searchArticle/searchArticleSelectors";
 import { selectTags } from "@features/tags/tagsSelectors";
 import { ISearchOption } from "./types";
-import { mockAuthors } from "@pages/Home/copmonents/TopAuthors/mockAuthors";
+import { selectTopAuthorsData } from "@features/authors/authorsSelectors";
 
 export const SearchInput = () => {
   const { showNotification } = useNotification();
@@ -31,6 +31,8 @@ export const SearchInput = () => {
   const navigate = useNavigate();
 
   const tags = useAppSelector(selectTags);
+
+  const authors = useAppSelector(selectTopAuthorsData);
 
   const location = useLocation();
 
@@ -58,11 +60,11 @@ export const SearchInput = () => {
   }, [tags]);
 
   const authorsWithType: ISearchOption[] = useMemo(() => {
-    return mockAuthors.map((author) => ({
-      label: `${author.firstname} ${author.lastname}`,
+    return authors.map((author) => ({
+      label: `${author.firstName} ${author.lastName}`,
       type: "users",
     }));
-  }, [mockAuthors]);
+  }, [authors]);
 
   const options: ISearchOption[] = inputValue
     ? [...tagsWithType, ...authorsWithType]

@@ -15,7 +15,8 @@ import {
 export const TopTags = () => {
   const isError = useAppSelector(selectTagsIsError);
   const tags = useAppSelector(selectTags);
-  const dispatch = useAppDispatch();const topTags: string[] = (tags || []).slice(0, TOP_TAGS_COUNT);
+  const dispatch = useAppDispatch();
+  const topTags: string[] = (tags || []).slice(0, TOP_TAGS_COUNT);
   const handleTagClick = (tag: string) => {
     dispatch(setSearchBy("tags"));
     dispatch(setValue(tag));

@@ -1,19 +1,22 @@
 import { StyledSidebarCard } from "@components/SidebarCard";
-import { mockAuthors } from "../TopAuthors/mockAuthors";
 import { StyledSidebarHeader } from "@components/SidebarHeader";
 import { AuthorLabel } from "@components/AuthorLabel";
+import { useAppSelector } from "../../../../store";
+import { selectTopAuthorsData } from "@features/authors/authorsSelectors";
 
 export const TopAuthors = () => {
+  const authors = useAppSelector(selectTopAuthorsData);
+
   return (
     <StyledSidebarCard>
       <StyledSidebarHeader>
         Top <span>Authors</span>
       </StyledSidebarHeader>
-      {mockAuthors.map((author, i) => (
+      {authors.map((author) => (
         <AuthorLabel
-          key={i}
-          firstName={author.firstname}
-          lastName={author.lastname}
+          key={author.authorId}
+          firstName={author.firstName}
+          lastName={author.lastName}
         />
       ))}
     </StyledSidebarCard>
