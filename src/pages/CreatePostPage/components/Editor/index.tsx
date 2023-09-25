@@ -68,6 +68,7 @@ import { LoaderWrapper } from "@pages/UpdateArticlePage/style";
 import { Spinner } from "@components/Spinner/style";
 import { isContentValid } from "@helpers/isContentValid";
 import { selectTags } from "@features/tags/tagsSelectors";
+import { MAX_IMAGE_SIZE } from "@constants/article";
 
 const Editor = ({
   articleData,
@@ -241,6 +242,14 @@ const Editor = ({
     const fileInput = e.target;
     if (fileInput.files && fileInput.files.length > 0) {
       const file = fileInput.files[0];
+      if (file.size > MAX_IMAGE_SIZE) {
+        showNotification(
+          "Image size is too large. Maximum size is 2MB.",
+          "error"
+        );
+        fileInput.value = "";
+        return;
+      }
       const base64 = await fileToBase64(file);
       const fileInfo = file.type.includes("image") ? base64 : "";
       dispatch(setImage(fileInfo));
