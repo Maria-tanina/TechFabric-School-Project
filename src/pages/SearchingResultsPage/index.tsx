@@ -16,8 +16,8 @@ import {
   selectSearchPageNumber,
   selectSearchPageSize,
 } from "@features/searchArticle/searchArticleSelectors";
-import {TableFetchError} from "@components/TableNotification";
-import {SkeletonCard} from "@components/SkeletonCard";
+import { TableFetchError } from "@components/TableNotification";
+import { SkeletonCard } from "@components/SkeletonCard";
 
 export const SearchingResultsPage = () => {
   const { searchQuery = "" } = useParams<{
@@ -50,9 +50,9 @@ export const SearchingResultsPage = () => {
       </LeftSidebar>
       <MainContent>
         <MainHeader>Search Results: {searchQuery}</MainHeader>
-          <TabsMenu />
-          {tagsIsFetching ? (
-              <SkeletonCard/>
+        <TabsMenu />
+        {tagsIsFetching ? (
+          <SkeletonCard />
         ) : !articlesTotalCount ? (
           <TableFetchError message="Articles not found!" />
         ) : (

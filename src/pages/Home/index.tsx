@@ -24,7 +24,7 @@ import TabsMenu from "@components/TabsMenu";
 import { PaginationSelect } from "@components/PaginationSelect";
 import { countTotalNumberOfPages } from "@helpers/countTotalNumberOfPages";
 import { TableFetchError } from "@components/TableNotification";
-import {SkeletonCard} from "@components/SkeletonCard";
+import { SkeletonCard } from "@components/SkeletonCard";
 import { allTypesOfSport } from "@constants/filtrationStrings";
 
 const HomePage = () => {
@@ -119,7 +119,7 @@ const HomePage = () => {
       <MainContent>
         <TabsMenu />
         {isFetching || isFilteredArticlesFetching ? (
-            <SkeletonCard/>
+          <SkeletonCard />
         ) : isError ? (
           <TableFetchError message="Articles not found!" />
         ) : (
