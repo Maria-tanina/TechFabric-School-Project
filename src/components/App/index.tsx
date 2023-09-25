@@ -47,7 +47,7 @@ import { useAppSelector } from "../../store";
 import { selectIsLogin } from "@features/user/usersSelectors";
 import { FavoritesArticlePage } from "@pages/FavoritesArticlePage";
 import { SearchingResultsPage } from "@pages/SearchingResultsPage";
-import { useGetTopTagsQuery } from "@services/topsApi";
+import {useGetTopTagsQuery} from "@services/topsApi";
 
 const App = () => {
   const isLogin = useAppSelector(selectIsLogin);
@@ -57,7 +57,11 @@ const App = () => {
   });
 
   const { isLoading: isSportTypesLoading } = useGetSportTypesQuery();
-  const { isLoading: isTopTagsLoading } = useGetTopTagsQuery();
+
+  const { isLoading:isTopTagsLoading } = useGetTopTagsQuery({
+    pageSize: 7,
+    pageNumber: 1,
+  })
 
   if (isUserInfoLoading || isSportTypesLoading || isTopTagsLoading) {
     return <FullHeightSpinner size={110} />;
