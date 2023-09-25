@@ -33,6 +33,7 @@ export const ArticlePage = () => {
   const { data, isLoading, isError } = useGetArticleInfoQuery({
     articleId: articleId || "",
   });
+  const isPublished = data?.status === "Published";
 
   useEffect(() => {
     if (isError) {
@@ -50,29 +51,32 @@ export const ArticlePage = () => {
       ) : (
         <>
           <LeftSidebar>
-            <ArticleSideMenuItem>
-              <AddLikeButton
-                articleId={articleId || ""}
-                showText={false}
-                size="42px"
-              />
-              <Count>{data?.likeCount}</Count>
-            </ArticleSideMenuItem>
-
-            {isLogin && (
-              <ArticleSideMenuItem>
-                <AddFavoriteButton
-                  articleId={articleId || ""}
-                  size="42px"
-                  showText={false}
-                />
-              </ArticleSideMenuItem>
+            {isLogin && isPublished && (
+              <>
+                <ArticleSideMenuItem>
+                  <AddLikeButton
+                    articleId={articleId || ""}
+                    showText={false}
+                    size="42px"
+                  />
+                  <Count>{data?.likeCount}</Count>
+                </ArticleSideMenuItem>
+                <ArticleSideMenuItem>
+                  <AddFavoriteButton
+                    articleId={articleId || ""}
+                    size="42px"
+                    showText={false}
+                  />
+                </ArticleSideMenuItem>
+              </>
             )}
 
-            <ArticleSideMenuItem>
-              <ChatOutlinedIcon />
-              <Count>4</Count>
-            </ArticleSideMenuItem>
+            {isPublished && (
+              <ArticleSideMenuItem>
+                <ChatOutlinedIcon />
+                <Count>4</Count>
+              </ArticleSideMenuItem>
+            )}
           </LeftSidebar>
 
           <MainContent>
