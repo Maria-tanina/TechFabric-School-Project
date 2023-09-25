@@ -117,7 +117,7 @@ const App = () => {
             <Route path="*" element={<NotFound />} />
 
             <Route
-              path={`${SEARCH_PATH}/:searchBy`}
+              path={`${SEARCH_PATH}/:searchBy/:searchQuery`}
               element={<SearchingResultsPage />}
             />
 

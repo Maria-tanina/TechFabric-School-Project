@@ -6,7 +6,7 @@ import {
   NavWrapper,
 } from "@components/SearchMenu/style";
 import { searchMenu } from "@components/SearchMenu/menuConfig";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { SEARCH_PATH } from "@constants/paths";
 import { useAppDispatch, useAppSelector } from "../../store";
 import {
@@ -16,6 +16,10 @@ import {
 import { selectSearchBy } from "@features/searchArticle/searchArticleSelectors";
 
 const SearchMenu = () => {
+  const {searchQuery = ""} = useParams<{
+    searchQuery?: string | undefined;
+  }>();
+
   const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
@@ -25,7 +29,7 @@ const SearchMenu = () => {
   const handleMenuItemClick = (menuItemValue: string) => {
     const lowerMenuItemValue = menuItemValue.toLowerCase();
     dispatch(setSearchBy(lowerMenuItemValue as TSearchBy));
-    navigate(`${SEARCH_PATH}/${lowerMenuItemValue}`);
+    navigate(`${SEARCH_PATH}/${lowerMenuItemValue}/${encodeURIComponent(searchQuery)}`);
   };
 
   return (

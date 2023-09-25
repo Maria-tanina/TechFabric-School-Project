@@ -13,7 +13,6 @@ import { useNotification } from "@hooks/useNotification";
 import { SEARCH_PATH } from "@constants/paths";
 import { useAppDispatch, useAppSelector } from "../../store";
 import {
-  setAppliedValue,
   setSearchBy,
   setValue,
 } from "@features/searchArticle/searchArticleSlice";
@@ -47,7 +46,6 @@ export const SearchInput = () => {
   useEffect(() => {
     if (!location.pathname.includes(SEARCH_PATH)) {
       dispatch(setValue(""));
-      dispatch(setAppliedValue(""));
       setInputEmpty(true);
     }
   }, [location]);
@@ -77,8 +75,7 @@ export const SearchInput = () => {
   };
 
   const handleOptionSelect = (value: string) => {
-    navigate(`${SEARCH_PATH}/${searchBy}`);
-    dispatch(setAppliedValue(value));
+    navigate(`${SEARCH_PATH}/${searchBy}/${encodeURIComponent(value)}`);
   };
 
   const handleKeyDown: KeyboardEventHandler<HTMLDivElement> = (e: any) => {
@@ -89,8 +86,7 @@ export const SearchInput = () => {
       if (index >= 0) {
         const typeOfOption = options[index].type;
         dispatch(setSearchBy(typeOfOption));
-        navigate(`${SEARCH_PATH}/${typeOfOption}`);
-        dispatch(setAppliedValue(value));
+        navigate(`${SEARCH_PATH}/${typeOfOption}/${encodeURIComponent(value)}`);
       } else {
         handleOptionSelect(value);
       }
@@ -108,11 +104,9 @@ export const SearchInput = () => {
     if (value) {
       if (options.find((option) => option.label === valueWithType.label)) {
         dispatch(setSearchBy(valueWithType.type));
-        navigate(`${SEARCH_PATH}/${valueWithType.type}`);
-        dispatch(setAppliedValue(valueWithType.label));
+        navigate(`${SEARCH_PATH}/${valueWithType.type}/${encodeURIComponent(valueWithType.label)}`);
       } else {
-        navigate(`${SEARCH_PATH}/${searchBy}`);
-        dispatch(setAppliedValue(value as string));
+        navigate(`${SEARCH_PATH}/${searchBy}/${encodeURIComponent(valueWithType.label)}`);
       }
     }
   };

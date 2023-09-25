@@ -23,7 +23,7 @@ export const ArticleTag = ({ tag }: ITagProps) => {
 
   return (
     <StyledTag>
-      <Link to={`${SEARCH_PATH}/tags`} onClick={() => handleTagClick(tag)}>
+      <Link to={`${SEARCH_PATH}/tags/${encodeURIComponent(tag)}`} onClick={() => handleTagClick(tag)}>
         {tag}
       </Link>
     </StyledTag>

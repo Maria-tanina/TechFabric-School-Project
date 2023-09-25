@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { TOrderByTypes, TSportOptions } from "@services/types/articlesApiTypes";
+import { TOrderByTypes } from "@services/types/articlesApiTypes";
 
 export type TSearchBy = "articles" | "users" | "tags";
 
@@ -10,7 +10,6 @@ interface ISearchArticleSliceState {
   value: string;
   searchBy: TSearchBy;
   appliedValue: string;
-  filterSportType: TSportOptions;
 }
 
 const initialState: ISearchArticleSliceState = {
@@ -20,7 +19,6 @@ const initialState: ISearchArticleSliceState = {
   value: "",
   appliedValue: "",
   searchBy: "articles",
-  filterSportType: "",
 };
 
 const searchArticleSlice = createSlice({
@@ -49,17 +47,12 @@ const searchArticleSlice = createSlice({
       state.searchBy = action.payload;
       state.pageNumber = 1;
     },
-    setSearchFilterSportType: (state, action: PayloadAction<TSportOptions>) => {
-      state.filterSportType = action.payload;
-      state.pageNumber = 1;
-    },
   },
 });
 
 export const {
   setSearchPageNumber,
   setSearchOrderBy,
-  setSearchFilterSportType,
   setValue,
   setAppliedValue,
   setSearchBy,
