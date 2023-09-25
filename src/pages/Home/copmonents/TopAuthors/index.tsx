@@ -2,12 +2,27 @@ import { StyledSidebarCard } from "@components/SidebarCard";
 import { StyledSidebarHeader } from "@components/SidebarHeader";
 import { AuthorLabel } from "@components/AuthorLabel";
 import { useAppSelector } from "../../../../store";
-import { selectTopAuthorsData } from "@features/authors/authorsSelectors";
+import {
+  selectTopAuthors,
+  selectTopAuthorsError,
+} from "@features/authors/authorsSelectors";
 
 export const TopAuthors = () => {
-  const authors = useAppSelector(selectTopAuthorsData);
+  const authors = useAppSelector((state) =>
+    selectTopAuthors(state, {
+      pageSize: 3,
+      pageNumber: 1,
+    })
+  );
 
-  return (
+  const isError = useAppSelector((state) =>
+    selectTopAuthorsError(state, {
+      pageSize: 3,
+      pageNumber: 1,
+    })
+  );
+
+  return !isError ? (
     <StyledSidebarCard>
       <StyledSidebarHeader>
         Top <span>Authors</span>
@@ -20,5 +35,5 @@ export const TopAuthors = () => {
         />
       ))}
     </StyledSidebarCard>
-  );
+  ) : null;
 };

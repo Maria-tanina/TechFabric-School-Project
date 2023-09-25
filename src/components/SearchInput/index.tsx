@@ -16,7 +16,7 @@ import { setValue } from "@features/searchArticle/searchArticleSlice";
 import { selectValue } from "@features/searchArticle/searchArticleSelectors";
 import { selectTags } from "@features/tags/tagsSelectors";
 import { ISearchOption } from "./types";
-import { selectTopAuthorsData } from "@features/authors/authorsSelectors";
+import { selectTopAuthors } from "@features/authors/authorsSelectors";
 
 export const SearchInput = () => {
   const { showNotification } = useNotification();
@@ -25,7 +25,12 @@ export const SearchInput = () => {
 
   const tags = useAppSelector(selectTags);
 
-  const authors = useAppSelector(selectTopAuthorsData);
+  const authors = useAppSelector((state) =>
+    selectTopAuthors(state, {
+      pageSize: 3,
+      pageNumber: 1,
+    })
+  );
 
   const location = useLocation();
 

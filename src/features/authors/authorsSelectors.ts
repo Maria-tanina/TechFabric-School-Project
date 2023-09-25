@@ -1,12 +1,16 @@
 import { topsApi } from "@services/topsApi";
 import { createSelector } from "@reduxjs/toolkit";
 
-export const selectTopAuthors = topsApi.endpoints?.getTopAuthors.select({
-  pageSize: 3,
-  pageNumber: 1,
-});
+export const selectTopAuthors = createSelector(
+  [(state) => state, (_, params) => params],
+  (state, params) => {
+    return topsApi.endpoints?.getTopAuthors.select(params)(state)?.data ?? [];
+  }
+);
 
-export const selectTopAuthorsData = createSelector(
-  selectTopAuthors,
-  (queryResult) => queryResult.data || []
+export const selectTopAuthorsError = createSelector(
+  [(state) => state, (_, params) => params],
+  (state, params) => {
+    return topsApi.endpoints?.getTopAuthors.select(params)(state)?.isError;
+  }
 );
