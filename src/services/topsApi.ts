@@ -18,12 +18,22 @@ export interface IAuthorData {
   lastName: string;
 }
 
+interface ITagsParam {
+    pageNumber: number;
+    pageSize: number;
+}
 export const topsApi = createApi({
   reducerPath: "topsApi",
   baseQuery: customFetchBaseQuery(serverUrl),
   endpoints: (build) => ({
-    getTopTags: build.query<ITagData[], void>({
-      query: () => "/tag/top",
+    getTopTags: build.query<ITagData[], ITagsParam>({
+      query: ({ pageNumber, pageSize }) => ({
+        url: "/tags/top",
+        params: {
+          pageNumber,
+          pageSize,
+        },
+      }),
     }),
     getTopAuthors: build.query<IAuthorData[], IGetTopAuthorsParams>({
       query: ({ pageNumber, pageSize }) => ({
@@ -34,7 +44,7 @@ export const topsApi = createApi({
         },
       }),
     }),
-  }),
+  })
 });
 
 export const { useGetTopTagsQuery, useGetTopAuthorsQuery } = topsApi;

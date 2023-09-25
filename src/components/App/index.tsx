@@ -57,8 +57,12 @@ const App = () => {
   });
 
   const { isLoading: isSportTypesLoading } = useGetSportTypesQuery();
-  const { isLoading: isTopTagsLoading } = useGetTopTagsQuery();
-  const { isLoading: isTopAuthorsLoading } = useGetTopAuthorsQuery({
+
+  const { isLoading:isTopTagsLoading } = useGetTopTagsQuery({
+    pageSize: 7,
+    pageNumber: 1,
+  })
+const { isLoading: isTopAuthorsLoading } = useGetTopAuthorsQuery({
     pageNumber: 1,
     pageSize: 3,
   });
