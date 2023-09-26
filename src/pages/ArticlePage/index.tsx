@@ -18,7 +18,7 @@ import {
 } from "@services/articlesApi";
 import { IArticle } from "@customTypes/articleTypes";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useMemo } from "react";
+import { useEffect, useRef,useMemo } from "react";
 import { HOME_PATH } from "@constants/paths";
 import { useNotification } from "@hooks/useNotification";
 import { Spinner } from "@components/Spinner/style";
@@ -47,7 +47,12 @@ export const ArticlePage = () => {
   });
 
   const isPublished = data?.status === "Published";
-
+  const commentsSectionRef = useRef<HTMLDivElement | null>(null);
+  const scrollToComments = () => {
+    if (commentsSectionRef.current) {
+      commentsSectionRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
   useEffect(() => {
     if (isError) {
       navigate(HOME_PATH);
@@ -91,7 +96,7 @@ export const ArticlePage = () => {
             )}
 
             {isPublished && (
-              <ArticleSideMenuItem>
+              <ArticleSideMenuItem onClick={scrollToComments}>
                 <ChatOutlinedIcon />
                 <Count>4</Count>
               </ArticleSideMenuItem>
@@ -99,7 +104,10 @@ export const ArticlePage = () => {
           </LeftSidebar>
 
           <MainContent>
-            <Article article={data as IArticle} />
+              <Article
+                  article={data as IArticle}
+                  commentsSectionRef={commentsSectionRef}
+              />
           </MainContent>
 
           <RightSidebar>
