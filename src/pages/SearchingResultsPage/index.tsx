@@ -1,4 +1,3 @@
-import { LeftSidebar } from "@components/LeftSidebar";
 import { MainContent } from "@components/MainContent";
 import { MainHeader } from "@components/MainHeader";
 import TabsMenu from "@components/TabsMenu";
@@ -10,7 +9,7 @@ import {
   useGetArticlesByTitleQuery,
 } from "@services/articlesApi";
 import ArticleList from "@components/ArticleList";
-import { SearchWrapper } from "@pages/SearchingResultsPage/style";
+import { SearchLeftSidebar, SearchWrapper } from "./style";
 import { useLocation, useParams } from "react-router-dom";
 import { PaginationRounded } from "@components/PaginationRounded";
 import { ChangeEvent, useMemo } from "react";
@@ -123,9 +122,9 @@ export const SearchingResultsPage = () => {
 
   return (
     <SearchWrapper>
-      <LeftSidebar>
+      <SearchLeftSidebar>
         <SearchMenu />
-      </LeftSidebar>
+      </SearchLeftSidebar>
       <MainContent>
         <MainHeader>Search Results: {substring}</MainHeader>
         {!!articlesTotalCount && (

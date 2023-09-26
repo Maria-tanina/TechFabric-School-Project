@@ -13,3 +13,15 @@ export const SearchWrapper = styled.div`
   display: flex;
   gap: 40px;
 `;
+
+export const SearchLeftSidebar = styled.div(
+  ({ theme: { media } }) => `
+  max-width: 200px;
+  position: sticky;
+  top: 15px;
+  width: 100%;
+  li div {
+    width: 100%;
+  }
+`
+);
