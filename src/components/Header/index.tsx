@@ -9,13 +9,13 @@ import LogInButton from "@components/LogInButton";
 import HeaderSignUpButton from "@components/HeaderSignUpButton";
 import { useAppSelector } from "../../store";
 import CreatePostButton from "@components/CreatePostButton";
-import ProfileInfo from "@components/ProfileInfo";
 import { selectIsLogin } from "@features/user/usersSelectors";
 import {
   selectUserFullName,
   selectUserInfoData,
   selectUserIsAuthor,
 } from "@services/authSelectors";
+import { AccountMenu } from "@components/ProfileInfoDropdown";
 
 const Header = () => {
   const userInfo = useAppSelector(selectUserInfoData);
@@ -35,7 +35,7 @@ const Header = () => {
       <HeaderRightSide>
         {isLogin && isAuthor && <CreatePostButton />}
         {isLogin && userInfo ? (
-          <ProfileInfo userName={fullName} subtitle={userInfo.userRole} />
+          <AccountMenu fullName={fullName} role={userInfo.userRole} />
         ) : (
           <>
             <LogInButton />

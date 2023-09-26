@@ -23,7 +23,12 @@ export const SearchInput = () => {
 
   const navigate = useNavigate();
 
-  const tags = useAppSelector(selectTags);
+  const tags = useAppSelector((state) =>
+    selectTags(state, {
+      pageSize: 7,
+      pageNumber: 1,
+    })
+  );
 
   const authors = useAppSelector((state) =>
     selectTopAuthors(state, {

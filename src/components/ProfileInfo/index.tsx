@@ -8,9 +8,13 @@ import {
 import { FC } from "react";
 import { IProfileInfo } from "./types";
 
-export const ProfileInfo: FC<IProfileInfo> = ({ userName, subtitle }) => {
+export const ProfileInfo: FC<IProfileInfo> = ({
+  userName,
+  subtitle,
+  onClick,
+}) => {
   return (
-    <ProfileInfoWrapper>
+    <ProfileInfoWrapper onClick={onClick}>
       <ProfileInfoAvatar>
         <AvatarFirstNameLetter>{userName.slice(0, 1)}</AvatarFirstNameLetter>
       </ProfileInfoAvatar>
