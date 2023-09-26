@@ -85,7 +85,7 @@ const MyArticlesPage = () => {
             <WriteMoreCard />
           </Grid>
         )}
-        {!isFetching && !isError && (
+        {!isFetching && !isError && !!articlesTotalCount && (
           <>
             <PaginationRounded
               count={pagesTotalCount}

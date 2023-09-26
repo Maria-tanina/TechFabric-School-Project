@@ -1,14 +1,27 @@
-import { createSelector } from "@reduxjs/toolkit";
-import { topsApi } from "@services/topsApi";
+import { ITagsParam, topsApi } from "@services/topsApi";
+import { createSelector } from "reselect";
+import { RootState } from "../../store";
 
-const selectAllTags = topsApi.endpoints?.getTopTags.select();
+const selectState = (state: RootState) => state;
+const selectParams = (_: any, params: ITagsParam) => params;
 
 export const selectTags = createSelector(
-  selectAllTags,
-  (queryResult) => queryResult.data?.map((tag) => tag.tagName) || []
+  [selectState, selectParams],
+  (state, params) => {
+    return topsApi.endpoints?.getTopTags.select(params)(state)?.data ?? [];
+  }
 );
 
-export const selectTagsIsError = createSelector(
-  selectAllTags,
-  (queryResult) => queryResult.isError
+export const selectTagsLoading = createSelector(
+  [selectState, selectParams],
+  (state, params) => {
+    return topsApi.endpoints?.getTopTags.select(params)(state)?.isLoading;
+  }
+);
+
+export const selectTagsError = createSelector(
+  [selectState, selectParams],
+  (state, params) => {
+    return topsApi.endpoints?.getTopTags.select(params)(state)?.isError;
+  }
 );

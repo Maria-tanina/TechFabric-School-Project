@@ -99,8 +99,13 @@ const Editor = ({
 
   const tags = useAppSelector(selectArticleTags);
 
-  const tagsOptions = useAppSelector(selectTags);
-
+  const tagsOptions = useAppSelector((state) =>
+    selectTags(state, {
+      pageSize: 5,
+      pageNumber: 1,
+    })
+  );
+  const tagNames: string[] = tagsOptions?.map((tag) => tag.tagName);
   const types = useAppSelector(selectSportNames);
 
   const sportType = useAppSelector(selectArticleType);
@@ -388,7 +393,7 @@ const Editor = ({
               />
 
               <TagsSelect
-                options={tagsOptions}
+                options={tagNames}
                 value={tags || null}
                 onChange={handleChangeTags}
                 freeSolo
