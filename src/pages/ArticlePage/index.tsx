@@ -18,7 +18,6 @@ import {
 } from "@services/articlesApi";
 import { IArticle } from "@customTypes/articleTypes";
 import { useNavigate, useParams } from "react-router-dom";
-import { LinearProgress } from "@mui/material";
 import { useEffect, useRef,useMemo } from "react";
 import { HOME_PATH } from "@constants/paths";
 import { useNotification } from "@hooks/useNotification";
@@ -97,7 +96,7 @@ export const ArticlePage = () => {
             )}
 
             {isPublished && (
-              <ArticleSideMenuItem>
+              <ArticleSideMenuItem onClick={scrollToComments}>
                 <ChatOutlinedIcon />
                 <Count>4</Count>
               </ArticleSideMenuItem>
