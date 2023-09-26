@@ -35,7 +35,7 @@ export const ArticlePreview: FC<IArticlePreviewProps> = ({ article }) => {
         <ArticleMainHeader>{title}</ArticleMainHeader>
         <ArticleTags>
           {tags.map((tag) => (
-            <ArticleTag tag={tag} link="/" key={tag} />
+            <ArticleTag tag={tag} key={tag} />
           ))}
         </ArticleTags>
         <ArticleSubject>{type && <span>Type: {type}</span>}</ArticleSubject>

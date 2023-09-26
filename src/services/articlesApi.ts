@@ -6,7 +6,8 @@ import {
   IFilterArticlesByTypeParams,
   IGetArticlesResponse,
   IPublishArticleRequest,
-  ISearchByTags,
+  ISearchByAuthor,
+  ISearchByString,
   ISport,
 } from "./types/articlesApiTypes";
 
@@ -113,11 +114,37 @@ export const articlesApi = createApi({
       }),
       invalidatesTags: ["ARTICLES"],
     }),
-    getArticlesByTags: build.query<IGetArticlesResponse, ISearchByTags>({
+    getArticlesByTags: build.query<IGetArticlesResponse, ISearchByString>({
       query: ({ pageNumber, pageSize, orderBy, substring }) => ({
         url: "/articles/search-by-tag",
         params: {
           substring,
+          pageNumber,
+          pageSize,
+          orderBy,
+        },
+        method: "GET",
+      }),
+      providesTags: ["ARTICLES"],
+    }),
+    getArticlesByTitle: build.query<IGetArticlesResponse, ISearchByString>({
+      query: ({ pageNumber, pageSize, orderBy, substring }) => ({
+        url: "/articles/search-by-title",
+        params: {
+          substring,
+          pageNumber,
+          pageSize,
+          orderBy,
+        },
+        method: "GET",
+      }),
+      providesTags: ["ARTICLES"],
+    }),
+    getArticlesByAuthor: build.query<IGetArticlesResponse, ISearchByAuthor>({
+      query: ({ pageNumber, pageSize, orderBy, authorName }) => ({
+        url: "/articles/search-by-author",
+        params: {
+          authorName,
           pageNumber,
           pageSize,
           orderBy,
@@ -141,4 +168,6 @@ export const {
   usePublishArticleMutation,
   useGetArticlesByTagsQuery,
   useFilterArticlesByTypeQuery,
+  useGetArticlesByTitleQuery,
+  useGetArticlesByAuthorQuery,
 } = articlesApi;

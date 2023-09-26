@@ -1,69 +1,152 @@
-import { LeftSidebar } from "@components/LeftSidebar";
 import { MainContent } from "@components/MainContent";
 import { MainHeader } from "@components/MainHeader";
 import TabsMenu from "@components/TabsMenu";
 import SearchMenu from "@components/SearchMenu";
 import { useAppDispatch, useAppSelector } from "../../store";
-import { useGetArticlesByTagsQuery } from "@services/articlesApi";
+import {
+  useGetArticlesByAuthorQuery,
+  useGetArticlesByTagsQuery,
+  useGetArticlesByTitleQuery,
+} from "@services/articlesApi";
 import ArticleList from "@components/ArticleList";
-import { SearchWrapper } from "@pages/SearchingResultsPage/style";
+import { SearchLeftSidebar, SearchWrapper } from "./style";
 import { useLocation, useParams } from "react-router-dom";
 import { PaginationRounded } from "@components/PaginationRounded";
-import { ChangeEvent } from "react";
-import { setSearchPageNumber } from "@features/searchArticle/searchArticleSlice";
+import { ChangeEvent, useMemo } from "react";
+import {
+  setSearchPageNumber,
+  TSearchBy,
+} from "@features/searchArticle/searchArticleSlice";
 import {
   selectSearchOrderBy,
   selectSearchPageNumber,
   selectSearchPageSize,
 } from "@features/searchArticle/searchArticleSelectors";
-import { TableFetchError } from "@components/TableNotification";
-import { Spinner } from "@components/Spinner/style";
-import { LoaderWrapper } from "@pages/ArticlePage/style";
+import { TableStartSearch } from "@components/TableNotification";
+import { SkeletonCard } from "@components/SkeletonCard";
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import { setSearchOrderBy } from "@features/searchArticle/searchArticleSlice";
+import { TOrderByTypes } from "@services/types/articlesApiTypes";
 
 export const SearchingResultsPage = () => {
-  const { searchQuery = "" } = useParams<{
-    searchQuery?: string | undefined;
+  const { searchQuery: substring = "articles" } = useParams<{
+    searchQuery?: TSearchBy | undefined;
   }>();
-  const { pathname } = useLocation();
-  const searchAbout = pathname.split("/")[2];
+
   const pageNumber = useAppSelector(selectSearchPageNumber);
+
   const pageSize = useAppSelector(selectSearchPageSize);
+
   const orderBy = useAppSelector(selectSearchOrderBy);
-  const { data: articlesTags, isFetching: tagsIsFetching } =
-    useGetArticlesByTagsQuery({
-      substring: searchQuery,
-      pageNumber,
-      pageSize,
-      orderBy,
-    });
-  const articlesTotalCount = articlesTags?.totalCount || 0;
-  const pagesTotalCount = Math.ceil(articlesTotalCount / pageSize);
+
+  const { pathname } = useLocation();
+
+  const searchBy = pathname.split("/")[2];
+
   const dispatch = useAppDispatch();
+
+  const { data: articlesByTags, isFetching: articlesByTagsIsFetching } =
+    useGetArticlesByTagsQuery(
+      {
+        substring,
+        pageNumber,
+        pageSize,
+        orderBy,
+      },
+      {
+        skip: searchBy !== "tags" || !substring,
+      }
+    );
+
+  const { data: articlesByTitle, isFetching: articlesByTitleIsFetching } =
+    useGetArticlesByTitleQuery(
+      {
+        substring,
+        pageNumber,
+        pageSize,
+        orderBy,
+      },
+      {
+        skip: searchBy !== "articles" || !substring,
+      }
+    );
+
+  const { data: articlesByAuthor, isFetching: articlesByAuthorIsFetching } =
+    useGetArticlesByAuthorQuery(
+      {
+        authorName: substring,
+        pageNumber,
+        pageSize,
+        orderBy,
+      },
+      {
+        skip: searchBy !== "users" || !substring,
+      }
+    );
+
+  const articlesToShow = useMemo(() => {
+    switch (searchBy) {
+      case "tags":
+        return articlesByTags;
+      case "articles":
+        return articlesByTitle;
+      case "users":
+        return articlesByAuthor;
+    }
+  }, [articlesByAuthor, articlesByTags, articlesByTitle, searchBy]);
+
+  const articlesTotalCount = articlesToShow?.totalCount || 0;
+
+  const pagesTotalCount = Math.ceil(articlesTotalCount / pageSize);
+
+  const isFetching = useMemo(() => {
+    return (
+      articlesByTagsIsFetching ||
+      articlesByTitleIsFetching ||
+      articlesByAuthorIsFetching
+    );
+  }, [
+    articlesByAuthorIsFetching,
+    articlesByTagsIsFetching,
+    articlesByTitleIsFetching,
+  ]);
+
   const handlePageChange = (event: ChangeEvent<unknown>, value: number) => {
     dispatch(setSearchPageNumber(value));
     window.scrollTo(0, 0);
   };
 
+  const handleOrderChange = (filter: TOrderByTypes) =>
+    dispatch(setSearchOrderBy(filter));
+
   return (
     <SearchWrapper>
-      <LeftSidebar>
-        <SearchMenu activeSearchType={searchAbout} searchQuery={searchQuery} />
-      </LeftSidebar>
+      <SearchLeftSidebar>
+        <SearchMenu />
+      </SearchLeftSidebar>
       <MainContent>
-        <MainHeader>Search Results: {searchQuery}</MainHeader>
-        {tagsIsFetching ? (
-          <LoaderWrapper style={{ height: "calc(100vh - 264px)" }}>
-            <Spinner size={110} />
-          </LoaderWrapper>
-        ) : !articlesTotalCount ? (
-          <TableFetchError message="Articles not found!" />
-        ) : (
-          <>
-            <TabsMenu />
-            <ArticleList articles={articlesTags?.articles} />
-          </>
+        <MainHeader>Search Results: {substring}</MainHeader>
+        {!!articlesTotalCount && (
+          <TabsMenu orderBy={orderBy} handleOrderBy={handleOrderChange} />
         )}
-        {!tagsIsFetching && !!articlesTotalCount && (
+        {isFetching ? <SkeletonCard /> : null}
+        {!articlesTotalCount && !substring ? (
+          <TableStartSearch
+            message="Start your search!"
+            icon={<SearchOutlinedIcon />}
+          />
+        ) : null}
+        {!articlesTotalCount && substring && !isFetching ? (
+          <TableStartSearch
+            message="Articles not found!"
+            icon={<ErrorOutlineIcon />}
+          />
+        ) : null}
+        {!isFetching && articlesTotalCount ? (
+          <ArticleList articles={articlesToShow?.articles} />
+        ) : null}
+        {!isFetching && !!articlesTotalCount && (
           <>
             <PaginationRounded
               count={pagesTotalCount}

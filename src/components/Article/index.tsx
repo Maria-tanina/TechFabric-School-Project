@@ -36,9 +36,7 @@ export const Article = ({ article }: IArticleProps) => {
       <ArticleBody>
         <ArticleMainHeader>{article?.title}</ArticleMainHeader>
         <ArticleTags>
-          {article?.tags.map((tag) => (
-            <ArticleTag key={tag} link="" tag={tag} />
-          ))}
+          {article?.tags.map((tag) => <ArticleTag key={tag} tag={tag} />)}
         </ArticleTags>
         <ArticleSubject>
           <span>Type: {article?.sport}</span>

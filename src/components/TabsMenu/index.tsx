@@ -4,26 +4,25 @@ import { filterTabs } from "./filterMenuConfig";
 import { FilterTabsWrapper, StyledTab, TabsMenuWrapper } from "./style";
 import { selectSportNames } from "@services/articlesSelectors";
 import { SelectChangeEvent } from "@mui/material";
-import { setFilterSportType, setOrderBy } from "@features/article/articleSlice";
-import {
-  selectFilterSportType,
-  selectOrderBy,
-} from "@features/article/articleSelectors";
-import { useAppDispatch, useAppSelector } from "../../store";
-import { SportTypes } from "@services/types/articlesApiTypes";
+import { useAppSelector } from "../../store";
+import { TOrderByTypes, TSportOptions } from "@services/types/articlesApiTypes";
+import { TOrderBy } from "@features/article/types";
+import { FC } from "react";
 
-const TabsMenu = () => {
+interface ITabsMenuProps {
+  orderBy: TOrderBy;
+  handleOrderBy: (filter: TOrderByTypes) => void;
+  handleTypeChange?: (e: SelectChangeEvent<unknown>) => void;
+  sportType?: TSportOptions;
+}
+
+const TabsMenu: FC<ITabsMenuProps> = ({
+  orderBy,
+  handleOrderBy,
+  handleTypeChange,
+  sportType = "",
+}) => {
   const types = useAppSelector(selectSportNames);
-
-  const orderBy = useAppSelector(selectOrderBy);
-
-  const type = useAppSelector(selectFilterSportType);
-
-  const dispatch = useAppDispatch();
-
-  const handleTypeChange = (e: SelectChangeEvent<unknown>) => {
-    dispatch(setFilterSportType(e.target.value as keyof typeof SportTypes));
-  };
 
   return (
     <TabsMenuWrapper>
@@ -32,7 +31,7 @@ const TabsMenu = () => {
           <GhostButton
             $width="120px"
             key={i}
-            onClick={() => dispatch(setOrderBy(filter.orderBy))}
+            onClick={() => handleOrderBy(filter.orderBy)}
           >
             <StyledTab $isActive={filter.orderBy === orderBy}>
               {filter.value}
@@ -40,13 +39,14 @@ const TabsMenu = () => {
           </GhostButton>
         ))}
       </FilterTabsWrapper>
-
-      <GhostSelect
-        options={types || []}
-        value={type}
-        onChange={handleTypeChange}
-        label="Sort by type"
-      />
+      {handleTypeChange && (
+        <GhostSelect
+          options={types || []}
+          value={sportType}
+          onChange={handleTypeChange}
+          label="Sort by type"
+        />
+      )}
     </TabsMenuWrapper>
   );
 };

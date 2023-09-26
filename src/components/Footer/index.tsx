@@ -73,11 +73,8 @@ const Footer = () => {
         </div>
       </FooterMainBlockWrapper>
       <AdditionalInfoWrapper>
-        <CopyrightText>Copyright © 2023 ROADSTER</CopyrightText>
+        <CopyrightText>Copyright © 2023 POWERUP</CopyrightText>
         <TermsButtonsList>
-          <TermsButton>
-            <Link to={CONTACT_US_PATH}>Contact Us</Link>
-          </TermsButton>
           <TermsButton>
             <Link to={PRIVACY_POLICY_PATH}>Privacy Policy</Link>
           </TermsButton>

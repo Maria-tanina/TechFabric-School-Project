@@ -10,7 +10,6 @@ import {
   useFilterArticlesByTypeQuery,
   useGetArticlesQuery,
 } from "@services/articlesApi";
-import { LinearProgress } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../store";
 import {
   selectFilterSportType,
@@ -20,12 +19,20 @@ import {
 } from "@features/article/articleSelectors";
 import { PaginationRounded } from "@components/PaginationRounded";
 import { ChangeEvent, useMemo } from "react";
-import { setPageNumber, setPageSize } from "@features/article/articleSlice";
+import {
+  setFilterSportType,
+  setOrderBy,
+  setPageNumber,
+  setPageSize,
+} from "@features/article/articleSlice";
 import TabsMenu from "@components/TabsMenu";
 import { PaginationSelect } from "@components/PaginationSelect";
 import { countTotalNumberOfPages } from "@helpers/countTotalNumberOfPages";
 import { TableFetchError } from "@components/TableNotification";
+import { SkeletonCard } from "@components/SkeletonCard";
 import { allTypesOfSport } from "@constants/filtrationStrings";
+import { SelectChangeEvent } from "@mui/material";
+import { TOrderByTypes, TSportOptions } from "@services/types/articlesApiTypes";
 
 const HomePage = () => {
   const pageNumber = useAppSelector(selectPageNumber);
@@ -38,6 +45,10 @@ const HomePage = () => {
 
   const dispatch = useAppDispatch();
 
+  const filterIsSelected = useMemo(() => {
+    return sportType !== allTypesOfSport && sportType !== "";
+  }, [sportType]);
+
   const {
     data: articles,
     isFetching,
@@ -49,7 +60,7 @@ const HomePage = () => {
       orderBy,
     },
     {
-      skip: sportType !== allTypesOfSport,
+      skip: filterIsSelected,
     }
   );
 
@@ -65,20 +76,20 @@ const HomePage = () => {
       orderBy,
     },
     {
-      skip: sportType === allTypesOfSport,
+      skip: !filterIsSelected,
     }
   );
 
   const articlesToShow = useMemo(() => {
-    if (sportType !== allTypesOfSport) {
+    if (filterIsSelected) {
       return filteredArticles?.articles;
     } else {
       return articles?.articles;
     }
-  }, [sportType, articles, filteredArticles]);
+  }, [filterIsSelected, filteredArticles?.articles, articles?.articles]);
 
   const pagesTotalCount = useMemo(() => {
-    if (sportType !== allTypesOfSport) {
+    if (filterIsSelected) {
       const articlesTotalCount = filteredArticles?.totalCount || 0;
 
       return countTotalNumberOfPages(articlesTotalCount, pageSize);
@@ -87,7 +98,7 @@ const HomePage = () => {
 
       return countTotalNumberOfPages(articlesTotalCount, pageSize);
     }
-  }, [sportType, filteredArticles, articles, pageSize]);
+  }, [sportType, filteredArticles, articles, pageSize, filterIsSelected]);
 
   const handlePageChange = (event: ChangeEvent<unknown>, value: number) => {
     dispatch(setPageNumber(value));
@@ -106,9 +117,23 @@ const HomePage = () => {
       !isFetching &&
       !isError &&
       !isFilteredArticlesFetching &&
-      !isFilteringError
+      !isFilteringError &&
+      articlesToShow?.length !== 0
     );
-  }, [isError, isFetching, isFilteredArticlesFetching, isFilteringError]);
+  }, [
+    articlesToShow?.length,
+    isError,
+    isFetching,
+    isFilteredArticlesFetching,
+    isFilteringError,
+  ]);
+
+  const handleSportTypeChange = (e: SelectChangeEvent<unknown>) => {
+    dispatch(setFilterSportType(e.target.value as TSportOptions));
+  };
+
+  const handleOrderChange = (filter: TOrderByTypes) =>
+    dispatch(setOrderBy(filter));
 
   return (
     <HomePageWrapper>
@@ -117,14 +142,20 @@ const HomePage = () => {
       </LeftSidebar>
 
       <MainContent>
-        <TabsMenu />
+        <TabsMenu
+          orderBy={orderBy}
+          handleOrderBy={handleOrderChange}
+          handleTypeChange={handleSportTypeChange}
+          sportType={sportType}
+        />
         {isFetching || isFilteredArticlesFetching ? (
-          <LinearProgress />
-        ) : isError ? (
+          <SkeletonCard />
+        ) : !articlesToShow?.length ? (
           <TableFetchError message="Articles not found!" />
         ) : (
           <ArticleList articles={articlesToShow} />
         )}
+
         {showPagination && (
           <>
             <PaginationRounded

@@ -47,7 +47,7 @@ import { useAppSelector } from "../../store";
 import { selectIsLogin } from "@features/user/usersSelectors";
 import { FavoritesArticlePage } from "@pages/FavoritesArticlePage";
 import { SearchingResultsPage } from "@pages/SearchingResultsPage";
-import { useGetTopTagsQuery } from "@services/topsApi";
+import { useGetTopAuthorsQuery, useGetTopTagsQuery } from "@services/topsApi";
 
 const App = () => {
   const isLogin = useAppSelector(selectIsLogin);
@@ -57,16 +57,30 @@ const App = () => {
   });
 
   const { isLoading: isSportTypesLoading } = useGetSportTypesQuery();
-  const { isLoading: isTopTagsLoading } = useGetTopTagsQuery();
 
-  if (isUserInfoLoading || isSportTypesLoading || isTopTagsLoading) {
+  const { isLoading: isTopTagsLoading } = useGetTopTagsQuery({
+    pageSize: 7,
+    pageNumber: 1,
+  });
+
+  const { isLoading: isTopAuthorsLoading } = useGetTopAuthorsQuery({
+    pageNumber: 1,
+    pageSize: 3,
+  });
+
+  if (
+    isUserInfoLoading ||
+    isSportTypesLoading ||
+    isTopTagsLoading ||
+    isTopAuthorsLoading
+  ) {
     return <FullHeightSpinner size={110} />;
   }
 
   return (
     <div>
-      <Layout>
-        <NotificationProvider>
+      <NotificationProvider>
+        <Layout>
           <Routes>
             <Route path={HOME_PATH} element={<HomePage />} />
 
@@ -165,8 +179,8 @@ const App = () => {
               <Route path={FAVORITES_PATH} element={<FavoritesArticlePage />} />
             </Route>
           </Routes>
-        </NotificationProvider>
-      </Layout>
+        </Layout>
+      </NotificationProvider>
     </div>
   );
 };

@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { NavLink } from "react-router-dom";
 import { MenuItem } from "@mui/material";
 
 export const MenuList = styled.ul`
@@ -26,7 +25,6 @@ export const MenuItemStyle = styled(MenuItem)(
         color:  ${colors.white};
     }
       .MuiListItemIcon-root{
-    min-width: fit-content;
     ${media.desktop} {
         min-width: 35px;
     }
@@ -36,42 +34,12 @@ export const MenuItemStyle = styled(MenuItem)(
 `
 );
 
-export const MenuLink = styled(NavLink)(
-  ({ theme: { colors, fontSizes, media } }) => `
-  display: flex;
-  color: ${colors.graphite};
-  font-size: 0;
-  line-height: 24px;
-  font-weight: 500;
-  width: auto;
-  padding: 10px 12px;
-  .MuiSvgIcon-root{
-    color: ${colors.graphite};
-    font-weight: 700;
-  }
-  &.active { 
-      svg{
-        color: ${colors.white}; 
-      }
-      border-radius: 5px;
-      color: ${colors.white}; 
-      background-color: ${colors.main}; 
-    }
-  ${media.desktop} {
-    font-size: ${fontSizes.button};
-    width: 100%;
-  }
-`
-);
-
 export const MenuButton = styled.div(
   ({ theme: { colors, fontSizes, media } }) => `
   display: flex;
   color: ${colors.graphite};
-  font-size: 0;
   line-height: 24px;
   font-weight: 500;
-  width: auto;
   padding: 10px 12px;
   &.active {
     border-radius: 5px;

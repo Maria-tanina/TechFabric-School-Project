@@ -5,20 +5,30 @@ import {
   StyledTopAuthorAvatar,
   StyledTopAuthorName,
 } from "@components/AuthorLabel/style";
+import { useAppDispatch } from "../../store";
+import { setValue } from "@features/searchArticle/searchArticleSlice";
+import { SEARCH_PATH } from "@constants/paths";
 
 interface IAuthorProps {
   firstName: string;
   lastName: string;
-  link: string;
 }
 
 export const AuthorLabel: React.FC<IAuthorProps> = ({
   firstName,
   lastName,
-  link,
 }) => {
+  const dispatch = useAppDispatch();
+
+  const handleAuthorClick = (user: string) => {
+    dispatch(setValue(user));
+  };
+
   return (
-    <Link to={link}>
+    <Link
+      to={`${SEARCH_PATH}/users/${firstName} ${lastName}`}
+      onClick={() => handleAuthorClick(`${firstName} ${lastName}`)}
+    >
       <StyledTopAuthorName>
         <StyledTopAuthorAvatar aria-label="sport">
           {firstName.slice(0, 1)}

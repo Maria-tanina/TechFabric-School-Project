@@ -21,15 +21,19 @@ import { HOME_PATH } from "@constants/paths";
 import { useNotification } from "@hooks/useNotification";
 import { Spinner } from "@components/Spinner/style";
 import { AddFavoriteButton } from "@components/FavoriteButton";
+import { useAppSelector } from "../../store";
+import { selectIsLogin } from "@features/user/usersSelectors";
 
 export const ArticlePage = () => {
   const { articleId } = useParams<{ articleId?: string }>();
   const navigate = useNavigate();
   const { showNotification } = useNotification();
+  const isLogin = useAppSelector(selectIsLogin);
 
   const { data, isLoading, isError } = useGetArticleInfoQuery({
     articleId: articleId || "",
   });
+  const isPublished = data?.status === "Published";
 
   useEffect(() => {
     if (isError) {
@@ -47,25 +51,32 @@ export const ArticlePage = () => {
       ) : (
         <>
           <LeftSidebar>
-            <ArticleSideMenuItem>
-              <AddLikeButton
-                articleId={articleId || ""}
-                showText={false}
-                size="42px"
-              />
-              <Count>{data?.likeCount}</Count>
-            </ArticleSideMenuItem>
-            <ArticleSideMenuItem>
-              <AddFavoriteButton
-                articleId={articleId || ""}
-                size="42px"
-                showText={false}
-              />
-            </ArticleSideMenuItem>
-            <ArticleSideMenuItem>
-              <ChatOutlinedIcon />
-              <Count>4</Count>
-            </ArticleSideMenuItem>
+            {isLogin && isPublished && (
+              <>
+                <ArticleSideMenuItem>
+                  <AddLikeButton
+                    articleId={articleId || ""}
+                    showText={false}
+                    size="42px"
+                  />
+                  <Count>{data?.likeCount}</Count>
+                </ArticleSideMenuItem>
+                <ArticleSideMenuItem>
+                  <AddFavoriteButton
+                    articleId={articleId || ""}
+                    size="42px"
+                    showText={false}
+                  />
+                </ArticleSideMenuItem>
+              </>
+            )}
+
+            {isPublished && (
+              <ArticleSideMenuItem>
+                <ChatOutlinedIcon />
+                <Count>4</Count>
+              </ArticleSideMenuItem>
+            )}
           </LeftSidebar>
 
           <MainContent>

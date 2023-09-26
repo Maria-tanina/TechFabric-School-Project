@@ -1,6 +1,4 @@
-import { logOut } from "@features/user/usersSlice";
 import {
-  MenuButton,
   MenuHeading,
   MenuItemStyle,
   MenuLink,
@@ -14,12 +12,10 @@ import {
   otherMenu,
 } from "@components/NavigationMenu/menuConfig";
 import { Role } from "@constants/roles";
-import { useAppDispatch, useAppSelector } from "../../store";
-import LogoutIcon from "@mui/icons-material/Logout";
+import { useAppSelector } from "../../store";
 import { ListItemIcon } from "@mui/material";
 import { selectIsLogin } from "@features/user/usersSelectors";
 import { selectUserInfoData } from "@services/authSelectors";
-import { useNotification } from "@hooks/useNotification";
 
 const NavigationMenu = () => {
   const isLogin = useAppSelector(selectIsLogin);
@@ -27,15 +23,6 @@ const NavigationMenu = () => {
   const userInfo = useAppSelector(selectUserInfoData);
 
   const currentRole = isLogin && userInfo ? userInfo?.userRole : Role.Guest;
-
-  const dispatch = useAppDispatch();
-
-  const { showNotification } = useNotification();
-
-  const handleLogOutClick = () => {
-    dispatch(logOut());
-    showNotification("You are logged out", "success");
-  };
 
   return (
     <NavWrapper>
@@ -78,16 +65,6 @@ const NavigationMenu = () => {
               </MenuLink>
             </MenuItemStyle>
           ))}
-          {isLogin && (
-            <MenuItemStyle key="logout" onClick={handleLogOutClick}>
-              <MenuButton>
-                <ListItemIcon>
-                  <LogoutIcon />
-                </ListItemIcon>
-                Log out
-              </MenuButton>
-            </MenuItemStyle>
-          )}
         </MenuList>
       </MenuWrap>
     </NavWrapper>
