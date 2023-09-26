@@ -2,15 +2,17 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import { customFetchBaseQuery } from "@services/customFetchBaseQuery";
 import {
   IArticleParams,
+  IGetArticlesLikes,
   IGetArticlesResponse,
 } from "@services/types/articlesApiTypes";
+import { articlesApi } from "@services/articlesApi";
 
 const serverUrl = process.env.REACT_APP_DEV_API_URL;
 
 export const favoritesApi = createApi({
   reducerPath: "favoritesApi",
   baseQuery: customFetchBaseQuery(serverUrl),
-  tagTypes: ["FAVORITES"],
+  tagTypes: ["FAVORITES", "LIKE"],
   endpoints: (build) => ({
     addToFavorites: build.mutation<void, { articleId: string }>({
       query: (args) => ({
@@ -64,6 +66,50 @@ export const favoritesApi = createApi({
       }),
       providesTags: ["FAVORITES"],
     }),
+    addLike: build.mutation<void, string>({
+      query: (articleId) => ({
+        url: "/likes",
+        method: "POST",
+        params: {
+          articleId,
+        },
+      }),
+      invalidatesTags: ["LIKE"],
+    }),
+    removeLike: build.mutation<void, string>({
+      query: (articleId) => ({
+        url: "/likes",
+        method: "DELETE",
+        params: {
+          articleId,
+        },
+      }),
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          dispatch(articlesApi.util.invalidateTags(["CURRENT_ARTICLE"]));
+          dispatch(articlesApi.util.invalidateTags(["MY_ARTICLES"]));
+        } catch {}
+      },
+      invalidatesTags: ["LIKE"],
+    }),
+    getLikesPost: build.query<IGetArticlesLikes, void>({
+      query: () => ({
+        url: "/likes",
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          dispatch(articlesApi.util.invalidateTags(["CURRENT_ARTICLE"]));
+          dispatch(articlesApi.util.invalidateTags(["MY_ARTICLES"]));
+        } catch {}
+      },
+      providesTags: ["LIKE"],
+    }),
   }),
 });
 
@@ -72,4 +118,7 @@ export const {
   useRemoveFromFavoritesMutation,
   useGetFavoritesQuery,
   useGetFavoritesArticlesQuery,
+  useAddLikeMutation,
+  useGetLikesPostQuery,
+  useRemoveLikeMutation,
 } = favoritesApi;

@@ -8,6 +8,11 @@ import { useAppSelector } from "../../store";
 import { selectIsLogin } from "@features/user/usersSelectors";
 import { useNavigate } from "react-router-dom";
 import { LOGIN_PATH } from "@constants/paths";
+import {
+  useAddLikeMutation,
+  useGetLikesPostQuery,
+  useRemoveLikeMutation,
+} from "@services/favoritesApi";
 
 interface ILikeButtonProps {
   articleId: string;
@@ -15,13 +20,16 @@ interface ILikeButtonProps {
   size: string;
 }
 
-export const AddLikeButton: FC<ILikeButtonProps> = ({ size }) => {
-  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
-
+export const AddLikeButton: FC<ILikeButtonProps> = ({ size, articleId }) => {
   const isLogin = useAppSelector(selectIsLogin);
-
+  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
+  const [addLike] = useAddLikeMutation();
+  const [removeLike] = useRemoveLikeMutation();
+  const { data: fetchLikes } = useGetLikesPostQuery(undefined, {
+    skip: !isLogin,
+  });
+  const isLike = Array.isArray(fetchLikes) && fetchLikes.includes(articleId);
   const navigate = useNavigate();
-
   const [
     isCurrentArticleAddedToFavorites,
     setIsCurrentArticleAddedToFavorites,
@@ -29,19 +37,14 @@ export const AddLikeButton: FC<ILikeButtonProps> = ({ size }) => {
 
   const { showNotification } = useNotification();
 
-  const iconToShow = isCurrentArticleAddedToFavorites ? (
-    <FavoriteIcon />
-  ) : (
-    <FavoriteBorderIcon className="favoriteBorderIcon" />
-  );
-
   const handleToggleLike = async () => {
     if (!isLogin) {
       navigate(LOGIN_PATH);
     } else {
       setIsButtonDisabled(true);
-      if (isCurrentArticleAddedToFavorites) {
+      if (isLike) {
         try {
+          await removeLike(articleId).unwrap();
           showNotification(
             "The article was deleted from favorites.",
             "success"
@@ -59,6 +62,7 @@ export const AddLikeButton: FC<ILikeButtonProps> = ({ size }) => {
         }
       } else {
         try {
+          await addLike(articleId).unwrap();
           showNotification("The article was added to favorites.", "success");
           setIsCurrentArticleAddedToFavorites(
             !isCurrentArticleAddedToFavorites
@@ -74,13 +78,18 @@ export const AddLikeButton: FC<ILikeButtonProps> = ({ size }) => {
       }
     }
   };
+  const iconToShow = isLike ? (
+    <FavoriteIcon />
+  ) : (
+    <FavoriteBorderIcon className="favoriteBorderIcon" />
+  );
   return (
     <LikeButton
       disableRipple
       onClick={handleToggleLike}
       disabled={isButtonDisabled}
       endIcon={iconToShow}
-      $isCurrentArticleAddedToFavorites={isCurrentArticleAddedToFavorites}
+      $isCurrentArticleAddedToFavorites={isLike}
       $size={size}
     >
       <FavoriteIcon className="favoriteFilledHoverIcon" />

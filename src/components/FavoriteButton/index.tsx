@@ -36,11 +36,14 @@ export const AddFavoriteButton: FC<IFavoriteButtonProps> = ({
   const pageSize = useAppSelector(selectPageSize);
   const { showNotification } = useNotification();
   const orderBy = useAppSelector(selectOrderBy);
-  const { data: fetchFavorites } = useGetFavoritesQuery({
-    pageNumber,
-    pageSize,
-    orderBy,
-  });
+  const { data: fetchFavorites } = useGetFavoritesQuery(
+    {
+      pageNumber,
+      pageSize,
+      orderBy,
+    },
+    { skip: !isLogin }
+  );
   const isFavorite =
     Array.isArray(fetchFavorites) && fetchFavorites.includes(articleId);
   const textToShow = isFavorite ? "Remove from favorites" : "Add to favorites";
@@ -57,7 +60,7 @@ export const AddFavoriteButton: FC<IFavoriteButtonProps> = ({
     <BookmarkBorderIcon className="favoriteBorderIcon" />
   );
 
-  const handleToggleLike = async () => {
+  const handleToggleFavorites = async () => {
     setIsButtonDisabled(true);
     if (isFavorite) {
       try {
@@ -88,7 +91,7 @@ export const AddFavoriteButton: FC<IFavoriteButtonProps> = ({
   return (
     <FavoriteButton
       disableRipple
-      onClick={handleToggleLike}
+      onClick={handleToggleFavorites}
       disabled={isButtonDisabled}
       endIcon={iconToShow}
       $isCurrentArticleAddedToFavorites={isFavorite}

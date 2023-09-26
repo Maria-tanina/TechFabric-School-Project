@@ -21,6 +21,9 @@ export interface IGetArticlesResponse {
   totalCount: number;
   articles: IArticle[];
 }
+export interface IGetArticlesLikes {
+  articles: IArticle[];
+}
 
 export type TOrderByTypes =
   | "byCreatedDateDesc"

@@ -18,24 +18,19 @@ import {
 } from "@services/articlesApi";
 import { IArticle } from "@customTypes/articleTypes";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useRef,useMemo } from "react";
+import { useEffect, useRef, useMemo } from "react";
 import { HOME_PATH } from "@constants/paths";
 import { useNotification } from "@hooks/useNotification";
 import { Spinner } from "@components/Spinner/style";
 import { AddFavoriteButton } from "@components/FavoriteButton";
-import { useAppSelector } from "../../store";
-import { selectIsLogin } from "@features/user/usersSelectors";
 
 export const ArticlePage = () => {
   const { articleId } = useParams<{ articleId?: string }>();
   const navigate = useNavigate();
   const { showNotification } = useNotification();
-  const isLogin = useAppSelector(selectIsLogin);
-
   const { data, isFetching, isError } = useGetArticleInfoQuery({
     articleId: articleId || "",
   });
-
   const {
     data: articlesOfCurrentAuthor,
     isFetching: isArticlesOfAuthorLoading,
@@ -75,7 +70,7 @@ export const ArticlePage = () => {
       ) : (
         <>
           <LeftSidebar>
-            {isLogin && isPublished && (
+            {isPublished && (
               <>
                 <ArticleSideMenuItem>
                   <AddLikeButton
@@ -104,10 +99,10 @@ export const ArticlePage = () => {
           </LeftSidebar>
 
           <MainContent>
-              <Article
-                  article={data as IArticle}
-                  commentsSectionRef={commentsSectionRef}
-              />
+            <Article
+              article={data as IArticle}
+              commentsSectionRef={commentsSectionRef}
+            />
           </MainContent>
 
           <RightSidebar>
