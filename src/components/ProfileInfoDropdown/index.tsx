@@ -1,15 +1,12 @@
 import { FC, useState } from "react";
 import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import PersonAdd from "@mui/icons-material/PersonAdd";
 import Logout from "@mui/icons-material/Logout";
 import ProfileInfo from "@components/ProfileInfo";
 import { useAppDispatch } from "../../store";
 import { logOut } from "@features/user/usersSlice";
 import { useNotification } from "@hooks/useNotification";
-import { useNavigate } from "react-router-dom";
-import { SIGNUP_PATH } from "@constants/paths";
+import { StyledMenuItem } from "@components/ProfileInfoDropdown/style";
 
 interface IAccountMenuProps {
   fullName: string;
@@ -25,19 +22,12 @@ export const ProfileInfoDropdown: FC<IAccountMenuProps> = ({
 
   const dispatch = useAppDispatch();
 
-  const navigate = useNavigate();
-
   const { showNotification } = useNotification();
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
-  };
-
-  const handleAddAnotherAccount = () => {
-    handleClose();
-    navigate(SIGNUP_PATH);
   };
 
   const handleLogOut = () => {
@@ -78,18 +68,12 @@ export const ProfileInfoDropdown: FC<IAccountMenuProps> = ({
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={handleAddAnotherAccount}>
-          <ListItemIcon>
-            <PersonAdd fontSize="small" />
-          </ListItemIcon>
-          Add another account
-        </MenuItem>
-        <MenuItem onClick={handleLogOut}>
+        <StyledMenuItem onClick={handleLogOut}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
           Logout
-        </MenuItem>
+        </StyledMenuItem>
       </Menu>
     </>
   );
