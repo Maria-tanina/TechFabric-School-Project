@@ -68,7 +68,8 @@ import { LoaderWrapper } from "@pages/UpdateArticlePage/style";
 import { Spinner } from "@components/Spinner/style";
 import { isContentValid } from "@helpers/isContentValid";
 import { selectTags } from "@features/tags/tagsSelectors";
-import { MAX_IMAGE_SIZE } from "@constants/article";
+import { MAX_IMAGE_SIZE, TYPES_IMAGE } from "@constants/article";
+import { isImage } from "@helpers/fileType";
 
 const Editor = ({
   articleData,
@@ -242,6 +243,13 @@ const Editor = ({
     const fileInput = e.target;
     if (fileInput.files && fileInput.files.length > 0) {
       const file = fileInput.files[0];
+      const isImageFile = await isImage(file);
+      if (!TYPES_IMAGE.includes(isImageFile)) {
+        showNotification("Only png and jpg files are supported.", "error");
+        fileInput.value = "";
+        return;
+      }
+
       if (file.size > MAX_IMAGE_SIZE) {
         showNotification(
           "Image size is too large. Maximum size is 2MB.",
