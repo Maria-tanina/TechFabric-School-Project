@@ -65,8 +65,8 @@ const App = () => {
 
   return (
     <div>
-      <Layout>
-        <NotificationProvider>
+      <NotificationProvider>
+        <Layout>
           <Routes>
             <Route path={HOME_PATH} element={<HomePage />} />
 
@@ -165,8 +165,8 @@ const App = () => {
               <Route path={FAVORITES_PATH} element={<FavoritesArticlePage />} />
             </Route>
           </Routes>
-        </NotificationProvider>
-      </Layout>
+        </Layout>
+      </NotificationProvider>
     </div>
   );
 };
