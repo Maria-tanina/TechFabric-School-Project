@@ -21,7 +21,6 @@ export const AuthorInfo = ({ author, date }: IAuthorInfo) => {
         <AuthorLabel
           firstName={author?.firstName}
           lastName={author?.lastName}
-          link="/"
         />
       )}
       <ArticleDate>{postedDate}</ArticleDate>

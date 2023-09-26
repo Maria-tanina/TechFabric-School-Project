@@ -9,7 +9,7 @@ import {
 } from "./style";
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import { ARTICLE_PATH, SEARCH_PATH } from "@constants/paths";
+import { ARTICLE_PATH } from "@constants/paths";
 import ProfileInfo from "@components/ProfileInfo";
 import { IArticleProps } from "@customTypes/articleTypes";
 import { getDate } from "@helpers/getDate";
@@ -49,11 +49,7 @@ export const ArticleCard: FC<IArticleProps> = ({ article }) => {
           <StyledBottomWrapper>
             <StyledTagsWrapper>
               {article.tags.map((tag) => (
-                <ArticleTag
-                  key={tag}
-                  link={`${SEARCH_PATH}/tags/${encodeURIComponent(tag)}`}
-                  tag={tag}
-                />
+                <ArticleTag key={tag} tag={tag} />
               ))}
             </StyledTagsWrapper>
 

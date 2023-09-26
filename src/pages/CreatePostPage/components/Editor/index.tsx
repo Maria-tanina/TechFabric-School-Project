@@ -101,7 +101,7 @@ const Editor = ({
 
   const tagsOptions = useAppSelector((state) =>
     selectTags(state, {
-      pageSize: 5,
+      pageSize: 7,
       pageNumber: 1,
     })
   );

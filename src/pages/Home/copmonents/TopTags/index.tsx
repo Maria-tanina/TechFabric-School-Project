@@ -5,7 +5,6 @@ import { TOP_TAGS_COUNT } from "@constants/tops";
 import { Link } from "react-router-dom";
 import { SEARCH_PATH } from "@constants/paths";
 import { useAppDispatch, useAppSelector } from "../../../../store";
-import { useState } from "react";
 import { setValue } from "@features/searchArticle/searchArticleSlice";
 import { selectTags, selectTagsError } from "@features/tags/tagsSelectors";
 
@@ -23,14 +22,12 @@ export const TopTags = () => {
     })
   );
   const dispatch = useAppDispatch();
-  const [selectedTag, setSelectedTag] = useState("");
   const topTags: string[] = (tags ? tags.map((tag) => tag.tagName) : []).slice(
     0,
     TOP_TAGS_COUNT
   );
 
   const handleTagClick = (tag: string) => {
-    setSelectedTag(tag);
     dispatch(setValue(tag));
   };
 
@@ -40,8 +37,8 @@ export const TopTags = () => {
         Top <span>Tags</span>
       </StyledSidebarHeader>
       <TagsWrapper>
-        {topTags?.map((tag, i) => (
-          <StyledTag key={i}>
+        {topTags?.map((tag) => (
+          <StyledTag key={tag}>
             <Link
               to={`${SEARCH_PATH}/tags/${encodeURIComponent(tag)}`}
               onClick={() => handleTagClick(tag)}

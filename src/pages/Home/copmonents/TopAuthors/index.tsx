@@ -1,23 +1,39 @@
 import { StyledSidebarCard } from "@components/SidebarCard";
-import { mockAuthors } from "../TopAuthors/mockAuthors";
 import { StyledSidebarHeader } from "@components/SidebarHeader";
-import { nanoid } from "@reduxjs/toolkit";
 import { AuthorLabel } from "@components/AuthorLabel";
+import { useAppSelector } from "../../../../store";
+import {
+  selectTopAuthors,
+  selectTopAuthorsError,
+} from "@features/authors/authorsSelectors";
 
 export const TopAuthors = () => {
-  return (
+  const authors = useAppSelector((state) =>
+    selectTopAuthors(state, {
+      pageSize: 3,
+      pageNumber: 1,
+    })
+  );
+
+  const isError = useAppSelector((state) =>
+    selectTopAuthorsError(state, {
+      pageSize: 3,
+      pageNumber: 1,
+    })
+  );
+
+  return !isError ? (
     <StyledSidebarCard>
       <StyledSidebarHeader>
         Top <span>Authors</span>
       </StyledSidebarHeader>
-      {mockAuthors.map((author) => (
+      {authors.map((author) => (
         <AuthorLabel
-          key={nanoid()}
-          link="/"
-          firstName={author.firstname}
-          lastName={author.lastname}
+          key={author.authorId}
+          firstName={author.firstName}
+          lastName={author.lastName}
         />
       ))}
     </StyledSidebarCard>
-  );
+  ) : null;
 };
