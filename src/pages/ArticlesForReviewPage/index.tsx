@@ -87,7 +87,7 @@ const ArticlesForReviewPage = () => {
           </Grid>
         )}
 
-        {!isFetching && !isError && (
+        {!isFetching && !isError && !!articlesTotalCount && (
           <>
             <PaginationRounded
               count={pagesTotalCount}
