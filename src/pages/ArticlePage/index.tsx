@@ -16,7 +16,7 @@ import { useGetArticleInfoQuery } from "@services/articlesApi";
 import { IArticle } from "@customTypes/articleTypes";
 import { useNavigate, useParams } from "react-router-dom";
 import { LinearProgress } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { HOME_PATH } from "@constants/paths";
 import { useNotification } from "@hooks/useNotification";
 import { Spinner } from "@components/Spinner/style";
@@ -34,7 +34,12 @@ export const ArticlePage = () => {
     articleId: articleId || "",
   });
   const isPublished = data?.status === "Published";
-
+  const commentsSectionRef = useRef<HTMLDivElement | null>(null);
+  const scrollToComments = () => {
+    if (commentsSectionRef.current) {
+      commentsSectionRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
   useEffect(() => {
     if (isError) {
       navigate(HOME_PATH);
@@ -72,7 +77,7 @@ export const ArticlePage = () => {
             )}
 
             {isPublished && (
-              <ArticleSideMenuItem>
+              <ArticleSideMenuItem onClick={scrollToComments} >
                 <ChatOutlinedIcon />
                 <Count>4</Count>
               </ArticleSideMenuItem>
@@ -83,7 +88,10 @@ export const ArticlePage = () => {
             {isLoading ? (
               <LinearProgress />
             ) : (
-              <Article article={data as IArticle} />
+              <Article
+                article={data as IArticle}
+                commentsSectionRef={commentsSectionRef}
+              />
             )}
           </MainContent>
 

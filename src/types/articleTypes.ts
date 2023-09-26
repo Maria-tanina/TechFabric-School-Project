@@ -1,3 +1,5 @@
+import { MutableRefObject } from "react";
+
 export interface IArticle {
   id: string;
   title: string;
@@ -18,6 +20,7 @@ export interface IArticle {
 }
 export interface IArticleProps {
   article: IArticle;
+  commentsSectionRef?: MutableRefObject<HTMLElement | null>;
 }
 
 export interface IUpdateArticleProps {
