@@ -84,13 +84,6 @@ export const favoritesApi = createApi({
           articleId,
         },
       }),
-      async onQueryStarted(args, { dispatch, queryFulfilled }) {
-        try {
-          await queryFulfilled;
-          dispatch(articlesApi.util.invalidateTags(["CURRENT_ARTICLE"]));
-          dispatch(articlesApi.util.invalidateTags(["MY_ARTICLES"]));
-        } catch {}
-      },
       invalidatesTags: ["LIKE"],
     }),
     getLikesPost: build.query<IGetArticlesLikes, void>({
