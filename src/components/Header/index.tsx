@@ -15,7 +15,7 @@ import {
   selectUserInfoData,
   selectUserIsAuthor,
 } from "@services/authSelectors";
-import { AccountMenu } from "@components/ProfileInfoDropdown";
+import { ProfileInfoDropdown } from "@components/ProfileInfoDropdown";
 
 const Header = () => {
   const userInfo = useAppSelector(selectUserInfoData);
@@ -35,7 +35,7 @@ const Header = () => {
       <HeaderRightSide>
         {isLogin && isAuthor && <CreatePostButton />}
         {isLogin && userInfo ? (
-          <AccountMenu fullName={fullName} role={userInfo.userRole} />
+          <ProfileInfoDropdown fullName={fullName} role={userInfo.userRole} />
         ) : (
           <>
             <LogInButton />

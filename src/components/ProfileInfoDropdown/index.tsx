@@ -16,7 +16,10 @@ interface IAccountMenuProps {
   role: string;
 }
 
-export const AccountMenu: FC<IAccountMenuProps> = ({ fullName, role }) => {
+export const ProfileInfoDropdown: FC<IAccountMenuProps> = ({
+  fullName,
+  role,
+}) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 

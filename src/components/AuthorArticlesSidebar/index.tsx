@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { StyledSidebarHeader } from "@components/SidebarHeader";
 import {
   HeaderSidebarArticle,
@@ -6,37 +7,52 @@ import {
   TagsWrapper,
 } from "@components/AuthorArticlesSidebar/style";
 import { ArticleTag } from "@components/ArticleTag";
+import { IArticle } from "@customTypes/articleTypes";
+import { ARTICLE_PATH } from "@constants/paths";
+import { Link } from "react-router-dom";
 
-export const AuthorArticlesSidebar = () => {
+interface IAuthorArticlesSidebarProps {
+  author:
+    | {
+        id: string;
+        firstName: string;
+        lastName: string;
+      }
+    | undefined;
+  articles: IArticle[];
+}
+
+export const AuthorArticlesSidebar: FC<IAuthorArticlesSidebarProps> = ({
+  author,
+  articles = [],
+}) => {
+  if (!articles.length) {
+    return null;
+  }
+
   return (
     <>
       <StyledSidebarHeader>
-        More from <span>Harold Painless</span>
+        More from{" "}
+        <span>
+          {author?.firstName} {author?.lastName}
+        </span>
       </StyledSidebarHeader>
-      <SidebarArticle>
-        <HeaderSidebarArticle>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </HeaderSidebarArticle>
-        <TagsWrapper>
-          <ArticleTag tag="#sfdfsdf" />
-          <ArticleTag tag="#sfdfsdf" />
-          <ArticleTag tag="#sfdfsdf" />
-          <ArticleTag tag="#sfdfsdf" />
-        </TagsWrapper>
-        <Line />
-      </SidebarArticle>
-      <SidebarArticle>
-        <HeaderSidebarArticle>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </HeaderSidebarArticle>
-        <TagsWrapper>
-          <ArticleTag tag="#sfdfsdf" />
-          <ArticleTag tag="#sfdfsdf" />
-          <ArticleTag tag="#sfdfsdf" />
-          <ArticleTag tag="#sfdfsdf" />
-        </TagsWrapper>
-        <Line />
-      </SidebarArticle>
+      {articles.map((article) => {
+        return (
+          <SidebarArticle key={article.id}>
+            <HeaderSidebarArticle>
+              <Link to={`${ARTICLE_PATH}/${article.id}`}>{article.title}</Link>
+            </HeaderSidebarArticle>
+            <TagsWrapper>
+              {article.tags.map((tag) => (
+                <ArticleTag key={tag} tag={tag} />
+              ))}
+            </TagsWrapper>
+            <Line />
+          </SidebarArticle>
+        );
+      })}
     </>
   );
 };
