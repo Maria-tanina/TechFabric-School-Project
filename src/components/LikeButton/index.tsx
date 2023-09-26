@@ -1,6 +1,5 @@
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { FC, useState } from "react";
-import { LIKE_BUTTON_DISABLE } from "@constants/timers";
 import { getErrorTitle } from "@helpers/errorHandlers";
 import { useNotification } from "@hooks/useNotification";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -56,7 +55,7 @@ export const AddLikeButton: FC<ILikeButtonProps> = ({ size }) => {
             "error"
           );
         } finally {
-          setTimeout(() => setIsButtonDisabled(false), LIKE_BUTTON_DISABLE);
+          setIsButtonDisabled(false);
         }
       } else {
         try {
@@ -70,7 +69,7 @@ export const AddLikeButton: FC<ILikeButtonProps> = ({ size }) => {
             "error"
           );
         } finally {
-          setTimeout(() => setIsButtonDisabled(false), LIKE_BUTTON_DISABLE);
+          setIsButtonDisabled(false);
         }
       }
     }

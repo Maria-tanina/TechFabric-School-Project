@@ -1,5 +1,4 @@
 import { FC, useEffect, useState } from "react";
-import { LIKE_BUTTON_DISABLE } from "@constants/timers";
 import { getErrorTitle } from "@helpers/errorHandlers";
 import { useNotification } from "@hooks/useNotification";
 import { useAppSelector } from "../../store";
@@ -70,7 +69,7 @@ export const AddFavoriteButton: FC<IFavoriteButtonProps> = ({
           "error"
         );
       } finally {
-        setTimeout(() => setIsButtonDisabled(false), LIKE_BUTTON_DISABLE);
+        setIsButtonDisabled(false);
       }
     } else {
       try {
@@ -82,7 +81,7 @@ export const AddFavoriteButton: FC<IFavoriteButtonProps> = ({
           "error"
         );
       } finally {
-        setTimeout(() => setIsButtonDisabled(false), LIKE_BUTTON_DISABLE);
+        setIsButtonDisabled(false);
       }
     }
   };
