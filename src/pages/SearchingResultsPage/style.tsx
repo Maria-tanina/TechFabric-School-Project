@@ -14,8 +14,7 @@ export const SearchWrapper = styled.div`
   gap: 40px;
 `;
 
-export const SearchLeftSidebar = styled.div(
-  ({ theme: { media } }) => `
+export const SearchLeftSidebar = styled.div`
   max-width: 200px;
   position: sticky;
   top: 15px;
@@ -23,5 +22,4 @@ export const SearchLeftSidebar = styled.div(
   li div {
     width: 100%;
   }
-`
-);
+`;

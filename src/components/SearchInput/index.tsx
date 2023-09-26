@@ -54,7 +54,7 @@ export const SearchInput = () => {
 
   const tagsWithType: ISearchOption[] = useMemo(() => {
     return tags.map((tag) => ({
-      label: tag,
+      label: tag.tagName,
       type: "tags",
     }));
   }, [tags]);

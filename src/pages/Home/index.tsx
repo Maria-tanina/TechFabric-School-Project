@@ -98,7 +98,7 @@ const HomePage = () => {
 
       return countTotalNumberOfPages(articlesTotalCount, pageSize);
     }
-  }, [sportType, filteredArticles, articles, pageSize]);
+  }, [sportType, filteredArticles, articles, pageSize, filterIsSelected]);
 
   const handlePageChange = (event: ChangeEvent<unknown>, value: number) => {
     dispatch(setPageNumber(value));
