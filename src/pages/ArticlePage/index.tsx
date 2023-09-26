@@ -12,11 +12,13 @@ import { StyledSidebarCard } from "@components/SidebarCard";
 import { AuthorInfo } from "@pages/ArticlePage/components/AuthorInfo";
 import { AuthorArticlesSidebar } from "@components/AuthorArticlesSidebar";
 import { Article } from "@components/Article";
-import { useGetArticleInfoQuery } from "@services/articlesApi";
+import {
+  useFilterArticlesByAuthorQuery,
+  useGetArticleInfoQuery,
+} from "@services/articlesApi";
 import { IArticle } from "@customTypes/articleTypes";
 import { useNavigate, useParams } from "react-router-dom";
-import { LinearProgress } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { HOME_PATH } from "@constants/paths";
 import { useNotification } from "@hooks/useNotification";
 import { Spinner } from "@components/Spinner/style";
@@ -30,9 +32,20 @@ export const ArticlePage = () => {
   const { showNotification } = useNotification();
   const isLogin = useAppSelector(selectIsLogin);
 
-  const { data, isLoading, isError } = useGetArticleInfoQuery({
+  const { data, isFetching, isError } = useGetArticleInfoQuery({
     articleId: articleId || "",
   });
+
+  const {
+    data: articlesOfCurrentAuthor,
+    isFetching: isArticlesOfAuthorLoading,
+  } = useFilterArticlesByAuthorQuery({
+    authorId: data?.author.id || "",
+    pageSize: 3,
+    pageNumber: 1,
+    orderBy: "topRated",
+  });
+
   const isPublished = data?.status === "Published";
 
   useEffect(() => {
@@ -42,9 +55,15 @@ export const ArticlePage = () => {
     }
   }, [isError]);
 
+  const allArticlesExceptCurrent = useMemo(() => {
+    return articlesOfCurrentAuthor?.articles.filter(
+      (article) => article.id !== articleId
+    );
+  }, [articleId, articlesOfCurrentAuthor]);
+
   return (
     <>
-      {isLoading ? (
+      {isFetching || isArticlesOfAuthorLoading ? (
         <LoaderWrapper style={{ height: "calc(100vh - 264px)" }}>
           <Spinner size={110} />
         </LoaderWrapper>
@@ -80,20 +99,21 @@ export const ArticlePage = () => {
           </LeftSidebar>
 
           <MainContent>
-            {isLoading ? (
-              <LinearProgress />
-            ) : (
-              <Article article={data as IArticle} />
-            )}
+            <Article article={data as IArticle} />
           </MainContent>
 
           <RightSidebar>
             <StyledSidebarCard>
               <AuthorInfo author={data?.author} date={data?.createdAt} />
             </StyledSidebarCard>
-            <StyledSidebarCard>
-              <AuthorArticlesSidebar />
-            </StyledSidebarCard>
+            {!!allArticlesExceptCurrent?.length && (
+              <StyledSidebarCard>
+                <AuthorArticlesSidebar
+                  author={data?.author}
+                  articles={allArticlesExceptCurrent || []}
+                />
+              </StyledSidebarCard>
+            )}
           </RightSidebar>
         </>
       )}

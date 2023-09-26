@@ -1,3 +1,4 @@
+import { FC } from "react";
 import CardMedia from "@mui/material/CardMedia";
 import {
   FavoritesButtons,
@@ -7,22 +8,30 @@ import {
   StyledCardTitle,
   StyledTagsWrapper,
 } from "./style";
-import { FC } from "react";
 import { Link } from "react-router-dom";
-import { ARTICLE_PATH } from "@constants/paths";
+import { ARTICLE_PATH, SEARCH_PATH } from "@constants/paths";
 import ProfileInfo from "@components/ProfileInfo";
 import { IArticleProps } from "@customTypes/articleTypes";
 import { getDate } from "@helpers/getDate";
 import { ArticleTag } from "@components/ArticleTag";
-import { useAppSelector } from "../../store";
+import { useAppDispatch, useAppSelector } from "../../store";
 import { selectIsLogin } from "@features/user/usersSelectors";
 import { AddLikeButton } from "@components/LikeButton";
 import { AddFavoriteButton } from "@components/FavoriteButton";
+import { setValue } from "@features/searchArticle/searchArticleSlice";
 
 export const ArticleCard: FC<IArticleProps> = ({ article }) => {
   const date = getDate(article.createdAt);
 
   const isLogin = useAppSelector(selectIsLogin);
+
+  const dispatch = useAppDispatch();
+
+  const fullName = `${article.author.firstName} ${article.author.lastName}`;
+
+  const handleAuthorClick = (user: string) => {
+    dispatch(setValue(user));
+  };
 
   return (
     <article>
@@ -37,10 +46,13 @@ export const ArticleCard: FC<IArticleProps> = ({ article }) => {
         </Link>
 
         <StyledCardContent>
-          <ProfileInfo
-            userName={article.author.firstName + " " + article.author.lastName}
-            subtitle={date}
-          />
+          <Link to={`${SEARCH_PATH}/users/${fullName}`}>
+            <ProfileInfo
+              userName={fullName}
+              subtitle={date}
+              onClick={() => handleAuthorClick(fullName)}
+            />
+          </Link>
 
           <StyledCardTitle>
             <Link to={`${ARTICLE_PATH}/${article.id}`}>{article.title}</Link>
