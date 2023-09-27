@@ -26,22 +26,28 @@ import { AddFavoriteButton } from "@components/FavoriteButton";
 import { useAppSelector } from "../../store";
 import { selectIsLogin } from "@features/user/usersSelectors";
 import { useGetCommentsQuery } from "@services/commentsApi";
+import { selectCommentPageSize } from "@features/comments/commentsSelectors";
 
 export const ArticlePage = () => {
   const { articleId } = useParams<{ articleId?: string }>();
+
   const navigate = useNavigate();
+
   const { showNotification } = useNotification();
+
   const isLogin = useAppSelector(selectIsLogin);
+
+  const pageSize = useAppSelector(selectCommentPageSize);
 
   const { data, isFetching, isError } = useGetArticleInfoQuery({
     articleId: articleId || "",
   });
 
-  const { data: comments = [], isLoading: commentsAreLoading } =
+  const { data: commentsData, isLoading: commentsAreLoading } =
     useGetCommentsQuery({
       articleId: articleId || "",
       pageNumber: 1,
-      pageSize: 10,
+      pageSize,
     });
 
   const {
@@ -106,7 +112,7 @@ export const ArticlePage = () => {
             {isPublished && (
               <ArticleSideMenuItem onClick={scrollToComments}>
                 <ChatOutlinedIcon />
-                <Count>{comments.length}</Count>
+                <Count>{commentsData?.totalCount || 0}</Count>
               </ArticleSideMenuItem>
             )}
           </LeftSidebar>
@@ -115,7 +121,7 @@ export const ArticlePage = () => {
             <Article
               article={data as IArticle}
               commentsSectionRef={commentsSectionRef}
-              comments={comments}
+              commentsData={commentsData}
             />
           </MainContent>
 

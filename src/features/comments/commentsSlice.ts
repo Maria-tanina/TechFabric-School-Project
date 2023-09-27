@@ -7,7 +7,7 @@ interface ICommentsSliceState {
 
 const initialState: ICommentsSliceState = {
   pageNumber: 1,
-  pageSize: 10,
+  pageSize: 5,
 };
 
 const commentsSlice = createSlice({

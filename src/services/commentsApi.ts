@@ -1,9 +1,9 @@
 import { createApi } from "@reduxjs/toolkit/dist/query/react";
 import { customFetchBaseQuery } from "@services/customFetchBaseQuery";
 import {
-  IComment,
   IDeleteCommentParams,
   IGetCommentsParams,
+  IGetCommentsResponse,
   IPostCommentParams,
 } from "@services/types/commentsApiTypes";
 
@@ -37,7 +37,7 @@ export const commentsApi = createApi({
       }),
       invalidatesTags: ["COMMENTS"],
     }),
-    getComments: build.query<IComment[], IGetCommentsParams>({
+    getComments: build.query<IGetCommentsResponse, IGetCommentsParams>({
       query: ({ articleId, pageSize, pageNumber }) => ({
         url: `/comments/${articleId}`,
         method: "GET",

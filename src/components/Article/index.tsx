@@ -23,23 +23,27 @@ import { UPDATE_ARTICLE_PATH } from "@constants/paths";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { selectUserId, selectUserIsAdmin } from "@services/authSelectors";
 import { RefObject } from "react";
-import { IComment } from "@services/types/commentsApiTypes";
+import { IGetCommentsResponse } from "@services/types/commentsApiTypes";
 import { getDate } from "@helpers/getDate";
 import { incCommentPageSize } from "@features/comments/commentsSlice";
 import Typography from "@mui/material/Typography";
 import { useDeleteCommentMutation } from "@services/commentsApi";
 import { useNotification } from "@hooks/useNotification";
 import { getErrorTitle } from "@helpers/errorHandlers";
+import { selectIsLogin } from "@features/user/usersSelectors";
+import { selectCommentPageSize } from "@features/comments/commentsSelectors";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { LinearProgress } from "@mui/material";
 
 interface IAdditionalArticleProps extends IArticleProps {
   commentsSectionRef: RefObject<HTMLDivElement>;
-  comments: IComment[];
+  commentsData: IGetCommentsResponse | undefined;
 }
 
 export const Article = ({
   article,
   commentsSectionRef,
-  comments,
+  commentsData,
 }: IAdditionalArticleProps) => {
   const [deleteComment] = useDeleteCommentMutation();
 
@@ -52,13 +56,17 @@ export const Article = ({
   const isAuthor =
     !!currentUser && !!article && currentUser === article.author.id;
 
+  const isLogin = useAppSelector(selectIsLogin);
+
+  const pageSize = useAppSelector(selectCommentPageSize);
+
   const isPublished = article.status === "Published";
 
   const dispatch = useAppDispatch();
 
   const { showNotification } = useNotification();
 
-  const handleShowMore = () => {
+  const showMore = () => {
     dispatch(incCommentPageSize(5));
   };
 
@@ -95,40 +103,48 @@ export const Article = ({
           </Link>
         </EditButtonWrapper>
       )}
-      <ArticleCommentWrapper ref={commentsSectionRef}>
-        <CountComments>Comments: {comments.length}</CountComments>
-        <CommentForm articleId={article.id} />
-        {comments.map((comment) => {
-          return (
-            <CommentBody key={comment.commentId}>
-              <ProfileInfo
-                userName={`${comment.author.firstName} ${comment.author.lastName}`}
-                subtitle={getDate(comment.createdAt)}
-              />
-              <CommentMessage>{comment.content}</CommentMessage>
-              {currentUser === comment.author.id || isAdmin ? (
-                <Typography
-                  sx={{ display: "block", cursor: "pointer" }}
-                  component="span"
-                  variant="body2"
-                  color="#676767"
-                  textAlign="right"
-                  onClick={() => handleDeleteComment(comment.commentId)}
-                >
-                  Delete
-                </Typography>
-              ) : null}
-            </CommentBody>
-          );
-        })}
-        {/*<OutlinedButton*/}
-        {/*  $width="216px"*/}
-        {/*  sx={{ display: "block", margin: "0 auto" }}*/}
-        {/*  onClick={handleShowMore}*/}
-        {/*>*/}
-        {/*  Show more*/}
-        {/*</OutlinedButton>*/}
-      </ArticleCommentWrapper>
+
+      {article.status === "Published" && (
+        <ArticleCommentWrapper ref={commentsSectionRef}>
+          <CountComments>
+            Comments: {commentsData?.totalCount || 0}
+          </CountComments>
+
+          {isLogin && <CommentForm articleId={article.id} />}
+          {commentsData && (
+            <InfiniteScroll
+              dataLength={pageSize}
+              next={showMore}
+              hasMore={commentsData.totalCount > pageSize}
+              loader={<LinearProgress />}
+            >
+              {commentsData?.comments.map((comment) => {
+                return (
+                  <CommentBody key={comment.commentId}>
+                    <ProfileInfo
+                      userName={`${comment.author.firstName} ${comment.author.lastName}`}
+                      subtitle={getDate(comment.createdAt)}
+                    />
+                    <CommentMessage>{comment.content}</CommentMessage>
+                    {currentUser === comment.author.id || isAdmin ? (
+                      <Typography
+                        sx={{ display: "block", cursor: "pointer" }}
+                        component="span"
+                        variant="body2"
+                        color="#676767"
+                        textAlign="right"
+                        onClick={() => handleDeleteComment(comment.commentId)}
+                      >
+                        Delete
+                      </Typography>
+                    ) : null}
+                  </CommentBody>
+                );
+              })}
+            </InfiniteScroll>
+          )}
+        </ArticleCommentWrapper>
+      )}
     </ArticleWrap>
   );
 };
