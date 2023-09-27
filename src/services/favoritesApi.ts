@@ -5,7 +5,6 @@ import {
   IGetArticlesLikes,
   IGetArticlesResponse,
 } from "@services/types/articlesApiTypes";
-import { articlesApi } from "@services/articlesApi";
 
 const serverUrl = process.env.REACT_APP_DEV_API_URL;
 
@@ -94,13 +93,16 @@ export const favoritesApi = createApi({
           "Content-Type": "application/json",
         },
       }),
-      async onQueryStarted(args, { dispatch, queryFulfilled }) {
-        try {
-          await queryFulfilled;
-          dispatch(articlesApi.util.invalidateTags(["CURRENT_ARTICLE"]));
-          dispatch(articlesApi.util.invalidateTags(["MY_ARTICLES"]));
-        } catch {}
-      },
+      providesTags: ["LIKE"],
+    }),
+    getLikesCount: build.query<string, string>({
+      query: (articleId) => ({
+        url: "/likes/count",
+        method: "GET",
+        params: {
+          articleId,
+        },
+      }),
       providesTags: ["LIKE"],
     }),
   }),
@@ -114,4 +116,5 @@ export const {
   useAddLikeMutation,
   useGetLikesPostQuery,
   useRemoveLikeMutation,
+  useGetLikesCountQuery,
 } = favoritesApi;

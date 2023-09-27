@@ -23,6 +23,7 @@ import { HOME_PATH } from "@constants/paths";
 import { useNotification } from "@hooks/useNotification";
 import { Spinner } from "@components/Spinner/style";
 import { AddFavoriteButton } from "@components/FavoriteButton";
+import { useGetLikesCountQuery } from "@services/favoritesApi";
 
 export const ArticlePage = () => {
   const { articleId } = useParams<{ articleId?: string }>();
@@ -31,6 +32,8 @@ export const ArticlePage = () => {
   const { data, isFetching, isError } = useGetArticleInfoQuery({
     articleId: articleId || "",
   });
+  const validId = typeof articleId === "string" ? articleId : "";
+  const { data: likeCount } = useGetLikesCountQuery(validId);
   const {
     data: articlesOfCurrentAuthor,
     isFetching: isArticlesOfAuthorLoading,
@@ -78,7 +81,7 @@ export const ArticlePage = () => {
                     showText={false}
                     size="42px"
                   />
-                  <Count>{data?.likeCount}</Count>
+                  <Count>{likeCount}</Count>
                 </ArticleSideMenuItem>
                 <ArticleSideMenuItem>
                   <AddFavoriteButton
