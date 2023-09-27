@@ -46,7 +46,7 @@ export const AddLikeButton: FC<ILikeButtonProps> = ({ size, articleId }) => {
         try {
           await removeLike(articleId).unwrap();
           showNotification(
-            "The article was deleted from favorites.",
+            "The article was deleted from likes.",
             "success"
           );
           setIsCurrentArticleAddedToFavorites(
@@ -63,7 +63,7 @@ export const AddLikeButton: FC<ILikeButtonProps> = ({ size, articleId }) => {
       } else {
         try {
           await addLike(articleId).unwrap();
-          showNotification("The article was added to favorites.", "success");
+          showNotification("The article was added to likes.", "success");
           setIsCurrentArticleAddedToFavorites(
             !isCurrentArticleAddedToFavorites
           );
