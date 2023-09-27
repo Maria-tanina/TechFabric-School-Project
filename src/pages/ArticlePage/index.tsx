@@ -18,7 +18,7 @@ import {
 } from "@services/articlesApi";
 import { IArticle } from "@customTypes/articleTypes";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useRef,useMemo } from "react";
+import { useEffect, useRef, useMemo } from "react";
 import { HOME_PATH } from "@constants/paths";
 import { useNotification } from "@hooks/useNotification";
 import { Spinner } from "@components/Spinner/style";
@@ -104,10 +104,10 @@ export const ArticlePage = () => {
           </LeftSidebar>
 
           <MainContent>
-              <Article
-                  article={data as IArticle}
-                  commentsSectionRef={commentsSectionRef}
-              />
+            <Article
+              article={data as IArticle}
+              commentsSectionRef={commentsSectionRef}
+            />
           </MainContent>
 
           <RightSidebar>
