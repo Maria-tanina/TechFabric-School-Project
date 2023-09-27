@@ -27,6 +27,7 @@ import { useAppSelector } from "../../store";
 import { selectIsLogin } from "@features/user/usersSelectors";
 import { useGetCommentsQuery } from "@services/commentsApi";
 import { selectCommentPageSize } from "@features/comments/commentsSelectors";
+import { CommentButton } from "@components/CommentButton/style";
 
 export const ArticlePage = () => {
   const { articleId } = useParams<{ articleId?: string }>();
@@ -111,7 +112,7 @@ export const ArticlePage = () => {
 
             {isPublished && (
               <ArticleSideMenuItem onClick={scrollToComments}>
-                <ChatOutlinedIcon />
+                <CommentButton endIcon={<ChatOutlinedIcon />} />
                 <Count>{commentsData?.totalCount || 0}</Count>
               </ArticleSideMenuItem>
             )}

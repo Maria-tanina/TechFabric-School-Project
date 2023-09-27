@@ -104,7 +104,7 @@ export const Article = ({
         </EditButtonWrapper>
       )}
 
-      {article.status === "Published" && (
+      {isPublished && (
         <ArticleCommentWrapper ref={commentsSectionRef}>
           <CountComments>
             Comments: {commentsData?.totalCount || 0}
