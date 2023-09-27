@@ -25,6 +25,7 @@ import { Spinner } from "@components/Spinner/style";
 import { AddFavoriteButton } from "@components/FavoriteButton";
 import { useAppSelector } from "../../store";
 import { selectIsLogin } from "@features/user/usersSelectors";
+import { useGetCommentsQuery } from "@services/commentsApi";
 
 export const ArticlePage = () => {
   const { articleId } = useParams<{ articleId?: string }>();
@@ -35,6 +36,13 @@ export const ArticlePage = () => {
   const { data, isFetching, isError } = useGetArticleInfoQuery({
     articleId: articleId || "",
   });
+
+  const { data: comments = [], isLoading: commentsAreLoading } =
+    useGetCommentsQuery({
+      articleId: articleId || "",
+      pageNumber: 1,
+      pageSize: 10,
+    });
 
   const {
     data: articlesOfCurrentAuthor,
@@ -68,7 +76,7 @@ export const ArticlePage = () => {
 
   return (
     <>
-      {isFetching || isArticlesOfAuthorLoading ? (
+      {isFetching || isArticlesOfAuthorLoading || commentsAreLoading ? (
         <LoaderWrapper style={{ height: "calc(100vh - 264px)" }}>
           <Spinner size={110} />
         </LoaderWrapper>
@@ -98,7 +106,7 @@ export const ArticlePage = () => {
             {isPublished && (
               <ArticleSideMenuItem onClick={scrollToComments}>
                 <ChatOutlinedIcon />
-                <Count>4</Count>
+                <Count>{comments.length}</Count>
               </ArticleSideMenuItem>
             )}
           </LeftSidebar>
@@ -107,6 +115,7 @@ export const ArticlePage = () => {
             <Article
               article={data as IArticle}
               commentsSectionRef={commentsSectionRef}
+              comments={comments}
             />
           </MainContent>
 

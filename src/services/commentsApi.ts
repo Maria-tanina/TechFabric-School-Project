@@ -1,6 +1,7 @@
 import { createApi } from "@reduxjs/toolkit/dist/query/react";
 import { customFetchBaseQuery } from "@services/customFetchBaseQuery";
 import {
+  IComment,
   IDeleteCommentParams,
   IGetCommentsParams,
   IPostCommentParams,
@@ -11,6 +12,7 @@ const serverUrl = process.env.REACT_APP_DEV_API_URL;
 export const commentsApi = createApi({
   reducerPath: "commentsApi",
   baseQuery: customFetchBaseQuery(serverUrl),
+  tagTypes: ["COMMENTS"],
   endpoints: (build) => ({
     postComment: build.mutation<void, IPostCommentParams>({
       query: ({ articleId, content }) => ({
@@ -22,16 +24,20 @@ export const commentsApi = createApi({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(content),
+        body: {
+          content: content,
+        },
       }),
+      invalidatesTags: ["COMMENTS"],
     }),
     deleteComment: build.mutation<void, IDeleteCommentParams>({
       query: ({ commentId }) => ({
         url: `/comments/${commentId}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["COMMENTS"],
     }),
-    getComments: build.query<void, IGetCommentsParams>({
+    getComments: build.query<IComment[], IGetCommentsParams>({
       query: ({ articleId, pageSize, pageNumber }) => ({
         url: `/comments/${articleId}`,
         method: "GET",
@@ -40,6 +46,7 @@ export const commentsApi = createApi({
           pageNumber,
         },
       }),
+      providesTags: ["COMMENTS"],
     }),
   }),
 });

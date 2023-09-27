@@ -12,3 +12,21 @@ export interface IGetCommentsParams {
   pageNumber: number;
   pageSize: number;
 }
+
+export interface IGetCommentsResponse {
+  pageNumber: number;
+  pageSize: number;
+  totalCount: number;
+  comments: IComment[];
+}
+
+export interface IComment {
+  author: {
+    id: string;
+    firstName: string;
+    lastName: string;
+  };
+  commentId: string;
+  content: string;
+  createdAt: string;
+}

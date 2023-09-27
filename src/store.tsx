@@ -13,6 +13,7 @@ import myArticleSlice from "@features/myArticle/myArticleSlice";
 import articleForReviewSlice from "@features/articleForReview/articleForReviewSlice";
 import searchArticleSlice from "@features/searchArticle/searchArticleSlice";
 import { commentsApi } from "@services/commentsApi";
+import commentsSlice from "@features/comments/commentsSlice";
 
 const store = configureStore({
   reducer: {
@@ -29,6 +30,7 @@ const store = configureStore({
     articleForReview: articleForReviewSlice,
     searchArticle: searchArticleSlice,
     [commentsApi.reducerPath]: commentsApi.reducer,
+    comments: commentsSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
