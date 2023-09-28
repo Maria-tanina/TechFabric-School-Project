@@ -49,12 +49,12 @@ export const Article = ({
 
   const sanitizedContent = { __html: DOMPurify.sanitize(article?.content) };
 
-  const currentUser = useAppSelector(selectUserId);
+  const currentUserId = useAppSelector(selectUserId);
 
   const isAdmin = useAppSelector(selectUserIsAdmin);
 
   const isAuthor =
-    !!currentUser && !!article && currentUser === article.author.id;
+    !!currentUserId && !!article && currentUserId === article.author.id;
 
   const isLogin = useAppSelector(selectIsLogin);
 
@@ -126,7 +126,7 @@ export const Article = ({
                       subtitle={getDate(comment.createdAt)}
                     />
                     <CommentMessage>{comment.content}</CommentMessage>
-                    {currentUser === comment.author.id || isAdmin ? (
+                    {currentUserId === comment.author.id || isAdmin ? (
                       <Typography
                         sx={{ display: "block", cursor: "pointer" }}
                         component="span"
