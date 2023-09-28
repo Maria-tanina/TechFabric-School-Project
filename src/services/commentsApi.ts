@@ -50,10 +50,9 @@ export const commentsApi = createApi({
         return endpointName;
       },
       merge: (currentCache, newItems, { arg }) => {
-        if (arg.pageNumber === 1) {
+        if (arg.pageNumber === 0) {
           return newItems;
         }
-
         return {
           ...currentCache,
           comments: [...currentCache.comments, ...newItems.comments],

@@ -13,6 +13,7 @@ import { FC, useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import commentsValidationSchema from "@components/CommentForm/commentValidationSchema";
 import { useAppDispatch } from "../../store";
+import { setCommentPageNumber } from "@features/comments/commentsSlice";
 
 interface ICommentMessage {
   message: string;
@@ -34,6 +35,8 @@ export const CommentForm: FC<ICommentFormProps> = ({ articleId }) => {
 
   const { showNotification } = useNotification();
 
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
     if (formState.isSubmitSuccessful) {
       reset();
@@ -46,6 +49,7 @@ export const CommentForm: FC<ICommentFormProps> = ({ articleId }) => {
         articleId,
         content: message.message,
       }).unwrap();
+      dispatch(setCommentPageNumber(0));
     } catch (error) {
       showNotification(
         getErrorTitle(error) || "Some error occurred...",
