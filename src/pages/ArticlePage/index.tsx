@@ -26,7 +26,7 @@ import { AddFavoriteButton } from "@components/FavoriteButton";
 import { useAppSelector } from "../../store";
 import { selectIsLogin } from "@features/user/usersSelectors";
 import { useGetCommentsQuery } from "@services/commentsApi";
-import { selectCommentPageSize } from "@features/comments/commentsSelectors";
+import { selectCommentPageNumber } from "@features/comments/commentsSelectors";
 import { CommentButton } from "@components/CommentButton/style";
 
 export const ArticlePage = () => {
@@ -38,7 +38,7 @@ export const ArticlePage = () => {
 
   const isLogin = useAppSelector(selectIsLogin);
 
-  const pageSize = useAppSelector(selectCommentPageSize);
+  const pageNumber = useAppSelector(selectCommentPageNumber);
 
   const { data, isFetching, isError } = useGetArticleInfoQuery({
     articleId: articleId || "",
@@ -47,8 +47,8 @@ export const ArticlePage = () => {
   const { data: commentsData, isLoading: commentsAreLoading } =
     useGetCommentsQuery({
       articleId: articleId || "",
-      pageNumber: 1,
-      pageSize,
+      pageNumber,
+      pageSize: 5,
     });
 
   const {

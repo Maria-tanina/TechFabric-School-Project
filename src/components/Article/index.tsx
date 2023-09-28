@@ -25,13 +25,16 @@ import { selectUserId, selectUserIsAdmin } from "@services/authSelectors";
 import { RefObject } from "react";
 import { IGetCommentsResponse } from "@services/types/commentsApiTypes";
 import { getDate } from "@helpers/getDate";
-import { incCommentPageSize } from "@features/comments/commentsSlice";
+import {
+  incCommentPageNumber,
+  setComments,
+} from "@features/comments/commentsSlice";
 import Typography from "@mui/material/Typography";
 import { useDeleteCommentMutation } from "@services/commentsApi";
 import { useNotification } from "@hooks/useNotification";
 import { getErrorTitle } from "@helpers/errorHandlers";
 import { selectIsLogin } from "@features/user/usersSelectors";
-import { selectCommentPageSize } from "@features/comments/commentsSelectors";
+import { selectComments } from "@features/comments/commentsSelectors";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { LinearProgress } from "@mui/material";
 
@@ -47,6 +50,8 @@ export const Article = ({
 }: IAdditionalArticleProps) => {
   const [deleteComment] = useDeleteCommentMutation();
 
+  const comments = useAppSelector(selectComments);
+
   const sanitizedContent = { __html: DOMPurify.sanitize(article?.content) };
 
   const currentUserId = useAppSelector(selectUserId);
@@ -58,8 +63,6 @@ export const Article = ({
 
   const isLogin = useAppSelector(selectIsLogin);
 
-  const pageSize = useAppSelector(selectCommentPageSize);
-
   const isPublished = article.status === "Published";
 
   const dispatch = useAppDispatch();
@@ -67,7 +70,9 @@ export const Article = ({
   const { showNotification } = useNotification();
 
   const showMore = () => {
-    dispatch(incCommentPageSize(5));
+    dispatch(incCommentPageNumber(1));
+    const newComments = commentsData?.comments || [];
+    dispatch(setComments(newComments));
   };
 
   const handleDeleteComment = async (commentId: string) => {
@@ -113,12 +118,12 @@ export const Article = ({
           {isLogin && <CommentForm articleId={article.id} />}
           {commentsData && (
             <InfiniteScroll
-              dataLength={pageSize}
+              dataLength={comments.length}
               next={showMore}
-              hasMore={commentsData.totalCount > pageSize}
+              hasMore={commentsData.totalCount > comments.length}
               loader={<LinearProgress />}
             >
-              {commentsData?.comments.map((comment) => {
+              {comments.map((comment) => {
                 return (
                   <CommentBody key={comment.commentId}>
                     <ProfileInfo
