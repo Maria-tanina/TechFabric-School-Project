@@ -23,10 +23,12 @@ import { HOME_PATH } from "@constants/paths";
 import { useNotification } from "@hooks/useNotification";
 import { Spinner } from "@components/Spinner/style";
 import { AddFavoriteButton } from "@components/FavoriteButton";
-import { useAppSelector } from "../../store";
+import { useAppDispatch, useAppSelector } from "../../store";
 import { selectIsLogin } from "@features/user/usersSelectors";
-import { selectCommentsData } from "@features/comments/commentsSelectors";
+import { selectCommentPageNumber } from "@features/comments/commentsSelectors";
 import { CommentButton } from "@components/CommentButton/style";
+import { useGetCommentsQuery } from "@services/commentsApi";
+import { setCommentPageNumber } from "@features/comments/commentsSlice";
 
 export const ArticlePage = () => {
   const { articleId } = useParams<{ articleId?: string }>();
@@ -37,17 +39,20 @@ export const ArticlePage = () => {
 
   const isLogin = useAppSelector(selectIsLogin);
 
+  const pageNumber = useAppSelector(selectCommentPageNumber);
+
+  const dispatch = useAppDispatch();
+
   const { data, isFetching, isError } = useGetArticleInfoQuery({
     articleId: articleId || "",
   });
 
-  const commentsData = useAppSelector((state) =>
-    selectCommentsData(state, {
-      pageNumber: 1,
+  const { data: commentsData, isLoading: isCommentsLoading } =
+    useGetCommentsQuery({
       articleId: articleId || "",
+      pageNumber,
       pageSize: 5,
-    })
-  );
+    });
 
   const {
     data: articlesOfCurrentAuthor,
@@ -60,18 +65,25 @@ export const ArticlePage = () => {
   });
 
   const isPublished = data?.status === "Published";
+
   const commentsSectionRef = useRef<HTMLDivElement | null>(null);
+
   const scrollToComments = () => {
     if (commentsSectionRef.current) {
       commentsSectionRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
+
   useEffect(() => {
     if (isError) {
       navigate(HOME_PATH);
       showNotification("Something wrong. Article not found!", "error");
     }
   }, [isError]);
+
+  useEffect(() => {
+    dispatch(setCommentPageNumber(1));
+  }, [articleId]);
 
   const allArticlesExceptCurrent = useMemo(() => {
     return articlesOfCurrentAuthor?.articles.filter(
@@ -81,7 +93,7 @@ export const ArticlePage = () => {
 
   return (
     <>
-      {isFetching || isArticlesOfAuthorLoading ? (
+      {isFetching || isArticlesOfAuthorLoading || isCommentsLoading ? (
         <LoaderWrapper style={{ height: "calc(100vh - 264px)" }}>
           <Spinner size={110} />
         </LoaderWrapper>
@@ -120,6 +132,7 @@ export const ArticlePage = () => {
             <Article
               article={data as IArticle}
               commentsSectionRef={commentsSectionRef}
+              commentsData={commentsData}
             />
           </MainContent>
 

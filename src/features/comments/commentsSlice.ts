@@ -23,6 +23,7 @@ const commentsSlice = createSlice({
   },
 });
 
-export const { incCommentPageNumber, setCommentPageNumber } = commentsSlice.actions;
+export const { incCommentPageNumber, setCommentPageNumber } =
+  commentsSlice.actions;
 
 export default commentsSlice.reducer;

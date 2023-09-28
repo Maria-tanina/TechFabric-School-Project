@@ -22,31 +22,29 @@ import { Link } from "react-router-dom";
 import { UPDATE_ARTICLE_PATH } from "@constants/paths";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { selectUserId, selectUserIsAdmin } from "@services/authSelectors";
-import { RefObject, useEffect, useMemo } from "react";
+import { RefObject } from "react";
 import { getDate } from "@helpers/getDate";
-import { incCommentPageNumber, setCommentPageNumber } from "@features/comments/commentsSlice";
-import Typography from "@mui/material/Typography";
 import {
-  useDeleteCommentMutation,
-  useGetCommentsQuery,
-} from "@services/commentsApi";
+  incCommentPageNumber,
+} from "@features/comments/commentsSlice";
+import Typography from "@mui/material/Typography";
+import { useDeleteCommentMutation } from "@services/commentsApi";
 import { useNotification } from "@hooks/useNotification";
 import { getErrorTitle } from "@helpers/errorHandlers";
 import { selectIsLogin } from "@features/user/usersSelectors";
-import {
-  selectCommentPageNumber,
-  selectCommentPageSize,
-} from "@features/comments/commentsSelectors";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { LinearProgress } from "@mui/material";
+import { IGetCommentsResponse } from "@services/types/commentsApiTypes";
 
 interface IAdditionalArticleProps extends IArticleProps {
   commentsSectionRef: RefObject<HTMLDivElement>;
+  commentsData: IGetCommentsResponse | undefined;
 }
 
 export const Article = ({
   article,
   commentsSectionRef,
+  commentsData,
 }: IAdditionalArticleProps) => {
   const [deleteComment] = useDeleteCommentMutation();
 
@@ -66,55 +64,6 @@ export const Article = ({
   const dispatch = useAppDispatch();
 
   const { showNotification } = useNotification();
-
-  const pageNumber = useAppSelector(selectCommentPageNumber);
-
-  const pageSize = useAppSelector(selectCommentPageSize);
-
-  const currentPage = useAppSelector(selectCommentPageNumber);
-
-  useEffect(() => {
-    dispatch(setCommentPageNumber(1));
-  }, [article])
-
-  const lastResult = useGetCommentsQuery(
-    {
-      articleId: article.id || "",
-      pageNumber: pageNumber - 1,
-      pageSize: 5,
-    },
-    {
-      skip: currentPage === 1,
-    }
-  );
-
-  const currentResult = useGetCommentsQuery({
-    articleId: article.id || "",
-    pageNumber: pageNumber,
-    pageSize: 5,
-  });
-
-  const nextResult = useGetCommentsQuery({
-    articleId: article.id || "",
-    pageNumber: pageNumber + 1,
-    pageSize: 5,
-  });
-
-  const combined = useMemo(() => {
-    const arr = new Array(pageSize * (currentPage + 1));
-    for (const data of [lastResult.data, currentResult.data, nextResult.data]) {
-      if (data) {
-        arr.push(...data.comments);
-      }
-    }
-    return arr;
-  }, [
-    pageSize,
-    currentPage,
-    lastResult.data,
-    currentResult.data,
-    nextResult.data,
-  ]);
 
   const showMore = () => {
     dispatch(incCommentPageNumber(1));
@@ -157,18 +106,18 @@ export const Article = ({
       {isPublished && (
         <ArticleCommentWrapper ref={commentsSectionRef}>
           <CountComments>
-            Comments: {currentResult?.data?.totalCount || 0}
+            Comments: {commentsData?.totalCount || 0}
           </CountComments>
 
           {isLogin && <CommentForm articleId={article.id} />}
-          {currentResult?.data && (
+          {commentsData && (
             <InfiniteScroll
-              dataLength={combined.length}
+              dataLength={commentsData.comments.length}
               next={showMore}
-              hasMore={currentResult.data?.totalCount > combined.length}
+              hasMore={commentsData.totalCount > commentsData.comments.length}
               loader={<LinearProgress />}
             >
-              {combined.map((comment) => {
+              {commentsData?.comments.map((comment) => {
                 return (
                   <CommentBody key={comment.commentId}>
                     <ProfileInfo

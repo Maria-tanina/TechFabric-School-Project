@@ -46,6 +46,22 @@ export const commentsApi = createApi({
           pageNumber,
         },
       }),
+      serializeQueryArgs: ({ endpointName }) => {
+        return endpointName;
+      },
+      merge: (currentCache, newItems, { arg }) => {
+        if (arg.pageNumber === 1) {
+          return newItems;
+        }
+
+        return {
+          ...currentCache,
+          comments: [...currentCache.comments, ...newItems.comments],
+        };
+      },
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg;
+      },
       providesTags: ["COMMENTS"],
     }),
   }),

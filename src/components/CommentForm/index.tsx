@@ -12,6 +12,7 @@ import { useNotification } from "@hooks/useNotification";
 import { FC, useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import commentsValidationSchema from "@components/CommentForm/commentValidationSchema";
+import { useAppDispatch } from "../../store";
 
 interface ICommentMessage {
   message: string;
