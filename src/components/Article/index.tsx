@@ -22,9 +22,9 @@ import { Link } from "react-router-dom";
 import { UPDATE_ARTICLE_PATH } from "@constants/paths";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { selectUserId, selectUserIsAdmin } from "@services/authSelectors";
-import { RefObject, useMemo } from "react";
+import { RefObject, useEffect, useMemo } from "react";
 import { getDate } from "@helpers/getDate";
-import { incCommentPageNumber } from "@features/comments/commentsSlice";
+import { incCommentPageNumber, setCommentPageNumber } from "@features/comments/commentsSlice";
 import Typography from "@mui/material/Typography";
 import {
   useDeleteCommentMutation,
@@ -72,6 +72,11 @@ export const Article = ({
   const pageSize = useAppSelector(selectCommentPageSize);
 
   const currentPage = useAppSelector(selectCommentPageNumber);
+
+  useEffect(() => {
+    dispatch(setCommentPageNumber(1));
+  }, [article])
+
   const lastResult = useGetCommentsQuery(
     {
       articleId: article.id || "",

@@ -17,9 +17,12 @@ const commentsSlice = createSlice({
     incCommentPageNumber: (state, action: PayloadAction<number>) => {
       state.pageNumber = state.pageNumber + action.payload;
     },
+    setCommentPageNumber: (state, action: PayloadAction<number>) => {
+      state.pageNumber = action.payload;
+    },
   },
 });
 
-export const { incCommentPageNumber } = commentsSlice.actions;
+export const { incCommentPageNumber, setCommentPageNumber } = commentsSlice.actions;
 
 export default commentsSlice.reducer;
