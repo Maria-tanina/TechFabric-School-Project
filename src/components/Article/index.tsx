@@ -22,35 +22,33 @@ import { Link } from "react-router-dom";
 import { UPDATE_ARTICLE_PATH } from "@constants/paths";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { selectUserId, selectUserIsAdmin } from "@services/authSelectors";
-import { RefObject } from "react";
-import { IGetCommentsResponse } from "@services/types/commentsApiTypes";
+import { RefObject, useMemo } from "react";
 import { getDate } from "@helpers/getDate";
-import {
-  incCommentPageNumber,
-  setComments,
-} from "@features/comments/commentsSlice";
+import { incCommentPageNumber } from "@features/comments/commentsSlice";
 import Typography from "@mui/material/Typography";
-import { useDeleteCommentMutation } from "@services/commentsApi";
+import {
+  useDeleteCommentMutation,
+  useGetCommentsQuery,
+} from "@services/commentsApi";
 import { useNotification } from "@hooks/useNotification";
 import { getErrorTitle } from "@helpers/errorHandlers";
 import { selectIsLogin } from "@features/user/usersSelectors";
-import { selectComments } from "@features/comments/commentsSelectors";
+import {
+  selectCommentPageNumber,
+  selectCommentPageSize,
+} from "@features/comments/commentsSelectors";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { LinearProgress } from "@mui/material";
 
 interface IAdditionalArticleProps extends IArticleProps {
   commentsSectionRef: RefObject<HTMLDivElement>;
-  commentsData: IGetCommentsResponse | undefined;
 }
 
 export const Article = ({
   article,
   commentsSectionRef,
-  commentsData,
 }: IAdditionalArticleProps) => {
   const [deleteComment] = useDeleteCommentMutation();
-
-  const comments = useAppSelector(selectComments);
 
   const sanitizedContent = { __html: DOMPurify.sanitize(article?.content) };
 
@@ -69,10 +67,52 @@ export const Article = ({
 
   const { showNotification } = useNotification();
 
+  const pageNumber = useAppSelector(selectCommentPageNumber);
+
+  const pageSize = useAppSelector(selectCommentPageSize);
+
+  const currentPage = useAppSelector(selectCommentPageNumber);
+  const lastResult = useGetCommentsQuery(
+    {
+      articleId: article.id || "",
+      pageNumber: pageNumber - 1,
+      pageSize: 5,
+    },
+    {
+      skip: currentPage === 1,
+    }
+  );
+
+  const currentResult = useGetCommentsQuery({
+    articleId: article.id || "",
+    pageNumber: pageNumber,
+    pageSize: 5,
+  });
+
+  const nextResult = useGetCommentsQuery({
+    articleId: article.id || "",
+    pageNumber: pageNumber + 1,
+    pageSize: 5,
+  });
+
+  const combined = useMemo(() => {
+    const arr = new Array(pageSize * (currentPage + 1));
+    for (const data of [lastResult.data, currentResult.data, nextResult.data]) {
+      if (data) {
+        arr.push(...data.comments);
+      }
+    }
+    return arr;
+  }, [
+    pageSize,
+    currentPage,
+    lastResult.data,
+    currentResult.data,
+    nextResult.data,
+  ]);
+
   const showMore = () => {
     dispatch(incCommentPageNumber(1));
-    const newComments = commentsData?.comments || [];
-    dispatch(setComments(newComments));
   };
 
   const handleDeleteComment = async (commentId: string) => {
@@ -112,18 +152,18 @@ export const Article = ({
       {isPublished && (
         <ArticleCommentWrapper ref={commentsSectionRef}>
           <CountComments>
-            Comments: {commentsData?.totalCount || 0}
+            Comments: {currentResult?.data?.totalCount || 0}
           </CountComments>
 
           {isLogin && <CommentForm articleId={article.id} />}
-          {commentsData && (
+          {currentResult?.data && (
             <InfiniteScroll
-              dataLength={comments.length}
+              dataLength={combined.length}
               next={showMore}
-              hasMore={commentsData.totalCount > comments.length}
+              hasMore={currentResult.data?.totalCount > combined.length}
               loader={<LinearProgress />}
             >
-              {comments.map((comment) => {
+              {combined.map((comment) => {
                 return (
                   <CommentBody key={comment.commentId}>
                     <ProfileInfo

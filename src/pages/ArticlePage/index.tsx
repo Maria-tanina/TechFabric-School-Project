@@ -25,8 +25,7 @@ import { Spinner } from "@components/Spinner/style";
 import { AddFavoriteButton } from "@components/FavoriteButton";
 import { useAppSelector } from "../../store";
 import { selectIsLogin } from "@features/user/usersSelectors";
-import { useGetCommentsQuery } from "@services/commentsApi";
-import { selectCommentPageNumber } from "@features/comments/commentsSelectors";
+import { selectCommentsData } from "@features/comments/commentsSelectors";
 import { CommentButton } from "@components/CommentButton/style";
 
 export const ArticlePage = () => {
@@ -38,18 +37,17 @@ export const ArticlePage = () => {
 
   const isLogin = useAppSelector(selectIsLogin);
 
-  const pageNumber = useAppSelector(selectCommentPageNumber);
-
   const { data, isFetching, isError } = useGetArticleInfoQuery({
     articleId: articleId || "",
   });
 
-  const { data: commentsData, isLoading: commentsAreLoading } =
-    useGetCommentsQuery({
+  const commentsData = useAppSelector((state) =>
+    selectCommentsData(state, {
+      pageNumber: 1,
       articleId: articleId || "",
-      pageNumber,
       pageSize: 5,
-    });
+    })
+  );
 
   const {
     data: articlesOfCurrentAuthor,
@@ -83,7 +81,7 @@ export const ArticlePage = () => {
 
   return (
     <>
-      {isFetching || isArticlesOfAuthorLoading || commentsAreLoading ? (
+      {isFetching || isArticlesOfAuthorLoading ? (
         <LoaderWrapper style={{ height: "calc(100vh - 264px)" }}>
           <Spinner size={110} />
         </LoaderWrapper>
@@ -122,7 +120,6 @@ export const ArticlePage = () => {
             <Article
               article={data as IArticle}
               commentsSectionRef={commentsSectionRef}
-              commentsData={commentsData}
             />
           </MainContent>
 
