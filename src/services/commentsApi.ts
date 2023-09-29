@@ -38,15 +38,13 @@ export const commentsApi = createApi({
           dispatch(
             commentsApi.util.updateQueryData(
               "getComments",
-              { articleId, pageSize, pageNumber },
+              { pageSize, articleId, pageNumber },
               (draft) => {
-                if (draft.comments) {
-                  draft.comments.unshift(data);
-                }
+                draft.totalCount = draft.comments.unshift(data);
               }
             )
           );
-        } catch (error) {}
+        } catch {}
       },
     }),
     deleteComment: build.mutation<void, IDeleteCommentParams>({
@@ -68,6 +66,7 @@ export const commentsApi = createApi({
               draft.comments = draft.comments.filter(
                 (comment) => comment.commentId !== commentId
               );
+              draft.totalCount = draft.comments.length;
             }
           )
         );

@@ -24,9 +24,7 @@ import { useAppDispatch, useAppSelector } from "../../store";
 import { selectUserId, selectUserIsAdmin } from "@services/authSelectors";
 import { RefObject } from "react";
 import { getDate } from "@helpers/getDate";
-import {
-  incCommentPageNumber,
-} from "@features/comments/commentsSlice";
+import { incCommentPageNumber } from "@features/comments/commentsSlice";
 import Typography from "@mui/material/Typography";
 import { useDeleteCommentMutation } from "@services/commentsApi";
 import { useNotification } from "@hooks/useNotification";
