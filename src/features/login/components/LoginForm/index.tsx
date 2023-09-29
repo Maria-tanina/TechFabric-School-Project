@@ -19,7 +19,8 @@ import { useNotification } from "@hooks/useNotification";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 export const LoginForm = () => {
-  const [login, { isLoading: isLoginLoading }] = useLoginMutation();
+  const [login, { isLoading: isLoginLoading, isSuccess: isLoginSuccess }] =
+    useLoginMutation();
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -45,6 +46,11 @@ export const LoginForm = () => {
       reset();
     }
   }, [formState.isSubmitSuccessful, reset]);
+
+  useEffect(() => {
+    isLoginSuccess &&
+      showNotification("You have successfully logged", "success");
+  }, [isLoginSuccess]);
 
   const onSubmit = async (loginData: ILoginData) => {
     try {
