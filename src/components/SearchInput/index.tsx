@@ -84,18 +84,27 @@ export const SearchInput = () => {
     const value = e.target.value as string;
     const index = options.findIndex((option) => option.label.includes(value));
 
-    if (e.key === "Enter" && inputValue.trim().length >= 3) {
+    if (e.key === "Enter" && inputValue.trim().length >= 40) {
+      showNotification(
+        "Search query must contain at maximum 40 characters",
+        "error"
+      );
+    } else if (e.key === "Enter" && inputValue.trim().length < 3) {
+      showNotification(
+        "Search query must contain at least 3 characters",
+        "error"
+      );
+    } else if (
+      e.key === "Enter" &&
+      inputValue.trim().length >= 3 &&
+      inputValue.trim().length <= 40
+    ) {
       if (index >= 0) {
         const typeOfOption = options[index].type;
         navigate(`${SEARCH_PATH}/${typeOfOption}/${encodeURIComponent(value)}`);
       } else {
         handleOptionSelect(value);
       }
-    } else if (e.key === "Enter" && inputValue.trim().length < 3) {
-      showNotification(
-        "Search query must contain at least 3 characters",
-        "error"
-      );
     }
   };
 

@@ -175,6 +175,9 @@ const GlobalStyles = createGlobalStyle(
       color: ${colors.gray};
     }
   }
+  .MuiCardMedia-root.MuiCardMedia-media{
+     object-position: top;
+  }
 `
 );
 

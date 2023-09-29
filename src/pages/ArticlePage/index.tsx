@@ -23,8 +23,12 @@ import { HOME_PATH } from "@constants/paths";
 import { useNotification } from "@hooks/useNotification";
 import { Spinner } from "@components/Spinner/style";
 import { AddFavoriteButton } from "@components/FavoriteButton";
+import { useGetLikesCountQuery } from "@services/favoritesApi";
+import {
+  selectFavoritesPostIds,
+  selectLikedPostIds,
+} from "@services/favoritesSelectors";
 import { useAppDispatch, useAppSelector } from "../../store";
-import { selectIsLogin } from "@features/user/usersSelectors";
 import { selectCommentPageNumber } from "@features/comments/commentsSelectors";
 import { CommentButton } from "@components/CommentButton/style";
 import { useGetCommentsQuery } from "@services/commentsApi";
@@ -37,15 +41,19 @@ export const ArticlePage = () => {
 
   const { showNotification } = useNotification();
 
-  const isLogin = useAppSelector(selectIsLogin);
-
   const pageNumber = useAppSelector(selectCommentPageNumber);
 
   const dispatch = useAppDispatch();
-
   const { data, isFetching, isError } = useGetArticleInfoQuery({
     articleId: articleId || "",
   });
+  const validId = typeof articleId === "string" ? articleId : "";
+  const likedPostsId = useAppSelector(selectLikedPostIds);
+  const favoritesPostsId = useAppSelector(selectFavoritesPostIds);
+  const isLiked = Array.isArray(likedPostsId) && likedPostsId.includes(validId);
+  const isFavorites =
+    Array.isArray(favoritesPostsId) && favoritesPostsId?.includes(validId);
+  const { data: likeCount } = useGetLikesCountQuery(validId);
 
   const { data: commentsData, isLoading: isCommentsLoading } =
     useGetCommentsQuery({
@@ -100,18 +108,20 @@ export const ArticlePage = () => {
       ) : (
         <>
           <LeftSidebar>
-            {isLogin && isPublished && (
+            {isPublished && (
               <>
                 <ArticleSideMenuItem>
                   <AddLikeButton
+                    isLiked={isLiked}
                     articleId={articleId || ""}
                     showText={false}
                     size="42px"
                   />
-                  <Count>{data?.likeCount}</Count>
+                  <Count>{likeCount}</Count>
                 </ArticleSideMenuItem>
                 <ArticleSideMenuItem>
                   <AddFavoriteButton
+                    isFavorite={isFavorites}
                     articleId={articleId || ""}
                     size="42px"
                     showText={false}
