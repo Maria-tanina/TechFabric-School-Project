@@ -2,12 +2,10 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import { customFetchBaseQuery } from "@services/customFetchBaseQuery";
 import {
   IArticleParams,
-  IGetArticlesLikes,
   IGetArticlesResponse,
 } from "@services/types/articlesApiTypes";
 
 const serverUrl = process.env.REACT_APP_DEV_API_URL;
-
 export const favoritesApi = createApi({
   reducerPath: "favoritesApi",
   baseQuery: customFetchBaseQuery(serverUrl),
@@ -35,14 +33,9 @@ export const favoritesApi = createApi({
       }),
       invalidatesTags: ["FAVORITES"],
     }),
-    getFavorites: build.query<IGetArticlesResponse, IArticleParams>({
-      query: ({ pageNumber, pageSize, orderBy }) => ({
+    getFavorites: build.query<string[], void>({
+      query: () => ({
         url: "/favorites",
-        params: {
-          pageNumber,
-          pageSize,
-          orderBy,
-        },
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -85,7 +78,7 @@ export const favoritesApi = createApi({
       }),
       invalidatesTags: ["LIKE"],
     }),
-    getLikesPost: build.query<IGetArticlesLikes, void>({
+    getLikesPost: build.query<string[], void>({
       query: () => ({
         url: "/likes",
         method: "GET",

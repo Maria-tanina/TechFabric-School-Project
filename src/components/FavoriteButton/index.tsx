@@ -6,47 +6,41 @@ import { FavoriteButton } from "./style";
 import { selectIsLogin } from "@features/user/usersSelectors";
 import {
   useAddToFavoritesMutation,
-  useGetFavoritesQuery,
   useRemoveFromFavoritesMutation,
 } from "@services/favoritesApi";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import { Bookmark } from "@mui/icons-material";
-import {
-  selectOrderBy,
-  selectPageNumber,
-  selectPageSize,
-} from "@features/article/articleSelectors";
 
 interface IFavoriteButtonProps {
   articleId: string;
   size: string;
   showText: boolean;
+  isFavorite: boolean;
 }
 
 export const AddFavoriteButton: FC<IFavoriteButtonProps> = ({
   articleId,
   size,
   showText,
+  isFavorite,
 }) => {
   const [addToFavorites] = useAddToFavoritesMutation();
   const [removeFromFavorites] = useRemoveFromFavoritesMutation();
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
   const isLogin = useAppSelector(selectIsLogin);
-  const pageNumber = useAppSelector(selectPageNumber);
-  const pageSize = useAppSelector(selectPageSize);
   const { showNotification } = useNotification();
-  const orderBy = useAppSelector(selectOrderBy);
-  const { data: fetchFavorites } = useGetFavoritesQuery(
-    {
-      pageNumber,
-      pageSize,
-      orderBy,
-    },
-    { skip: !isLogin }
-  );
-  const isFavorite =
-    Array.isArray(fetchFavorites) && fetchFavorites.includes(articleId);
-  const textToShow = isFavorite ? "Remove from favorites" : "Add to favorites";
+  const [isPostAddToFavorite, setIsPostAddToFavorite] = useState(isFavorite);
+
+  useEffect(() => {
+    setIsPostAddToFavorite(false);
+  }, [isLogin]);
+  useEffect(() => {
+    setIsPostAddToFavorite(isFavorite);
+  }, [isFavorite]);
+
+  const textToShow = isPostAddToFavorite
+    ? "Remove from favorites"
+    : "Add to favorites";
 
   useEffect(() => {
     if (!isLogin) {
@@ -54,7 +48,7 @@ export const AddFavoriteButton: FC<IFavoriteButtonProps> = ({
     }
   }, [isLogin]);
 
-  const iconToShow = isFavorite ? (
+  const iconToShow = isPostAddToFavorite ? (
     <Bookmark />
   ) : (
     <BookmarkBorderIcon className="favoriteBorderIcon" />
@@ -62,9 +56,10 @@ export const AddFavoriteButton: FC<IFavoriteButtonProps> = ({
 
   const handleToggleFavorites = async () => {
     setIsButtonDisabled(true);
-    if (isFavorite) {
+    if (isPostAddToFavorite) {
       try {
         await removeFromFavorites({ articleId }).unwrap();
+        setIsPostAddToFavorite(!isPostAddToFavorite);
         showNotification("The article was deleted from favorites.", "success");
       } catch (error) {
         showNotification(
@@ -77,6 +72,7 @@ export const AddFavoriteButton: FC<IFavoriteButtonProps> = ({
     } else {
       try {
         await addToFavorites({ articleId }).unwrap();
+        setIsPostAddToFavorite(!isPostAddToFavorite);
         showNotification("The article was added to favorites.", "success");
       } catch (error) {
         showNotification(
@@ -94,7 +90,7 @@ export const AddFavoriteButton: FC<IFavoriteButtonProps> = ({
       onClick={handleToggleFavorites}
       disabled={isButtonDisabled}
       endIcon={iconToShow}
-      $isCurrentArticleAddedToFavorites={isFavorite}
+      $isCurrentArticleAddedToFavorites={isPostAddToFavorite}
       $size={size}
     >
       {showText ? <span>{textToShow}</span> : null}

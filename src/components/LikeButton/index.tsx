@@ -1,5 +1,5 @@
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { getErrorTitle } from "@helpers/errorHandlers";
 import { useNotification } from "@hooks/useNotification";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -10,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 import { LOGIN_PATH } from "@constants/paths";
 import {
   useAddLikeMutation,
-  useGetLikesPostQuery,
   useRemoveLikeMutation,
 } from "@services/favoritesApi";
 
@@ -18,22 +17,31 @@ interface ILikeButtonProps {
   articleId: string;
   showText: boolean;
   size: string;
+  isLiked: boolean;
 }
 
-export const AddLikeButton: FC<ILikeButtonProps> = ({ size, articleId }) => {
+export const AddLikeButton: FC<ILikeButtonProps> = ({
+  size,
+  articleId,
+  isLiked,
+}) => {
   const isLogin = useAppSelector(selectIsLogin);
-  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
-  const [addLike] = useAddLikeMutation();
-  const [removeLike] = useRemoveLikeMutation();
-  const { data: fetchLikes } = useGetLikesPostQuery(undefined, {
-    skip: !isLogin,
-  });
-  const isLike = Array.isArray(fetchLikes) && fetchLikes.includes(articleId);
-  const navigate = useNavigate();
   const [
     isCurrentArticleAddedToFavorites,
     setIsCurrentArticleAddedToFavorites,
   ] = useState<boolean>(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
+  const [addLike] = useAddLikeMutation();
+  const [removeLike] = useRemoveLikeMutation();
+  const navigate = useNavigate();
+  const [isPostLiked, setIsPostLiked] = useState(isLiked);
+
+  useEffect(() => {
+    setIsPostLiked(false);
+  }, [!isLogin]);
+  useEffect(() => {
+    setIsPostLiked(isLiked);
+  }, [isLiked]);
 
   const { showNotification } = useNotification();
 
@@ -42,9 +50,10 @@ export const AddLikeButton: FC<ILikeButtonProps> = ({ size, articleId }) => {
       navigate(LOGIN_PATH);
     } else {
       setIsButtonDisabled(true);
-      if (isLike) {
+      if (isPostLiked) {
         try {
           await removeLike(articleId).unwrap();
+          setIsPostLiked(!isPostLiked);
           showNotification("The article was deleted from likes.", "success");
           setIsCurrentArticleAddedToFavorites(
             !isCurrentArticleAddedToFavorites
@@ -60,6 +69,7 @@ export const AddLikeButton: FC<ILikeButtonProps> = ({ size, articleId }) => {
       } else {
         try {
           await addLike(articleId).unwrap();
+          setIsPostLiked(!isPostLiked);
           showNotification("The article was added to likes.", "success");
           setIsCurrentArticleAddedToFavorites(
             !isCurrentArticleAddedToFavorites
@@ -75,7 +85,7 @@ export const AddLikeButton: FC<ILikeButtonProps> = ({ size, articleId }) => {
       }
     }
   };
-  const iconToShow = isLike ? (
+  const iconToShow = isPostLiked ? (
     <FavoriteIcon />
   ) : (
     <FavoriteBorderIcon className="favoriteBorderIcon" />
@@ -86,7 +96,7 @@ export const AddLikeButton: FC<ILikeButtonProps> = ({ size, articleId }) => {
       onClick={handleToggleLike}
       disabled={isButtonDisabled}
       endIcon={iconToShow}
-      $isCurrentArticleAddedToFavorites={isLike}
+      $isCurrentArticleAddedToFavorites={isPostLiked}
       $size={size}
     >
       <FavoriteIcon className="favoriteFilledHoverIcon" />
