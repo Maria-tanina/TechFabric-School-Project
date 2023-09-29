@@ -40,7 +40,8 @@ export const commentsApi = createApi({
               "getComments",
               { pageSize, articleId, pageNumber },
               (draft) => {
-                draft.totalCount = draft.comments.unshift(data);
+                draft.comments.unshift(data);
+                draft.totalCount += 1;
               }
             )
           );
@@ -66,7 +67,7 @@ export const commentsApi = createApi({
               draft.comments = draft.comments.filter(
                 (comment) => comment.commentId !== commentId
               );
-              draft.totalCount = draft.comments.length;
+              draft.totalCount -= 1;
             }
           )
         );

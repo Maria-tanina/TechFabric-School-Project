@@ -24,7 +24,7 @@ interface ICommentFormProps {
 }
 
 export const CommentForm: FC<ICommentFormProps> = ({ articleId }) => {
-  const [postComment] = usePostCommentMutation();
+  const [postComment, { isLoading }] = usePostCommentMutation();
 
   const { control, handleSubmit, reset, formState } = useForm<ICommentMessage>({
     defaultValues: {
@@ -72,7 +72,7 @@ export const CommentForm: FC<ICommentFormProps> = ({ articleId }) => {
         label="Write your comment here"
       />
       <CommentsButtonWrapper>
-        <OutlinedButton type="submit" variant="contained">
+        <OutlinedButton type="submit" variant="contained" disabled={isLoading}>
           Send comment
         </OutlinedButton>
         <GhostButton onClick={onReset}>Clear input</GhostButton>
