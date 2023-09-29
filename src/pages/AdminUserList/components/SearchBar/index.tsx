@@ -63,7 +63,7 @@ const SearchBar = () => {
           <StyledFilterInput
             value={draftQuery}
             onChange={handleQueryChange}
-            placeholder="Enter the nickname or email..."
+            placeholder="Enter the name or email..."
             onKeyDown={handleKeyPress}
             InputProps={{
               startAdornment: (
