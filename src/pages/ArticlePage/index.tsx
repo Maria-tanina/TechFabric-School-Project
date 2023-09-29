@@ -12,29 +12,56 @@ import { StyledSidebarCard } from "@components/SidebarCard";
 import { AuthorInfo } from "@pages/ArticlePage/components/AuthorInfo";
 import { AuthorArticlesSidebar } from "@components/AuthorArticlesSidebar";
 import { Article } from "@components/Article";
-import { useGetArticleInfoQuery } from "@services/articlesApi";
+import {
+  useFilterArticlesByAuthorQuery,
+  useGetArticleInfoQuery,
+} from "@services/articlesApi";
 import { IArticle } from "@customTypes/articleTypes";
 import { useNavigate, useParams } from "react-router-dom";
-import { LinearProgress } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useRef, useMemo } from "react";
 import { HOME_PATH } from "@constants/paths";
 import { useNotification } from "@hooks/useNotification";
 import { Spinner } from "@components/Spinner/style";
 import { AddFavoriteButton } from "@components/FavoriteButton";
+import { useGetLikesCountQuery } from "@services/favoritesApi";
 import { useAppSelector } from "../../store";
-import { selectIsLogin } from "@features/user/usersSelectors";
+import {
+  selectFavoritesPostIds,
+  selectLikedPostIds,
+} from "@services/favoritesSelectors";
 
 export const ArticlePage = () => {
   const { articleId } = useParams<{ articleId?: string }>();
   const navigate = useNavigate();
   const { showNotification } = useNotification();
-  const isLogin = useAppSelector(selectIsLogin);
-
-  const { data, isLoading, isError } = useGetArticleInfoQuery({
+  const { data, isFetching, isError } = useGetArticleInfoQuery({
     articleId: articleId || "",
   });
-  const isPublished = data?.status === "Published";
+  const validId = typeof articleId === "string" ? articleId : "";
+  const likedPostsId = useAppSelector(selectLikedPostIds);
+  const favoritesPostsId = useAppSelector(selectFavoritesPostIds);
+  const isLiked = Array.isArray(likedPostsId) && likedPostsId.includes(validId);
+  const isFavorites =
+    Array.isArray(favoritesPostsId) && favoritesPostsId?.includes(validId);
+  const { data: likeCount } = useGetLikesCountQuery(validId);
 
+  const {
+    data: articlesOfCurrentAuthor,
+    isFetching: isArticlesOfAuthorLoading,
+  } = useFilterArticlesByAuthorQuery({
+    authorId: data?.author.id || "",
+    pageSize: 3,
+    pageNumber: 1,
+    orderBy: "topRated",
+  });
+
+  const isPublished = data?.status === "Published";
+  const commentsSectionRef = useRef<HTMLDivElement | null>(null);
+  const scrollToComments = () => {
+    if (commentsSectionRef.current) {
+      commentsSectionRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
   useEffect(() => {
     if (isError) {
       navigate(HOME_PATH);
@@ -42,27 +69,35 @@ export const ArticlePage = () => {
     }
   }, [isError]);
 
+  const allArticlesExceptCurrent = useMemo(() => {
+    return articlesOfCurrentAuthor?.articles.filter(
+      (article) => article.id !== articleId
+    );
+  }, [articleId, articlesOfCurrentAuthor]);
+
   return (
     <>
-      {isLoading ? (
+      {isFetching || isArticlesOfAuthorLoading ? (
         <LoaderWrapper style={{ height: "calc(100vh - 264px)" }}>
           <Spinner size={110} />
         </LoaderWrapper>
       ) : (
         <>
           <LeftSidebar>
-            {isLogin && isPublished && (
+            {isPublished && (
               <>
                 <ArticleSideMenuItem>
                   <AddLikeButton
+                    isLiked={isLiked}
                     articleId={articleId || ""}
                     showText={false}
                     size="42px"
                   />
-                  <Count>{data?.likeCount}</Count>
+                  <Count>{likeCount}</Count>
                 </ArticleSideMenuItem>
                 <ArticleSideMenuItem>
                   <AddFavoriteButton
+                    isFavorite={isFavorites}
                     articleId={articleId || ""}
                     size="42px"
                     showText={false}
@@ -72,7 +107,7 @@ export const ArticlePage = () => {
             )}
 
             {isPublished && (
-              <ArticleSideMenuItem>
+              <ArticleSideMenuItem onClick={scrollToComments}>
                 <ChatOutlinedIcon />
                 <Count>4</Count>
               </ArticleSideMenuItem>
@@ -80,20 +115,24 @@ export const ArticlePage = () => {
           </LeftSidebar>
 
           <MainContent>
-            {isLoading ? (
-              <LinearProgress />
-            ) : (
-              <Article article={data as IArticle} />
-            )}
+            <Article
+              article={data as IArticle}
+              commentsSectionRef={commentsSectionRef}
+            />
           </MainContent>
 
           <RightSidebar>
             <StyledSidebarCard>
               <AuthorInfo author={data?.author} date={data?.createdAt} />
             </StyledSidebarCard>
-            <StyledSidebarCard>
-              <AuthorArticlesSidebar />
-            </StyledSidebarCard>
+            {!!allArticlesExceptCurrent?.length && (
+              <StyledSidebarCard>
+                <AuthorArticlesSidebar
+                  author={data?.author}
+                  articles={allArticlesExceptCurrent || []}
+                />
+              </StyledSidebarCard>
+            )}
           </RightSidebar>
         </>
       )}

@@ -66,9 +66,21 @@ export const SearchInput = () => {
     }));
   }, [authors]);
 
-  const options: ISearchOption[] = inputValue
-    ? [...tagsWithType, ...authorsWithType]
-    : [...tagsWithType.slice(0, 4)];
+  const searchResults: ISearchOption[] = useMemo(() => {
+    if (inputValue.trim() === "") {
+      return [...tagsWithType, ...authorsWithType];
+    } else {
+      const searchTerm = inputValue.trim().toLowerCase();
+      const filteredTags = tagsWithType.filter(tag =>
+          tag.label.toLowerCase().includes(searchTerm)
+      );
+      const filteredAuthors = authorsWithType.filter(author =>
+          author.label.toLowerCase().includes(searchTerm)
+      );
+      return [...filteredTags, ...filteredAuthors];
+    }
+  }, [inputValue, tagsWithType, authorsWithType]);
+
 
   const handleInputChange = (event: ChangeEvent<{}>, value: string) => {
     const inputValue = value.trim();
@@ -82,20 +94,29 @@ export const SearchInput = () => {
 
   const handleKeyDown: KeyboardEventHandler<HTMLDivElement> = (e: any) => {
     const value = e.target.value as string;
-    const index = options.findIndex((option) => option.label.includes(value));
+    const index = searchResults?.findIndex(() => searchResults);
 
-    if (e.key === "Enter" && inputValue.trim().length >= 3) {
-      if (index >= 0) {
-        const typeOfOption = options[index].type;
-        navigate(`${SEARCH_PATH}/${typeOfOption}/${encodeURIComponent(value)}`);
-      } else {
-        handleOptionSelect(value);
-      }
+    if (e.key === "Enter" && inputValue.trim().length >= 40) {
+      showNotification(
+        "Search query must contain at maximum 40 characters",
+        "error"
+      );
     } else if (e.key === "Enter" && inputValue.trim().length < 3) {
       showNotification(
         "Search query must contain at least 3 characters",
         "error"
       );
+    } else if (
+      e.key === "Enter" &&
+      inputValue.trim().length >= 3 &&
+      inputValue.trim().length <= 40
+    ) {
+      if (index >= 0) {
+        const typeOfOption = searchResults[index].type;
+        navigate(`${SEARCH_PATH}/${typeOfOption}/${encodeURIComponent(value)}`);
+      } else {
+        handleOptionSelect(value);
+      }
     }
   };
 
@@ -115,10 +136,10 @@ export const SearchInput = () => {
       selectOnFocus
       freeSolo
       disablePortal
-      options={options}
+      options={searchResults}
       inputValue={inputValue}
-      groupBy={(option) => {
-        const category = (option as ISearchOption).type;
+      groupBy={(searchResults) => {
+        const category = (searchResults as ISearchOption).type;
         return category.charAt(0).toUpperCase() + category.slice(1);
       }}
       onKeyDown={handleKeyDown}

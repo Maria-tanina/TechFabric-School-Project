@@ -3,6 +3,7 @@ import { IArticle, IUpdateArticleProps } from "@customTypes/articleTypes";
 import { customFetchBaseQuery } from "@services/customFetchBaseQuery";
 import {
   IArticleParams,
+  IFilterArticlesByAuthorParams,
   IFilterArticlesByTypeParams,
   IGetArticlesResponse,
   IPublishArticleRequest,
@@ -153,6 +154,21 @@ export const articlesApi = createApi({
       }),
       providesTags: ["ARTICLES"],
     }),
+    filterArticlesByAuthor: build.query<
+      IGetArticlesResponse,
+      IFilterArticlesByAuthorParams
+    >({
+      query: ({ authorId, pageNumber, pageSize, orderBy }) => ({
+        url: "/articles/filter-by-author",
+        params: {
+          authorId,
+          pageNumber,
+          pageSize,
+          orderBy,
+        },
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -170,4 +186,5 @@ export const {
   useFilterArticlesByTypeQuery,
   useGetArticlesByTitleQuery,
   useGetArticlesByAuthorQuery,
+  useFilterArticlesByAuthorQuery,
 } = articlesApi;

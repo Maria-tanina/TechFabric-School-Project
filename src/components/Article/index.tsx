@@ -22,8 +22,12 @@ import { Link } from "react-router-dom";
 import { UPDATE_ARTICLE_PATH } from "@constants/paths";
 import { useAppSelector } from "../../store";
 import { selectUserId } from "@services/authSelectors";
+import { RefObject } from "react";
 
-export const Article = ({ article }: IArticleProps) => {
+export const Article = ({
+  article,
+  commentsSectionRef,
+}: IArticleProps & { commentsSectionRef: RefObject<HTMLDivElement> }) => {
   const sanitizedContent = { __html: DOMPurify.sanitize(article?.content) };
   const author = useAppSelector(selectUserId);
   const isAuthor = !!author && !!article && author === article.author.id;
@@ -50,7 +54,7 @@ export const Article = ({ article }: IArticleProps) => {
           </Link>
         </EditButtonWrapper>
       )}
-      <ArticleCommentWrapper>
+      <ArticleCommentWrapper ref={commentsSectionRef}>
         <CountComments>Comments: 4</CountComments>
         <CommentForm />
         <CommentBody>

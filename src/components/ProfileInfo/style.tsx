@@ -4,6 +4,7 @@ export const ProfileInfoWrapper = styled.div`
   display: flex;
   gap: 12px;
   align-items: center;
+  cursor: pointer;
 `;
 export const ProfileInfoAvatar = styled.div(
   ({ theme: { colors } }) => `
