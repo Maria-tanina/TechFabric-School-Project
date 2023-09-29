@@ -1,5 +1,4 @@
 import { MenuHeading, SearchBarFieldsWrapper, SearchBarWrapper } from "./style";
-import { ChangeEvent } from "react";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import OutlinedSelect from "@components/OutlinedSelect";
 import { OutlinedButton } from "@components/OutlinedButton";
@@ -22,6 +21,7 @@ import {
   selectDraftRole,
 } from "@features/admin/adminSelectors";
 import { allRoles } from "@constants/roles";
+import { ChangeEvent, KeyboardEvent } from "react";
 
 const SearchBar = () => {
   const draftQuery = useAppSelector(selectDraftQuery);
@@ -47,6 +47,11 @@ const SearchBar = () => {
     dispatch(setAppliedFilterRole(draftRole));
     dispatch(setPaginationPage(0));
   };
+  const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearchClick();
+    }
+  };
 
   const isFieldsDisabled = isUsersLoading || isError;
 
@@ -59,6 +64,7 @@ const SearchBar = () => {
             value={draftQuery}
             onChange={handleQueryChange}
             placeholder="Enter the nickname or email..."
+            onKeyDown={handleKeyPress}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
