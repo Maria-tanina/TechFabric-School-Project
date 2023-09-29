@@ -1,10 +1,15 @@
 export interface IPostCommentParams {
   articleId: string;
   content: string;
+  pageNumber: number;
+  pageSize: number;
 }
 
 export interface IDeleteCommentParams {
   commentId: string;
+  pageNumber: number;
+  pageSize: number;
+  articleId: string;
 }
 
 export interface IGetCommentsParams {

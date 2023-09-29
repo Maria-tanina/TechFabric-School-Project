@@ -12,8 +12,9 @@ import { useNotification } from "@hooks/useNotification";
 import { FC, useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import commentsValidationSchema from "@components/CommentForm/commentValidationSchema";
-import { useAppDispatch } from "../../store";
+import { useAppDispatch, useAppSelector } from "../../store";
 import { setCommentPageNumber } from "@features/comments/commentsSlice";
+import { selectCommentPageNumber } from "@features/comments/commentsSelectors";
 
 interface ICommentMessage {
   message: string;
@@ -37,6 +38,8 @@ export const CommentForm: FC<ICommentFormProps> = ({ articleId }) => {
 
   const dispatch = useAppDispatch();
 
+  const pageNumber = useAppSelector(selectCommentPageNumber);
+
   useEffect(() => {
     if (formState.isSubmitSuccessful) {
       reset();
@@ -48,6 +51,8 @@ export const CommentForm: FC<ICommentFormProps> = ({ articleId }) => {
       await postComment({
         articleId,
         content: message.message,
+        pageSize: 5,
+        pageNumber,
       }).unwrap();
       dispatch(setCommentPageNumber(0));
     } catch (error) {

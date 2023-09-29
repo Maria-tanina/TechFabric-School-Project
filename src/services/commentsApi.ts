@@ -1,6 +1,7 @@
 import { createApi } from "@reduxjs/toolkit/dist/query/react";
 import { customFetchBaseQuery } from "@services/customFetchBaseQuery";
 import {
+  IComment,
   IDeleteCommentParams,
   IGetCommentsParams,
   IGetCommentsResponse,
@@ -14,7 +15,7 @@ export const commentsApi = createApi({
   baseQuery: customFetchBaseQuery(serverUrl),
   tagTypes: ["COMMENTS"],
   endpoints: (build) => ({
-    postComment: build.mutation<void, IPostCommentParams>({
+    postComment: build.mutation<IComment, IPostCommentParams>({
       query: ({ articleId, content }) => ({
         url: "/comments",
         method: "POST",
@@ -28,40 +29,89 @@ export const commentsApi = createApi({
           content: content,
         },
       }),
-      invalidatesTags: ["COMMENTS"],
+      async onQueryStarted(
+        { content, articleId, pageSize, pageNumber },
+        { dispatch, queryFulfilled }
+      ) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(
+            commentsApi.util.updateQueryData(
+              "getComments",
+              { articleId, pageSize, pageNumber },
+              (draft) => {
+                if (draft.comments) {
+                  draft.comments.unshift(data);
+                }
+              }
+            )
+          );
+        } catch (error) {}
+      },
     }),
     deleteComment: build.mutation<void, IDeleteCommentParams>({
       query: ({ commentId }) => ({
         url: `/comments/${commentId}`,
+
         method: "DELETE",
       }),
-      invalidatesTags: ["COMMENTS"],
+
+      async onQueryStarted(
+        { commentId, pageSize, articleId, pageNumber },
+        { dispatch, queryFulfilled }
+      ) {
+        const patchResult = dispatch(
+          commentsApi.util.updateQueryData(
+            "getComments",
+            { pageSize, articleId, pageNumber },
+            (draft) => {
+              draft.comments = draft.comments.filter(
+                (comment) => comment.commentId !== commentId
+              );
+            }
+          )
+        );
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
     }),
     getComments: build.query<IGetCommentsResponse, IGetCommentsParams>({
       query: ({ articleId, pageSize, pageNumber }) => ({
         url: `/comments/${articleId}`,
+
         method: "GET",
+
         params: {
           pageSize,
           pageNumber,
         },
       }),
-      serializeQueryArgs: ({ endpointName }) => {
-        return endpointName;
+
+      serializeQueryArgs: ({ queryArgs }) => {
+        const { pageNumber, ...newQueryArgs } = queryArgs;
+        return newQueryArgs;
       },
-      merge: (currentCache, newItems, { arg }) => {
-        if (arg.pageNumber === 0) {
-          return newItems;
+
+      merge: (currentCache, newItems) => {
+        if (currentCache.comments) {
+          return {
+            ...currentCache,
+            ...newItems,
+            comments: [...currentCache.comments, ...newItems.comments],
+          };
         }
-        return {
-          ...currentCache,
-          comments: [...currentCache.comments, ...newItems.comments],
-        };
+        return newItems;
       },
+
       forceRefetch({ currentArg, previousArg }) {
-        return currentArg !== previousArg;
+        return (
+          currentArg?.pageNumber !== previousArg?.pageNumber ||
+          currentArg?.articleId !== previousArg?.articleId
+        );
       },
-      providesTags: ["COMMENTS"],
     }),
   }),
 });

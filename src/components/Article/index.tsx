@@ -24,7 +24,9 @@ import { useAppDispatch, useAppSelector } from "../../store";
 import { selectUserId, selectUserIsAdmin } from "@services/authSelectors";
 import { RefObject } from "react";
 import { getDate } from "@helpers/getDate";
-import { incCommentPageNumber, setCommentPageNumber } from "@features/comments/commentsSlice";
+import {
+  incCommentPageNumber,
+} from "@features/comments/commentsSlice";
 import Typography from "@mui/material/Typography";
 import { useDeleteCommentMutation } from "@services/commentsApi";
 import { useNotification } from "@hooks/useNotification";
@@ -33,6 +35,7 @@ import { selectIsLogin } from "@features/user/usersSelectors";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { LinearProgress } from "@mui/material";
 import { IGetCommentsResponse } from "@services/types/commentsApiTypes";
+import { selectCommentPageNumber } from "@features/comments/commentsSelectors";
 
 interface IAdditionalArticleProps extends IArticleProps {
   commentsSectionRef: RefObject<HTMLDivElement>;
@@ -59,6 +62,8 @@ export const Article = ({
 
   const isPublished = article.status === "Published";
 
+  const pageNumber = useAppSelector(selectCommentPageNumber);
+
   const dispatch = useAppDispatch();
 
   const { showNotification } = useNotification();
@@ -71,8 +76,10 @@ export const Article = ({
     try {
       await deleteComment({
         commentId,
+        articleId: article.id,
+        pageSize: 5,
+        pageNumber,
       }).unwrap();
-      dispatch(setCommentPageNumber(0));
     } catch (error) {
       showNotification(
         getErrorTitle(error) || "Some error occurred...",
