@@ -75,6 +75,7 @@ export const CommentForm: FC<ICommentFormProps> = ({ articleId }) => {
         <OutlinedButton type="submit" variant="contained" disabled={isLoading}>
           Send comment
         </OutlinedButton>
+
         <GhostButton onClick={onReset}>Clear input</GhostButton>
       </CommentsButtonWrapper>
     </StyledCommentForm>
