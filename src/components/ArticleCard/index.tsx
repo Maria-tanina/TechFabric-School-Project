@@ -14,12 +14,15 @@ import ProfileInfo from "@components/ProfileInfo";
 import { IArticleProps } from "@customTypes/articleTypes";
 import { getDate } from "@helpers/getDate";
 import { ArticleTag } from "@components/ArticleTag";
-import {useAppDispatch, useAppSelector} from "../../store";
+import { useAppDispatch, useAppSelector } from "../../store";
 import { AddLikeButton } from "@components/LikeButton";
 import { AddFavoriteButton } from "@components/FavoriteButton";
 import { setValue } from "@features/searchArticle/searchArticleSlice";
-import {selectFavoritesPostIds, selectLikedPostIds} from "@services/favoritesSelectors";
-import {selectIsLogin} from "@features/user/usersSelectors";
+import {
+  selectFavoritesPostIds,
+  selectLikedPostIds,
+} from "@services/favoritesSelectors";
+import { selectIsLogin } from "@features/user/usersSelectors";
 
 export const ArticleCard: FC<IArticleProps> = ({ article }) => {
   const isLogin = useAppSelector(selectIsLogin);
@@ -47,11 +50,11 @@ export const ArticleCard: FC<IArticleProps> = ({ article }) => {
   }, [likedPostsId?.length, favoritesPostsId?.length]);
 
   useEffect(() => {
-    if(!isLogin){
+    if (!isLogin) {
       setIsButtonsStates({
         isLiked: false,
         isFavorites: false,
-      })
+      });
     }
   }, [!isLogin]);
   return (

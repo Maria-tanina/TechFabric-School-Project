@@ -29,7 +29,6 @@ import { PasswordRecovery } from "@pages/PasswordRecovery";
 import NotFound from "@pages/NotFound";
 import RequireAuth from "../RequireAuth";
 import HomePage from "@pages/Home";
-import { NotificationProvider } from "@hooks/useNotification";
 import { ArticlePage } from "@pages/ArticlePage";
 import AdminUserList from "@pages/AdminUserList";
 import { Role } from "@constants/roles";
@@ -78,105 +77,94 @@ const App = () => {
   }
 
   return (
-    <NotificationProvider>
-      <Layout>
-        <Routes>
-          <Route path={HOME_PATH} element={<HomePage />} />
+    <Layout>
+      <Routes>
+        <Route path={HOME_PATH} element={<HomePage />} />
 
-          <Route path={LOGIN_PATH} element={<Login />} />
+        <Route path={LOGIN_PATH} element={<Login />} />
 
-          <Route path={SIGNUP_PATH} element={<SignUp />} />
+        <Route path={SIGNUP_PATH} element={<SignUp />} />
 
-          <Route
-            path={`${ARTICLE_PATH}/:articleId`}
-            element={<ArticlePage />}
-          />
+        <Route path={`${ARTICLE_PATH}/:articleId`} element={<ArticlePage />} />
 
-          <Route path={RULES_PATH} element={<RulesPage />} />
+        <Route path={RULES_PATH} element={<RulesPage />} />
 
-          <Route
-            path={SUCCESS_PUBLISHED_PATH}
-            element={<PublishSuccessPage />}
-          />
+        <Route path={SUCCESS_PUBLISHED_PATH} element={<PublishSuccessPage />} />
 
-          <Route
-            path={REGISTRATION_CONFIRM_PATH}
-            element={<RegistrationConfirm />}
-          />
+        <Route
+          path={REGISTRATION_CONFIRM_PATH}
+          element={<RegistrationConfirm />}
+        />
 
-          <Route
-            path={SUCCESS_CONFIRMATION_PATH}
-            element={<SuccessConfirmation />}
-          />
+        <Route
+          path={SUCCESS_CONFIRMATION_PATH}
+          element={<SuccessConfirmation />}
+        />
 
-          <Route path={FORGOT_PASSWORD_PATH} element={<ForgotPassword />} />
+        <Route path={FORGOT_PASSWORD_PATH} element={<ForgotPassword />} />
 
-          <Route path={PASSWORD_RECOVERY_PATH} element={<PasswordRecovery />} />
+        <Route path={PASSWORD_RECOVERY_PATH} element={<PasswordRecovery />} />
 
-          <Route path={CONTACT_US_PATH} element={<ContactUs />} />
+        <Route path={CONTACT_US_PATH} element={<ContactUs />} />
 
-          <Route path="*" element={<NotFound />} />
+        <Route path="*" element={<NotFound />} />
 
-          <Route
-            path={`${SEARCH_PATH}/:searchBy/:searchQuery`}
-            element={<SearchingResultsPage />}
-          />
+        <Route
+          path={`${SEARCH_PATH}/:searchBy/:searchQuery`}
+          element={<SearchingResultsPage />}
+        />
 
-          {/*protected routes*/}
-          <Route
-            element={
-              <RequireAuth
-                redirectTo={HOME_PATH}
-                allowedRoles={[Role.SuperAdmin]}
-              />
-            }
-          >
-            <Route path={ADMIN_USER_LIST_PATH} element={<AdminUserList />} />
-
-            <Route
-              path={ARTICLES_FOR_REVIEW_PATH}
-              element={<ArticlesForReviewPage />}
+        {/*protected routes*/}
+        <Route
+          element={
+            <RequireAuth
+              redirectTo={HOME_PATH}
+              allowedRoles={[Role.SuperAdmin]}
             />
-          </Route>
+          }
+        >
+          <Route path={ADMIN_USER_LIST_PATH} element={<AdminUserList />} />
 
           <Route
-            element={
-              <RequireAuth
-                redirectTo={HOME_PATH}
-                allowedRoles={[Role.Author]}
-              />
-            }
-          >
-            <Route path={CREATE_POST_PATH} element={<CreatePostPage />} />
-            <Route path={MY_ARTICLES_PATH} element={<MyArticlesPage />} />
-          </Route>
+            path={ARTICLES_FOR_REVIEW_PATH}
+            element={<ArticlesForReviewPage />}
+          />
+        </Route>
 
-          <Route
-            element={
-              <RequireAuth
-                redirectTo={HOME_PATH}
-                allowedRoles={[Role.Author, Role.SuperAdmin]}
-              />
-            }
-          >
-            <Route
-              path={`${UPDATE_ARTICLE_PATH}/:articleId`}
-              element={<UpdateArticlePage />}
+        <Route
+          element={
+            <RequireAuth redirectTo={HOME_PATH} allowedRoles={[Role.Author]} />
+          }
+        >
+          <Route path={CREATE_POST_PATH} element={<CreatePostPage />} />
+          <Route path={MY_ARTICLES_PATH} element={<MyArticlesPage />} />
+        </Route>
+
+        <Route
+          element={
+            <RequireAuth
+              redirectTo={HOME_PATH}
+              allowedRoles={[Role.Author, Role.SuperAdmin]}
             />
-          </Route>
+          }
+        >
           <Route
-            element={
-              <RequireAuth
-                redirectTo={HOME_PATH}
-                allowedRoles={[Role.Author, Role.User, Role.SuperAdmin]}
-              />
-            }
-          >
-            <Route path={FAVORITES_PATH} element={<FavoritesArticlePage />} />
-          </Route>
-        </Routes>
-      </Layout>
-    </NotificationProvider>
+            path={`${UPDATE_ARTICLE_PATH}/:articleId`}
+            element={<UpdateArticlePage />}
+          />
+        </Route>
+        <Route
+          element={
+            <RequireAuth
+              redirectTo={HOME_PATH}
+              allowedRoles={[Role.Author, Role.User, Role.SuperAdmin]}
+            />
+          }
+        >
+          <Route path={FAVORITES_PATH} element={<FavoritesArticlePage />} />
+        </Route>
+      </Routes>
+    </Layout>
   );
 };
 

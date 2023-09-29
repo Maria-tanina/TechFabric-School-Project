@@ -21,8 +21,8 @@ import {
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { UPDATE_ARTICLE_PATH } from "@constants/paths";
 import { sliceString } from "@helpers/sliceString";
-import {useDispatch} from "react-redux";
-import {setShowPreview} from "@features/article/articleSlice";
+import { useDispatch } from "react-redux";
+import { setShowPreview } from "@features/article/articleSlice";
 
 interface SmallArticleCardProps extends IArticleProps {
   link: string;
@@ -40,9 +40,9 @@ export const SmallArticleCard: FC<SmallArticleCardProps> = ({
   const isPublished = article.status === "Published";
   const dispatch = useDispatch();
 
-  const onEditClick = () =>{
-    dispatch(setShowPreview(false))
-  }
+  const onEditClick = () => {
+    dispatch(setShowPreview(false));
+  };
 
   return (
     <Grid item key={title} sm={6} md={6} lg={6} xl={4}>
@@ -83,7 +83,10 @@ export const SmallArticleCard: FC<SmallArticleCardProps> = ({
                     <EastOutlinedIcon fontSize="small" />
                   </StyledLink>
                   {!isPublished && (
-                    <StyledLink to={`${UPDATE_ARTICLE_PATH}/${id}`} onClick={onEditClick}>
+                    <StyledLink
+                      to={`${UPDATE_ARTICLE_PATH}/${id}`}
+                      onClick={onEditClick}
+                    >
                       Edit
                       <EditOutlinedIcon fontSize="small" />
                     </StyledLink>
