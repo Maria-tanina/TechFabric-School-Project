@@ -28,11 +28,10 @@ import {
   selectFavoritesPostIds,
   selectLikedPostIds,
 } from "@services/favoritesSelectors";
-import { useAppDispatch, useAppSelector } from "../../store";
+import { useAppSelector } from "../../store";
 import { selectCommentPageNumber } from "@features/comments/commentsSelectors";
 import { CommentButton } from "@components/CommentButton/style";
 import { useGetCommentsQuery } from "@services/commentsApi";
-import { setCommentPageNumber } from "@features/comments/commentsSlice";
 
 export const ArticlePage = () => {
   const { articleId } = useParams<{ articleId?: string }>();
@@ -43,7 +42,6 @@ export const ArticlePage = () => {
 
   const pageNumber = useAppSelector(selectCommentPageNumber);
 
-  const dispatch = useAppDispatch();
   const { data, isFetching, isError } = useGetArticleInfoQuery({
     articleId: articleId || "",
   });
@@ -88,10 +86,6 @@ export const ArticlePage = () => {
       showNotification("Something wrong. Article not found!", "error");
     }
   }, [isError]);
-
-  useEffect(() => {
-    dispatch(setCommentPageNumber(1));
-  }, [articleId]);
 
   const allArticlesExceptCurrent = useMemo(() => {
     return articlesOfCurrentAuthor?.articles.filter(

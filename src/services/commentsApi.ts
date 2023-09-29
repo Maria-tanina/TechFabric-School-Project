@@ -81,9 +81,7 @@ export const commentsApi = createApi({
     getComments: build.query<IGetCommentsResponse, IGetCommentsParams>({
       query: ({ articleId, pageSize, pageNumber }) => ({
         url: `/comments/${articleId}`,
-
         method: "GET",
-
         params: {
           pageSize,
           pageNumber,

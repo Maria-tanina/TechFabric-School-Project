@@ -462,18 +462,18 @@ const Editor = ({
               >
                 {showPreviewArticle ? "Edit Article" : "Preview Article"}
               </GhostButton>
-              <OutlinedButton
-                $hover={colors.error}
-                $width="150px"
-                $color={colors.graphite}
-                $border={colors.error}
-                onClick={onDelete}
-                type="button"
-              >
-                Delete article
-              </OutlinedButton>
             </>
           )}
+          <OutlinedButton
+            $hover={colors.error}
+            $width="150px"
+            $color={colors.graphite}
+            $border={colors.error}
+            onClick={onDelete}
+            type="button"
+          >
+            Delete article
+          </OutlinedButton>
         </ButtonsWrapper>
       ) : (
         <ButtonsWrapper>

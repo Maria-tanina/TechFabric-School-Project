@@ -18,13 +18,15 @@ import { StyledContentWrapper } from "@components/ArticlePreview/style";
 import DOMPurify from "dompurify";
 import { IArticleProps } from "@customTypes/articleTypes";
 import { OutlinedButton } from "@components/OutlinedButton";
-import { Link } from "react-router-dom";
-import { UPDATE_ARTICLE_PATH } from "@constants/paths";
+import { Link, useParams } from "react-router-dom";
+import { SIGNUP_PATH, UPDATE_ARTICLE_PATH } from "@constants/paths";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { selectUserId, selectUserIsAdmin } from "@services/authSelectors";
 import { RefObject } from "react";
 import { getDate } from "@helpers/getDate";
-import { incCommentPageNumber } from "@features/comments/commentsSlice";
+import {
+  incCommentPageNumber,
+} from "@features/comments/commentsSlice";
 import Typography from "@mui/material/Typography";
 import { useDeleteCommentMutation } from "@services/commentsApi";
 import { useNotification } from "@hooks/useNotification";
@@ -45,6 +47,8 @@ export const Article = ({
   commentsSectionRef,
   commentsData,
 }: IAdditionalArticleProps) => {
+  const { articleId = "" } = useParams<{ articleId?: string }>();
+
   const [deleteComment] = useDeleteCommentMutation();
 
   const sanitizedContent = { __html: DOMPurify.sanitize(article?.content) };
@@ -74,7 +78,7 @@ export const Article = ({
     try {
       await deleteComment({
         commentId,
-        articleId: article.id,
+        articleId,
         pageSize: 5,
         pageNumber,
       }).unwrap();
@@ -112,6 +116,22 @@ export const Article = ({
           <CountComments>
             Comments: {commentsData?.totalCount || 0}
           </CountComments>
+          {!isLogin && (
+            <Typography
+              sx={{
+                color: "#676767",
+                marginBottom: "20px",
+                marginTop: "-10px",
+                fontSize: "16px",
+              }}
+            >
+              You will be able to leave a comment on the publication after
+              <Link to={SIGNUP_PATH} style={{ color: "#FEDE24" }}>
+                {" "}
+                registration.
+              </Link>
+            </Typography>
+          )}
 
           {isLogin && <CommentForm articleId={article.id} />}
           {commentsData && (
