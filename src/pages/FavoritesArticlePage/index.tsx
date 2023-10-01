@@ -12,14 +12,16 @@ import {
 } from "@features/favoritesArticle/favoritesArticleSelectors";
 import { PaginationRounded } from "@components/PaginationRounded";
 import { ChangeEvent, useEffect } from "react";
-import { setFavoritePageNumber } from "@features/favoritesArticle/favoritesArticleSlice";
+import {
+  setFavoritePageNumber,
+  setFavoritePageSize,
+} from "@features/favoritesArticle/favoritesArticleSlice";
 import { useNotification } from "@hooks/useNotification";
 import { HOME_PATH } from "@constants/paths";
 import { useNavigate } from "react-router-dom";
 import { TableFetchError } from "@components/TableNotification";
 import { SkeletonCard } from "@components/SkeletonCard";
 import { PaginationSelect } from "@components/PaginationSelect";
-import { setPageSize } from "@features/article/articleSlice";
 
 export const FavoritesArticlePage = () => {
   const pageNumber = useAppSelector(selectFavoritePageNumber);
@@ -47,7 +49,7 @@ export const FavoritesArticlePage = () => {
   const handlePageSizeChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    dispatch(setPageSize(+event.target.value));
+    dispatch(setFavoritePageSize(+event.target.value));
     window.scrollTo(0, 0);
   };
 

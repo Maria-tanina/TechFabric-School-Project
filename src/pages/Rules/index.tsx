@@ -88,21 +88,27 @@ const RulesPage = () => {
           User roles exist in <Logo />
         </RulesHeader>
         <RulesParagraph>
-          There are four distinct user roles on TFSport, each designed to offer specific capabilities:
+          There are four distinct user roles on TFSport, each designed to offer
+          specific capabilities:
         </RulesParagraph>
         <RulesParagraph>
           <span>
-            1) <strong>Guest</strong> - Has read-only access, allowing them to view posts and comments made by others.
+            1) <strong>Guest</strong> - Has read-only access, allowing them to
+            view posts and comments made by others.
           </span>
           <span>
-            2) <strong>User</strong> - an comment on posts, like them, and save posts to their favorites.
+            2) <strong>User</strong> - an comment on posts, like them, and save
+            posts to their favorites.
           </span>
           <span>
-            3) <strong>Author</strong> - Has the ability to create new posts and edit their own previously written articles.
-
+            3) <strong>Author</strong> - Has the ability to create new posts and
+            edit their own previously written articles.
           </span>
           <span>
-            4) <strong>Administrator</strong> - Possesses comprehensive control over the platform, including the ability to moderate articles, assign roles to users, and manage other platform-wide functionalities.
+            4) <strong>Administrator</strong> - Possesses comprehensive control
+            over the platform, including the ability to moderate articles,
+            assign roles to users, and manage other platform-wide
+            functionalities.
           </span>
         </RulesParagraph>
         <RulesParagraph>
