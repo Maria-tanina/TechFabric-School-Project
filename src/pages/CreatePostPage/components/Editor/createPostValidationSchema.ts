@@ -9,7 +9,8 @@ const createPostValidationSchema = Yup.object().shape({
   description: Yup.string()
     .required("Description is required")
     .trim()
-    .max(200, "The description must be less than 200 characters"),
+    .min(50, "Enter a meaningful description of more than 50 characters")
+    .max(150, "The description must be less than 150 characters"),
   sport: Yup.string()
     .required("Sport type is required")
     .max(30, "The sport type cannot contain more than 30 characters")

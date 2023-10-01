@@ -12,7 +12,7 @@ const initialState: IArticleSliceInitialState = {
   content: "",
   showPreview: false,
   pageNumber: 1,
-  pageSize: 10,
+  pageSize: 5,
   orderBy: "byCreatedDateDesc",
   filterSportType: "",
 };

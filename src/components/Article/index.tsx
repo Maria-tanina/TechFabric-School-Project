@@ -22,10 +22,11 @@ import { Link, useParams } from "react-router-dom";
 import { SIGNUP_PATH, UPDATE_ARTICLE_PATH } from "@constants/paths";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { selectUserId, selectUserIsAdmin } from "@services/authSelectors";
-import { RefObject } from "react";
+import { RefObject, useEffect } from "react";
 import { getDate } from "@helpers/getDate";
 import {
   incCommentPageNumber,
+  setCommentPageNumber,
 } from "@features/comments/commentsSlice";
 import Typography from "@mui/material/Typography";
 import { useDeleteCommentMutation } from "@services/commentsApi";
@@ -73,6 +74,14 @@ export const Article = ({
   const showMore = () => {
     dispatch(incCommentPageNumber(1));
   };
+
+  useEffect(() => {
+    dispatch(setCommentPageNumber(1));
+  }, [articleId]);
+
+  useEffect(() => {
+    dispatch(setCommentPageNumber(1));
+  }, []);
 
   const handleDeleteComment = async (commentId: string) => {
     try {
@@ -149,7 +158,8 @@ export const Article = ({
                       subtitle={getDate(comment.createdAt)}
                     />
                     <CommentMessage>{comment.content}</CommentMessage>
-                    {currentUserId === comment.author.id || isAdmin ? (
+                    {(currentUserId === comment.author.id || isAdmin) &&
+                    isLogin ? (
                       <Typography
                         sx={{ display: "block", cursor: "pointer" }}
                         component="span"
