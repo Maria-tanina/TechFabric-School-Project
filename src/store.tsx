@@ -12,6 +12,8 @@ import { topsApi } from "@services/topsApi";
 import myArticleSlice from "@features/myArticle/myArticleSlice";
 import articleForReviewSlice from "@features/articleForReview/articleForReviewSlice";
 import searchArticleSlice from "@features/searchArticle/searchArticleSlice";
+import { commentsApi } from "@services/commentsApi";
+import commentsSlice from "@features/comments/commentsSlice";
 
 const store = configureStore({
   reducer: {
@@ -27,6 +29,8 @@ const store = configureStore({
     myArticle: myArticleSlice,
     articleForReview: articleForReviewSlice,
     searchArticle: searchArticleSlice,
+    [commentsApi.reducerPath]: commentsApi.reducer,
+    comments: commentsSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -34,7 +38,8 @@ const store = configureStore({
       authApi.middleware,
       articlesApi.middleware,
       favoritesApi.middleware,
-      topsApi.middleware
+      topsApi.middleware,
+      commentsApi.middleware
     ),
 });
 
