@@ -7,7 +7,7 @@ export const searchMenu: ISearchMenuItem[] = [
     value: "Articles",
   },
   {
-    value: "Users",
+    value: "Authors",
   },
   {
     value: "Tags",

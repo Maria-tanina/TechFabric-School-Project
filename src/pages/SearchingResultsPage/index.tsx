@@ -81,7 +81,7 @@ export const SearchingResultsPage = () => {
         orderBy,
       },
       {
-        skip: searchBy !== "users" || !substring,
+        skip: searchBy !== "authors" || !substring,
       }
     );
 
@@ -91,7 +91,7 @@ export const SearchingResultsPage = () => {
         return articlesByTags;
       case "articles":
         return articlesByTitle;
-      case "users":
+      case "authors":
         return articlesByAuthor;
     }
   }, [articlesByAuthor, articlesByTags, articlesByTitle, searchBy]);

@@ -22,7 +22,6 @@ const SearchMenu = () => {
 
   const handleMenuItemClick = (menuItemValue: string) => {
     const lowerMenuItemValue = menuItemValue.toLowerCase();
-    // dispatch(setSearchBy(lowerMenuItemValue as TSearchBy));
     navigate(
       `${SEARCH_PATH}/${lowerMenuItemValue}/${encodeURIComponent(searchQuery)}`
     );

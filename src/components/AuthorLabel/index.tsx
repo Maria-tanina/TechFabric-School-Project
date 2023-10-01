@@ -26,7 +26,7 @@ export const AuthorLabel: React.FC<IAuthorProps> = ({
 
   return (
     <Link
-      to={`${SEARCH_PATH}/users/${firstName} ${lastName}`}
+      to={`${SEARCH_PATH}/authors/${firstName} ${lastName}`}
       onClick={() => handleAuthorClick(`${firstName} ${lastName}`)}
     >
       <StyledTopAuthorName>
