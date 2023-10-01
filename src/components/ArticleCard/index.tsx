@@ -70,7 +70,7 @@ export const ArticleCard: FC<IArticleProps> = ({ article }) => {
         </Link>
 
         <StyledCardContent>
-          <Link to={`${SEARCH_PATH}/users/${fullName}`}>
+          <Link to={`${SEARCH_PATH}/authors/${fullName}`}>
             <ProfileInfo
               userName={fullName}
               subtitle={date}

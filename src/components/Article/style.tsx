@@ -4,6 +4,7 @@ export const ArticleWrap = styled.div(
   ({ theme: { colors, media } }) => `
   max-width: 1080px;
   margin: 0 20px ;
+  padding-bottom: 30px;
   background: ${colors.white};
   border-radius: 8px;
   ${media.desktop} {
@@ -57,7 +58,7 @@ export const ArticleSubject = styled.div(
 `
 );
 export const ArticleCommentWrapper = styled.div`
-  padding: 52px 24px;
+  padding: 52px 24px 20px;
 `;
 export const CountComments = styled.div(
   ({ theme: { colors } }) => `

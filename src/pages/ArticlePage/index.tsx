@@ -24,16 +24,24 @@ import { useNotification } from "@hooks/useNotification";
 import { Spinner } from "@components/Spinner/style";
 import { AddFavoriteButton } from "@components/FavoriteButton";
 import { useGetLikesCountQuery } from "@services/favoritesApi";
-import { useAppSelector } from "../../store";
 import {
   selectFavoritesPostIds,
   selectLikedPostIds,
 } from "@services/favoritesSelectors";
+import { useAppSelector } from "../../store";
+import { selectCommentPageNumber } from "@features/comments/commentsSelectors";
+import { CommentButton } from "@components/CommentButton/style";
+import { useGetCommentsQuery } from "@services/commentsApi";
 
 export const ArticlePage = () => {
   const { articleId } = useParams<{ articleId?: string }>();
+
   const navigate = useNavigate();
+
   const { showNotification } = useNotification();
+
+  const pageNumber = useAppSelector(selectCommentPageNumber);
+
   const { data, isFetching, isError } = useGetArticleInfoQuery({
     articleId: articleId || "",
   });
@@ -44,6 +52,13 @@ export const ArticlePage = () => {
   const isFavorites =
     Array.isArray(favoritesPostsId) && favoritesPostsId?.includes(validId);
   const { data: likeCount } = useGetLikesCountQuery(validId);
+
+  const { data: commentsData, isLoading: isCommentsLoading } =
+    useGetCommentsQuery({
+      articleId: articleId || "",
+      pageNumber,
+      pageSize: 5,
+    });
 
   const {
     data: articlesOfCurrentAuthor,
@@ -56,12 +71,15 @@ export const ArticlePage = () => {
   });
 
   const isPublished = data?.status === "Published";
+
   const commentsSectionRef = useRef<HTMLDivElement | null>(null);
+
   const scrollToComments = () => {
     if (commentsSectionRef.current) {
       commentsSectionRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
+
   useEffect(() => {
     if (isError) {
       navigate(HOME_PATH);
@@ -77,7 +95,7 @@ export const ArticlePage = () => {
 
   return (
     <>
-      {isFetching || isArticlesOfAuthorLoading ? (
+      {isFetching || isArticlesOfAuthorLoading || isCommentsLoading ? (
         <LoaderWrapper style={{ height: "calc(100vh - 264px)" }}>
           <Spinner size={110} />
         </LoaderWrapper>
@@ -108,8 +126,8 @@ export const ArticlePage = () => {
 
             {isPublished && (
               <ArticleSideMenuItem onClick={scrollToComments}>
-                <ChatOutlinedIcon />
-                <Count>4</Count>
+                <CommentButton endIcon={<ChatOutlinedIcon />} />
+                <Count>{commentsData?.totalCount || 0}</Count>
               </ArticleSideMenuItem>
             )}
           </LeftSidebar>
@@ -118,6 +136,7 @@ export const ArticlePage = () => {
             <Article
               article={data as IArticle}
               commentsSectionRef={commentsSectionRef}
+              commentsData={commentsData}
             />
           </MainContent>
 

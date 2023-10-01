@@ -33,7 +33,7 @@ export const ProfileInfoDropdown: FC<IAccountMenuProps> = ({
   const handleLogOut = () => {
     handleClose();
     dispatch(logOut());
-    showNotification("You are logged out", "success");
+    showNotification("You have successfully logged out", "success");
   };
 
   return (

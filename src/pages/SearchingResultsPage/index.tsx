@@ -12,7 +12,7 @@ import ArticleList from "@components/ArticleList";
 import { SearchLeftSidebar, SearchWrapper } from "./style";
 import { useLocation, useParams } from "react-router-dom";
 import { PaginationRounded } from "@components/PaginationRounded";
-import { ChangeEvent, useMemo } from "react";
+import { ChangeEvent, useEffect, useMemo } from "react";
 import {
   setSearchPageNumber,
   TSearchBy,
@@ -45,6 +45,10 @@ export const SearchingResultsPage = () => {
   const searchBy = pathname.split("/")[2];
 
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(setSearchPageNumber(1));
+  }, [substring, searchBy]);
 
   const { data: articlesByTags, isFetching: articlesByTagsIsFetching } =
     useGetArticlesByTagsQuery(
@@ -81,7 +85,7 @@ export const SearchingResultsPage = () => {
         orderBy,
       },
       {
-        skip: searchBy !== "users" || !substring,
+        skip: searchBy !== "authors" || !substring,
       }
     );
 
@@ -91,7 +95,7 @@ export const SearchingResultsPage = () => {
         return articlesByTags;
       case "articles":
         return articlesByTitle;
-      case "users":
+      case "authors":
         return articlesByAuthor;
     }
   }, [articlesByAuthor, articlesByTags, articlesByTitle, searchBy]);

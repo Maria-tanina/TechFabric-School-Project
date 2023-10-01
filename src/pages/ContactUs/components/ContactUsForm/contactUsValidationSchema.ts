@@ -20,6 +20,7 @@ const contactUsValidationSchema = Yup.object().shape({
     .lowercase(),
   message: Yup.string()
     .required("Message is required.")
+    .min(50, "Enter a meaningful message of more than 50 characters")
     .max(500, "Message should not exceed 500 characters.")
     .trim(),
 });

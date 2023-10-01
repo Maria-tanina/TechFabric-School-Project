@@ -54,7 +54,7 @@ export const AddLikeButton: FC<ILikeButtonProps> = ({
         try {
           await removeLike(articleId).unwrap();
           setIsPostLiked(!isPostLiked);
-          showNotification("The article was deleted from likes.", "success");
+          showNotification("This article is no longer liked.", "success");
           setIsCurrentArticleAddedToFavorites(
             !isCurrentArticleAddedToFavorites
           );
@@ -70,7 +70,7 @@ export const AddLikeButton: FC<ILikeButtonProps> = ({
         try {
           await addLike(articleId).unwrap();
           setIsPostLiked(!isPostLiked);
-          showNotification("The article was added to likes.", "success");
+          showNotification("The article was liked.", "success");
           setIsCurrentArticleAddedToFavorites(
             !isCurrentArticleAddedToFavorites
           );

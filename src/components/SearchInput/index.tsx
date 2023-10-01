@@ -62,7 +62,7 @@ export const SearchInput = () => {
   const authorsWithType: ISearchOption[] = useMemo(() => {
     return authors.map((author) => ({
       label: `${author.firstName} ${author.lastName}`,
-      type: "users",
+      type: "authors",
     }));
   }, [authors]);
 
@@ -71,16 +71,15 @@ export const SearchInput = () => {
       return [...tagsWithType, ...authorsWithType];
     } else {
       const searchTerm = inputValue.trim().toLowerCase();
-      const filteredTags = tagsWithType.filter(tag =>
-          tag.label.toLowerCase().includes(searchTerm)
+      const filteredTags = tagsWithType.filter((tag) =>
+        tag.label.toLowerCase().includes(searchTerm)
       );
-      const filteredAuthors = authorsWithType.filter(author =>
-          author.label.toLowerCase().includes(searchTerm)
+      const filteredAuthors = authorsWithType.filter((author) =>
+        author.label.toLowerCase().includes(searchTerm)
       );
       return [...filteredTags, ...filteredAuthors];
     }
   }, [inputValue, tagsWithType, authorsWithType]);
-
 
   const handleInputChange = (event: ChangeEvent<{}>, value: string) => {
     const inputValue = value.trim();
