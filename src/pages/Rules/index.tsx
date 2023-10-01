@@ -88,32 +88,23 @@ const RulesPage = () => {
           User roles exist in <Logo />
         </RulesHeader>
         <RulesParagraph>
-          There are 4 user roles or access levels on BlogIn that define what
-          each user can do on the blog:
+          There are four distinct user roles on TFSport, each designed to offer specific capabilities:
         </RulesParagraph>
         <RulesParagraph>
           <span>
-            1) <strong>Reader</strong> - can only{" "}
-            <strong>read posts and comments</strong> created by other users
+            1) <strong>Guest</strong> - Has read-only access, allowing them to view posts and comments made by others.
           </span>
           <span>
-            2) <strong>Commenter</strong> - can <strong>create comments</strong>{" "}
-            on posts, but can not create posts
+            2) <strong>User</strong> - an comment on posts, like them, and save posts to their favorites.
           </span>
           <span>
-            3) <strong>Writer</strong> - can{" "}
-            <strong>create posts and comments</strong>
+            3) <strong>Author</strong> - Has the ability to create new posts and edit their own previously written articles.
+
           </span>
           <span>
-            4) <strong>Administrator</strong> - can{" "}
-            <strong>access and control everything</strong>, which means: create
-            new posts and comments, edit all posts and comments, manage post
-            categories, create static pages, create and manage user teams,
-            invite new team members, customize blog account (company logo,
-            custom domain, open email domain..)
+            4) <strong>Administrator</strong> - Possesses comprehensive control over the platform, including the ability to moderate articles, assign roles to users, and manage other platform-wide functionalities.
           </span>
         </RulesParagraph>
-
         <RulesParagraph>
           Blog Administrators can change user role for each user at any time and
           can also define a user role for each user when sending the invitation
