@@ -1,4 +1,4 @@
-import { ChangeEvent, SyntheticEvent, useEffect, useRef } from "react";
+import {ChangeEvent, SyntheticEvent, useEffect, useMemo, useRef} from "react";
 import { useNavigate } from "react-router-dom";
 import { OutlinedButton } from "@components/OutlinedButton";
 import { GhostButton } from "@components/GhostButton";
@@ -70,7 +70,7 @@ import { isContentValid } from "@helpers/isContentValid";
 import { selectTags } from "@features/tags/tagsSelectors";
 import { MAX_IMAGE_SIZE, TYPES_IMAGE } from "@constants/article";
 import { isImage } from "@helpers/fileType";
-
+import ReactQuill from 'react-quill';
 const Editor = ({
   articleData,
   onSubmitUpdate,
@@ -130,18 +130,75 @@ const Editor = ({
     content,
   };
 
-  const modules = {
-    toolbar: [
-      [{ header: [2, 3, false] }],
-      ["bold"],
-      ["italic"],
-      ["link"],
-      [{ list: "bullet" }],
-      ["blockquote"],
-      ["image"],
-    ],
+  const quillRef = useRef<ReactQuill>(null);
+  const editorImageValidate = async (file: File) => {
+    const isImageFile = await isImage(file);
+    if (!TYPES_IMAGE.includes(isImageFile)) {
+      showNotification("Only png and jpg files are supported.", "error");
+      return false;
+    }
+    if (file.size > MAX_IMAGE_SIZE) {
+      showNotification(
+          "Image size is too large. Maximum size is 2MB.",
+          "error"
+      );
+      return false;
+    }
   };
 
+  const imageHandler = () => {
+    const input = document.createElement('input');
+    input.setAttribute('type', 'file');
+    input.setAttribute('accept', 'image/*');
+    input.click();
+
+    input.onchange = async () => {
+      if (input.files) {
+        const file = input.files[0];
+        if (file && await editorImageValidate(file)) {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            if (quillRef.current) {
+              const quill = quillRef.current.getEditor();
+              const range = quill.getSelection();
+              if (range) {
+                quill.insertEmbed(range.index, 'image', String(reader.result));
+              }
+            }
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+    };
+  };
+
+  const modules = useMemo(() => ({
+    toolbar: {
+      container: [
+                  [{header: [2, 3, false]}],
+                  ["bold"],
+                  ["italic"],
+                  ["link"],
+                  [{list: "bullet"}],
+                  ["blockquote"],
+                  ["image"],
+                ],
+      handlers: {
+        image: imageHandler
+      }
+    }
+  }), []);
+
+
+  const formats = [
+    'header',
+    'bold',
+    'italic',
+    'link',
+    'list',
+    'blockquote',
+    'image',
+  ];
   const {
     handleSubmit,
     formState: { errors },
@@ -429,13 +486,14 @@ const Editor = ({
               />
             </FieldsWrapper>
           </StyledTopEditor>
-
           <StyledReactQuill
-            theme="snow"
-            value={content}
-            onChange={handleEditorChange}
-            modules={modules}
-            placeholder="Write your article content here..."
+              ref={quillRef}
+              theme="snow"
+              value={content}
+              onChange={handleEditorChange}
+              modules={modules}
+              formats={formats}
+              placeholder="Write your article content here..."
           />
         </>
       )}
