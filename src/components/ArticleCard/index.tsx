@@ -89,12 +89,14 @@ export const ArticleCard: FC<IArticleProps> = ({ article }) => {
               ))}
             </StyledTagsWrapper>
             <FavoritesButtons>
-              <AddFavoriteButton
-                isFavorite={isButtonsStates.isFavorites}
-                articleId={article.id}
-                showText={true}
-                size={"32px"}
-              />
+              {isLogin && (
+                <AddFavoriteButton
+                  isFavorite={isButtonsStates.isFavorites}
+                  articleId={article.id}
+                  showText={true}
+                  size={"32px"}
+                />
+              )}
               <AddLikeButton
                 isLiked={isButtonsStates.isLiked}
                 articleId={article.id}

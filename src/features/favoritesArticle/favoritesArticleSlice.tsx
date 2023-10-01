@@ -28,6 +28,7 @@ const favoritesArticleSlice = createSlice({
   },
 });
 
-export const { setFavoritePageNumber } = favoritesArticleSlice.actions;
+export const { setFavoritePageNumber, setFavoritePageSize } =
+  favoritesArticleSlice.actions;
 
 export default favoritesArticleSlice.reducer;
