@@ -49,7 +49,7 @@ export const LoginForm = () => {
 
   useEffect(() => {
     isLoginSuccess &&
-      showNotification("You have successfully logged", "success");
+      showNotification("You have successfully logged in", "success");
   }, [isLoginSuccess]);
 
   const onSubmit = async (loginData: ILoginData) => {
