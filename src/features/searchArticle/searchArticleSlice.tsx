@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { TOrderByTypes } from "@services/types/articlesApiTypes";
 
-export type TSearchBy = "articles" | "authors" | "tags";
+export type TSearchBy = "titles" | "authors" | "tags";
 
 interface ISearchArticleSliceState {
   pageNumber: number;
