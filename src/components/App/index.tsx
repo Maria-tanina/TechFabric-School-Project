@@ -19,6 +19,7 @@ import {
   SIGNUP_PATH,
   SUCCESS_CONFIRMATION_PATH,
   SUCCESS_PUBLISHED_PATH,
+  TERMS_OF_USE_PATH,
   UPDATE_ARTICLE_PATH,
 } from "@constants/paths";
 import RegistrationConfirm from "@pages/RegistrationConfirm";
@@ -52,6 +53,7 @@ import {
   useGetLikesPostQuery,
 } from "@services/favoritesApi";
 import { useEffect } from "react";
+import TermsOfUsePage from "@pages/TermsOfUsePage";
 
 const App = () => {
   const isLogin = useAppSelector(selectIsLogin);
@@ -136,6 +138,8 @@ const App = () => {
           path={`${SEARCH_PATH}/:searchBy/:searchQuery`}
           element={<SearchingResultsPage />}
         />
+
+        <Route path={TERMS_OF_USE_PATH} element={<TermsOfUsePage />} />
 
         {/*protected routes*/}
         <Route
