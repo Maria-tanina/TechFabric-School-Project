@@ -13,6 +13,7 @@ import {
   LOGIN_PATH,
   MY_ARTICLES_PATH,
   PASSWORD_RECOVERY_PATH,
+  PRIVACY_POLICY_PATH,
   REGISTRATION_CONFIRM_PATH,
   RULES_PATH,
   SEARCH_PATH,
@@ -54,6 +55,7 @@ import {
 } from "@services/favoritesApi";
 import { useEffect } from "react";
 import TermsOfUsePage from "@pages/TermsOfUsePage";
+import PrivacyPolicyPage from "@pages/PrivacyPolicyPage";
 
 const App = () => {
   const isLogin = useAppSelector(selectIsLogin);
@@ -140,6 +142,7 @@ const App = () => {
         />
 
         <Route path={TERMS_OF_USE_PATH} element={<TermsOfUsePage />} />
+        <Route path={PRIVACY_POLICY_PATH} element={<PrivacyPolicyPage />} />
 
         {/*protected routes*/}
         <Route

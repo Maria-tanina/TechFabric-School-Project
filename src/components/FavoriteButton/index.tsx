@@ -11,6 +11,8 @@ import {
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import { Bookmark } from "@mui/icons-material";
 import { selectFavoritesPostIds } from "@services/favoritesSelectors";
+import { LOGIN_PATH } from "@constants/paths";
+import { useNavigate } from "react-router-dom";
 
 interface IFavoriteButtonProps {
   articleId: string;
@@ -27,6 +29,7 @@ export const AddFavoriteButton: FC<IFavoriteButtonProps> = ({
   const [removeFromFavorites] = useRemoveFromFavoritesMutation();
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
   const isLogin = useAppSelector(selectIsLogin);
+  const navigate = useNavigate();
   const { showNotification } = useNotification();
   const favoritesPostsId = useAppSelector(selectFavoritesPostIds);
   const isFavorites =
@@ -43,12 +46,6 @@ export const AddFavoriteButton: FC<IFavoriteButtonProps> = ({
     ? "Remove from favorites"
     : "Add to favorites";
 
-  useEffect(() => {
-    if (!isLogin) {
-      setIsButtonDisabled(true);
-    }
-  }, [isLogin]);
-
   const iconToShow = isPostAddToFavorite ? (
     <Bookmark />
   ) : (
@@ -56,32 +53,39 @@ export const AddFavoriteButton: FC<IFavoriteButtonProps> = ({
   );
 
   const handleToggleFavorites = async () => {
-    setIsButtonDisabled(true);
-    if (isPostAddToFavorite) {
-      try {
-        await removeFromFavorites({ articleId }).unwrap();
-        setIsPostAddToFavorite(!isPostAddToFavorite);
-        showNotification("The article was deleted from favorites.", "success");
-      } catch (error) {
-        showNotification(
-          getErrorTitle(error) || "Some error occurred...",
-          "error"
-        );
-      } finally {
-        setIsButtonDisabled(false);
-      }
+    if (!isLogin) {
+      navigate(LOGIN_PATH);
     } else {
-      try {
-        await addToFavorites({ articleId }).unwrap();
-        setIsPostAddToFavorite(!isPostAddToFavorite);
-        showNotification("The article was added to favorites.", "success");
-      } catch (error) {
-        showNotification(
-          getErrorTitle(error) || "Some error occurred...",
-          "error"
-        );
-      } finally {
-        setIsButtonDisabled(false);
+      setIsButtonDisabled(true);
+      if (isPostAddToFavorite) {
+        try {
+          await removeFromFavorites({ articleId }).unwrap();
+          setIsPostAddToFavorite(!isPostAddToFavorite);
+          showNotification(
+            "The article was deleted from favorites.",
+            "success"
+          );
+        } catch (error) {
+          showNotification(
+            getErrorTitle(error) || "Some error occurred...",
+            "error"
+          );
+        } finally {
+          setIsButtonDisabled(false);
+        }
+      } else {
+        try {
+          await addToFavorites({ articleId }).unwrap();
+          setIsPostAddToFavorite(!isPostAddToFavorite);
+          showNotification("The article was added to favorites.", "success");
+        } catch (error) {
+          showNotification(
+            getErrorTitle(error) || "Some error occurred...",
+            "error"
+          );
+        } finally {
+          setIsButtonDisabled(false);
+        }
       }
     }
   };

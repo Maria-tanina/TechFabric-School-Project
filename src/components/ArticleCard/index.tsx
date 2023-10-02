@@ -89,13 +89,11 @@ export const ArticleCard: FC<IArticleProps> = ({ article }) => {
               ))}
             </StyledTagsWrapper>
             <FavoritesButtons>
-              {isLogin && (
-                <AddFavoriteButton
-                  articleId={article.id}
-                  showText={true}
-                  size={"32px"}
-                />
-              )}
+              <AddFavoriteButton
+                articleId={article.id}
+                showText={true}
+                size={"32px"}
+              />
               <AddLikeButton
                 articleId={article.id}
                 showText={true}
