@@ -16,6 +16,7 @@ export const TermsParagraph = styled.ol(
   margin-block-start: 20px;
   margin-block-end: 20px;
   color: ${colors.black};
+  
   strong{
     color: ${colors.graphite};
   }
