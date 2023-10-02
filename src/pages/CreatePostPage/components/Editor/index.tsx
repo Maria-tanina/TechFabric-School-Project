@@ -144,9 +144,10 @@ const Editor = ({
       );
       return false;
     }
+    return true;
   };
 
-  const imageHandler = () => {
+  const imageHandler = async () => {
     const input = document.createElement("input");
     input.setAttribute("type", "file");
     input.setAttribute("accept", "image/*");
