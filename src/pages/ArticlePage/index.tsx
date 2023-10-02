@@ -28,6 +28,7 @@ import { useAppSelector } from "../../store";
 import { selectCommentPageNumber } from "@features/comments/commentsSelectors";
 import { CommentButton } from "@components/CommentButton/style";
 import { useGetCommentsQuery } from "@services/commentsApi";
+import {SITE_DESCRIPTION} from "@constants/meta";
 
 export const ArticlePage = () => {
   const { articleId } = useParams<{ articleId?: string }>();
@@ -61,15 +62,6 @@ export const ArticlePage = () => {
     orderBy: "topRated",
   });
 
-  useEffect(() => {
-    const defaultTitle:string = "POWER UP";
-    if (data?.title) {
-      document.title = data.title;
-    }
-    return () => {
-      document.title = defaultTitle;
-    }
-  }, [data]);
 
   const isPublished = data?.status === "Published";
 
@@ -80,6 +72,32 @@ export const ArticlePage = () => {
       commentsSectionRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
+
+  useEffect(() => {
+    const defaultTitle:string = "POWER UP";
+    if (data?.title) {
+      document.title = data.title;
+    }
+    return () => {
+      document.title = defaultTitle;
+    }
+  }, [data]);
+
+  useEffect(() => {
+    const defaultDescription = SITE_DESCRIPTION;
+    if (data?.description) {
+      const metaDescription = document.querySelector('meta[name="description"]');
+      if (metaDescription) {
+        metaDescription.setAttribute("content", data.description);
+      }
+    }
+    return () => {
+      const metaDescription = document.querySelector('meta[name="description"]');
+      if (metaDescription) {
+        metaDescription.setAttribute("content", defaultDescription);
+      }
+    }
+  }, [data]);
 
   useEffect(() => {
     if (isError) {
