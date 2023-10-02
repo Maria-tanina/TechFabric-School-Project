@@ -93,7 +93,6 @@ export const SearchInput = () => {
 
   const handleKeyDown: KeyboardEventHandler<HTMLDivElement> = (e: any) => {
     const value = e.target.value as string;
-    const index = searchResults?.findIndex(() => searchResults);
 
     if (e.key === "Enter" && inputValue.trim().length >= 40) {
       showNotification(
@@ -110,12 +109,7 @@ export const SearchInput = () => {
       inputValue.trim().length >= 3 &&
       inputValue.trim().length <= 40
     ) {
-      if (index >= 0) {
-        const typeOfOption = searchResults[index].type;
-        navigate(`${SEARCH_PATH}/${typeOfOption}/${encodeURIComponent(value)}`);
-      } else {
-        handleOptionSelect(value);
-      }
+      handleOptionSelect(value);
     }
   };
 
