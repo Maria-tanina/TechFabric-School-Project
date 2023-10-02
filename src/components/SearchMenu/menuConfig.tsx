@@ -4,7 +4,7 @@ export interface ISearchMenuItem {
 
 export const searchMenu: ISearchMenuItem[] = [
   {
-    value: "Articles",
+    value: "Titles",
   },
   {
     value: "Authors",

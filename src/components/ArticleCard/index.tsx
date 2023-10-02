@@ -91,14 +91,12 @@ export const ArticleCard: FC<IArticleProps> = ({ article }) => {
             <FavoritesButtons>
               {isLogin && (
                 <AddFavoriteButton
-                  isFavorite={isButtonsStates.isFavorites}
                   articleId={article.id}
                   showText={true}
                   size={"32px"}
                 />
               )}
               <AddLikeButton
-                isLiked={isButtonsStates.isLiked}
                 articleId={article.id}
                 showText={true}
                 size="32px"

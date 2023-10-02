@@ -10,33 +10,33 @@ import {
 } from "@services/favoritesApi";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import { Bookmark } from "@mui/icons-material";
+import { selectFavoritesPostIds } from "@services/favoritesSelectors";
 
 interface IFavoriteButtonProps {
   articleId: string;
   size: string;
   showText: boolean;
-  isFavorite: boolean;
 }
 
 export const AddFavoriteButton: FC<IFavoriteButtonProps> = ({
   articleId,
   size,
   showText,
-  isFavorite,
 }) => {
   const [addToFavorites] = useAddToFavoritesMutation();
   const [removeFromFavorites] = useRemoveFromFavoritesMutation();
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
   const isLogin = useAppSelector(selectIsLogin);
   const { showNotification } = useNotification();
-  const [isPostAddToFavorite, setIsPostAddToFavorite] = useState(isFavorite);
+  const favoritesPostsId = useAppSelector(selectFavoritesPostIds);
+  const isFavorites = isLogin &&
+    Array.isArray(favoritesPostsId) &&
+    favoritesPostsId?.includes(articleId as string);
+  const [isPostAddToFavorite, setIsPostAddToFavorite] = useState(isFavorites);
 
   useEffect(() => {
-    setIsPostAddToFavorite(false);
-  }, [isLogin]);
-  useEffect(() => {
-    setIsPostAddToFavorite(isFavorite);
-  }, [isFavorite]);
+    setIsPostAddToFavorite(isFavorites);
+  }, [isFavorites]);
 
   const textToShow = isPostAddToFavorite
     ? "Remove from favorites"
