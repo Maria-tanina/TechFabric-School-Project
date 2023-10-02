@@ -24,10 +24,6 @@ import { useNotification } from "@hooks/useNotification";
 import { Spinner } from "@components/Spinner/style";
 import { AddFavoriteButton } from "@components/FavoriteButton";
 import { useGetLikesCountQuery } from "@services/favoritesApi";
-import {
-  selectFavoritesPostIds,
-  selectLikedPostIds,
-} from "@services/favoritesSelectors";
 import { useAppSelector } from "../../store";
 import { selectCommentPageNumber } from "@features/comments/commentsSelectors";
 import { CommentButton } from "@components/CommentButton/style";
@@ -48,13 +44,8 @@ export const ArticlePage = () => {
   const { data, isFetching, isError } = useGetArticleInfoQuery({
     articleId: articleId || "",
   });
-  const validId = typeof articleId === "string" ? articleId : "";
-  const likedPostsId = useAppSelector(selectLikedPostIds);
-  const favoritesPostsId = useAppSelector(selectFavoritesPostIds);
-  const isLiked = Array.isArray(likedPostsId) && likedPostsId.includes(validId);
-  const isFavorites =
-    Array.isArray(favoritesPostsId) && favoritesPostsId?.includes(validId);
-  const { data: likeCount } = useGetLikesCountQuery(validId);
+
+  const { data: likeCount } = useGetLikesCountQuery(articleId as string);
 
   const { data: commentsData, isLoading: isCommentsLoading } =
     useGetCommentsQuery({
@@ -109,7 +100,6 @@ export const ArticlePage = () => {
               <>
                 <ArticleSideMenuItem>
                   <AddLikeButton
-                    isLiked={isLiked}
                     articleId={articleId || ""}
                     showText={false}
                     size="42px"
@@ -119,7 +109,6 @@ export const ArticlePage = () => {
                 <ArticleSideMenuItem>
                   {isLogin && (
                     <AddFavoriteButton
-                      isFavorite={isFavorites}
                       articleId={articleId || ""}
                       size="42px"
                       showText={false}

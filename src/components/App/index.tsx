@@ -47,6 +47,11 @@ import { selectIsLogin } from "@features/user/usersSelectors";
 import { FavoritesArticlePage } from "@pages/FavoritesArticlePage";
 import { SearchingResultsPage } from "@pages/SearchingResultsPage";
 import { useGetTopAuthorsQuery, useGetTopTagsQuery } from "@services/topsApi";
+import {
+  useGetFavoritesQuery,
+  useGetLikesPostQuery,
+} from "@services/favoritesApi";
+import {useEffect} from "react";
 
 const App = () => {
   const isLogin = useAppSelector(selectIsLogin);
@@ -67,11 +72,27 @@ const App = () => {
     pageSize: 3,
   });
 
+  const { isLoading: isLikesLoading, refetch: likesRefetch } = useGetLikesPostQuery(undefined, {
+    skip: !isLogin,
+  });
+  const { isLoading: isFavoritesLoading, refetch: favoritesRefetch } = useGetFavoritesQuery(undefined, {
+    skip: !isLogin,
+  });
+
+  useEffect(() => {
+    if(isLogin){
+      likesRefetch()
+      favoritesRefetch()
+    }
+  }, [isLogin]);
+
   if (
     isUserInfoLoading ||
     isSportTypesLoading ||
     isTopTagsLoading ||
-    isTopAuthorsLoading
+    isTopAuthorsLoading ||
+    isLikesLoading ||
+    isFavoritesLoading
   ) {
     return <FullHeightSpinner size={110} />;
   }
