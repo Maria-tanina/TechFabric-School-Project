@@ -61,6 +61,16 @@ export const ArticlePage = () => {
     orderBy: "topRated",
   });
 
+  useEffect(() => {
+    const defaultTitle:string = "POWER UP";
+    if (data?.title) {
+      document.title = data.title;
+    }
+    return () => {
+      document.title = defaultTitle;
+    }
+  }, [data]);
+
   const isPublished = data?.status === "Published";
 
   const commentsSectionRef = useRef<HTMLDivElement | null>(null);
