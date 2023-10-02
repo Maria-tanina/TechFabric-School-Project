@@ -1,6 +1,5 @@
 import {
   HomePageWrapper,
-  LogoWrapper,
   RulesHeader,
   RulesParagraph,
 } from "./style";
@@ -17,10 +16,6 @@ const RulesPage = () => {
       </LeftSidebar>
 
       <MainContent>
-        <LogoWrapper>
-          <Logo />
-        </LogoWrapper>
-
         <RulesHeader>Rules of the Blog</RulesHeader>
         <RulesParagraph>
           <span>
@@ -88,7 +83,7 @@ const RulesPage = () => {
           User roles exist in <Logo />
         </RulesHeader>
         <RulesParagraph>
-          There are four distinct user roles on TFSport, each designed to offer
+          There are four distinct user roles on PowerUP, each designed to offer
           specific capabilities:
         </RulesParagraph>
         <RulesParagraph>

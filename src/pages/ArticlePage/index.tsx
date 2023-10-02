@@ -28,12 +28,9 @@ import { useAppSelector } from "../../store";
 import { selectCommentPageNumber } from "@features/comments/commentsSelectors";
 import { CommentButton } from "@components/CommentButton/style";
 import { useGetCommentsQuery } from "@services/commentsApi";
-import { selectIsLogin } from "@features/user/usersSelectors";
 
 export const ArticlePage = () => {
   const { articleId } = useParams<{ articleId?: string }>();
-
-  const isLogin = useAppSelector(selectIsLogin);
 
   const navigate = useNavigate();
 
@@ -107,13 +104,11 @@ export const ArticlePage = () => {
                   <Count>{likeCount}</Count>
                 </ArticleSideMenuItem>
                 <ArticleSideMenuItem>
-                  {isLogin && (
-                    <AddFavoriteButton
-                      articleId={articleId || ""}
-                      size="42px"
-                      showText={false}
-                    />
-                  )}
+                  <AddFavoriteButton
+                    articleId={articleId || ""}
+                    size="42px"
+                    showText={false}
+                  />
                 </ArticleSideMenuItem>
               </>
             )}
