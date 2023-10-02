@@ -373,6 +373,13 @@ const Editor = ({
     }
   };
 
+  const isPreviewDisabled = useMemo(() => {
+    const isTitleValid = title.length >= 15 && title.length <= 70;
+    const isDescriptionValid =
+      description.length >= 50 && description.length <= 150;
+    return !(sportType && image && isTitleValid && isDescriptionValid);
+  }, [image, sportType, title, description]);
+
   const handlePublishArticle = () => {
     if (articleData?.id) {
       window.scrollTo(0, 0);
@@ -545,6 +552,7 @@ const Editor = ({
             $width="240px"
             onClick={handlePreviewButtonClick}
             type="button"
+            disabled={isPreviewDisabled}
           >
             {showPreviewArticle ? "Edit Article" : "Preview Article"}
           </GhostButton>
