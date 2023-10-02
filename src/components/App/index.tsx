@@ -19,6 +19,7 @@ import {
   SIGNUP_PATH,
   SUCCESS_CONFIRMATION_PATH,
   SUCCESS_PUBLISHED_PATH,
+  TERMS_OF_USE_PATH,
   UPDATE_ARTICLE_PATH,
 } from "@constants/paths";
 import RegistrationConfirm from "@pages/RegistrationConfirm";
@@ -51,7 +52,8 @@ import {
   useGetFavoritesQuery,
   useGetLikesPostQuery,
 } from "@services/favoritesApi";
-import {useEffect} from "react";
+import { useEffect } from "react";
+import TermsOfUsePage from "@pages/TermsOfUsePage";
 
 const App = () => {
   const isLogin = useAppSelector(selectIsLogin);
@@ -72,17 +74,19 @@ const App = () => {
     pageSize: 3,
   });
 
-  const { isLoading: isLikesLoading, refetch: likesRefetch } = useGetLikesPostQuery(undefined, {
-    skip: !isLogin,
-  });
-  const { isLoading: isFavoritesLoading, refetch: favoritesRefetch } = useGetFavoritesQuery(undefined, {
-    skip: !isLogin,
-  });
+  const { isLoading: isLikesLoading, refetch: likesRefetch } =
+    useGetLikesPostQuery(undefined, {
+      skip: !isLogin,
+    });
+  const { isLoading: isFavoritesLoading, refetch: favoritesRefetch } =
+    useGetFavoritesQuery(undefined, {
+      skip: !isLogin,
+    });
 
   useEffect(() => {
-    if(isLogin){
-      likesRefetch()
-      favoritesRefetch()
+    if (isLogin) {
+      likesRefetch();
+      favoritesRefetch();
     }
   }, [isLogin]);
 
@@ -134,6 +138,8 @@ const App = () => {
           path={`${SEARCH_PATH}/:searchBy/:searchQuery`}
           element={<SearchingResultsPage />}
         />
+
+        <Route path={TERMS_OF_USE_PATH} element={<TermsOfUsePage />} />
 
         {/*protected routes*/}
         <Route

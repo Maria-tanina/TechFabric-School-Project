@@ -31,10 +31,11 @@ export const AddLikeButton: FC<ILikeButtonProps> = ({ size, articleId }) => {
   const [removeLike] = useRemoveLikeMutation();
   const navigate = useNavigate();
   const likedPostsId = useAppSelector(selectLikedPostIds);
-  const isLiked = isLogin &&
-    Array.isArray(likedPostsId) && likedPostsId.includes(articleId as string);
+  const isLiked =
+    isLogin &&
+    Array.isArray(likedPostsId) &&
+    likedPostsId.includes(articleId as string);
   const [isPostLiked, setIsPostLiked] = useState(isLiked);
-
 
   useEffect(() => {
     setIsPostLiked(isLiked);
