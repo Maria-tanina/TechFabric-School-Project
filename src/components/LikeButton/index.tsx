@@ -12,19 +12,15 @@ import {
   useAddLikeMutation,
   useRemoveLikeMutation,
 } from "@services/favoritesApi";
+import { selectLikedPostIds } from "@services/favoritesSelectors";
 
 interface ILikeButtonProps {
   articleId: string;
   showText: boolean;
   size: string;
-  isLiked: boolean;
 }
 
-export const AddLikeButton: FC<ILikeButtonProps> = ({
-  size,
-  articleId,
-  isLiked,
-}) => {
+export const AddLikeButton: FC<ILikeButtonProps> = ({ size, articleId }) => {
   const isLogin = useAppSelector(selectIsLogin);
   const [
     isCurrentArticleAddedToFavorites,
@@ -34,11 +30,12 @@ export const AddLikeButton: FC<ILikeButtonProps> = ({
   const [addLike] = useAddLikeMutation();
   const [removeLike] = useRemoveLikeMutation();
   const navigate = useNavigate();
+  const likedPostsId = useAppSelector(selectLikedPostIds);
+  const isLiked = isLogin &&
+    Array.isArray(likedPostsId) && likedPostsId.includes(articleId as string);
   const [isPostLiked, setIsPostLiked] = useState(isLiked);
 
-  useEffect(() => {
-    setIsPostLiked(false);
-  }, [!isLogin]);
+
   useEffect(() => {
     setIsPostLiked(isLiked);
   }, [isLiked]);

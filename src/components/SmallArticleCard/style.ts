@@ -50,6 +50,7 @@ export const StyledDescription = styled.div(
   color: ${colors.gray};
   font-size: 15px;
   flex-grow: 1;
+  word-break: break-all;
 `
 );
 
