@@ -30,7 +30,7 @@ import { setSearchOrderBy } from "@features/searchArticle/searchArticleSlice";
 import { TOrderByTypes } from "@services/types/articlesApiTypes";
 
 export const SearchingResultsPage = () => {
-  const { searchQuery: substring = "articles" } = useParams<{
+  const { searchQuery: substring = "titles" } = useParams<{
     searchQuery?: TSearchBy | undefined;
   }>();
 
@@ -72,7 +72,7 @@ export const SearchingResultsPage = () => {
         orderBy,
       },
       {
-        skip: searchBy !== "articles" || !substring,
+        skip: searchBy !== "titles" || !substring,
       }
     );
 
@@ -93,7 +93,7 @@ export const SearchingResultsPage = () => {
     switch (searchBy) {
       case "tags":
         return articlesByTags;
-      case "articles":
+      case "titles":
         return articlesByTitle;
       case "authors":
         return articlesByAuthor;
