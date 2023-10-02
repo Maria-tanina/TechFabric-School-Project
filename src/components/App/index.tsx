@@ -51,7 +51,7 @@ import {
   useGetFavoritesQuery,
   useGetLikesPostQuery,
 } from "@services/favoritesApi";
-import {useEffect} from "react";
+import { useEffect } from "react";
 
 const App = () => {
   const isLogin = useAppSelector(selectIsLogin);
@@ -72,17 +72,19 @@ const App = () => {
     pageSize: 3,
   });
 
-  const { isLoading: isLikesLoading, refetch: likesRefetch } = useGetLikesPostQuery(undefined, {
-    skip: !isLogin,
-  });
-  const { isLoading: isFavoritesLoading, refetch: favoritesRefetch } = useGetFavoritesQuery(undefined, {
-    skip: !isLogin,
-  });
+  const { isLoading: isLikesLoading, refetch: likesRefetch } =
+    useGetLikesPostQuery(undefined, {
+      skip: !isLogin,
+    });
+  const { isLoading: isFavoritesLoading, refetch: favoritesRefetch } =
+    useGetFavoritesQuery(undefined, {
+      skip: !isLogin,
+    });
 
   useEffect(() => {
-    if(isLogin){
-      likesRefetch()
-      favoritesRefetch()
+    if (isLogin) {
+      likesRefetch();
+      favoritesRefetch();
     }
   }, [isLogin]);
 
