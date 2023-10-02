@@ -29,7 +29,8 @@ export const AddFavoriteButton: FC<IFavoriteButtonProps> = ({
   const isLogin = useAppSelector(selectIsLogin);
   const { showNotification } = useNotification();
   const favoritesPostsId = useAppSelector(selectFavoritesPostIds);
-  const isFavorites = isLogin &&
+  const isFavorites =
+    isLogin &&
     Array.isArray(favoritesPostsId) &&
     favoritesPostsId?.includes(articleId as string);
   const [isPostAddToFavorite, setIsPostAddToFavorite] = useState(isFavorites);
