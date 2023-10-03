@@ -80,7 +80,8 @@ const Editor = ({
   onSubmitUpdate?: (updatedData: IUpdateArticleProps) => void;
   onDelete?: () => void;
 }) => {
-  const [createDraftArticle] = useCreateDraftArticleMutation();
+  const [createDraftArticle, { isLoading: isCreatePostLoading }] =
+    useCreateDraftArticleMutation();
 
   const [publishArticle, { isLoading: isPublishLoading }] =
     usePublishArticleMutation();
@@ -349,6 +350,7 @@ const Editor = ({
           return;
         }
         try {
+          window.scrollTo(0, 0);
           await createDraftArticle(article).unwrap();
           dispatch(clearAllFields());
           showNotification("Your post was created", "success");
@@ -399,7 +401,7 @@ const Editor = ({
     }
   };
 
-  if (isPublishLoading) {
+  if (isPublishLoading || isCreatePostLoading) {
     return (
       <LoaderWrapper style={{ height: "calc(100vh - 264px)" }}>
         <Spinner size={110} />

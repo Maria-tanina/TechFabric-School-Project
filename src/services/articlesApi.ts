@@ -3,6 +3,7 @@ import { IArticle, IUpdateArticleProps } from "@customTypes/articleTypes";
 import { customFetchBaseQuery } from "@services/customFetchBaseQuery";
 import {
   IArticleParams,
+  IDeleteArticleParams,
   IFilterArticlesByAuthorParams,
   IFilterArticlesByTypeParams,
   IGetArticlesResponse,
@@ -82,7 +83,7 @@ export const articlesApi = createApi({
       }),
       invalidatesTags: ["ARTICLES"],
     }),
-    deleteArticle: build.mutation<void, { articleId: string }>({
+    deleteArticle: build.mutation<void, IDeleteArticleParams>({
       query: (args) => ({
         url: `/articles/${args.articleId}`,
         method: "DELETE",
