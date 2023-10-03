@@ -14,37 +14,49 @@ export const useNotification = (): NotificationContextType => {
 export const NotificationProvider: React.FC<NotificationProviderProps> = ({
   children,
 }) => {
-  const [notification, setNotification] = useState<{
-    message: string;
-    color: "success" | "error" | "info" | "warning";
-  } | null>(null);
+  const [notifications, setNotifications] = useState<
+    Array<{
+      id: number;
+      message: string;
+      color: "success" | "error" | "info" | "warning";
+    }>
+  >([]);
 
   const showNotification = (
     message: string,
     color: "success" | "error" | "info" | "warning"
   ) => {
-    setNotification({ message, color });
+    const id = new Date().getTime();
+    setNotifications((prev) => [...prev, { id, message, color }]);
     setTimeout(() => {
-      setNotification(null);
-    }, 5000);
+      setNotifications((prev) =>
+        prev.filter((notification) => notification.id !== id)
+      );
+    }, 2000);
   };
 
   return (
     <NotificationContext.Provider value={{ showNotification }}>
       {children}
-      {notification && (
+      {notifications.map((notification, index) => (
         <Snackbar
+          key={notification.id}
           open={true}
           anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          style={{ marginTop: `${index * 70}px` }}
         >
           <Alert
             severity={notification.color}
-            onClose={() => setNotification(null)}
+            onClose={() =>
+              setNotifications((prev) =>
+                prev.filter((n) => n.id !== notification.id)
+              )
+            }
           >
             {notification.message}
           </Alert>
         </Snackbar>
-      )}
+      ))}
     </NotificationContext.Provider>
   );
 };
