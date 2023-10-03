@@ -37,6 +37,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { LinearProgress } from "@mui/material";
 import { IGetCommentsResponse } from "@services/types/commentsApiTypes";
 import { selectCommentPageNumber } from "@features/comments/commentsSelectors";
+import { setShowPreview } from "@features/article/articleSlice";
 
 interface IAdditionalArticleProps extends IArticleProps {
   commentsSectionRef: RefObject<HTMLDivElement>;
@@ -70,6 +71,10 @@ export const Article = ({
   const dispatch = useAppDispatch();
 
   const { showNotification } = useNotification();
+
+  const onEditClick = () => {
+    dispatch(setShowPreview(false));
+  };
 
   const showMore = () => {
     dispatch(incCommentPageNumber(1));
@@ -115,7 +120,9 @@ export const Article = ({
       {isAuthor && !isPublished && (
         <EditButtonWrapper>
           <Link to={`${UPDATE_ARTICLE_PATH}/${article.id}`}>
-            <OutlinedButton variant="contained">Edit Article</OutlinedButton>
+            <OutlinedButton variant="contained" onClick={onEditClick}>
+              Edit Article
+            </OutlinedButton>
           </Link>
         </EditButtonWrapper>
       )}
