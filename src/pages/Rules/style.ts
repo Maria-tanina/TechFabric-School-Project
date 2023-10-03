@@ -7,7 +7,6 @@ export const HomePageWrapper = styled.div`
 `;
 export const RulesHeader = styled.h2`
   font-size: 44px;
-  margin-top: 50px;
   margin-bottom: 30px;
 `;
 export const RulesParagraph = styled.p(

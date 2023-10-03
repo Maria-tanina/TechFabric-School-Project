@@ -4,7 +4,6 @@ import ReactQuill from "react-quill";
 export const StyledEditorWrapper = styled.form`
   width: 65%;
   flex-shrink: 0;
-  overflow: hidden;
 `;
 
 export const StyledReactQuill = styled(ReactQuill)`
