@@ -262,7 +262,7 @@ const Editor = ({
 
         const uniqueNewTags = selectUniqueItems(newTags, tags);
 
-        const validationResult = isAllStringValid(newTags, 30, TAG_REGEX);
+        const validationResult = isAllStringValid(newTags, 31, TAG_REGEX);
 
         if (uniqueNewTags.length && validationResult.isValid) {
           dispatch(setTags(newTags));
