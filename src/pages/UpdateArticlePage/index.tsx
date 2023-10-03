@@ -9,7 +9,6 @@ import { useNotification } from "@hooks/useNotification";
 import { ARTICLE_PATH, HOME_PATH } from "@constants/paths";
 import {
   EditorWrapper,
-  LoaderWrapper,
   UpdatePostWrapper,
 } from "@pages/UpdateArticlePage/style";
 import { IUpdateArticleProps } from "@customTypes/articleTypes";
@@ -18,7 +17,7 @@ import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { selectUserId, selectUserIsAdmin } from "@services/authSelectors";
 import { setShowPreview } from "@features/article/articleSlice";
-import { Spinner } from "@components/Spinner/style";
+import { LoaderWrapperWithHeader, Spinner } from "@components/Spinner/style";
 
 export const UpdateArticlePage = () => {
   const { articleId = "" } = useParams<{ articleId?: string | undefined }>();
@@ -42,11 +41,11 @@ export const UpdateArticlePage = () => {
 
   isAdmin && dispatch(setShowPreview(true));
 
-  const handleUpdateArticle = (
+  const handleUpdateArticle = async (
     updatedData: IUpdateArticleProps | undefined
   ) => {
     window.scrollTo(0, 0);
-    updateArticle({ updatedData, articleId })
+    await updateArticle({ updatedData, articleId })
       .unwrap()
       .then(() => {
         navigate(`${ARTICLE_PATH}/${articleId}`);
@@ -60,10 +59,10 @@ export const UpdateArticlePage = () => {
           );
       });
   };
-  const handleDeleteArticle = () => {
+  const handleDeleteArticle = async () => {
     window.scrollTo(0, 0);
     try {
-      deleteArticle({ articleId });
+      await deleteArticle({ articleId });
       showNotification("Article was deleted!", "success");
       navigate(HOME_PATH);
     } catch (error) {
@@ -82,9 +81,9 @@ export const UpdateArticlePage = () => {
   return (
     <>
       {isLoading || isUpdateLoading || isDeleteLoading ? (
-        <LoaderWrapper style={{ height: "calc(100vh - 264px)" }}>
+        <LoaderWrapperWithHeader>
           <Spinner size={110} />
-        </LoaderWrapper>
+        </LoaderWrapperWithHeader>
       ) : (
         <UpdatePostWrapper>
           <EditorWrapper>

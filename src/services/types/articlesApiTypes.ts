@@ -59,3 +59,7 @@ export interface ISearchByAuthor extends IArticleParams {
 export interface IFilterArticlesByAuthorParams extends IArticleParams {
   authorId: string;
 }
+
+export interface IDeleteArticleParams {
+  articleId: string;
+}

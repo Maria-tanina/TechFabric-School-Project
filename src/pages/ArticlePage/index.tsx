@@ -4,7 +4,6 @@ import {
   ArticleSideMenuItem,
   Count,
   LeftSidebar,
-  LoaderWrapper,
 } from "@pages/ArticlePage/style";
 import { AddLikeButton } from "@components/LikeButton";
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
@@ -13,6 +12,7 @@ import { AuthorInfo } from "@pages/ArticlePage/components/AuthorInfo";
 import { AuthorArticlesSidebar } from "@components/AuthorArticlesSidebar";
 import { Article } from "@components/Article";
 import {
+  useDeleteArticleMutation,
   useFilterArticlesByAuthorQuery,
   useGetArticleInfoQuery,
 } from "@services/articlesApi";
@@ -21,7 +21,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useRef, useMemo } from "react";
 import { HOME_PATH } from "@constants/paths";
 import { useNotification } from "@hooks/useNotification";
-import { Spinner } from "@components/Spinner/style";
+import { LoaderWrapperWithHeader, Spinner } from "@components/Spinner/style";
 import { AddFavoriteButton } from "@components/FavoriteButton";
 import { useGetLikesCountQuery } from "@services/favoritesApi";
 import { useAppSelector } from "../../store";
@@ -115,12 +115,19 @@ export const ArticlePage = () => {
     );
   }, [articleId, articlesOfCurrentAuthor]);
 
+  const [deleteArticle, result] = useDeleteArticleMutation({
+    fixedCacheKey: "shared-delete-article",
+  });
+
   return (
     <>
-      {isFetching || isArticlesOfAuthorLoading || isCommentsLoading ? (
-        <LoaderWrapper style={{ height: "calc(100vh - 264px)" }}>
+      {isFetching ||
+      isArticlesOfAuthorLoading ||
+      isCommentsLoading ||
+      result.isLoading ? (
+        <LoaderWrapperWithHeader>
           <Spinner size={110} />
-        </LoaderWrapper>
+        </LoaderWrapperWithHeader>
       ) : (
         <>
           <LeftSidebar>
