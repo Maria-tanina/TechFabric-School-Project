@@ -88,7 +88,11 @@ export const SearchInput = () => {
   };
 
   const handleOptionSelect = (value: string) => {
-    navigate(`${SEARCH_PATH}/titles/${encodeURIComponent(value)}`);
+    if (value.startsWith("#")) {
+      navigate(`${SEARCH_PATH}/tags/${encodeURIComponent(value)}`);
+    } else {
+      navigate(`${SEARCH_PATH}/titles/${encodeURIComponent(value)}`);
+    }
   };
 
   const handleKeyDown: KeyboardEventHandler<HTMLDivElement> = (e: any) => {
