@@ -19,7 +19,12 @@ import DOMPurify from "dompurify";
 import { IArticleProps } from "@customTypes/articleTypes";
 import { OutlinedButton } from "@components/OutlinedButton";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { HOME_PATH, SIGNUP_PATH, UPDATE_ARTICLE_PATH } from "@constants/paths";
+import {
+  HOME_PATH,
+  MY_ARTICLES_PATH,
+  SIGNUP_PATH,
+  UPDATE_ARTICLE_PATH,
+} from "@constants/paths";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { selectUserId, selectUserIsAdmin } from "@services/authSelectors";
 import { RefObject, useEffect } from "react";
@@ -96,7 +101,11 @@ export const Article = ({
     try {
       await deleteArticle({ articleId });
       showNotification("Article was deleted!", "success");
-      navigate(HOME_PATH);
+      if (isAdmin) {
+        navigate(HOME_PATH);
+      } else {
+        navigate(MY_ARTICLES_PATH);
+      }
     } catch (error) {
       showNotification(
         getErrorMessage((error as FetchBaseQueryError).data) ||
@@ -150,6 +159,16 @@ export const Article = ({
               Edit Article
             </OutlinedButton>
           </Link>
+          <OutlinedButton
+            $hover={colors.error}
+            $width="150px"
+            $color={colors.graphite}
+            $border={colors.error}
+            onClick={handleDeleteArticle}
+            type="button"
+          >
+            Delete article
+          </OutlinedButton>
         </EditButtonWrapper>
       )}
       {isAdmin && (
