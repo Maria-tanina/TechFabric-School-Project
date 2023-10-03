@@ -7,7 +7,8 @@ import { SelectChangeEvent } from "@mui/material";
 import { useAppSelector } from "../../store";
 import { TOrderByTypes, TSportOptions } from "@services/types/articlesApiTypes";
 import { TOrderBy } from "@features/article/types";
-import { FC } from "react";
+import {FC, useEffect} from "react";
+import {selectIsLogin} from "@features/user/usersSelectors";
 
 interface ITabsMenuProps {
   orderBy: TOrderBy;
@@ -22,7 +23,13 @@ const TabsMenu: FC<ITabsMenuProps> = ({
   handleTypeChange,
   sportType = "",
 }) => {
+  const isLogin = useAppSelector(selectIsLogin);
   const types = useAppSelector(selectSportNames);
+  useEffect(() => {
+    if(!isLogin){
+      handleOrderBy(filterTabs[0].orderBy);
+    }
+  }, [isLogin]);
 
   return (
     <TabsMenuWrapper>
