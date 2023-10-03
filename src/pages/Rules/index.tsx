@@ -1,8 +1,4 @@
-import {
-  HomePageWrapper,
-  RulesHeader,
-  RulesParagraph,
-} from "./style";
+import { HomePageWrapper, RulesHeader, RulesParagraph } from "./style";
 import NavigationMenu from "@components/NavigationMenu";
 import { LeftSidebar } from "@components/LeftSidebar";
 import { MainContent } from "@components/MainContent";
