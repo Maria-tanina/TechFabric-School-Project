@@ -18,8 +18,13 @@ import { StyledContentWrapper } from "@components/ArticlePreview/style";
 import DOMPurify from "dompurify";
 import { IArticleProps } from "@customTypes/articleTypes";
 import { OutlinedButton } from "@components/OutlinedButton";
-import { Link, useParams } from "react-router-dom";
-import { SIGNUP_PATH, UPDATE_ARTICLE_PATH } from "@constants/paths";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import {
+  HOME_PATH,
+  MY_ARTICLES_PATH,
+  SIGNUP_PATH,
+  UPDATE_ARTICLE_PATH,
+} from "@constants/paths";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { selectUserId, selectUserIsAdmin } from "@services/authSelectors";
 import { RefObject, useEffect } from "react";
@@ -31,13 +36,16 @@ import {
 import Typography from "@mui/material/Typography";
 import { useDeleteCommentMutation } from "@services/commentsApi";
 import { useNotification } from "@hooks/useNotification";
-import { getErrorTitle } from "@helpers/errorHandlers";
+import { getErrorMessage, getErrorTitle } from "@helpers/errorHandlers";
 import { selectIsLogin } from "@features/user/usersSelectors";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { LinearProgress } from "@mui/material";
 import { IGetCommentsResponse } from "@services/types/commentsApiTypes";
 import { selectCommentPageNumber } from "@features/comments/commentsSelectors";
 import { setShowPreview } from "@features/article/articleSlice";
+import theme from "@styles/theme";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { useDeleteArticleMutation } from "@services/articlesApi";
 
 interface IAdditionalArticleProps extends IArticleProps {
   commentsSectionRef: RefObject<HTMLDivElement>;
@@ -72,12 +80,39 @@ export const Article = ({
 
   const { showNotification } = useNotification();
 
+  const [deleteArticle] = useDeleteArticleMutation({
+    fixedCacheKey: "shared-delete-article",
+  });
+
+  const navigate = useNavigate();
+
+  const { colors } = theme;
+
   const onEditClick = () => {
     dispatch(setShowPreview(false));
   };
 
   const showMore = () => {
     dispatch(incCommentPageNumber(1));
+  };
+
+  const handleDeleteArticle = async () => {
+    window.scrollTo(0, 0);
+    try {
+      await deleteArticle({ articleId });
+      showNotification("Article was deleted!", "success");
+      if (isAdmin) {
+        navigate(HOME_PATH);
+      } else {
+        navigate(MY_ARTICLES_PATH);
+      }
+    } catch (error) {
+      showNotification(
+        getErrorMessage((error as FetchBaseQueryError).data) ||
+          "Some error occurred...",
+        "error"
+      );
+    }
   };
 
   useEffect(() => {
@@ -124,6 +159,30 @@ export const Article = ({
               Edit Article
             </OutlinedButton>
           </Link>
+          <OutlinedButton
+            $hover={colors.error}
+            $width="150px"
+            $color={colors.graphite}
+            $border={colors.error}
+            onClick={handleDeleteArticle}
+            type="button"
+          >
+            Delete article
+          </OutlinedButton>
+        </EditButtonWrapper>
+      )}
+      {isAdmin && (
+        <EditButtonWrapper>
+          <OutlinedButton
+            $hover={colors.error}
+            $width="150px"
+            $color={colors.graphite}
+            $border={colors.error}
+            onClick={handleDeleteArticle}
+            type="button"
+          >
+            Delete article
+          </OutlinedButton>
         </EditButtonWrapper>
       )}
 

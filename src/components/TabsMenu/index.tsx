@@ -7,8 +7,8 @@ import { SelectChangeEvent } from "@mui/material";
 import { useAppSelector } from "../../store";
 import { TOrderByTypes, TSportOptions } from "@services/types/articlesApiTypes";
 import { TOrderBy } from "@features/article/types";
-import {FC, useEffect} from "react";
-import {selectIsLogin} from "@features/user/usersSelectors";
+import { FC, useEffect } from "react";
+import { selectIsLogin } from "@features/user/usersSelectors";
 
 interface ITabsMenuProps {
   orderBy: TOrderBy;
