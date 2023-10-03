@@ -52,7 +52,6 @@ export const FavoritesArticlePage = () => {
     dispatch(setFavoritePageSize(+event.target.value));
     window.scrollTo(0, 0);
   };
-  console.log(favoritesData)
 
   useEffect(() => {
     if (isError) {
