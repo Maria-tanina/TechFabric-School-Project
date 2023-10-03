@@ -29,6 +29,9 @@ const TabsMenu: FC<ITabsMenuProps> = ({
     if(!isLogin){
       handleOrderBy(filterTabs[0].orderBy);
     }
+    if (handleTypeChange) {
+      handleTypeChange({ target: { value: "" } } as SelectChangeEvent<unknown>);
+    }
   }, [isLogin]);
 
   return (
