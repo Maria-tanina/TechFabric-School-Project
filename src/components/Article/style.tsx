@@ -91,4 +91,5 @@ export const EditButtonWrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
   padding: 0 24px;
+  gap: 30px;
 `;
