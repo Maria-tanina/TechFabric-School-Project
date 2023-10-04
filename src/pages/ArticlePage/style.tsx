@@ -21,9 +21,3 @@ export const Count = styled.p(
     margin-top: 5px;
 `
 );
-export const LoaderWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-`;
