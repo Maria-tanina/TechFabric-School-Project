@@ -23,6 +23,11 @@ export const StyledContentWrapper = styled.div(
   p {
     overflow-wrap: anywhere;
   }
+  
+    a{
+    border-bottom: 1px solid ${colors.main};
+    color: #3366BB;
+  }
    
   blockquote, div, img, ul {
     &:not(:last-child) {
