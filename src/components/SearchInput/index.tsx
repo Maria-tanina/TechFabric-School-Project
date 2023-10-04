@@ -94,7 +94,7 @@ export const SearchInput = () => {
   const handleOptionSelect = (value: string) => {
     if (value.startsWith("#")) {
       navigate(`${SEARCH_PATH}/tags/${encodeURIComponent(value)}`);
-    } else if (searchBy) {
+    } else if (pathname.includes(SEARCH_PATH) && searchBy) {
       navigate(`${SEARCH_PATH}/${searchBy}/${encodeURIComponent(value)}`);
     } else {
       navigate(`${SEARCH_PATH}/titles/${encodeURIComponent(value)}`);
