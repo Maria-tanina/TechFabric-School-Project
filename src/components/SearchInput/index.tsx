@@ -23,6 +23,10 @@ export const SearchInput = () => {
 
   const navigate = useNavigate();
 
+  const { pathname } = useLocation();
+
+  const searchBy = pathname.split("/")[2];
+
   const tags = useAppSelector((state) =>
     selectTags(state, {
       pageSize: 7,
@@ -90,6 +94,8 @@ export const SearchInput = () => {
   const handleOptionSelect = (value: string) => {
     if (value.startsWith("#")) {
       navigate(`${SEARCH_PATH}/tags/${encodeURIComponent(value)}`);
+    } else if (searchBy) {
+      navigate(`${SEARCH_PATH}/${searchBy}/${encodeURIComponent(value)}`);
     } else {
       navigate(`${SEARCH_PATH}/titles/${encodeURIComponent(value)}`);
     }
