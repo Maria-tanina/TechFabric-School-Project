@@ -64,7 +64,7 @@ export const UpdateArticlePage = () => {
     try {
       await deleteArticle({ articleId });
       showNotification("Article was deleted!", "success");
-      navigate(HOME_PATH);
+      navigate(-1);
     } catch (error) {
       showNotification(
         getErrorMessage((error as FetchBaseQueryError).data) ||

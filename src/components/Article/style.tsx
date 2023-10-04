@@ -22,6 +22,7 @@ export const ArticleBody = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 12px;
+  word-break: break-word;
   img {
     border-radius: 8px;
   }
