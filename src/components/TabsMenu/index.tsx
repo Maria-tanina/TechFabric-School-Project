@@ -26,7 +26,7 @@ const TabsMenu: FC<ITabsMenuProps> = ({
   const isLogin = useAppSelector(selectIsLogin);
   const types = useAppSelector(selectSportNames);
   useEffect(() => {
-      handleOrderBy(filterTabs[0].orderBy);
+    handleOrderBy(filterTabs[0].orderBy);
     if (handleTypeChange) {
       handleTypeChange({ target: { value: "" } } as SelectChangeEvent<unknown>);
     }
