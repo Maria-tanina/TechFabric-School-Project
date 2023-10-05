@@ -131,6 +131,7 @@ export const Article = ({
         pageSize: 5,
         pageNumber,
       }).unwrap();
+      dispatch(setCommentPageNumber(1));
     } catch (error) {
       showNotification(
         getErrorTitle(error) || "Some error occurred...",

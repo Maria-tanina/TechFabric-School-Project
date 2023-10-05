@@ -64,10 +64,7 @@ export const commentsApi = createApi({
             "getComments",
             { pageSize, articleId, pageNumber },
             (draft) => {
-              draft.comments = draft.comments.filter(
-                (comment) => comment.commentId !== commentId
-              );
-              draft.totalCount -= 1;
+              draft.comments = [];
             }
           )
         );
